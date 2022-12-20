@@ -1,0 +1,65 @@
+.Note.title,
+.Note.form,
+.Note.content {
+  width: 100%;
+}
+.Note.title {
+  height: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Note.title .category {
+  font-family: var(--emp-font);
+  display: inline-block;
+  width: 50%;
+  text-align: center;
+  font-size: 25pt;
+}
+.Note.form {
+  padding: 3% 0;
+}
+.Note.form form {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.Note.form input {
+  width: 30%;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  padding: 0.5em;
+}
+.Note.content {
+  margin-top: 3%;
+}
+.Note.content ul {
+  width: 60%;
+  margin: 0 auto;
+}
+.Note.content ul li {
+  display: grid;
+  grid-template-columns: 1.5fr 10fr 1fr 1.5fr;
+  list-style: none;
+  padding: 10px;
+  border-bottom: 1px dashed #ccc;
+}
+.Item > * {
+  margin: 0 10px;
+}
+.Item.subject {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.Item.length {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #181818;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+}

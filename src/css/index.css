@@ -14,6 +14,9 @@ html {
   font-weight: normal;
   font-style: normal;
 }
+:root {
+  --emp-font: "NanumSquareNeo-Variable";
+}
 body {
   width: 100%;
   height: 100%;

@@ -1,8 +1,14 @@
 .Main.today {
-  font-family: "NanumSquareNeo-Variable";
+  font-family: var(--emp-font);
   font-size: 30pt;
+  font-weight: 700;
   padding: 10px 0;
 }
-.Main.msg {
+.Main.msgBox {
+  width: 350px;
+  padding: 30px 10px;
   font-size: 15pt;
+  border: 1px solid #aaa;
+  border-radius: 10px;
+  font-family: var(--emp-font);
 }

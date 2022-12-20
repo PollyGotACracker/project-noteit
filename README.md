@@ -12,9 +12,3 @@
 - 각 주제의 정답률 표시
 - PUSH 알림(앱)
 - PDF 파일로 내보내기
-
-## dependencies
-
-- moment
-- react-uuid
-- fortawesome(font-awesome)

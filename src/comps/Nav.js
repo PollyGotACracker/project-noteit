@@ -11,7 +11,7 @@ const Nav = () => {
   return (
     <nav>
       <button className="Nav voca" type="button">
-        <FontAwesomeIcon icon={faListUl} />
+        <FontAwesomeIcon icon={faListUl} fixedWidth />
         단어장
       </button>
       <button className="Nav quiz" type="button">
@@ -19,7 +19,8 @@ const Nav = () => {
         퀴즈
       </button>
       <button className="Nav home" type="button">
-        <FontAwesomeIcon icon={faHouse} />홈
+        <FontAwesomeIcon icon={faHouse} />
+        메인
       </button>
       <button className="Nav set" type="button">
         <FontAwesomeIcon icon={faGear} />

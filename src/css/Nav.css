@@ -12,7 +12,7 @@ nav button {
   border: none;
   outline: none;
   color: white;
-  font-family: "NanumSquareNeo-Variable";
+  font-family: var(--emp-font);
   font-size: 15pt;
   cursor: pointer;
   display: flex;
@@ -21,10 +21,12 @@ nav button {
   justify-content: center;
 }
 nav button svg {
+  display: block;
+  width: 100%;
   font-size: 25pt;
   margin-bottom: 10px;
-  transform-origin: center;
 }
+
 nav button.quiz {
   position: relative;
 }
@@ -38,6 +40,39 @@ nav button.quiz:after {
   position: absolute;
   top: calc(50% - 28px);
   left: 0;
+}
+nav button.quiz:hover svg {
+  animation: 1s ease-out infinite jump;
+  -webkit-animation: 1s ease-out infinite jump;
+}
+@keyframes jump {
+  0% {
+    transform: translateY(0);
+  }
+  60% {
+    transform: translateY(-3px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+nav button.quiz:hover:after {
+  animation: 1s ease-out infinite marks;
+  -webkit-animation: 1s ease-out infinite marks;
+}
+@keyframes marks {
+  0% {
+    content: "?";
+    transform: translateY(0);
+  }
+  60% {
+    content: "!";
+    transform: translateY(-3px);
+  }
+  100% {
+    content: "?";
+    transform: translateY(0);
+  }
 }
 nav button.set:hover svg {
   animation: 1s steps(5) infinite spin;
