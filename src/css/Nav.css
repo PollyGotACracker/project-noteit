@@ -7,14 +7,12 @@ nav {
   border-top: 3px solid rgba(0, 0, 0, 1);
 }
 nav button {
-  z-index: 2;
   width: 100px;
   height: 100%;
   background-color: transparent;
   border: none;
   outline: none;
   color: white;
-  font-family: var(--emp-font);
   font-size: 15pt;
   cursor: pointer;
   display: flex;
@@ -22,11 +20,79 @@ nav button {
   align-items: center;
   justify-content: center;
 }
-nav button svg {
+nav button.active {
+  color: var(--yellow);
+}
+nav button:before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
   display: block;
-  width: 100%;
+  width: 100px;
+  height: 33px;
   font-size: 25pt;
   margin-bottom: 10px;
+  overflow: hidden;
+}
+nav button.home:before {
+  content: "\f56b";
+}
+nav button.voca:before {
+  content: "\f0ca";
+}
+nav button.quiz:before {
+  content: "\f27a";
+}
+nav button.set:before {
+  content: "\f013";
+}
+nav button.home:hover:before {
+  animation: 1s infinite shake;
+  -webkit-animation: 1s infinite shake;
+}
+@keyframes shake {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  25% {
+    transform: rotateZ(10deg);
+  }
+  75% {
+    transform: rotateZ(-10deg);
+  }
+  100% {
+    transform: rotateZ(0deg);
+  }
+}
+nav button.voca:hover:before {
+  animation: 1.5s step-start infinite check;
+  -webkit-animation: 1.5s step-start infinite check;
+}
+@keyframes check {
+  0% {
+    content: "\f0ca";
+  }
+  25% {
+    content: "\f0ca";
+    height: 22px;
+    margin-bottom: 21px;
+  }
+  50% {
+    content: "\f0ae";
+    height: 22px;
+    margin-bottom: 21px;
+  }
+  75% {
+    content: "\f0ca";
+    height: 22px;
+    margin-bottom: 21px;
+  }
+  100% {
+    content: "\f0ca";
+  }
 }
 nav button.quiz {
   position: relative;
@@ -42,7 +108,7 @@ nav button.quiz:after {
   top: calc(50% - 28px);
   left: 0;
 }
-nav button.quiz:hover svg {
+nav button.quiz:hover:before {
   animation: 1s ease-out infinite jump;
   -webkit-animation: 1s ease-out infinite jump;
 }
@@ -75,7 +141,7 @@ nav button.quiz:hover:after {
     transform: translateY(0);
   }
 }
-nav button.set:hover svg {
+nav button.set:hover:before {
   animation: 1s steps(5) infinite spin;
   -webkit-animation: 1s steps(5) infinite spin;
 }
@@ -84,6 +150,6 @@ nav button.set:hover svg {
     transform: rotateZ(0deg);
   } */
   100% {
-    transform: rotate(180deg);
+    transform: rotateZ(180deg);
   }
 }

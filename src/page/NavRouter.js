@@ -5,6 +5,7 @@ import {
   VocaMain,
   VocaNote,
   VocaDetail,
+  VocaWrite,
   QuizMain,
   Set,
 } from "../comps/Index";
@@ -16,10 +17,10 @@ const NavRouter = () => {
       <Route path="/voca" element={<VocaMain />} />
       <Route path="/category" element={<VocaNote />} />
       <Route path="/subject" element={<VocaDetail />} />
+      <Route path="/write" element={<VocaWrite />} />
       <Route path="/quiz" element={<QuizMain />} />
       <Route path="/setting" element={<Set />} />
       <Route path="*" element={<NotFound />} />
-      <Route path="*" element={<NotFound />}></Route>
     </Routes>
   );
 };

@@ -2,6 +2,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: "NanumSquareNeo-Variable";
 }
 html {
   width: 100vw;
@@ -15,8 +16,9 @@ html {
   font-style: normal;
 }
 :root {
-  --emp-font: "NanumSquareNeo-Variable";
-  --point-color: rgba(188, 34, 49, 1);
+  --red: #c73935;
+  --yellow: #e69215;
+  --blue: #1d415b;
 }
 body {
   width: 100%;

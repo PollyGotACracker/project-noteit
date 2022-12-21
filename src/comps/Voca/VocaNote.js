@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "../../css/Voca/VocaNote.css";
 import VocaList from "./VocaList";
 import { vocaArr } from "../../data/VocaData";
@@ -12,10 +13,10 @@ const VocaNote = () => {
   return (
     <main className="Note">
       <section className="Note title">
-        <div className="category">카테고리</div>
-        <button>추가</button>
-      </section>
-      <section className="Note form">
+        <div className="category">정보처리기사</div>
+        <Link className="insert" to="/write">
+          추가
+        </Link>
         <form>
           <input />
           <button>검색</button>

@@ -1,41 +1,49 @@
-.Note.title,
-.Note.form,
-.Note.content {
-  width: 100%;
+main.Note {
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+  padding-top: 0 !important;
 }
 .Note.title {
-  height: 5%;
+  width: 100%;
+  height: 10%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  display: fixed;
+  top: 0;
+  left: 0;
+  padding: 2% 1%;
+  background-color: var(--yellow);
+  border-radius: 0 0 20px 20px;
+}
+.Note.title .category {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.Note.title .category {
-  font-family: var(--emp-font);
-  display: inline-block;
-  width: 50%;
-  text-align: center;
   font-size: 25pt;
+  font-weight: 900;
+  letter-spacing: 0.1em;
 }
-.Note.form {
-  padding: 3% 0;
-}
-.Note.form form {
-  width: 100%;
+.Note.title form {
+  margin-left: auto;
   display: flex;
   justify-content: center;
 }
-.Note.form input {
+.Note.title form input {
   width: 30%;
   border: 1px solid #aaa;
   border-radius: 5px;
   padding: 0.5em;
 }
 .Note.content {
-  margin-top: 3%;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 1%;
+  overflow-y: auto;
 }
 .Note.content ul {
-  width: 60%;
-  margin: 0 auto;
+  width: 100%;
 }
 .Note.content ul li {
   display: grid;
@@ -56,10 +64,29 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background-color: #181818;
+  background-color: #ccc;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
   font-weight: bold;
+}
+.Item button:before {
+  font-family: "Font Awesome 5 Free";
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  display: block;
+
+  font-size: 15pt;
+  overflow: hidden;
+}
+.Item button.bookmark:before {
+  content: "\f02e";
+  font-weight: 400;
+}
+
+.Item button.delete:before {
+  content: "\f00d";
+  font-weight: 700;
 }

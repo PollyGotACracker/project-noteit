@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "../../css/Voca/VocaDetail.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
@@ -18,8 +19,8 @@ const VocaDetail = () => {
         <div className="box">
           <div className="length">{vocaItem.keyword.length}</div>
           <div className="btnBox">
-            <button>수정</button>
-            <button>삭제</button>
+            <Link to="/write">수정</Link>
+            <Link>삭제</Link>
           </div>
         </div>
       </section>

@@ -22,7 +22,6 @@
   align-items: center;
 }
 .Detail.title .subject {
-  font-family: var(--emp-font);
   display: inline-block;
   padding: 10px 0;
   width: 100%;
@@ -31,7 +30,6 @@
   font-weight: 700;
 }
 .Detail.title .category {
-  font-family: var(--emp-font);
   font-size: 15pt;
   text-align: center;
 }
