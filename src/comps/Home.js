@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import "../css/Main.css";
+import "../css/Home.css";
 import { getToday, msgList as msgListData } from "../data/HomeData";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faVolumeHigh, faHeart } from "@fortawesome/free-solid-svg-icons";
 const Main = () => {
   const [date, setDate] = useState(getToday().date);
   const [time, setTime] = useState(getToday().time);
@@ -54,19 +55,32 @@ const Main = () => {
   useEffect(() => {
     const index = Math.floor(Math.random() * msgList.length + 1);
     const msg = msgList[index - 1];
-    const box = document.querySelector(".Main .msg");
+    const box = document.querySelector(".Main .msgBox .msg");
     typeWriter(msg, box);
+    return;
   }, []);
 
   return (
     <main className="Main">
-      <section>
-        <div className="Main today">{date}</div>
-        <div className="Main today">{time}</div>
-        <div className="Main msgBox">
+      <section className="Main leftSidebar">
+        <div className="title">앵알앵알 단어교실</div>
+        <div className="rndSub">랜덤 주제가 들어갈 영역</div>
+        <div className="today">{date}</div>
+        <div className="today">{time}</div>
+      </section>
+      <section className="Main center">
+        <div className="msgBox">
           <span className="msg"></span>
         </div>
-        <div className="Main img"></div>
+        <div className="Main imgBird">못생긴 앵무새 그림이 들어갈 영역</div>
+      </section>
+      <section className="Main rightSidebar">
+        <button className="btnBg">
+          <FontAwesomeIcon icon={faVolumeHigh} />
+        </button>
+        <div className="point">
+          <FontAwesomeIcon icon={faHeart} />
+        </div>
       </section>
     </main>
   );

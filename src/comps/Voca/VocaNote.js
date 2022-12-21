@@ -1,26 +1,12 @@
-import { useState } from "react";
-import "../../css/VocaNote.css";
+import "../../css/Voca/VocaNote.css";
 import VocaList from "./VocaList";
-import {
-  vocaArr as vocaArrData,
-  vocaItem as vocaItemData,
-} from "../../data/VocaData";
+import { vocaArr } from "../../data/VocaData";
+// import { useVocaContext } from "../../context/VocaContext";
 
 const VocaNote = () => {
-  const [vocaArr, setVocaArr] = useState(vocaArrData);
-  const [vocaItem, setVocaItem] = useState(vocaItemData);
-
+  // const { vocaArr } = useVocaContext();
   const vocaList = vocaArr.map((item) => {
-    return (
-      <VocaList
-        className="Item"
-        item={item}
-        vocaArr={vocaArr}
-        setVocaArr={setVocaArr}
-        vocaItem={vocaItem}
-        setVocaItem={setVocaItem}
-      />
-    );
+    return <VocaList className="Item" item={item} />;
   });
 
   return (

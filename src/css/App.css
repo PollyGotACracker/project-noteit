@@ -19,4 +19,6 @@
 }
 .App button {
   cursor: pointer;
+  user-select: none;
+  border: none;
 }

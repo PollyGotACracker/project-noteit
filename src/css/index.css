@@ -16,6 +16,7 @@ html {
 }
 :root {
   --emp-font: "NanumSquareNeo-Variable";
+  --point-color: rgba(188, 34, 49, 1);
 }
 body {
   width: 100%;
