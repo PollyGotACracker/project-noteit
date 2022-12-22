@@ -1,10 +1,11 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import "../../css/Voca/VocaDetail.css";
+import { clickWriteHandler } from "../../data/HandlerFunc";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { vocaArr } from "../../data/VocaData";
-import { useEffect } from "react";
 
 const VocaDetail = () => {
   const { id } = useParams();
@@ -28,7 +29,9 @@ const VocaDetail = () => {
         <div className="box">
           <div className="length">{item.keyword.length}</div>
           <div className="btnBox">
-            <Link to="/write">수정</Link>
+            <Link data-id={item.id} onClick={clickWriteHandler}>
+              수정
+            </Link>
             <Link>삭제</Link>
           </div>
         </div>

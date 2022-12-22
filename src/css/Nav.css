@@ -3,8 +3,8 @@ nav {
   height: 10%;
   display: flex;
   justify-content: space-around;
-  background-color: rgba(0, 0, 0, 0.8);
-  border-top: 3px solid rgba(0, 0, 0, 1);
+  /* background-color: rgba(0, 0, 0, 0.8); */
+  border-top: 1px solid var(--blue);
 }
 nav button {
   width: 100px;
@@ -12,7 +12,7 @@ nav button {
   background-color: transparent;
   border: none;
   outline: none;
-  color: white;
+  color: var(--blue);
   font-size: 15pt;
   cursor: pointer;
   display: flex;
@@ -46,7 +46,7 @@ nav button.voca:before {
 nav button.quiz:before {
   content: "\f27a";
 }
-nav button.set:before {
+nav button.setting:before {
   content: "\f013";
 }
 nav button.home:hover:before {
@@ -103,7 +103,8 @@ nav button.quiz:after {
   height: 20px;
   font-size: 12pt;
   font-weight: 900;
-  color: rgba(0, 0, 0, 0.8);
+  /* color: rgba(0, 0, 0, 0.8); */
+  color: white;
   position: absolute;
   top: calc(50% - 28px);
   left: 0;
@@ -141,7 +142,7 @@ nav button.quiz:hover:after {
     transform: translateY(0);
   }
 }
-nav button.set:hover:before {
+nav button.setting:hover:before {
   animation: 1s steps(5) infinite spin;
   -webkit-animation: 1s steps(5) infinite spin;
 }

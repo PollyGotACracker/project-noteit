@@ -24,25 +24,24 @@ const Main = () => {
           case " ":
             speed = 160;
             elem.insertAdjacentHTML("beforeend", "\xA0");
-            // elem.style.animationName = "none";
+            elem.style.animationName = "none";
             break;
           case ",":
           case ".":
             elem.insertAdjacentHTML("beforeend", text.charAt(i));
             speed = Math.floor(Math.random() * (900 - 500 + 1)) + 500;
-            // elem.style.animationName = "blink";
+            elem.style.animationName = "blink";
             break;
           default:
             speed = 160;
             elem.insertAdjacentHTML("beforeend", text.charAt(i));
-          // elem.style.animationName = "none";
+            elem.style.animationName = "none";
         }
         i++;
         setTimeout(typing, speed);
+      } else {
+        elem.style.animationName = "blink";
       }
-      // else {
-      //   elem.style.animationName = "blink";
-      // }
     };
     typing();
   };
@@ -64,7 +63,6 @@ const Main = () => {
   return (
     <main className="Main">
       <section className="Main leftSidebar">
-        <div className="title">앵알앵알 단어교실</div>
         <div className="rndSub">랜덤 주제가 들어갈 영역</div>
         <div className="today">{date}</div>
         <div className="today">{time}</div>

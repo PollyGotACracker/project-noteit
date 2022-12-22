@@ -15,9 +15,8 @@ main.Splash .cover-img {
   height: 30vh;
   background-color: white;
   border-radius: 50%;
-  margin-bottom: 40px;
+  margin-bottom: 60px;
 }
-
 main.Splash .title {
   color: white;
   font-size: 40pt;
