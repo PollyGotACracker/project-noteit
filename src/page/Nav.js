@@ -12,7 +12,7 @@ const Nav = () => {
       const text = e.target.textContent;
       switch (text) {
         case "메인":
-          url("/");
+          url("/home");
           break;
         case "단어장":
           url("/voca");

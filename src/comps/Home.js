@@ -8,10 +8,12 @@ const Main = () => {
   const [time, setTime] = useState(getToday().time);
   const [msgList, setMsgList] = useState(msgListData);
 
-  setInterval(() => {
+  // setInterval 은 설정한 시간을 보장하지 않기 때문에 setTimeout 재귀함수 사용
+  const changeClock = () => {
     setDate(getToday().date);
     setTime(getToday().time);
-  }, 1000);
+  };
+  setTimeout(changeClock, setTimeout(changeClock, 1000), 1000);
 
   const typeWriter = (text, elem) => {
     let i = 0;
@@ -57,7 +59,6 @@ const Main = () => {
     const msg = msgList[index - 1];
     const box = document.querySelector(".Main .msgBox .msg");
     typeWriter(msg, box);
-    return;
   }, []);
 
   return (

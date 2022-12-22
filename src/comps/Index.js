@@ -1,3 +1,4 @@
+import Splash from "./Splash";
 import Home from "./Home";
 import VocaMain from "./Voca/VocaMain";
 import VocaNote from "./Voca/VocaNote";
@@ -8,6 +9,7 @@ import QuizMain from "./Quiz/QuizMain";
 import Set from "./Set/Set";
 
 export {
+  Splash,
   Home,
   VocaMain,
   VocaNote,
