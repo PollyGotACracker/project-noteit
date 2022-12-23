@@ -1,0 +1,89 @@
+main.Quiz {
+  display: flex;
+}
+.Quiz .left-sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 20%;
+  height: 100%;
+  background-color: var(--blue);
+  padding: 1.5% 1%;
+  border-radius: 5px;
+}
+.subject-box,
+.keyword-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.subject-box > .title,
+.keyword-box > .title {
+  width: 100%;
+  text-align: center;
+  user-select: none;
+  color: white;
+  font-size: 16pt;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  margin-bottom: 20px;
+}
+.left-sidebar .subject-box {
+  width: 100%;
+  height: 20%;
+}
+.subject-box .card {
+  width: 60%;
+  padding: 1.5em;
+  border-radius: 5px;
+  background-color: white;
+  text-align: center;
+  font-size: 16pt;
+}
+.left-sidebar .keyword-box {
+  width: 100%;
+  height: 80%;
+  margin-top: 20pt;
+}
+.Quiz .center {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.Quiz .center .msg-box {
+  font-size: 15pt;
+  width: 350px;
+  padding: 30px 20px;
+  background-color: white;
+  border: 1px solid #aaa;
+  border-radius: 10px;
+  user-select: none;
+  position: relative;
+}
+.Quiz .center .msg-box:after {
+  position: absolute;
+  left: calc(50% - 15px);
+  bottom: -16px;
+  content: "";
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  border-top: 1px solid #aaa;
+  border-right: 1px solid #aaa;
+  transform: rotateZ(135deg);
+}
+.msg-box .msg {
+  border: none;
+  font-size: 12pt;
+  width: 100%;
+}
+.Quiz .center .bird-img {
+  width: 100%;
+  height: 100%;
+  background-color: #aaa;
+}
+.Quiz .right-sidebar {
+  width: 10%;
+}
