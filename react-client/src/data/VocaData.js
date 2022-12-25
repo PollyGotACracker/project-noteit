@@ -1,4 +1,3 @@
-import uuid from "react-uuid";
 const vocaItem = {
   id: 1,
   category: "조류",

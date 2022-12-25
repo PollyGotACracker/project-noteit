@@ -1,41 +1,58 @@
-import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useState, useEffect, useCallback } from "react";
+import { useParams, Link } from "react-router-dom";
+import { useVocaContext } from "../../context/VocaContext";
 import "../../css/Voca/VocaNote.css";
 import VocaList from "./VocaList";
-import { clickWriteHandler } from "../../data/HandlerFunc";
-import { VocaContextProvider } from "../../context/VocaContext";
-import { vocaArr } from "../../data/VocaData";
-// import { useVocaContext } from "../../context/VocaContext";
 
 const VocaNote = () => {
   const { catid } = useParams();
-  // const { vocaArr } = useVocaContext();
-  const vocaList = vocaArr.map((item) => {
-    return <VocaList className="Item" item={item} />;
+  const { vocaSubList, setVocaSubList, clickWriteHandler } = useVocaContext();
+  const [catData, setCatData] = useState({});
+
+  const subList = useCallback(async () => {
+    try {
+      const res = await fetch(`/voca/cat/${catid}`);
+      const result = await res.json();
+      if (res.error) {
+        alert(res.error);
+      } else {
+        setCatData({ ...result.category[0] });
+        setVocaSubList([...result.subList]);
+      }
+    } catch (error) {
+      console.log(error);
+      alert("서버 연결에 문제가 발생했습니다.");
+    }
+  }, [catid, setVocaSubList]);
+
+  useEffect(() => {
+    (async () => {
+      await subList();
+    })();
+  }, [subList]);
+
+  const vocaList = vocaSubList.map((item) => {
+    return <VocaList item={item} key={item.s_subid} />;
   });
 
   return (
-    <VocaContextProvider>
-      <main className="Note">
-        <section className="Note title">
-          <div className="category">정보처리기사</div>
-          <Link
-            className="insert"
-            onClick={clickWriteHandler}
-            data-catid={catid}
-          >
-            추가
-          </Link>
-          <form>
-            <input />
-            <button className="search" title="검색"></button>
-          </form>
-        </section>
-        <section className="Note content">
-          <ul>{vocaList}</ul>
-        </section>
-      </main>
-    </VocaContextProvider>
+    <main className="Note">
+      <section className="Note title">
+        <div className="category">{catData.c_category}</div>
+        <div className="length">({catData["f_sub.length"]})</div>
+        <Link className="insert" onClick={clickWriteHandler} data-catid={catid}>
+          추가
+        </Link>
+        <form>
+          <input />
+          <button className="search" title="검색"></button>
+        </form>
+      </section>
+      <section className="Note content">
+        <ul>{vocaList}</ul>
+      </section>
+      <button>뒤로</button>
+    </main>
   );
 };
 export default VocaNote;

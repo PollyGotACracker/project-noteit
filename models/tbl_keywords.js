@@ -11,6 +11,10 @@ export default (sequelize) => {
       k_subid: {
         type: Sequelize.STRING(125),
         allowNull: false,
+        references: {
+          model: "tbl_subjects",
+          key: "s_subid",
+        },
       },
       k_keyword: {
         type: Sequelize.STRING(225),
@@ -27,6 +31,11 @@ export default (sequelize) => {
           unique: true,
           using: "BTREE",
           fields: [{ name: "k_keyid" }],
+        },
+        {
+          name: "f_subkey",
+          using: "BTREE",
+          fields: [{ name: "k_subid" }],
         },
       ],
     }

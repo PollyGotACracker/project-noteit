@@ -11,6 +11,10 @@ export default (sequelize) => {
       a_subid: {
         type: Sequelize.STRING(125),
         allowNull: false,
+        references: {
+          model: "tbl_subjects",
+          key: "s_subid",
+        },
       },
       a_date: {
         type: Sequelize.STRING(10),
@@ -43,6 +47,11 @@ export default (sequelize) => {
           unique: true,
           using: "BTREE",
           fields: [{ name: "a_attid" }],
+        },
+        {
+          name: "f_subatt",
+          using: "BTREE",
+          fields: [{ name: "a_subid" }],
         },
       ],
     }

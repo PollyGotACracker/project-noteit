@@ -15,6 +15,10 @@ export default (sequelize) => {
       s_catid: {
         type: Sequelize.STRING(125),
         allowNull: false,
+        references: {
+          model: "tbl_categories",
+          key: "c_catid",
+        },
       },
       s_category: {
         type: Sequelize.STRING(125),
@@ -29,21 +33,13 @@ export default (sequelize) => {
         allowNull: true,
       },
       s_bookmark: {
-        type: Sequelize.TINYINT(1),
+        type: Sequelize.TINYINT,
         allowNull: false,
-        default: 0,
-      },
-      s_keyid: {
-        type: Sequelize.STRING(125),
-        allowNull: false,
+        defaultValue: 0,
       },
       s_content: {
         type: Sequelize.TEXT,
         allowNull: true,
-      },
-      s_attid: {
-        type: Sequelize.STRING(125),
-        allowNull: false,
       },
     },
     {
@@ -56,6 +52,11 @@ export default (sequelize) => {
           unique: true,
           using: "BTREE",
           fields: [{ name: "s_subid" }],
+        },
+        {
+          name: "f_catsub",
+          using: "BTREE",
+          fields: [{ name: "s_catid" }],
         },
       ],
     }
