@@ -7,7 +7,7 @@ main.Write form {
 main.Write {
   user-select: none;
 }
-main.Write label {
+main.Write label:not([for="attach"]) {
   width: 100px;
   font-size: 15pt;
   font-weight: 700;
@@ -32,6 +32,9 @@ main.Write textarea {
   border: 1px solid #aaa;
   border-radius: 5px;
 }
+main.Write textarea {
+  height: 20vh;
+}
 main.Write input.keyword {
   padding: 1.5em 0.5em;
 }
@@ -43,35 +46,71 @@ main.Write .keyword-controller {
 main.Write .keyword-controller label {
   margin: 0;
 }
-main.Write .keyword-controller #add-keyword {
-  background-color: var(--blue);
-  border-radius: 5px;
-  width: 100px;
-  padding: 0.5em 1em;
-  color: white;
-  transition: all ease 0.3s;
-  white-space: nowrap;
-}
 main.Write #keyword-box {
   display: grid;
   grid-template-columns: repeat(auto-fit, 20%);
   gap: 0.5em;
-  justify-content: center;
   margin: 10px 0;
 }
 main.Write input[type="file"] {
   margin-top: 30px;
+  border: none;
 }
+main.Write input[type="file"]::file-selector-button {
+  display: none;
+}
+main.Write label[for="attach"] {
+  margin-top: 200px;
+}
+main.Write label[for="attach"]:before {
+  content: "\f1c5";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 400;
+  margin-right: 10px;
+}
+main.Write .keyword-controller #add-keyword,
+main.Write label[for="attach"] {
+  border-radius: 5px;
+  border: 1px solid #aaa;
+  width: 80px;
+  padding: 0.5em 1em;
+  transition: all ease 0.3s;
+  white-space: nowrap;
+  cursor: pointer;
+  font-size: 12pt;
+  text-align: center;
+}
+main.Write a#back,
 main.Write button#submit {
   background-color: var(--blue);
   border-radius: 5px;
+  color: white;
   width: 80px;
   padding: 0.5em 1em;
-  margin-top: 20px;
-  margin-left: auto;
-  color: white;
   transition: all ease 0.3s;
+  white-space: nowrap;
+  cursor: pointer;
+  font-size: 12pt;
+  text-align: center;
 }
-main.Write button#submit:hover {
+main.Write .keyword-controller #add-keyword {
+  width: 120px;
+}
+main.Write a#back {
+  width: 100px;
+}
+main.Write .keyword-controller #add-keyword:hover,
+main.Write label[for="attach"]:hover {
+  border-color: var(--yellow);
   color: var(--yellow);
+}
+main.Write a#back:hover,
+main.Write button#submit:hover {
+  background-color: var(--yellow);
+}
+main.Write .btn-box {
+  width: 100%;
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
 }

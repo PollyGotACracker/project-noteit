@@ -4,7 +4,7 @@ nav {
   display: flex;
   justify-content: space-around;
   /* background-color: rgba(0, 0, 0, 0.8); */
-  border-top: 1px solid var(--blue);
+  border-top: 1px solid #ccc;
 }
 nav button {
   width: 100px;

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import "../css/Home.css";
 import { getToday, msgList as msgListData } from "../data/HomeData";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faVolumeHigh, faHeart } from "@fortawesome/free-solid-svg-icons";
+import Sidebar from "./Sidebar";
+
 const Main = () => {
   const [date, setDate] = useState(getToday().date);
   const [time, setTime] = useState(getToday().time);
@@ -73,18 +73,7 @@ const Main = () => {
         </div>
         <div className="bird-img">못생긴 앵무새 그림이 들어갈 영역</div>
       </section>
-      <section className="right-sidebar">
-        <button className="music-btn">
-          <FontAwesomeIcon icon={faVolumeHigh} />
-        </button>
-        <div className="combo">
-          <div>콤보</div>
-          <div>10</div>
-        </div>
-        <div className="point">
-          <FontAwesomeIcon icon={faHeart} />
-        </div>
-      </section>
+      <Sidebar />
     </main>
   );
 };

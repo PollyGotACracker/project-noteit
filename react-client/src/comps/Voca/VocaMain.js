@@ -36,8 +36,7 @@ const VocaCategory = () => {
     setVocaCat({ ...vocaCat, [e.target.name]: e.target.value });
   };
 
-  const onKeyDownHandler = () => {};
-  const onClickHandler = useCallback(async () => {
+  const insertCat = useCallback(async () => {
     try {
       const fetchOption = {
         method: "POST",
@@ -58,6 +57,17 @@ const VocaCategory = () => {
       alert("서버 연결에 문제가 발생했습니다.");
     }
   }, [setVocaCat, vocaCat]);
+
+  const onKeyDownHandler = (e) => {
+    const keyCode = e.keyCode;
+    if (keyCode === 13) {
+      e.preventDefault();
+      insertCat();
+    }
+  };
+  const onClickHandler = () => {
+    insertCat();
+  };
 
   return (
     <main className="Voca">

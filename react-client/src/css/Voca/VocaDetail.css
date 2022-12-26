@@ -44,13 +44,13 @@
   justify-content: center;
   align-items: center;
 }
-.Detail.title .btnBox {
+.Detail.title .btn-box {
   width: calc(100% - 150px);
   margin-left: 100px;
   display: flex;
   flex-direction: column;
 }
-.Detail.title .btnBox button {
+.Detail.title .btn-box button {
   background-color: var(--blue);
   border-radius: 5px;
   width: 80px;
@@ -59,7 +59,7 @@
   color: white;
   transition: all ease 0.3s;
 }
-.Detail.title .btnBox button:hover {
+.Detail.title .btn-box button:hover {
   color: var(--yellow);
 }
 .Detail.slide {
@@ -76,7 +76,17 @@
   border: none;
   background-color: transparent;
 }
-.Detail.slide .keywordList {
+.Detail.slide button.prev:before {
+  content: "\f104";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+}
+.Detail.slide button.next:before {
+  content: "\f105";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+}
+.Detail.slide .keyword-list {
   width: 100%;
   margin: 0 10px;
   display: flex;

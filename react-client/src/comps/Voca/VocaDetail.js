@@ -2,8 +2,6 @@ import { useState, useEffect, useCallback } from "react";
 import { Link, useParams } from "react-router-dom";
 import "../../css/Voca/VocaDetail.css";
 import { useVocaContext } from "../../context/VocaContext";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 
 const VocaDetail = () => {
   const { catid, subid } = useParams();
@@ -51,7 +49,6 @@ const VocaDetail = () => {
 
   return (
     <main className="Detail">
-      <button>뒤로</button>
       <section className="Detail title">
         <div className="box">
           <div className="subject">{subject.s_subject}</div>
@@ -61,7 +58,7 @@ const VocaDetail = () => {
         </div>
         <div className="box">
           <div className="length">{subject["f_key.length"]}</div>
-          <div className="btnBox">
+          <div className="btn-box">
             <button
               className="write"
               title="수정"
@@ -79,13 +76,9 @@ const VocaDetail = () => {
         </div>
       </section>
       <section className="Detail slide">
-        <button>
-          <FontAwesomeIcon icon={faAngleLeft} />
-        </button>
-        <div className="keywordList">{keywordList}</div>
-        <button>
-          <FontAwesomeIcon icon={faAngleRight} />
-        </button>
+        <button className="prev"></button>
+        <div className="keyword-list">{keywordList}</div>
+        <button className="next"></button>
       </section>
       <section className="Detail content">
         <div>{subject.s_content}</div>

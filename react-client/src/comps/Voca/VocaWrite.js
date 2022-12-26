@@ -1,6 +1,6 @@
 import "../../css/Voca/VocaWrite.css";
 import { useState, useEffect, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useVocaContext } from "../../context/VocaContext.js";
 
 const VocaWrite = () => {
@@ -151,7 +151,6 @@ const VocaWrite = () => {
             onChange={onChangeHandler}
           />
         </div>
-
         <label htmlFor="content">메모</label>
         <textarea
           id="content"
@@ -161,11 +160,24 @@ const VocaWrite = () => {
           spellCheck="false"
           autoComplete="false"
         />
-        <input type="file" />
-        <button>뒤로</button>
-        <button type="button" id="submit" onClick={submitHandler}>
-          등록
-        </button>
+        <div className="attach-box">
+          <label htmlFor="attach">첨부</label>
+          <input
+            type="file"
+            id="attach"
+            name="attach"
+            accept="image/*"
+            multiple
+          />
+        </div>
+        <div className="btn-box">
+          <Link id="back" to={`/voca/category/${catid}`}>
+            목록으로
+          </Link>
+          <button type="button" id="submit" onClick={submitHandler}>
+            등록
+          </button>
+        </div>
       </form>
     </main>
   );

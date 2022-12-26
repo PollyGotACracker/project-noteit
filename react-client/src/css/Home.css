@@ -71,23 +71,3 @@ main.Home {
   height: 100%;
   background-color: #aaa;
 }
-.Home .right-sidebar {
-  width: 10%;
-  padding: 1%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-}
-.Home .right-sidebar .music-btn {
-  width: 50px;
-  height: 50px;
-  background-color: transparent;
-  color: var(--blue);
-  border-radius: 50%;
-  font-size: 20pt;
-}
-.Home .right-sidebar .point svg {
-  width: 100px;
-  height: 100px;
-}

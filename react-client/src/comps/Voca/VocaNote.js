@@ -99,7 +99,6 @@ const VocaNote = () => {
       <section className="Note content">
         <ul>{vocaList}</ul>
       </section>
-      <button>뒤로</button>
     </main>
   );
 };

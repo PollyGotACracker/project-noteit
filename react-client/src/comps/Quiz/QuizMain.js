@@ -1,6 +1,6 @@
 import { useEffect, useCallback } from "react";
-
 import "../../css/Quiz/QuizMain.css";
+import Sidebar from "../Sidebar";
 
 const QuizMain = () => {
   const fetchs = useCallback(async () => {
@@ -31,10 +31,7 @@ const QuizMain = () => {
         </div>
         <div className="bird-img">못생긴 앵무새 그림이 들어갈 영역</div>
       </section>
-      <section className="right-sidebar">
-        <div className="music-btn">배경음악토글 컴포넌트할래요</div>
-        <div className="point">포인트</div>
-      </section>
+      <Sidebar />
     </main>
   );
 };
