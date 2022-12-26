@@ -1,0 +1,75 @@
+.Voca form {
+  width: 50%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Voca section.top {
+  width: 100%;
+  height: 15%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+.Voca section.top .title {
+  font-size: 20pt;
+  font-weight: 900;
+}
+.Voca form input[name="c_category"] {
+  width: 30%;
+  padding: 0.2em;
+  font-size: 14pt;
+}
+.Voca section.cat-list {
+  width: 90%;
+  margin: 50px auto 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 20%);
+  gap: 10px;
+}
+.Voca section.cat-list .Cat {
+  background-color: var(--yellow);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px 0;
+}
+.Voca section.cat-list .Cat a[class*="link"] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 120px;
+  text-align: center;
+}
+.Voca section.cat-list .Cat input[class*="title"] {
+  background-color: transparent;
+  border: none;
+  width: 100%;
+  text-align: center;
+  font-size: 18pt;
+  font-weight: 700;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+.Voca section.cat-list .Cat .length {
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 15pt;
+  font-weight: 700;
+}
+.Voca section.cat-list .Cat .btn-box button {
+  font-size: 12pt;
+  font-weight: 700;
+  transition: all ease 0.2s;
+  margin: 0 10px;
+}
+.Voca section.cat-list .Cat button.update:hover {
+  color: var(--blue);
+}
+.Voca section.cat-list .Cat button.delete:hover {
+  color: var(--red);
+}

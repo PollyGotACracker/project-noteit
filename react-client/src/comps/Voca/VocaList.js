@@ -1,3 +1,4 @@
+import { useState, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useVocaContext } from "../../context/VocaContext";
 
@@ -5,8 +6,27 @@ const VocaList = (props) => {
   const { catid } = useParams();
   const { item } = props;
   const { deleteSubHandler } = useVocaContext();
+  const [bookmark, setBookmark] = useState(item.s_bookmark);
 
-  const bookmarkHandler = () => {};
+  const bookmarkHandler = useCallback(
+    async (e) => {
+      const subid = e.target.closest(".Item").dataset.id;
+      try {
+        let res = await fetch(`/voca/sub/bookmark/${subid}`, { method: "PUT" });
+        res = await res.json();
+        if (res.error) {
+          alert(res.error);
+        } else {
+          setBookmark(res.result);
+        }
+      } catch (error) {
+        console.log(error);
+        alert("서버 접속 중 오류가 발생했습니다.");
+      }
+    },
+    [bookmark, setBookmark]
+  );
+
   const deleteHandler = (e) => {
     const subid = e.target.closest(".Item").dataset.id;
     if (!window.confirm("이 주제를 삭제할까요?")) {
@@ -21,7 +41,7 @@ const VocaList = (props) => {
       <button
         className="bookmark"
         title="북마크"
-        value={item.s_bookmark}
+        value={bookmark}
         onClick={bookmarkHandler}
       ></button>
       <Link

@@ -12,9 +12,10 @@
   height: 100%;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 .Detail.title .box:nth-child(2) {
-  width: 15%;
+  width: 100px;
   height: 100%;
   position: absolute;
   top: 0;
@@ -30,25 +31,36 @@
   font-weight: 700;
 }
 .Detail.title .category {
+  display: inline-block;
   font-size: 15pt;
   text-align: center;
 }
+.Detail.title .category:hover {
+  color: var(--red);
+}
 .Detail.title .length {
-  width: 30px;
-  height: 30px;
-  margin: 0 10px;
-  background-color: #181818;
-  border-radius: 50%;
   font-weight: 700;
-  color: white;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .Detail.title .btnBox {
-  width: calc(100% - 50px);
+  width: calc(100% - 150px);
+  margin-left: 100px;
   display: flex;
   flex-direction: column;
+}
+.Detail.title .btnBox button {
+  background-color: var(--blue);
+  border-radius: 5px;
+  width: 80px;
+  padding: 0.5em 1em;
+  margin: 5px;
+  color: white;
+  transition: all ease 0.3s;
+}
+.Detail.title .btnBox button:hover {
+  color: var(--yellow);
 }
 .Detail.slide {
   width: 60%;
@@ -82,7 +94,7 @@
   text-align: center;
   word-break: keep-all;
 }
-.Detail.memo {
+.Detail.content {
   width: 80%;
   height: 60%;
   margin: 0 auto;

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { useParams, Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "../../css/Voca/VocaDetail.css";
 import { useVocaContext } from "../../context/VocaContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -51,10 +51,13 @@ const VocaDetail = () => {
 
   return (
     <main className="Detail">
+      <button>뒤로</button>
       <section className="Detail title">
         <div className="box">
           <div className="subject">{subject.s_subject}</div>
-          <div className="category">{subject.s_category}</div>
+          <Link className="category" to={`/voca/category/${catid}`}>
+            {subject.s_category}
+          </Link>
         </div>
         <div className="box">
           <div className="length">{subject["f_key.length"]}</div>
@@ -71,7 +74,7 @@ const VocaDetail = () => {
             <button className="delete" title="삭제" onClick={deleteHandler}>
               삭제
             </button>
-            <Link>PDF</Link>
+            <button>PDF</button>
           </div>
         </div>
       </section>
@@ -84,7 +87,7 @@ const VocaDetail = () => {
           <FontAwesomeIcon icon={faAngleRight} />
         </button>
       </section>
-      <section className="Detail memo">
+      <section className="Detail content">
         <div>{subject.s_content}</div>
       </section>
     </main>

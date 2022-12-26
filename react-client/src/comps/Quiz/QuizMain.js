@@ -1,12 +1,17 @@
-import { useEffect } from "react";
-// import { useVocaContext } from "../../context/VocaContext";
+import { useEffect, useCallback } from "react";
+
 import "../../css/Quiz/QuizMain.css";
 
 const QuizMain = () => {
-  // const { vocaArr } = useVocaContext();
-  // console.log(vocaArr);
+  const fetchs = useCallback(async () => {
+    let res = await fetch(`/quiz/rnd/select`);
+    res = await res.json();
+    console.log(res);
+  });
+
   useEffect(() => {
     document.querySelector("input").focus();
+    fetchs();
   }, []);
 
   return (

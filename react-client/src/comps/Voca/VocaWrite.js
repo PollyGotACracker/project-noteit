@@ -114,7 +114,7 @@ const VocaWrite = () => {
         console.log(error);
         alert("서버에 문제가 발생했습니다.\n다시 시도해주세요.");
       }
-      window.location.href = `/voca/category/${catid}`;
+      window.location.href = `/voca/subject/${catid}/${vocaSub.s_subid}`;
     },
     [vocaSub, setVocaSub]
   );

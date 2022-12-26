@@ -1,6 +1,7 @@
 import express from "express";
 import sequelize from "sequelize";
 import Sequelize from "sequelize";
+import { Op } from "sequelize";
 import { v4 } from "uuid";
 const router = express.Router();
 import DB from "../models/index.js";
@@ -13,6 +14,7 @@ router.get("/cat", async (req, res, next) => {
   try {
     const catList = await CAT.findAll({
       raw: true,
+      order: [["c_category", "ASC"]],
       include: [
         {
           model: SUB,
@@ -37,6 +39,20 @@ router.post("/cat/insert", async (req, res, next) => {
     const data = req.body;
     await CAT.create(data);
     return res.send({ result: "정상적으로 등록되었습니다." });
+  } catch (err) {
+    console.error(err);
+    return res.send({ error: "SQL query 실행 중 문제가 발생했습니다." });
+  }
+});
+
+// category UPDATE
+router.put("/cat/update", async (req, res, next) => {
+  try {
+    const catid = req.body.c_catid;
+    const value = req.body.c_category;
+    await CAT.update({ c_category: value }, { where: { c_catid: catid } });
+    await SUB.update({ s_category: value }, { where: { s_catid: catid } });
+    return res.send({ result: "정상적으로 수정되었습니다." });
   } catch (err) {
     console.error(err);
     return res.send({ error: "SQL query 실행 중 문제가 발생했습니다." });
@@ -94,6 +110,7 @@ router.get("/cat/:catid", async (req, res, next) => {
 
     const subList = await SUB.findAll({
       raw: true,
+      order: [["s_subject", "ASC"]],
       attributes: [
         "s_subid",
         "s_subject",
@@ -111,6 +128,79 @@ router.get("/cat/:catid", async (req, res, next) => {
       group: ["tbl_subjects.s_subid"],
     });
     return res.send({ category, subList });
+  } catch (error) {
+    console.error(error);
+    return res.send({ error: "SQL query 실행 중 문제가 발생했습니다." });
+  }
+});
+
+// subject search
+// ** keyword 개수 제대로 표시되지 않음
+// ** keyword 검색이 안됨
+// ** item 클릭 후 뒤로 가기 하면 화면이 초기화
+/**
+ * SELECT `tbl_subjects`.`s_subid`, `tbl_subjects`.`s_subject`, `tbl_subjects`.`s_catid`, `tbl_subjects`.`s_bookmark`, count(`k_keyid`) AS `length`, `f_key`.`k_keyid` AS `f_key.k_keyid`, `f_key`.`k_subid` AS `f_key.k_subid`, `f_key`.`k_keyword` AS `f_key.k_keyword` FROM `tbl_subjects` AS `tbl_subjects` LEFT OUTER JOIN `tbl_keywords` AS `f_key` ON `tbl_subjects`.`s_subid` = `f_key`.`k_subid` AND `f_key`.`k_keyword` LIKE '%테스트%' WHERE (`tbl_subjects`.`s_catid` = '25fab9ca' AND (`tbl_subjects`.`s_subject` LIKE '%테스트%' OR `tbl_subjects`.`s_content` LIKE '%테스트%')) GROUP BY `tbl_subjects`.`s_subid` ORDER BY `tbl_subjects`.`s_subject` ASC;
+ */
+router.post("/sub/search", async (req, res) => {
+  const value = req.body.value;
+  const catid = req.body.catid;
+  try {
+    const result = await SUB.findAll({
+      raw: true,
+      attributes: [
+        "s_subid",
+        "s_subject",
+        "s_catid",
+        "s_bookmark",
+        [sequelize.fn("count", Sequelize.col("k_keyid")), "length"],
+      ],
+      order: [["s_subject", "ASC"]],
+      where: {
+        [Op.and]: [
+          { s_catid: catid },
+          {
+            [Op.or]: [
+              { s_subject: { [Op.like]: `%${value}%` } },
+              { s_content: { [Op.like]: `%${value}%` } },
+            ],
+          },
+        ],
+      },
+      include: [
+        {
+          model: KEY,
+          as: "f_key",
+          where: { k_keyword: { [Op.like]: `%${value}%` } },
+          required: false,
+        },
+      ],
+      group: ["tbl_subjects.s_subid"],
+    });
+
+    console.log(result);
+    return res.json(result);
+  } catch (error) {
+    console.error(error);
+    return res.send({ error: "SQL query 실행 중 문제가 발생했습니다." });
+  }
+});
+
+// subject bookmark toggle
+router.put("/sub/bookmark/:subid", async (req, res) => {
+  try {
+    const subid = req.params.subid;
+    const bookmark = await SUB.findOne({
+      raw: true,
+      attributes: ["s_bookmark"],
+      where: { s_subid: subid },
+    });
+    const value = bookmark.s_bookmark === 0 ? 1 : 0;
+    console.log(value);
+    const result = await SUB.update(
+      { s_bookmark: value },
+      { where: { s_subid: subid } }
+    );
+    return res.send({ result: value });
   } catch (error) {
     console.error(error);
     return res.send({ error: "SQL query 실행 중 문제가 발생했습니다." });
@@ -176,6 +266,7 @@ router.put("/sub/update", async (req, res, next) => {
     const subjects = req.body.subjects;
     let keywords = req.body.keywords;
     // 배열로 받은 keywords 를 각 객체로 생성
+    // ** 순서대로 저장?
     keywords = keywords.map((keyword) => {
       return {
         k_keyid: v4().substring(0, 8),

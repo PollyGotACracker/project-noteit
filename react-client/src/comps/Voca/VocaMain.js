@@ -1,5 +1,6 @@
 import { useEffect, useCallback } from "react";
 import { useVocaContext } from "../../context/VocaContext.js";
+import "../../css/Voca/VocaMain.css";
 import VocaCat from "./VocaCat";
 
 const VocaCategory = () => {
@@ -19,7 +20,7 @@ const VocaCategory = () => {
       console.log(error);
       alert("서버 연결에 문제가 발생했습니다.");
     }
-  }, []);
+  }, [vocaCat, setVocaCat]);
 
   useEffect(() => {
     (async () => {
@@ -51,31 +52,35 @@ const VocaCategory = () => {
         alert(res.result);
       }
       setVocaCat({ ...InitCat() });
-      console.log(vocaCat);
+      document.querySelector("input[name='c_category']").value = "";
     } catch (error) {
       console.log(error);
       alert("서버 연결에 문제가 발생했습니다.");
     }
-  }, []);
+  }, [setVocaCat, vocaCat]);
 
   return (
     <main className="Voca">
-      <form>
-        <input
-          name="c_category"
-          onChange={onChangeHandler}
-          onKeyDown={onKeyDownHandler}
-        />
-        <button
-          type="button"
-          id="submit"
-          onClick={onClickHandler}
-          disabled={vocaCat.c_category.length < 1}
-        >
-          추가
-        </button>
-      </form>
-      <div>{list}</div>
+      <section className="top">
+        <div className="title">카테고리를 선택하세요!</div>
+        <form>
+          <input
+            name="c_category"
+            onChange={onChangeHandler}
+            onKeyDown={onKeyDownHandler}
+            placeholder="카테고리 추가..."
+          />
+          <button
+            type="button"
+            id="submit"
+            onClick={onClickHandler}
+            disabled={vocaCat.c_category.length < 1}
+          >
+            추가
+          </button>
+        </form>
+      </section>
+      <section className="cat-list">{list}</section>
     </main>
   );
 };
