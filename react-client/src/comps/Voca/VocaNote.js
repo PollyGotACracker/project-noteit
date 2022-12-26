@@ -76,9 +76,12 @@ const VocaNote = () => {
       <section className="Note title">
         <div className="category">{catData.c_category}</div>
         <div className="length">({catData["f_sub.length"]})</div>
-        <Link className="insert" onClick={clickWriteHandler} data-catid={catid}>
-          추가
-        </Link>
+        <Link
+          className="insert"
+          onClick={clickWriteHandler}
+          data-catid={catid}
+          title="추가"
+        ></Link>
         <form>
           <input
             className="input"

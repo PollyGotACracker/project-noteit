@@ -1,26 +1,44 @@
-.Voca form {
-  width: 50%;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 .Voca section.top {
   width: 100%;
-  height: 15%;
+  height: 150px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
 }
 .Voca section.top .title {
-  font-size: 20pt;
+  font-size: 25pt;
   font-weight: 900;
+}
+.Voca form {
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .Voca form input[name="c_category"] {
   width: 30%;
   padding: 0.2em;
   font-size: 14pt;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid var(--yellow);
+  padding: 0.2em;
+}
+.Voca form #submit:before {
+  content: "\f65e";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  margin-left: 15px;
+  font-size: 20pt;
+  transition: all ease 0.2s;
+}
+.Voca form #submit:disabled:hover:before {
+  cursor: auto;
+}
+.Voca form #submit:not(:disabled):hover:before {
+  color: var(--yellow);
 }
 .Voca section.cat-list {
   width: 90%;

@@ -35,12 +35,43 @@ main.Write textarea {
 main.Write input.keyword {
   padding: 1.5em 0.5em;
 }
+main.Write .keyword-controller {
+  margin: 30px 10px 10px 10px;
+  display: flex;
+  justify-content: space-between;
+}
+main.Write .keyword-controller label {
+  margin: 0;
+}
+main.Write .keyword-controller #add-keyword {
+  background-color: var(--blue);
+  border-radius: 5px;
+  width: 100px;
+  padding: 0.5em 1em;
+  color: white;
+  transition: all ease 0.3s;
+  white-space: nowrap;
+}
 main.Write #keyword-box {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 20%);
+  grid-template-columns: repeat(auto-fit, 20%);
   gap: 0.5em;
+  justify-content: center;
+  margin: 10px 0;
+}
+main.Write input[type="file"] {
+  margin-top: 30px;
 }
 main.Write button#submit {
+  background-color: var(--blue);
+  border-radius: 5px;
+  width: 80px;
+  padding: 0.5em 1em;
   margin-top: 20px;
   margin-left: auto;
+  color: white;
+  transition: all ease 0.3s;
+}
+main.Write button#submit:hover {
+  color: var(--yellow);
 }

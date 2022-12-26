@@ -75,9 +75,7 @@ const VocaCategory = () => {
             id="submit"
             onClick={onClickHandler}
             disabled={vocaCat.c_category.length < 1}
-          >
-            추가
-          </button>
+          ></button>
         </form>
       </section>
       <section className="cat-list">{list}</section>

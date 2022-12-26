@@ -137,7 +137,12 @@ const VocaWrite = () => {
           onChange={onChangeHandler}
           autoComplete="false"
         />
-        <label>키워드</label>
+        <div className="keyword-controller">
+          <label>키워드</label>
+          <button id="add-keyword" type="button" onClick={moreInput}>
+            키워드 추가
+          </button>
+        </div>
         <div id="keyword-box">
           <input
             className="keyword"
@@ -146,9 +151,7 @@ const VocaWrite = () => {
             onChange={onChangeHandler}
           />
         </div>
-        <button id="add-btn" type="button" onClick={moreInput}>
-          키워드 추가
-        </button>
+
         <label htmlFor="content">메모</label>
         <textarea
           id="content"
