@@ -8,6 +8,22 @@ const VocaDetail = () => {
   const [subject, setSubject] = useState({});
   const [keywords, setKeywords] = useState([]);
   const { clickWriteHandler, deleteSubHandler } = useVocaContext();
+  const [bookmark, setBookmark] = useState(subject.s_bookmark);
+
+  const bookmarkHandler = useCallback(async () => {
+    try {
+      let res = await fetch(`/voca/sub/bookmark/${subid}`, { method: "PUT" });
+      res = await res.json();
+      if (res.error) {
+        alert(res.error);
+      } else {
+        setBookmark(res.result);
+      }
+    } catch (error) {
+      console.log(error);
+      alert("서버 접속 중 오류가 발생했습니다.");
+    }
+  }, [bookmark, setBookmark]);
 
   const subDetail = useCallback(async () => {
     try {
@@ -50,6 +66,14 @@ const VocaDetail = () => {
   return (
     <main className="Detail">
       <section className="Detail title">
+        <div className="box">
+          <button
+            className="bookmark"
+            title="북마크"
+            value={bookmark}
+            onClick={bookmarkHandler}
+          ></button>
+        </div>
         <div className="box">
           <div className="subject">{subject.s_subject}</div>
           <Link className="category" to={`/voca/category/${catid}`}>

@@ -171,8 +171,8 @@ const VocaWrite = () => {
           />
         </div>
         <div className="btn-box">
-          <Link id="back" to={`/voca/category/${catid}`}>
-            목록으로
+          <Link id="back" to={`/voca/subject/${catid}/${subid}`}>
+            뒤로
           </Link>
           <button type="button" id="submit" onClick={submitHandler}>
             등록

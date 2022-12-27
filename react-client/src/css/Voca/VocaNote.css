@@ -115,7 +115,6 @@ main.Note {
   font-weight: 400;
 }
 .Item button.bookmark[value="1"]:before {
-  content: "\f02e";
   font-weight: 900;
 }
 .Item button.delete:before {

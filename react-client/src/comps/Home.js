@@ -63,7 +63,7 @@ const Main = () => {
   return (
     <main className="Home">
       <section className="left-sidebar">
-        <div className="rnd-subject">랜덤 주제가 들어갈 영역</div>
+        <div className="rnd-subject">랜덤 주제 영역</div>
         <div className="today">{date}</div>
         <div className="today">{time}</div>
       </section>
@@ -71,7 +71,7 @@ const Main = () => {
         <div className="msg-box">
           <span className="msg"></span>
         </div>
-        <div className="bird-img">못생긴 앵무새 그림이 들어갈 영역</div>
+        <div className="bird-img">사진 영역</div>
       </section>
       <Sidebar />
     </main>

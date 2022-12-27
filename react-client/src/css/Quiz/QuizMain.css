@@ -37,14 +37,26 @@ main.Quiz {
   width: 60%;
   padding: 1.5em;
   border-radius: 5px;
-  background-color: white;
+  background-color: #faf9f7;
   text-align: center;
   font-size: 16pt;
+  font-weight: 700;
 }
 .left-sidebar .keyword-box {
   width: 100%;
   height: 80%;
   margin-top: 20pt;
+}
+.left-sidebar .keyword-length {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-size: 15pt;
+  font-weight: 700;
+  background-color: #faf9f7;
 }
 .Quiz .center {
   width: 70%;

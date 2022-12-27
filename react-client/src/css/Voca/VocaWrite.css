@@ -33,10 +33,10 @@ main.Write textarea {
   border-radius: 5px;
 }
 main.Write textarea {
-  height: 20vh;
+  height: 30vh;
 }
 main.Write input.keyword {
-  padding: 1.5em 0.5em;
+  padding: 1.5em 1em;
 }
 main.Write .keyword-controller {
   margin: 30px 10px 10px 10px;
@@ -95,9 +95,6 @@ main.Write button#submit {
 }
 main.Write .keyword-controller #add-keyword {
   width: 120px;
-}
-main.Write a#back {
-  width: 100px;
 }
 main.Write .keyword-controller #add-keyword:hover,
 main.Write label[for="attach"]:hover {

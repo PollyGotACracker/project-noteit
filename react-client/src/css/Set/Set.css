@@ -1,0 +1,73 @@
+main.Setting {
+  background-color: var(--blue);
+}
+section.setting-box {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+section.setting-box .wrapper {
+  width: 30%;
+  padding: 2% 0;
+  margin: 40px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #faf9f7;
+  border-radius: 5px;
+}
+section.setting-box .title {
+  font-size: 15pt;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+section.setting-box #push,
+section.setting-box #light,
+section.setting-box #dark {
+  display: none;
+}
+section.setting-box label[for="light"],
+section.setting-box label[for="dark"] {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-weight: 400;
+}
+section.setting-box .music-btn:before,
+section.setting-box label[for="push"]:before,
+section.setting-box label[for="light"]:before,
+section.setting-box label[for="dark"]:before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-size: 20pt;
+  color: var(--yellow);
+  cursor: pointer;
+}
+section.setting-box .music-btn:before {
+  content: "\f028";
+}
+section.setting-box label[for="push"]:before {
+  content: "\f0f3";
+}
+section.setting-box .theme-box {
+  width: 50%;
+  display: flex;
+  justify-content: space-around;
+}
+section.setting-box label[for="light"]:before,
+section.setting-box label[for="dark"]:before {
+  color: inherit;
+  margin-right: 5px;
+  font-size: 15pt;
+  transform: translateY(1px);
+}
+section.setting-box label[for="light"]:before {
+  content: "\f185";
+}
+section.setting-box label[for="dark"]:before {
+  content: "\f186";
+}
