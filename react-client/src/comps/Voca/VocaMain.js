@@ -20,7 +20,7 @@ const VocaCategory = () => {
       console.log(error);
       alert("서버 연결에 문제가 발생했습니다.");
     }
-  }, [vocaCat, setVocaCat]);
+  }, [setVocaCatList]);
 
   useEffect(() => {
     (async () => {
@@ -56,7 +56,7 @@ const VocaCategory = () => {
       console.log(error);
       alert("서버 연결에 문제가 발생했습니다.");
     }
-  }, [setVocaCat, vocaCat]);
+  }, [setVocaCat, vocaCat, InitCat]);
 
   const onKeyDownHandler = (e) => {
     const keyCode = e.keyCode;

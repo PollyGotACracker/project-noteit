@@ -6,7 +6,7 @@ import Sidebar from "./Sidebar";
 const Main = () => {
   const [date, setDate] = useState(getToday().date);
   const [time, setTime] = useState(getToday().time);
-  const [msgList, setMsgList] = useState(msgListData);
+  const [msgList] = useState(msgListData);
 
   // setInterval 은 설정한 시간을 보장하지 않기 때문에 setTimeout 재귀함수 사용
   const changeClock = () => {
@@ -58,7 +58,7 @@ const Main = () => {
     const msg = msgList[index - 1];
     const box = document.querySelector(".Home .msg-box .msg");
     typeWriter(msg, box);
-  }, []);
+  }, [msgList]);
 
   return (
     <main className="Home">

@@ -23,7 +23,7 @@ const VocaDetail = () => {
       console.log(error);
       alert("서버 접속 중 오류가 발생했습니다.");
     }
-  }, [bookmark, setBookmark]);
+  }, [setBookmark, subid]);
 
   const subDetail = useCallback(async () => {
     try {
@@ -39,7 +39,7 @@ const VocaDetail = () => {
       console.log(error);
       alert("서버 연결에 문제가 발생했습니다.");
     }
-  }, []);
+  }, [subid]);
 
   useEffect(() => {
     (async () => {

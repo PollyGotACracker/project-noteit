@@ -12,7 +12,7 @@ const QuizMain = () => {
   useEffect(() => {
     document.querySelector("input").focus();
     fetchs();
-  }, []);
+  }, [fetchs]);
 
   return (
     <main className="Quiz">

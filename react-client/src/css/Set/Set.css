@@ -1,6 +1,9 @@
 main.Setting {
   background-color: var(--blue);
 }
+section.setting-box * {
+  user-select: none;
+}
 section.setting-box {
   width: 50%;
   height: 100%;

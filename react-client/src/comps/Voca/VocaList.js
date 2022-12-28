@@ -24,7 +24,7 @@ const VocaList = (props) => {
         alert("서버 접속 중 오류가 발생했습니다.");
       }
     },
-    [bookmark, setBookmark]
+    [setBookmark]
   );
 
   const deleteHandler = (e) => {

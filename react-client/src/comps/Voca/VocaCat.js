@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { createRoutesFromChildren, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useVocaContext } from "../../context/VocaContext";
 
 const VocaCat = (props) => {
@@ -10,10 +10,9 @@ const VocaCat = (props) => {
 
   const onChangeHandler = useCallback(
     (e) => {
-      const catid = e.target.closest(".Cat").dataset.id;
       setTitle(e.target.value);
     },
-    [title, setTitle]
+    [setTitle]
   );
   const updateHandler = useCallback(
     async (e) => {
@@ -43,7 +42,7 @@ const VocaCat = (props) => {
         }
       }
     },
-    [update, setUpdate, title, setTitle]
+    [update, setUpdate, title]
   );
   const deleteHandler = (e) => {
     const catid = e.target.closest(".Cat").dataset.id;
@@ -53,7 +52,7 @@ const VocaCat = (props) => {
       deleteCatHandler(catid);
     }
   };
-  //
+
   return (
     <div key={item.c_catid} className="Cat" data-id={item.c_catid}>
       <Link

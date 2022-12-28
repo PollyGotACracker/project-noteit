@@ -64,7 +64,7 @@ const VocaWrite = () => {
       console.log(error);
       alert("서버 연결에 문제가 발생했습니다.");
     }
-  }, []);
+  }, [catid, setVocaSub, subid]);
 
   useEffect(() => {
     (async () => {
@@ -116,7 +116,7 @@ const VocaWrite = () => {
       }
       window.location.href = `/voca/subject/${catid}/${vocaSub.s_subid}`;
     },
-    [vocaSub, setVocaSub]
+    [vocaSub, catid, subid]
   );
 
   return (

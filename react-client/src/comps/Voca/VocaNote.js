@@ -49,7 +49,7 @@ const VocaNote = () => {
     let res = await fetch(`/voca/sub/search`, fetchOption);
     res = await res.json();
     setVocaSubList([...res]);
-  }, [searchValue, vocaSubList]);
+  }, [searchValue, catid, setVocaSubList]);
 
   const onKeyDownHandler = (e) => {
     const keyCode = e.keyCode;
