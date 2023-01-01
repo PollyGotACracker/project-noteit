@@ -11,11 +11,11 @@ const Nav = () => {
         case "메인":
           url("/home");
           break;
-        case "단어장":
-          url("/voca");
-          break;
         case "퀴즈":
           url("/quiz");
+          break;
+        case "단어장":
+          url("/voca");
           break;
         case "설정":
           url("/setting");
@@ -38,14 +38,14 @@ const Nav = () => {
 
   return (
     <nav className="Nav">
-      <button className="voca" type="button" onClick={onClickHandler}>
-        단어장
+      <button className="home" type="button" onClick={onClickHandler}>
+        메인
       </button>
       <button className="quiz" type="button" onClick={onClickHandler}>
         퀴즈
       </button>
-      <button className="home" type="button" onClick={onClickHandler}>
-        메인
+      <button className="voca" type="button" onClick={onClickHandler}>
+        단어장
       </button>
       <button className="setting" type="button" onClick={onClickHandler}>
         설정

@@ -18,6 +18,7 @@ const NavRouter = () => {
       <Route path="/home" element={<Home />} />
       <Route path="/voca" element={<VocaMain />} />
       <Route path="/voca/category/:catid" element={<VocaNote />} />
+      <Route path="/voca/category/:catid/search" element={<VocaNote />} />
       <Route path="/voca/subject/:catid/:subid" element={<VocaDetail />} />
       <Route path="/voca/write/:catid/:subid?" element={<VocaWrite />} />
       <Route path="/quiz" element={<QuizMain />} />

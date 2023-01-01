@@ -1,13 +1,14 @@
 import express from "express";
 import sequelize from "sequelize";
 import Sequelize from "sequelize";
+import { QueryTypes } from "sequelize";
 import { Op } from "sequelize";
 import { v4 } from "uuid";
-const router = express.Router();
 import DB from "../models/index.js";
 const CAT = DB.models.tbl_categories;
 const SUB = DB.models.tbl_subjects;
 const KEY = DB.models.tbl_keywords;
+const router = express.Router();
 
 // 모든 category SELECT
 router.get("/cat", async (req, res, next) => {
@@ -135,49 +136,25 @@ router.get("/cat/:catid", async (req, res, next) => {
 });
 
 // subject search
-// ** keyword 개수 제대로 표시되지 않음
-// ** keyword 검색이 안됨
 // ** item 클릭 후 뒤로 가기 하면 화면이 초기화
-/**
- * SELECT `tbl_subjects`.`s_subid`, `tbl_subjects`.`s_subject`, `tbl_subjects`.`s_catid`, `tbl_subjects`.`s_bookmark`, count(`k_keyid`) AS `length`, `f_key`.`k_keyid` AS `f_key.k_keyid`, `f_key`.`k_subid` AS `f_key.k_subid`, `f_key`.`k_keyword` AS `f_key.k_keyword` FROM `tbl_subjects` AS `tbl_subjects` LEFT OUTER JOIN `tbl_keywords` AS `f_key` ON `tbl_subjects`.`s_subid` = `f_key`.`k_subid` AND `f_key`.`k_keyword` LIKE '%테스트%' WHERE (`tbl_subjects`.`s_catid` = '25fab9ca' AND (`tbl_subjects`.`s_subject` LIKE '%테스트%' OR `tbl_subjects`.`s_content` LIKE '%테스트%')) GROUP BY `tbl_subjects`.`s_subid` ORDER BY `tbl_subjects`.`s_subject` ASC;
- */
 router.post("/sub/search", async (req, res) => {
   const value = req.body.value;
   const catid = req.body.catid;
   try {
-    const result = await SUB.findAll({
-      raw: true,
-      attributes: [
-        "s_subid",
-        "s_subject",
-        "s_catid",
-        "s_bookmark",
-        [sequelize.fn("count", Sequelize.col("k_keyid")), "length"],
-      ],
-      order: [["s_subject", "ASC"]],
-      where: {
-        [Op.and]: [
-          { s_catid: catid },
-          {
-            [Op.or]: [
-              { s_subject: { [Op.like]: `%${value}%` } },
-              { s_content: { [Op.like]: `%${value}%` } },
-            ],
-          },
-        ],
-      },
-      include: [
-        {
-          model: KEY,
-          as: "f_key",
-          where: { k_keyword: { [Op.like]: `%${value}%` } },
-          required: false,
-        },
-      ],
-      group: ["tbl_subjects.s_subid"],
-    });
+    const result = await DB.sequelize.query(
+      `SELECT s_subid, s_subject, s_catid, s_bookmark, COUNT(tbl_keywords.k_keyid) AS length 
+      FROM tbl_subjects INNER JOIN tbl_keywords ON s_subid = k_subid 
+      WHERE s_catid = "${catid}" AND (
+        s_subject LIKE "%${value}%" 
+        OR s_content LIKE "%${value}%" 
+        OR tbl_keywords.k_keyword LIKE "%${value}%"
+        ) 
+      GROUP BY s_subid ORDER BY s_subject`,
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
 
-    console.log(result);
     return res.json(result);
   } catch (error) {
     console.error(error);
