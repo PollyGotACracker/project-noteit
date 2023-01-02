@@ -34,6 +34,7 @@ const VocaContextProvider = ({ children }) => {
 
   const [vocaCatList, setVocaCatList] = useState([]);
   const [vocaSubList, setVocaSubList] = useState([]);
+  // const [vocaInputList, setVocaInputList] = useState([]);
   const [vocaCat, setVocaCat] = useState({ ...InitCat() });
   const [vocaSub, setVocaSub] = useState({ ...InitSub() });
 
@@ -87,6 +88,8 @@ const VocaContextProvider = ({ children }) => {
     setVocaCatList,
     vocaSubList,
     setVocaSubList,
+    // vocaInputList,
+    // setVocaInputList,
     vocaCat,
     InitCat,
     setVocaCat,

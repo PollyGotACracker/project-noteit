@@ -137,6 +137,7 @@ router.get("/cat/:catid", async (req, res, next) => {
 
 // subject search
 // ** item 클릭 후 뒤로 가기 하면 화면이 초기화
+// input 값을 지우면 원래 목록으로 되돌아가지 않음
 router.post("/sub/search", async (req, res) => {
   const value = req.body.value;
   const catid = req.body.catid;
