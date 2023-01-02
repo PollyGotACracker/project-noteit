@@ -20,6 +20,7 @@ const VocaWrite = () => {
   };
 
   const [inputs, setInputs] = useState([addInput()]);
+  const [fileList, setFileList] = useState([]);
 
   // input 추가
   const moreInput = useCallback(() => {
@@ -30,6 +31,24 @@ const VocaWrite = () => {
     const inputList = parent.childNodes;
     inputList[inputList.length - 1].focus();
   }, [inputs, setInputs]);
+
+  const attachOnChangeHandler = useCallback(
+    (e) => {
+      const fileData = Array.from(e.target.files);
+      console.log(fileData);
+      const uploadFiles = fileData.map((file) => {
+        const item = {
+          url: URL.createObjectURL(file),
+          a_original_name: file.name,
+          a_ext: file.type,
+        };
+        return item;
+      });
+      console.log(uploadFiles);
+      setFileList([...uploadFiles]);
+    },
+    [fileList]
+  );
 
   // fetch
   const fetchs = useCallback(async () => {
@@ -97,6 +116,8 @@ const VocaWrite = () => {
         let url = `/voca/sub/insert`;
         let subjects = { ...vocaSub, s_catid: catid, s_category: category };
         let keywords = keywordList;
+        // files 가 빈 배열로 뜸
+        let files = fileList;
         if (subid) {
           method = "PUT";
           url = `/voca/sub/update`;
@@ -105,7 +126,7 @@ const VocaWrite = () => {
         const fetchOption = {
           method: method,
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ subjects, keywords }),
+          body: JSON.stringify({ subjects, keywords, files }),
         };
         let res = await fetch(url, fetchOption);
         res = await res.json();
@@ -168,6 +189,7 @@ const VocaWrite = () => {
             name="attach"
             accept="image/*"
             multiple
+            onChange={attachOnChangeHandler}
           />
         </div>
         <div className="btn-box">

@@ -1,5 +1,5 @@
 .Detail.title {
-  width: 100%;
+  width: 80%;
   padding: 2% 0;
   margin: 0 auto;
   position: relative;
@@ -16,11 +16,21 @@
 .Detail.title button.bookmark[value="1"]:before {
   font-weight: 900;
 }
+.Detail.title a.search {
+  display: inline-block;
+  color: var(--blue);
+}
+.Detail.title a.search:hover {
+  color: var(--yellow);
+}
 .Detail.title .box:nth-child(1) {
   height: 100%;
   position: absolute;
   top: 0;
   left: 20%;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
 }
 .Detail.title .box:nth-child(2) {
   width: 100%;

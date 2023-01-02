@@ -39,7 +39,7 @@ ON DELETE CASCADE
 );
 
 -- 첨부파일
-CREATE TABLE IF NOT EXISTS tbl_attatchs(
+CREATE TABLE IF NOT EXISTS tbl_attachs(
 a_attid	VARCHAR(125)	NOT NULL,
 a_subid	VARCHAR(125)	NOT NULL,	
 a_date	VARCHAR(10)	NOT NULL,	

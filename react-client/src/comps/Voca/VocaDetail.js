@@ -73,6 +73,14 @@ const VocaDetail = () => {
             value={bookmark}
             onClick={bookmarkHandler}
           ></button>
+          <a
+            className="search"
+            href={`https://google.com/search?q=${subject.s_subject}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Google 검색
+          </a>
         </div>
         <div className="box">
           <div className="subject">{subject.s_subject}</div>

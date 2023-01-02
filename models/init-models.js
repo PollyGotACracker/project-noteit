@@ -1,10 +1,10 @@
-import _tbl_attatchs from "./tbl_attatchs.js";
+import _tbl_attachs from "./tbl_attachs.js";
 import _tbl_categories from "./tbl_categories.js";
 import _tbl_keywords from "./tbl_keywords.js";
 import _tbl_subjects from "./tbl_subjects.js";
 
 const initModels = (sequelize) => {
-  const tbl_attatchs = _tbl_attatchs(sequelize);
+  const tbl_attachs = _tbl_attachs(sequelize);
   const tbl_categories = _tbl_categories(sequelize);
   const tbl_keywords = _tbl_keywords(sequelize);
   const tbl_subjects = _tbl_subjects(sequelize);
@@ -17,8 +17,8 @@ const initModels = (sequelize) => {
     as: "f_sub",
     foreignKey: "s_catid",
   });
-  tbl_attatchs.belongsTo(tbl_subjects, { as: "f_sub", foreignKey: "a_subid" });
-  tbl_subjects.hasMany(tbl_attatchs, {
+  tbl_attachs.belongsTo(tbl_subjects, { as: "f_sub", foreignKey: "a_subid" });
+  tbl_subjects.hasMany(tbl_attachs, {
     as: "f_att",
     foreignKey: "a_subid",
   });
@@ -29,7 +29,7 @@ const initModels = (sequelize) => {
   });
 
   return {
-    tbl_attatchs,
+    tbl_attachs,
     tbl_categories,
     tbl_keywords,
     tbl_subjects,

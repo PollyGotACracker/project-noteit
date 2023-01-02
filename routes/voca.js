@@ -1,13 +1,16 @@
 import express from "express";
-import sequelize from "sequelize";
+import sequelize, { UUID } from "sequelize";
 import Sequelize from "sequelize";
 import { QueryTypes } from "sequelize";
 import { Op } from "sequelize";
 import { v4 } from "uuid";
+import moment from "moment";
+import fileUp from "../modules/file_upload.js";
 import DB from "../models/index.js";
 const CAT = DB.models.tbl_categories;
 const SUB = DB.models.tbl_subjects;
 const KEY = DB.models.tbl_keywords;
+const ATT = DB.models.tbl_attachs;
 const router = express.Router();
 
 // 모든 category SELECT
@@ -186,10 +189,13 @@ router.put("/sub/bookmark/:subid", async (req, res) => {
 });
 
 // subject INSERT
-router.post("/sub/insert", async (req, res, next) => {
+router.post("/sub/insert", fileUp.array("attach"), async (req, res, next) => {
   try {
+    console.log(req.body);
     const subjects = req.body.subjects;
     let keywords = req.body.keywords;
+    const files = req.body.files;
+    console.log(files);
     // 배열로 받은 keywords 를 각 객체로 생성
     keywords = keywords.map((keyword) => {
       return {
@@ -198,7 +204,24 @@ router.post("/sub/insert", async (req, res, next) => {
         k_keyword: keyword,
       };
     });
-    await SUB.create(subjects);
+    const uploadFiles = (sub, file) => {
+      const uploadFileInfo = {
+        a_attid: v4().substring(0, 8),
+        a_subid: sub.s_subid,
+        a_date: moment().format("YYYY[-]MM[-]DD"),
+        a_time: moment().format("HH:mm:ss"),
+        a_original_name: file.a_original_name,
+        a_save_name: file.filename,
+        a_ext: file.a_ext,
+      };
+      return uploadFileInfo;
+    };
+
+    const subResult = await SUB.create(subjects);
+    const filesInfo = files.map((file) => {
+      return uploadFiles(subResult, file);
+    });
+    await ATT.bulkCreate(filesInfo);
     await KEY.bulkCreate(keywords);
     return res.send({ result: "정상적으로 추가되었습니다." });
   } catch (error) {
