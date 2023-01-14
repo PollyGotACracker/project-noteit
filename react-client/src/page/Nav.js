@@ -14,7 +14,7 @@ const Nav = () => {
         case "퀴즈":
           url("/quiz");
           break;
-        case "단어장":
+        case "노트":
           url("/voca");
           break;
         case "설정":
@@ -45,7 +45,7 @@ const Nav = () => {
         퀴즈
       </button>
       <button className="voca" type="button" onClick={onClickHandler}>
-        단어장
+        노트
       </button>
       <button className="setting" type="button" onClick={onClickHandler}>
         설정

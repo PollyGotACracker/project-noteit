@@ -20,6 +20,7 @@
 .App input,
 .App button {
   outline: none;
+  border: none;
 }
 .App button {
   background-color: transparent;

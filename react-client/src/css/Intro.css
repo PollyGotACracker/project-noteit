@@ -12,11 +12,11 @@ main.Intro + nav {
 }
 
 main.Intro .cover-img {
-  width: 30vh;
-  height: 30vh;
+  width: 35vh;
+  height: 35vh;
   background-color: white;
   border-radius: 50%;
-  margin-bottom: 60px;
+  margin-bottom: 5vh;
 }
 
 main.Intro .title {
@@ -24,15 +24,88 @@ main.Intro .title {
   font-size: 40pt;
   font-weight: 900;
   letter-spacing: 0.1em;
-  margin-bottom: 200px;
-  animation: 1s ease-out alternate infinite bounce;
+  margin-bottom: 10vh;
+  white-space: nowrap;
+}
+
+main.Intro .title .char {
+  display: inline-block;
+  animation: cubic-bezier(0.195, 0.325, 0.6, 1.55) bounce;
 }
 
 @keyframes bounce {
   0% {
     transform: translateY(0);
   }
-  100% {
-    transform: translateY(20px);
+  50% {
+    transform: translateY(-20px);
   }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+main.Intro form.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 350px;
+}
+
+form.login input {
+  width: 100%;
+  margin: 5px;
+  padding: 10px;
+  border-bottom: 1px dashed white;
+  background-color: transparent;
+  font-size: 12pt;
+  color: white;
+  caret-color: var(--yellow);
+  transition: all 0.3s ease-out;
+  background-repeat: no-repeat;
+  background-position: left 10px bottom 50%;
+  background-size: 16px;
+  padding: 10px 40px;
+}
+
+form.login input[type="text"] {
+  background-image: url("../images/user.png");
+}
+
+form.login input[type="password"] {
+  background-image: url("../images/pwd.png");
+}
+
+form.login input::placeholder {
+  color: #ccc;
+}
+
+form.login input:focus {
+  border-bottom: 1px dashed var(--yellow);
+}
+
+main.Intro .wrap-links {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 3vh;
+}
+main.Intro .wrap-links > * {
+  display: inline-block;
+  width: 30%;
+  color: white;
+  font-size: 12pt;
+  text-align: center;
+  white-space: nowrap;
+  transition: all 0.3s ease-out;
+}
+.wrap-links button {
+  background-image: url("../images/enter.png");
+  background-repeat: no-repeat;
+  background-position: right 5px bottom 50%;
+  background-size: 16px;
+}
+.wrap-links a:hover,
+.wrap-links button:hover {
+  color: var(--yellow);
 }
