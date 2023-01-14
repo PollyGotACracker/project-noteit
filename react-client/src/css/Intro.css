@@ -1,34 +1,33 @@
-main.Splash {
+main.Intro {
   padding: 0 !important;
   background-color: var(--blue);
-  cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
-main.Splash + nav {
+
+main.Intro + nav {
   display: none;
 }
-main.Splash .cover-img {
+
+main.Intro .cover-img {
   width: 30vh;
   height: 30vh;
   background-color: white;
   border-radius: 50%;
   margin-bottom: 60px;
 }
-main.Splash .title {
+
+main.Intro .title {
   color: white;
   font-size: 40pt;
   font-weight: 900;
   letter-spacing: 0.1em;
   margin-bottom: 200px;
-}
-main.Splash .greeting {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 14pt;
   animation: 1s ease-out alternate infinite bounce;
 }
+
 @keyframes bounce {
   0% {
     transform: translateY(0);

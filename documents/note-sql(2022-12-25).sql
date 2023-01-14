@@ -75,15 +75,15 @@ CREATE TABLE IF NOT EXISTS tbl_keywords(
 -- 첨부파일
 CREATE TABLE IF NOT EXISTS tbl_attachs(
 	a_attid	VARCHAR(225)	NOT NULL,
-	a_keyid	VARCHAR(225)	NOT NULL,
+	a_subid	VARCHAR(225)	NOT NULL,
 	a_date	VARCHAR(10)	NOT NULL,
 	a_time	VARCHAR(10)	NOT NULL,
 	a_originalname	VARCHAR(225)	NOT NULL,
 	a_savename	VARCHAR(225)	NOT NULL,
 	a_ext	VARCHAR(10)	NOT NULL,
-	PRIMARY KEY(a_attid, a_keyid),
-	CONSTRAINT fk_keyatt
-	FOREIGN KEY(a_keyid) REFERENCES tbl_keywords(k_keyid)
+	PRIMARY KEY(a_attid, a_subid),
+	CONSTRAINT fk_subatt
+	FOREIGN KEY(a_subid) REFERENCES tbl_subjects(s_subid)
 	ON DELETE CASCADE
 );
 

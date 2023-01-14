@@ -4,13 +4,27 @@ export default (sequelize) => {
     "tbl_categories",
     {
       c_catid: {
-        type: Sequelize.STRING(125),
+        type: Sequelize.DataTypes.STRING(225),
         allowNull: false,
         primaryKey: true,
       },
-      c_category: {
-        type: Sequelize.STRING(125),
+      c_userid: {
+        type: Sequelize.DataTypes.STRING(225),
         allowNull: false,
+        primaryKey: true,
+        references: {
+          model: "tbl_user",
+          key: "u_userid",
+        },
+      },
+      c_category: {
+        type: Sequelize.DataTypes.STRING(125),
+        allowNull: false,
+      },
+      c_checked: {
+        type: Sequelize.DataTypes.TINYINT,
+        allowNull: false,
+        defaultValue: 0,
       },
     },
     {
@@ -22,7 +36,12 @@ export default (sequelize) => {
           name: "PRIMARY",
           unique: true,
           using: "BTREE",
-          fields: [{ name: "c_catid" }],
+          fields: [{ name: "c_catid" }, { name: "c_userid" }],
+        },
+        {
+          name: "fk_usecat",
+          using: "BTREE",
+          fields: [{ name: "c_userid" }],
         },
       ],
     }

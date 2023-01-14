@@ -1,63 +1,62 @@
 import Sequelize from "sequelize";
 export default (sequelize) => {
   return sequelize.define(
-    "tbl_subjects",
+    "tbl_score",
     {
-      s_subid: {
+      sc_scoid: {
         type: Sequelize.DataTypes.STRING(225),
         allowNull: false,
         primaryKey: true,
       },
-      s_subject: {
+      sc_userid: {
+        type: Sequelize.DataTypes.STRING(225),
+        allowNull: false,
+        references: {
+          model: "tbl_user",
+          key: "u_userid",
+        },
+      },
+      sc_date: {
         type: Sequelize.DataTypes.STRING(125),
         allowNull: false,
       },
-      s_catid: {
-        type: Sequelize.DataTypes.STRING(225),
+      sc_catid: {
+        type: Sequelize.DataTypes.STRING(125),
         allowNull: false,
-        primaryKey: true,
         references: {
           model: "tbl_categories",
           key: "c_catid",
         },
       },
-      s_category: {
+      sc_category: {
         type: Sequelize.DataTypes.STRING(125),
         allowNull: false,
       },
-      s_date: {
-        type: Sequelize.DataTypes.STRING(10),
-        allowNull: true,
-      },
-      s_time: {
-        type: Sequelize.DataTypes.STRING(10),
-        allowNull: true,
-      },
-      s_bookmark: {
-        type: Sequelize.DataTypes.TINYINT,
+      sc_score: {
+        type: Sequelize.DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: 0,
-      },
-      s_content: {
-        type: Sequelize.DataTypes.TEXT,
-        allowNull: true,
       },
     },
     {
       sequelize,
-      tableName: "tbl_subjects",
+      tableName: "tbl_score",
       timestamps: false,
       indexes: [
         {
           name: "PRIMARY",
           unique: true,
           using: "BTREE",
-          fields: [{ name: "s_subid" }, { name: "s_catid" }],
+          fields: [{ name: "sc_scoid" }],
         },
         {
-          name: "fk_catsub",
+          name: "fk_usesco",
           using: "BTREE",
-          fields: [{ name: "s_catid" }],
+          fields: [{ name: "sc_userid" }],
+        },
+        {
+          name: "fk_catsco",
+          using: "BTREE",
+          fields: [{ name: "sc_catid" }],
         },
       ],
     }

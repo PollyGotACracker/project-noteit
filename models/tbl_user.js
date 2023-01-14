@@ -1,46 +1,51 @@
 import Sequelize from "sequelize";
 export default (sequelize) => {
   return sequelize.define(
-    "tbl_keywords",
+    "tbl_user",
     {
-      k_keyid: {
+      u_userid: {
         type: Sequelize.DataTypes.STRING(225),
         allowNull: false,
         primaryKey: true,
       },
-      k_subid: {
-        type: Sequelize.DataTypes.STRING(225),
-        allowNull: false,
-        primaryKey: true,
-        references: {
-          model: "tbl_subjects",
-          key: "s_subid",
-        },
-      },
-      k_keyword: {
+      u_pwd: {
         type: Sequelize.DataTypes.STRING(225),
         allowNull: false,
       },
-      k_desc: {
-        type: Sequelize.DataTypes.TEXT,
+      u_nickname: {
+        type: Sequelize.DataTypes.STRING(225),
+        allowNull: false,
+      },
+      u_date: {
+        type: Sequelize.DataTypes.STRING(125),
         allowNull: true,
+      },
+      u_cscore: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
+      u_bgm: {
+        type: Sequelize.DataTypes.TINYINT,
+        allowNull: false,
+        defaultValue: 1,
+      },
+      u_mode: {
+        type: Sequelize.DataTypes.TINYINT,
+        allowNull: false,
+        defaultValue: 0,
       },
     },
     {
       sequelize,
-      tableName: "tbl_keywords",
+      tableName: "tbl_user",
       timestamps: false,
       indexes: [
         {
           name: "PRIMARY",
           unique: true,
           using: "BTREE",
-          fields: [{ name: "k_keyid" }, { name: "k_subid" }],
-        },
-        {
-          name: "fk_subkey",
-          using: "BTREE",
-          fields: [{ name: "k_subid" }],
+          fields: [{ name: "u_userid" }],
         },
       ],
     }

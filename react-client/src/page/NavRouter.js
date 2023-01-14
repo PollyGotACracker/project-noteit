@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import NotFound from "./NotFound";
 import {
-  Splash,
+  Intro,
   Home,
   VocaMain,
   VocaNote,
@@ -14,7 +14,7 @@ import {
 const NavRouter = () => {
   return (
     <Routes>
-      <Route path="/" element={<Splash />} />
+      <Route path="/" element={<Intro />} />
       <Route path="/home" element={<Home />} />
       <Route path="/voca" element={<VocaMain />} />
       <Route path="/voca/category/:catid" element={<VocaNote />} />
