@@ -1,38 +1,57 @@
 import "../../css/Voca/VocaWrite.css";
-import { useState, useEffect, useCallback } from "react";
+import {
+  useRef,
+  useState,
+  useLayoutEffect,
+  useEffect,
+  useCallback,
+} from "react";
 import { useParams, Link } from "react-router-dom";
 import { useVocaContext } from "../../context/VocaContext.js";
+import uuid from "react-uuid";
 
 const VocaWrite = () => {
+  const keyboxRef = useRef(null);
   const { catid, subid } = useParams();
-  const { vocaSub, setVocaSub } = useVocaContext();
+  const { vocaSub, setVocaSub, vocaKey, setVocaKey } = useVocaContext();
+  const [keywordList, setKeywordList] = useState([]);
+  const [fileList, setFileList] = useState([]);
+  const [keyIndex, setKeyIndex] = useState(1);
 
-  // input 생성
-  const addInput = () => {
-    const input = document.createElement("input");
-    const attr = {
-      className: "keyword",
-      type: "text",
-      name: "keyword",
-    };
-    Object.assign(input, attr);
-    return input;
+  const KeywordItem = () => {
+    setKeyIndex(keyIndex + 1);
+    return (
+      <div className="keyword-item" key={keyIndex}>
+        <div className="keyword-index">{keyIndex}</div>
+        <div className="wrap-keyword">
+          <input
+            className="keyword"
+            name="k_keyword"
+            type="text"
+            autoFocus
+            autoComplete="false"
+            spellCheck="false"
+            onChange={onChangeKeyHandler}
+          />
+          <textarea
+            className="desc"
+            name="k_desc"
+            autoComplete="false"
+            spellCheck="false"
+            onChange={onChangeKeyHandler}
+          />
+        </div>
+      </div>
+    );
   };
 
-  const [inputs, setInputs] = useState([addInput()]);
-  const [fileList, setFileList] = useState([]);
+  // keywordItem 추가
+  const addKeyword = useCallback(() => {
+    const item = KeywordItem();
+    setKeywordList([item, ...keywordList]);
+  }, [keywordList, setKeywordList]);
 
-  // input 추가
-  const moreInput = useCallback(() => {
-    const input = addInput();
-    setInputs([...inputs, input]);
-    const parent = document.querySelector("#keyword-box");
-    parent.append(...inputs);
-    const inputList = parent.childNodes;
-    inputList[inputList.length - 1].focus();
-  }, [inputs, setInputs]);
-
-  const attachOnChangeHandler = useCallback(
+  const OnChangeAttHandler = useCallback(
     (e) => {
       const fileData = Array.from(e.target.files);
       console.log(fileData);
@@ -58,7 +77,8 @@ const VocaWrite = () => {
       if (res.error) {
         alert(res.error);
       } else {
-        document.querySelector("#category").value = res[0].c_category;
+        // vocaSub 에 category 추가 및 해당 태그에 데이터 표시
+        setVocaSub({ ...vocaSub, s_category: res[0].c_category });
       }
       // path 에 subid 가 있을 경우(UPDATE)
       if (subid) {
@@ -68,15 +88,15 @@ const VocaWrite = () => {
           alert(res.error);
         } else {
           setVocaSub({ ...res.subject[0] });
-          let keywords = res.keywords;
-          keywords = keywords.map((keyword) => {
-            const input = addInput();
-            input.value = keyword.k_keyword;
-            console.log(input);
-            return input;
-          });
-          const parent = document.querySelector("#keyword-box");
-          parent.prepend(...keywords);
+          // let keywords = res.keywords;
+          // keywords = keywords.map((keyword) => {
+          //   const input = addInput();
+          //   input.value = keyword.k_keyword;
+          //   console.log(input);
+          //   return input;
+          // });
+          // const parent = document.querySelector("#keyword-box");
+          // parent.prepend(...keywords);
         }
       }
     } catch (error) {
@@ -85,9 +105,11 @@ const VocaWrite = () => {
     }
   }, [catid, setVocaSub, subid]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     (async () => {
       await fetchs();
+      const item = KeywordItem();
+      setKeywordList([item, ...keywordList]);
     })();
   }, [fetchs]);
 
@@ -95,17 +117,22 @@ const VocaWrite = () => {
   // 밖에 있는 console 이 먼저 실행되고, useEffect 는 rendering 이후 실행되므로 console 이 나중에 실행된다.
 
   // change event 가 없으면 값이 추가가 안됨
-  const onChangeHandler = (e) => {
+  const onChangeSubHandler = (e) => {
     setVocaSub({ ...vocaSub, [e.target.name]: e.target.value });
+  };
+  // keyword 하나당 state 변수를 생성할 수 있는지... 전혀 필요없는 코드
+  const onChangeKeyHandler = (e) => {
+    setVocaKey({ ...vocaKey, [e.target.name]: e.target.value });
   };
 
   const submitHandler = useCallback(
     async (e) => {
       e.preventDefault();
       try {
-        const category = document.querySelector("#category").value;
+        console.log(keywordList);
         const keyInputs = Array.from(document.querySelectorAll(".keyword"));
-        const keywordList = keyInputs
+        const keyTexts = Array.from(document.querySelectorAll(".desc"));
+        const keywordInputs = keyInputs
           .map((input) => {
             if (input.value !== "") {
               return input.value;
@@ -114,8 +141,9 @@ const VocaWrite = () => {
           .filter((value) => value);
         let method = "POST";
         let url = `/voca/sub/insert`;
-        let subjects = { ...vocaSub, s_catid: catid, s_category: category };
-        let keywords = keywordList;
+        let subjects = { ...vocaSub, s_catid: catid };
+        let keywords = keywordInputs;
+        console.log(keywords);
         // files 가 빈 배열로 뜸
         let files = fileList;
         if (subid) {
@@ -135,7 +163,7 @@ const VocaWrite = () => {
         console.log(error);
         alert("서버에 문제가 발생했습니다.\n다시 시도해주세요.");
       }
-      window.location.href = `/voca/subject/${catid}/${vocaSub.s_subid}`;
+      // window.location.href = `/voca/subject/${catid}/${vocaSub.s_subid}`;
     },
     [vocaSub, catid, subid]
   );
@@ -147,40 +175,28 @@ const VocaWrite = () => {
         <input
           id="category"
           name="s_category"
+          value={vocaSub.s_category}
           readOnly={true}
-          onChange={onChangeHandler}
+          onChange={onChangeSubHandler}
         />
         <label htmlFor="subject">주제</label>
         <input
           id="subject"
           value={vocaSub.s_subject || ""}
           name="s_subject"
-          onChange={onChangeHandler}
+          onChange={onChangeSubHandler}
           autoComplete="false"
         />
         <div className="keyword-controller">
           <label>키워드</label>
-          <button id="add-keyword" type="button" onClick={moreInput}>
+          <button id="add-keyword" type="button" onClick={addKeyword}>
             키워드 추가
           </button>
         </div>
-        <div id="keyword-box">
-          <input
-            className="keyword"
-            name="keyword"
-            type="text"
-            onChange={onChangeHandler}
-          />
+        <div id="keyword-box" ref={keyboxRef}>
+          {keywordList}
         </div>
-        <label htmlFor="content">메모</label>
-        <textarea
-          id="content"
-          value={vocaSub.s_content || ""}
-          name="s_content"
-          onChange={onChangeHandler}
-          spellCheck="false"
-          autoComplete="false"
-        />
+
         <div className="attach-box">
           <label htmlFor="attach">첨부</label>
           <input
@@ -189,7 +205,7 @@ const VocaWrite = () => {
             name="attach"
             accept="image/*"
             multiple
-            onChange={attachOnChangeHandler}
+            onChange={OnChangeAttHandler}
           />
         </div>
         <div className="btn-box">

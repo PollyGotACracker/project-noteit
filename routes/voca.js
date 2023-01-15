@@ -22,7 +22,7 @@ router.get("/cat", async (req, res, next) => {
       include: [
         {
           model: SUB,
-          as: "f_sub",
+          as: "tbl_subjects",
           attributes: [
             [sequelize.fn("count", Sequelize.col("s_subid")), "length"],
           ],
@@ -33,19 +33,19 @@ router.get("/cat", async (req, res, next) => {
     return res.json(catList);
   } catch (error) {
     console.error(error);
-    return res.send({ error: "SQL query 실행 중 문제가 발생했습니다." });
+    return res.send({ error: "SELECT 실행 중 문제가 발생했습니다." });
   }
 });
 
 // category INSERT
 router.post("/cat/insert", async (req, res, next) => {
   try {
-    const data = req.body;
+    let data = req.body;
     await CAT.create(data);
     return res.send({ result: "정상적으로 등록되었습니다." });
   } catch (err) {
     console.error(err);
-    return res.send({ error: "SQL query 실행 중 문제가 발생했습니다." });
+    return res.send({ error: "INSERT 실행 중 문제가 발생했습니다." });
   }
 });
 
@@ -59,7 +59,7 @@ router.put("/cat/update", async (req, res, next) => {
     return res.send({ result: "정상적으로 수정되었습니다." });
   } catch (err) {
     console.error(err);
-    return res.send({ error: "SQL query 실행 중 문제가 발생했습니다." });
+    return res.send({ error: "UPDATE 실행 중 문제가 발생했습니다." });
   }
 });
 
@@ -71,7 +71,7 @@ router.delete("/cat/delete/:catid", async (req, res, next) => {
     return res.send({ result: "정상적으로 삭제되었습니다." });
   } catch (err) {
     console.error(err);
-    return res.send({ error: "SQL query 실행 중 문제가 발생했습니다." });
+    return res.send({ error: "DELETE 실행 중 문제가 발생했습니다." });
   }
 });
 
@@ -103,7 +103,7 @@ router.get("/cat/:catid", async (req, res, next) => {
       include: [
         {
           model: SUB,
-          as: "f_sub",
+          as: "tbl_subjects",
           attributes: [
             [sequelize.fn("count", Sequelize.col("s_subid")), "length"],
           ],
@@ -126,7 +126,7 @@ router.get("/cat/:catid", async (req, res, next) => {
       include: [
         {
           model: KEY,
-          as: "f_key",
+          as: "tbl_keywords",
         },
       ],
       group: ["tbl_subjects.s_subid"],

@@ -9,8 +9,8 @@ const App = () => {
     <div className="App">
       <BrowserRouter>
         <Music />
-        <NavRouter />
         <Nav />
+        <NavRouter />
       </BrowserRouter>
     </div>
   );

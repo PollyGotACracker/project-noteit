@@ -1,27 +1,31 @@
 nav {
-  width: 100%;
-  height: 10%;
+  width: 80px;
+  height: 100%;
   display: flex;
-  justify-content: space-around;
-  /* background-color: rgba(0, 0, 0, 0.8); */
-  border-top: 1px solid #ccc;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: var(--blue);
+  border-top: 15px solid var(--blue);
 }
 nav button {
-  width: 100px;
-  height: 100%;
-  background-color: transparent;
+  width: 100%;
+  height: 100px;
   border: none;
   outline: none;
-  color: var(--blue);
-  font-size: 15pt;
-  cursor: pointer;
+  color: #faf9f7;
+  font-size: 12pt;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  border: 5px solid var(--blue);
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
 }
 nav button.active {
   color: var(--yellow);
+  background-color: #faf9f7;
 }
 nav button:before {
   font-family: "Font Awesome 5 Free";
@@ -31,10 +35,11 @@ nav button:before {
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
   display: block;
-  width: 100px;
+  width: 100%;
   height: 33px;
-  font-size: 25pt;
+  font-size: 20pt;
   margin-bottom: 10px;
+  transform-origin: center;
   overflow: hidden;
 }
 nav button.home:before {
@@ -49,6 +54,7 @@ nav button.quiz:before {
 nav button.setting:before {
   content: "\f013";
 }
+
 nav button.home:hover:before {
   animation: 1s infinite shake;
   -webkit-animation: 1s infinite shake;
@@ -67,33 +73,7 @@ nav button.home:hover:before {
     transform: rotateZ(0deg);
   }
 }
-nav button.voca:hover:before {
-  animation: 1.5s step-start infinite check;
-  -webkit-animation: 1.5s step-start infinite check;
-}
-@keyframes check {
-  0% {
-    content: "\f0ca";
-  }
-  25% {
-    content: "\f0ca";
-    height: 22px;
-    margin-bottom: 21px;
-  }
-  50% {
-    content: "\f0ae";
-    height: 22px;
-    margin-bottom: 21px;
-  }
-  75% {
-    content: "\f0ca";
-    height: 22px;
-    margin-bottom: 21px;
-  }
-  100% {
-    content: "\f0ca";
-  }
-}
+
 nav button.quiz {
   position: relative;
 }
@@ -101,12 +81,12 @@ nav button.quiz:after {
   content: "?";
   width: 100%;
   height: 20px;
-  font-size: 12pt;
+  font-size: 10pt;
   font-weight: 900;
   /* color: rgba(0, 0, 0, 0.8); */
-  color: white;
+  color: var(--blue);
   position: absolute;
-  top: calc(50% - 28px);
+  top: calc(50% - 26px);
   left: 0;
 }
 nav button.quiz:hover:before {
@@ -124,6 +104,35 @@ nav button.quiz:hover:before {
     transform: translateY(0);
   }
 }
+
+nav button.voca:hover:before {
+  animation: 1.5s step-start infinite check;
+  -webkit-animation: 1.5s step-start infinite check;
+}
+@keyframes check {
+  0% {
+    content: "\f0ca";
+  }
+  25% {
+    content: "\f0ca";
+    height: 19px;
+    margin-bottom: 24px;
+  }
+  50% {
+    content: "\f0ae";
+    height: 19px;
+    margin-bottom: 24px;
+  }
+  75% {
+    content: "\f0ca";
+    height: 19px;
+    margin-bottom: 24px;
+  }
+  100% {
+    content: "\f0ca";
+  }
+}
+
 nav button.quiz:hover:after {
   animation: 1s ease-out infinite marks;
   -webkit-animation: 1s ease-out infinite marks;
@@ -142,6 +151,10 @@ nav button.quiz:hover:after {
     transform: translateY(0);
   }
 }
+nav button.quiz.active:after {
+  color: white;
+}
+
 nav button.setting:hover:before {
   animation: 1s steps(5) infinite spin;
   -webkit-animation: 1s steps(5) infinite spin;

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useLayoutEffect, useEffect, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useVocaContext } from "../../context/VocaContext";
 import "../../css/Voca/VocaNote.css";
@@ -26,7 +26,7 @@ const VocaNote = () => {
     }
   }, [catid, setVocaSubList]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     (async () => {
       await subList();
     })();
@@ -81,7 +81,7 @@ const VocaNote = () => {
     <main className="Note">
       <section className="Note title">
         <div className="category">{catData.c_category}</div>
-        <div className="length">({catData["f_sub.length"]})</div>
+        <div className="length">({catData["tbl_subjects.length"] || 0})</div>
         <Link
           className="insert"
           onClick={clickWriteHandler}

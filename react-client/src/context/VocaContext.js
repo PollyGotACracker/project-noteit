@@ -10,6 +10,8 @@ const useVocaContext = () => {
 const VocaContextProvider = ({ children }) => {
   const InitCat = () => {
     const catData = {
+      // 임시 c_userid
+      c_userid: "asdf",
       c_catid: uuid().substring(0, 8),
       c_category: "",
     };
@@ -24,19 +26,34 @@ const VocaContextProvider = ({ children }) => {
       s_category: "",
       s_date: moment().format("YYYY[-]MM[-]DD"),
       s_time: moment().format("HH:mm:ss"),
-      s_bookmark: 0,
       s_keyid: uuid().substring(0, 8),
-      s_content: "",
       s_attid: uuid().substring(0, 8),
     };
     return subData;
   };
+
+  const InitKey = () => {
+    const keyData = {
+      k_keyid: uuid().substring(0, 8),
+      k_subid: "",
+      k_keyword: "",
+      k_desc: "",
+    };
+    return keyData;
+  };
+
+  // const InitAtt = () => {
+  //   const attData = {
+  //   };
+  //   return attData;
+  // };
 
   const [vocaCatList, setVocaCatList] = useState([]);
   const [vocaSubList, setVocaSubList] = useState([]);
   // const [vocaInputList, setVocaInputList] = useState([]);
   const [vocaCat, setVocaCat] = useState({ ...InitCat() });
   const [vocaSub, setVocaSub] = useState({ ...InitSub() });
+  const [vocaKey, setVocaKey] = useState({ ...InitKey() });
 
   const clickWriteHandler = (e) => {
     const target = e.target;
@@ -96,6 +113,9 @@ const VocaContextProvider = ({ children }) => {
     vocaSub,
     InitSub,
     setVocaSub,
+    vocaKey,
+    InitKey,
+    setVocaKey,
     clickWriteHandler,
     deleteCatHandler,
     deleteSubHandler,

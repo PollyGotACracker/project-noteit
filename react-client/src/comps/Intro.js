@@ -2,12 +2,13 @@ import "../css/Intro.css";
 import { Link } from "react-router-dom";
 
 const Intro = () => {
+  // title 에 span tag 추가 후 각각 css animation 설정
   const TitleContent = () => {
     const titleChar = "Project Note";
     let string = Array.from(titleChar);
 
     let content = string.map((char, index) => {
-      const duration = 0.3;
+      const duration = 0.4;
       const delay = duration * Number(index);
       return (
         <span

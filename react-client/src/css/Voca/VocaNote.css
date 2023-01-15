@@ -3,6 +3,7 @@ main.Note {
   flex-direction: column;
   overflow-y: hidden;
   padding-top: 0 !important;
+  position: relative;
 }
 .Note.title {
   width: 90%;
@@ -10,13 +11,11 @@ main.Note {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 5%;
   padding: 2% 5%;
-  background-color: var(--blue);
-  color: white;
-  border-radius: 0 0 20px 20px;
+  border-bottom: 1px solid #ccc;
 }
 .Note.title .category {
   display: flex;
@@ -82,14 +81,13 @@ main.Note {
   margin: 0 10px;
 }
 .Item.subject {
-  font-weight: 700;
   display: flex;
   align-items: center;
   cursor: pointer;
   transition: all ease 0.2s;
 }
 .Item.subject:hover {
-  color: var(--red);
+  color: var(--yellow);
 }
 .Item.length {
   width: 30px;
@@ -113,14 +111,21 @@ main.Note {
 .Item button.bookmark:before {
   content: "\f02e";
   font-weight: 400;
+  color: #aaa;
+  transition: all 0.2s ease-out;
+}
+.Item button.bookmark:hover:before {
+  color: var(--yellow);
 }
 .Item button.bookmark[value="1"]:before {
   font-weight: 900;
+  color: var(--yellow);
 }
 .Item button.delete:before {
   content: "\f00d";
   font-weight: 700;
-  transition: all ease 0.2s;
+  color: #aaa;
+  transition: all 0.2s ease-out;
 }
 .Item button.delete:hover:before {
   color: var(--red);

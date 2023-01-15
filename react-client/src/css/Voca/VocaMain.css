@@ -48,15 +48,15 @@
   gap: 10px;
 }
 .Voca section.cat-list .Cat {
-  background-color: var(--blue);
+  border: 1px solid #aaa;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 40px 0;
 }
-.Voca section.cat-list .Cat * {
-  color: white;
+.Voca section.cat-list .Cat:hover input[class*="title"] {
+  color: var(--yellow);
 }
 .Voca section.cat-list .Cat a[class*="link"] {
   display: flex;
@@ -74,10 +74,11 @@
   font-size: 18pt;
   font-weight: 700;
   margin-bottom: 20px;
+  transition: all 0.2s ease-out;
   cursor: pointer;
 }
 .Voca section.cat-list .Cat .length {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(0, 0, 0, 0.5);
   font-size: 15pt;
   font-weight: 700;
 }

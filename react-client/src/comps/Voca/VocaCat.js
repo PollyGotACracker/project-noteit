@@ -65,7 +65,7 @@ const VocaCat = (props) => {
           readOnly={true}
           onChange={onChangeHandler}
         />
-        <div className="length">{item["f_sub.length"]}</div>
+        <div className="length">{item["tbl_subjects.length"] || 0}</div>
       </Link>
       <div className="btn-box">
         <button

@@ -51,6 +51,7 @@ const VocaCategory = () => {
         alert(res.result);
       }
       setVocaCat({ ...InitCat() });
+      fetchs();
       document.querySelector("input[name='c_category']").value = "";
     } catch (error) {
       console.log(error);
