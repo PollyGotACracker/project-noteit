@@ -8,8 +8,9 @@ const Intro = () => {
     let string = Array.from(titleChar);
 
     let content = string.map((char, index) => {
+      // 1 은 cover-img 의 animation duration
       const duration = 0.4;
-      const delay = duration * Number(index);
+      const delay = 1 + duration * Number(index);
       return (
         <span
           className="char"
