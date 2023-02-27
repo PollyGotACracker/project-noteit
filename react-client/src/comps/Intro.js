@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 const Intro = () => {
   // title 에 span tag 추가 후 각각 css animation 설정
   const TitleContent = () => {
-    const titleChar = "Project Note";
+    const titleChar = "NOTEit";
     let string = Array.from(titleChar);
 
     let content = string.map((char, index) => {
       // 1 은 cover-img 의 animation duration
-      const duration = 0.4;
+      const duration = 0.3;
       const delay = 1 + duration * Number(index);
       return (
         <span

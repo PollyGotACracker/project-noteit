@@ -193,17 +193,10 @@ router.post("/sub/insert", fileUp.array("attach"), async (req, res, next) => {
   try {
     console.log(req.body);
     const subjects = req.body.subjects;
-    let keywords = req.body.keywords;
-    const files = req.body.files;
+    const keywords = req.body.keywords;
+    const files = req?.body?.files;
     console.log(files);
-    // 배열로 받은 keywords 를 각 객체로 생성
-    keywords = keywords.map((keyword) => {
-      return {
-        k_keyid: v4().substring(0, 8),
-        k_subid: subjects.s_subid,
-        k_keyword: keyword,
-      };
-    });
+
     const uploadFiles = (sub, file) => {
       const uploadFileInfo = {
         a_attid: v4().substring(0, 8),

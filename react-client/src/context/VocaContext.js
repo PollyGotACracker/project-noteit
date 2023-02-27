@@ -34,7 +34,7 @@ const VocaContextProvider = ({ children }) => {
 
   const InitKey = () => {
     const keyData = {
-      k_keyid: uuid().substring(0, 8),
+      k_keyid: "",
       k_subid: "",
       k_keyword: "",
       k_desc: "",
@@ -51,9 +51,9 @@ const VocaContextProvider = ({ children }) => {
   const [vocaCatList, setVocaCatList] = useState([]);
   const [vocaSubList, setVocaSubList] = useState([]);
   // const [vocaInputList, setVocaInputList] = useState([]);
-  const [vocaCat, setVocaCat] = useState({ ...InitCat() });
-  const [vocaSub, setVocaSub] = useState({ ...InitSub() });
-  const [vocaKey, setVocaKey] = useState({ ...InitKey() });
+  const [vocaCat, setVocaCat] = useState(InitCat);
+  const [vocaSub, setVocaSub] = useState(InitSub);
+  const [vocaKey, setVocaKey] = useState(InitKey);
 
   const clickWriteHandler = (e) => {
     const target = e.target;

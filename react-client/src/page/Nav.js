@@ -1,55 +1,21 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "../css/Nav.css";
 
 const Nav = () => {
-  const url = useNavigate();
-  const onClickHandler = (e) => {
-    if (e.target.tagName === "BUTTON") {
-      const text = e.target.textContent;
-      switch (text) {
-        case "메인":
-          url("/home");
-          break;
-        case "퀴즈":
-          url("/quiz");
-          break;
-        case "노트":
-          url("/voca");
-          break;
-        case "설정":
-          url("/setting");
-          break;
-      }
-    }
-  };
-
-  useEffect(() => {
-    const btns = document.querySelectorAll("nav button");
-    const path = window.location.pathname.split("/")[1];
-    for (let btn of btns) {
-      if (Array.from(btn.classList).includes(path)) {
-        btn.classList.add("active");
-      } else {
-        btn.classList.remove("active");
-      }
-    }
-  });
-
   return (
     <nav className="Nav">
-      <button className="home" type="button" onClick={onClickHandler}>
+      <NavLink className="home" to="/home">
         메인
-      </button>
-      <button className="quiz" type="button" onClick={onClickHandler}>
+      </NavLink>
+      <NavLink className="quiz" to="/quiz">
         퀴즈
-      </button>
-      <button className="voca" type="button" onClick={onClickHandler}>
+      </NavLink>
+      <NavLink className="voca" to="/voca">
         노트
-      </button>
-      <button className="setting" type="button" onClick={onClickHandler}>
+      </NavLink>
+      <NavLink className="setting" to="/setting">
         설정
-      </button>
+      </NavLink>
     </nav>
   );
 };

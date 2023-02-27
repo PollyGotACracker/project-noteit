@@ -13,20 +13,31 @@ import uuid from "react-uuid";
 const VocaWrite = () => {
   const keyboxRef = useRef(null);
   const { catid, subid } = useParams();
-  const { vocaSub, setVocaSub, vocaKey, setVocaKey } = useVocaContext();
+  const { vocaSub, setVocaSub, vocaKey, setVocaKey, InitKey } =
+    useVocaContext();
   const [keywordList, setKeywordList] = useState([]);
   const [fileList, setFileList] = useState([]);
   const [keyIndex, setKeyIndex] = useState(1);
+  const [keyMap, setKeyMap] = useState(new Map());
 
   const KeywordItem = () => {
     setKeyIndex(keyIndex + 1);
+    const id = uuid().substring(0, 8);
+    // subid 는 수정 시 subject 의 id
+    keyMap.set(id, {
+      ...InitKey(),
+      k_keyid: id,
+      k_subid: subid || vocaSub.s_subid,
+    });
+
     return (
-      <div className="keyword-item" key={keyIndex}>
+      <div className="keyword-item" key={id}>
+        {id}
         <div className="keyword-index">{keyIndex}</div>
         <div className="wrap-keyword">
           <input
             className="keyword"
-            name="k_keyword"
+            name={id}
             type="text"
             autoFocus
             autoComplete="false"
@@ -35,7 +46,7 @@ const VocaWrite = () => {
           />
           <textarea
             className="desc"
-            name="k_desc"
+            name={id}
             autoComplete="false"
             spellCheck="false"
             onChange={onChangeKeyHandler}
@@ -116,33 +127,41 @@ const VocaWrite = () => {
   // useEffect 내에서 console, 이후 밖에서 console 을 찍으면
   // 밖에 있는 console 이 먼저 실행되고, useEffect 는 rendering 이후 실행되므로 console 이 나중에 실행된다.
 
-  // change event 가 없으면 값이 추가가 안됨
   const onChangeSubHandler = (e) => {
     setVocaSub({ ...vocaSub, [e.target.name]: e.target.value });
   };
-  // keyword 하나당 state 변수를 생성할 수 있는지... 전혀 필요없는 코드
+
   const onChangeKeyHandler = (e) => {
-    setVocaKey({ ...vocaKey, [e.target.name]: e.target.value });
+    const key = e.target.name;
+    let subKey;
+    if (e.target.tagName === "INPUT") subKey = "k_keyword";
+    if (e.target.tagName === "TEXTAREA") subKey = "k_desc";
+    keyMap.set(key, {
+      ...keyMap.get(`${key}`),
+      [subKey]: e.target.value,
+    });
+    console.log("전체 키워드", keyMap);
   };
 
   const submitHandler = useCallback(
     async (e) => {
       e.preventDefault();
       try {
-        console.log(keywordList);
-        const keyInputs = Array.from(document.querySelectorAll(".keyword"));
-        const keyTexts = Array.from(document.querySelectorAll(".desc"));
-        const keywordInputs = keyInputs
-          .map((input) => {
-            if (input.value !== "") {
-              return input.value;
-            }
-          })
-          .filter((value) => value);
+        // console.log(keywordList);
+        // const keyInputs = Array.from(document.querySelectorAll(".keyword"));
+        // const keyTexts = Array.from(document.querySelectorAll(".desc"));
+        // const keywordInputs = keyInputs
+        //   .map((input) => {
+        //     if (input.value !== "") {
+        //       return input.value;
+        //     }
+        //   })
+        //   .filter((value) => value);
+
         let method = "POST";
         let url = `/voca/sub/insert`;
         let subjects = { ...vocaSub, s_catid: catid };
-        let keywords = keywordInputs;
+        let keywords = Array.from(keyMap.values());
         console.log(keywords);
         // files 가 빈 배열로 뜸
         let files = fileList;
@@ -189,14 +208,13 @@ const VocaWrite = () => {
         />
         <div className="keyword-controller">
           <label>키워드</label>
-          <button id="add-keyword" type="button" onClick={addKeyword}>
-            키워드 추가
-          </button>
         </div>
         <div id="keyword-box" ref={keyboxRef}>
           {keywordList}
         </div>
-
+        <button id="add-keyword" type="button" onClick={addKeyword}>
+          키워드 추가
+        </button>
         <div className="attach-box">
           <label htmlFor="attach">첨부</label>
           <input

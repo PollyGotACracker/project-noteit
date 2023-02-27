@@ -37,6 +37,7 @@ main.Intro .title {
   letter-spacing: 0.1em;
   margin-bottom: 10vh;
   white-space: nowrap;
+  user-select: none;
 }
 
 main.Intro .title .char {
