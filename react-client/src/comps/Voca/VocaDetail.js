@@ -57,9 +57,10 @@ const VocaDetail = () => {
 
   const keywordList = keywords.map((ele) => {
     return (
-      <span key={ele.k_keyword} className="keyword">
-        {ele.k_keyword}
-      </span>
+      <div key={ele.k_keyid} className="keyword">
+        <div>{ele.k_keyword}</div>
+        <div>{ele.k_desc}</div>
+      </div>
     );
   });
 
@@ -89,7 +90,7 @@ const VocaDetail = () => {
           </Link>
         </div>
         <div className="box">
-          <div className="length">{subject["f_key.length"]}</div>
+          <div className="length">{subject["tbl_keywords.length"]}</div>
           <div className="btn-box">
             <button
               className="write"

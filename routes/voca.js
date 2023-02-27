@@ -234,7 +234,7 @@ router.get("/sub/:subid", async (req, res, next) => {
       include: [
         {
           model: KEY,
-          as: "f_key",
+          as: "tbl_keywords",
           attributes: [
             [sequelize.fn("count", Sequelize.col("k_keyid")), "length"],
           ],
@@ -244,7 +244,6 @@ router.get("/sub/:subid", async (req, res, next) => {
     });
     console.log(subject);
     const keywords = await KEY.findAll({
-      attributes: ["k_keyword"],
       where: { k_subid: subid },
     });
     return res.send({ subject, keywords });

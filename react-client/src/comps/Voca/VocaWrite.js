@@ -99,15 +99,6 @@ const VocaWrite = () => {
           alert(res.error);
         } else {
           setVocaSub({ ...res.subject[0] });
-          // let keywords = res.keywords;
-          // keywords = keywords.map((keyword) => {
-          //   const input = addInput();
-          //   input.value = keyword.k_keyword;
-          //   console.log(input);
-          //   return input;
-          // });
-          // const parent = document.querySelector("#keyword-box");
-          // parent.prepend(...keywords);
         }
       }
     } catch (error) {
@@ -147,17 +138,6 @@ const VocaWrite = () => {
     async (e) => {
       e.preventDefault();
       try {
-        // console.log(keywordList);
-        // const keyInputs = Array.from(document.querySelectorAll(".keyword"));
-        // const keyTexts = Array.from(document.querySelectorAll(".desc"));
-        // const keywordInputs = keyInputs
-        //   .map((input) => {
-        //     if (input.value !== "") {
-        //       return input.value;
-        //     }
-        //   })
-        //   .filter((value) => value);
-
         let method = "POST";
         let url = `/voca/sub/insert`;
         let subjects = { ...vocaSub, s_catid: catid };
@@ -206,16 +186,25 @@ const VocaWrite = () => {
           onChange={onChangeSubHandler}
           autoComplete="false"
         />
-        <div className="keyword-controller">
+        <section className="keyword-controller">
           <label>키워드</label>
-        </div>
+        </section>
         <div id="keyword-box" ref={keyboxRef}>
           {keywordList}
         </div>
         <button id="add-keyword" type="button" onClick={addKeyword}>
           키워드 추가
         </button>
-        <div className="attach-box">
+        <section>
+          {/* ckeditor 로 교체 */}
+          <textarea
+            id="content"
+            name="s_content"
+            autoComplete="false"
+            onChange={onChangeKeyHandler}
+          />
+        </section>
+        <section className="attach-box">
           <label htmlFor="attach">첨부</label>
           <input
             type="file"
@@ -225,15 +214,15 @@ const VocaWrite = () => {
             multiple
             onChange={OnChangeAttHandler}
           />
-        </div>
-        <div className="btn-box">
+        </section>
+        <section className="btn-box">
           <Link id="back" to={`/voca/subject/${catid}/${subid}`}>
             뒤로
           </Link>
           <button type="button" id="submit" onClick={submitHandler}>
             등록
           </button>
-        </div>
+        </section>
       </form>
     </main>
   );

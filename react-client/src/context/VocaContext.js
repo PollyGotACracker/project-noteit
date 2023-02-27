@@ -11,7 +11,7 @@ const VocaContextProvider = ({ children }) => {
   const InitCat = () => {
     const catData = {
       // 임시 c_userid
-      c_userid: "asdf",
+      c_userid: "polly",
       c_catid: uuid().substring(0, 8),
       c_category: "",
     };
@@ -26,8 +26,7 @@ const VocaContextProvider = ({ children }) => {
       s_category: "",
       s_date: moment().format("YYYY[-]MM[-]DD"),
       s_time: moment().format("HH:mm:ss"),
-      s_keyid: uuid().substring(0, 8),
-      s_attid: uuid().substring(0, 8),
+      s_content: "",
     };
     return subData;
   };
@@ -42,11 +41,18 @@ const VocaContextProvider = ({ children }) => {
     return keyData;
   };
 
-  // const InitAtt = () => {
-  //   const attData = {
-  //   };
-  //   return attData;
-  // };
+  const InitAtt = () => {
+    const attData = {
+      a_attid: uuid().substring(0, 8),
+      a_subid: "",
+      a_date: moment().format("YYYY[-]MM[-]DD"),
+      a_time: moment().format("HH:mm:ss"),
+      a_originalname: "",
+      a_savename: "",
+      a_ext: "",
+    };
+    return attData;
+  };
 
   const [vocaCatList, setVocaCatList] = useState([]);
   const [vocaSubList, setVocaSubList] = useState([]);

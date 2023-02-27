@@ -8,6 +8,7 @@ import {
   VocaDetail,
   VocaWrite,
   QuizMain,
+  DiaryMain,
   Set,
 } from "../comps/Index";
 
@@ -21,6 +22,7 @@ const NavRouter = () => {
       <Route path="/voca/category/:catid/search" element={<VocaNote />} />
       <Route path="/voca/subject/:catid/:subid" element={<VocaDetail />} />
       <Route path="/voca/write/:catid/:subid?" element={<VocaWrite />} />
+      <Route path="/diary" element={<DiaryMain />} />
       <Route path="/quiz" element={<QuizMain />} />
       <Route path="/setting" element={<Set />} />
       <Route path="*" element={<NotFound />} />

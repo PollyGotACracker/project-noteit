@@ -6,6 +6,7 @@ import VocaList from "./Voca/VocaList";
 import VocaDetail from "./Voca/VocaDetail";
 import VocaWrite from "./Voca/VocaWrite";
 import QuizMain from "./Quiz/QuizMain";
+import DiaryMain from "./Diary/DiaryMain";
 import Set from "./Set/Set";
 
 export {
@@ -17,5 +18,6 @@ export {
   VocaDetail,
   VocaWrite,
   QuizMain,
+  DiaryMain,
   Set,
 };

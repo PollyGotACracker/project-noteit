@@ -38,11 +38,11 @@ const initModels = (sequelize) => {
     as: "tbl_keywords",
     foreignKey: "k_subid",
   });
-  tbl_categories.belongsTo(tbl_user, { as: "c_user", foreignKey: "c_userid" });
-  tbl_user.hasMany(tbl_categories, {
-    as: "tbl_categories",
-    foreignKey: "c_userid",
-  });
+  // tbl_categories.belongsTo(tbl_user, { as: "c_user", foreignKey: "c_userid" });
+  // tbl_user.hasMany(tbl_categories, {
+  //   as: "tbl_categories",
+  //   foreignKey: "c_userid",
+  // });
   tbl_score.belongsTo(tbl_user, { as: "sc_user", foreignKey: "sc_userid" });
   tbl_user.hasMany(tbl_score, { as: "tbl_scores", foreignKey: "sc_userid" });
 
