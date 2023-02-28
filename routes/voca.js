@@ -107,6 +107,10 @@ router.get("/cat/:catid", async (req, res, next) => {
           attributes: [
             [sequelize.fn("count", Sequelize.col("s_subid")), "length"],
           ],
+          order: [
+            ["s_date", "DESC"],
+            ["s_time", "DESC"],
+          ],
         },
       ],
       group: ["tbl_categories.c_catid"],
@@ -176,12 +180,13 @@ router.put("/sub/bookmark/:subid", async (req, res) => {
       where: { s_subid: subid },
     });
     const value = bookmark.s_bookmark === 0 ? 1 : 0;
-    console.log(value);
-    const result = await SUB.update(
-      { s_bookmark: value },
-      { where: { s_subid: subid } }
-    );
-    return res.send({ result: value });
+    await SUB.update({ s_bookmark: value }, { where: { s_subid: subid } });
+
+    let msg;
+    if (value === 1) msg = "북마크 추가되었습니다.";
+    if (value === 0) msg = "북마크 해제되었습니다.";
+
+    return res.send({ result: value, MESSAGE: msg });
   } catch (error) {
     console.error(error);
     return res.send({ error: "SQL query 실행 중 문제가 발생했습니다." });

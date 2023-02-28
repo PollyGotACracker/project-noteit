@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react";
+import { useLayoutEffect, useCallback } from "react";
 import { useVocaContext } from "../../context/VocaContext.js";
 import "../../css/Voca/VocaMain.css";
 import VocaCat from "./VocaCat";
@@ -22,7 +22,7 @@ const VocaCategory = () => {
     }
   }, [setVocaCatList]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     (async () => {
       await fetchs();
     })();

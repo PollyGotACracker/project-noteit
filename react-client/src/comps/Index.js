@@ -1,23 +1,15 @@
-import Intro from "./Intro";
-import Home from "./Home";
-import VocaMain from "./Voca/VocaMain";
-import VocaNote from "./Voca/VocaNote";
-import VocaList from "./Voca/VocaList";
-import VocaDetail from "./Voca/VocaDetail";
-import VocaWrite from "./Voca/VocaWrite";
-import QuizMain from "./Quiz/QuizMain";
-import DiaryMain from "./Diary/DiaryMain";
-import Set from "./Set/Set";
+import Nav from "../page/Nav";
+// import Music from "../comps/Music";
+import { Outlet } from "react-router-dom";
 
-export {
-  Intro,
-  Home,
-  VocaMain,
-  VocaNote,
-  VocaList,
-  VocaDetail,
-  VocaWrite,
-  QuizMain,
-  DiaryMain,
-  Set,
+const Index = () => {
+  return (
+    <>
+      {/* <Music /> */}
+      <Nav />
+      <Outlet />
+    </>
+  );
 };
+
+export default Index;

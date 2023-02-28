@@ -1,20 +1,21 @@
 main.Write form {
   width: 80%;
-  margin: 0 auto;
+  margin: 5vh auto;
   display: flex;
   flex-direction: column;
 }
 
-main.Write {
-  user-select: none;
-}
-
 main.Write label:not([for="attach"]) {
+  display: inline-block;
   width: 100px;
   font-size: 15pt;
   font-weight: 700;
   user-select: none;
-  margin: 30px 10px 10px 10px;
+  margin: 50px 10px 10px 10px;
+}
+
+main.Write label[for="category"] {
+  margin-top: 0;
 }
 
 main.Write #add-btn {
@@ -35,24 +36,45 @@ textarea {
 main.Write .keyword-item {
   display: flex;
   align-items: center;
+  height: 20vh;
 }
 
-.keyword-item .keyword-index {
-  width: 5%;
-  font-weight: 700;
-  color: var(--blue);
+.head-keyword {
   display: flex;
-  justify-content: center;
+  padding: 10px;
+  height: 80%;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+}
+
+.head-keyword .keyword-index {
+  font-size: 1.5em;
+  color: var(--blue);
+  user-select: none;
+}
+
+.head-keyword #keyword-delete {
+  font-size: 1.6em;
+  color: #aaa;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
   align-items: center;
 }
 
-main.Write .wrap-keyword {
+.head-keyword #keyword-delete:hover {
+  color: var(--red);
+}
+
+.wrap-keyword {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
   margin: 10px;
-  padding: 5px;
+  padding: 10px;
   border: 1px solid #aaa;
   border-radius: 5px;
   overflow: auto;
@@ -60,7 +82,7 @@ main.Write .wrap-keyword {
 
 .wrap-keyword .keyword,
 .wrap-keyword .desc {
-  width: 95%;
+  width: 100%;
 }
 
 .wrap-keyword .keyword {
@@ -78,13 +100,14 @@ main.Write .wrap-keyword {
 }
 
 main.Write .keyword-controller {
-  margin: 30px 10px 10px 10px;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
 }
 
-main.Write .keyword-controller label {
-  margin: 0;
+main.Write .keyword-controller #add-keyword {
+  margin-left: auto;
+  margin-right: 10px;
 }
 
 main.Write #keyword-box {
@@ -125,6 +148,25 @@ main.Write label[for="attach"] {
   text-align: center;
 }
 
+main.Write .keyword-controller #add-keyword {
+  width: 120px;
+}
+
+main.Write .keyword-controller #add-keyword:hover,
+main.Write label[for="attach"]:hover {
+  border-color: var(--yellow);
+  color: var(--yellow);
+}
+
+main.Write #content {
+  width: 100%;
+  height: 20vh;
+  padding: 10px;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  overflow: auto;
+}
+
 main.Write a#back,
 main.Write button#submit {
   background-color: var(--blue);
@@ -139,16 +181,6 @@ main.Write button#submit {
   text-align: center;
 }
 
-main.Write .keyword-controller #add-keyword {
-  width: 120px;
-}
-
-main.Write .keyword-controller #add-keyword:hover,
-main.Write label[for="attach"]:hover {
-  border-color: var(--yellow);
-  color: var(--yellow);
-}
-
 main.Write a#back:hover,
 main.Write button#submit:hover {
   background-color: var(--yellow);
@@ -156,7 +188,7 @@ main.Write button#submit:hover {
 
 main.Write .btn-box {
   width: 100%;
-  margin-top: 30px;
+  margin-top: 8vh;
   display: flex;
   justify-content: space-between;
 }

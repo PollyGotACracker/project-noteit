@@ -38,6 +38,7 @@ export default (sequelize) => {
           using: "BTREE",
           fields: [{ name: "c_catid" }, { name: "c_userid" }],
         },
+
         // {
         //   name: "fk_usecat",
         //   using: "BTREE",

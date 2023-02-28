@@ -1,33 +1,55 @@
-import { Routes, Route } from "react-router-dom";
-import NotFound from "./NotFound";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
 import {
+  App,
   Intro,
+  Index,
   Home,
   VocaMain,
   VocaNote,
   VocaDetail,
+  detailLoader,
   VocaWrite,
   QuizMain,
-  DiaryMain,
+  TodoMain,
   Set,
-} from "../comps/Index";
+  NotFound,
+} from "./Comps.js";
 
-const NavRouter = () => {
-  return (
-    <Routes>
-      <Route path="/" element={<Intro />} />
-      <Route path="/home" element={<Home />} />
-      <Route path="/voca" element={<VocaMain />} />
-      <Route path="/voca/category/:catid" element={<VocaNote />} />
-      <Route path="/voca/category/:catid/search" element={<VocaNote />} />
-      <Route path="/voca/subject/:catid/:subid" element={<VocaDetail />} />
-      <Route path="/voca/write/:catid/:subid?" element={<VocaWrite />} />
-      <Route path="/diary" element={<DiaryMain />} />
-      <Route path="/quiz" element={<QuizMain />} />
-      <Route path="/setting" element={<Set />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
-  );
+const NavRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      { path: "login", element: <Intro /> },
+      {
+        path: "",
+        element: <Index />,
+        children: [
+          { path: "home", element: <Home /> },
+          { path: "voca", element: <VocaMain /> },
+          {
+            path: "voca/category/:catid",
+            element: <VocaNote />,
+          },
+          { path: "voca/category/:catid/search", element: <VocaNote /> },
+          {
+            path: "voca/subject/:catid/:subid",
+            loader: detailLoader,
+            element: <VocaDetail />,
+          },
+          { path: "voca/write/:catid/:subid?", element: <VocaWrite /> },
+          { path: "todo", element: <TodoMain /> },
+          { path: "quiz", element: <QuizMain /> },
+          { path: "setting", element: <Set /> },
+        ],
+      },
+      { path: "*", element: <NotFound /> },
+    ],
+  },
+]);
+
+const NavRouterProvider = () => {
+  return <RouterProvider router={NavRouter}></RouterProvider>;
 };
-
-export default NavRouter;
+export default NavRouterProvider;

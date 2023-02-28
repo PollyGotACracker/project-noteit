@@ -3,11 +3,11 @@ import "../css/Nav.css";
 import {
   RiHome4Fill,
   RiQuestionnaireFill,
-  RiBookletFill,
-  RiBookMarkFill,
   RiSettings5Fill,
   RiLogoutBoxLine,
 } from "react-icons/ri";
+import { BsFillJournalBookmarkFill } from "react-icons/bs";
+import { TbListCheck } from "react-icons/tb";
 
 const Nav = () => {
   return (
@@ -21,12 +21,12 @@ const Nav = () => {
         퀴즈
       </NavLink>
       <NavLink className="voca" to="/voca">
-        <RiBookMarkFill />
+        <BsFillJournalBookmarkFill />
         노트
       </NavLink>
-      <NavLink className="diary" to="/diary">
-        <RiBookletFill />
-        일기
+      <NavLink className="todo" to="/todo">
+        <TbListCheck />
+        목표
       </NavLink>
       <NavLink className="setting" to="/setting">
         <RiSettings5Fill />

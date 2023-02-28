@@ -1,14 +1,45 @@
-import { useState, useEffect, useCallback } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { Link, useLoaderData, useParams } from "react-router-dom";
 import "../../css/Voca/VocaDetail.css";
 import { useVocaContext } from "../../context/VocaContext";
+import { RxDot, RxDotFilled } from "react-icons/rx";
+import { MdDelete, MdPictureAsPdf } from "react-icons/md";
+import { RiBookmarkLine, RiBookmarkFill, RiGoogleFill } from "react-icons/ri";
+import {
+  FaTags,
+  FaPenAlt,
+  FaClipboard,
+  FaClipboardCheck,
+  FaCaretLeft,
+  FaCaretRight,
+} from "react-icons/fa";
+
+export const detailLoader = async ({ params }) => {
+  const subid = params?.subid;
+  try {
+    const res = await fetch(`/voca/sub/${subid}`);
+    const result = await res.json();
+    if (res.error) {
+      alert(res.error);
+    } else {
+      return { data: result.subject[0], keys: result.keywords };
+    }
+  } catch (error) {
+    console.log(error);
+    alert("서버 연결에 문제가 발생했습니다.");
+  }
+};
 
 const VocaDetail = () => {
   const { catid, subid } = useParams();
-  const [subject, setSubject] = useState({});
-  const [keywords, setKeywords] = useState([]);
+  const { data, keys } = useLoaderData();
+  const [subject, setSubject] = useState({ ...data });
+  const [keywords, setKeywords] = useState([...keys]);
+  const [keyIndex, setKeyIndex] = useState(1);
   const { clickWriteHandler, deleteSubHandler } = useVocaContext();
   const [bookmark, setBookmark] = useState(subject.s_bookmark);
+  const [msg, setMsg] = useState("");
+  const MsgRef = useRef(null);
 
   const bookmarkHandler = useCallback(async () => {
     try {
@@ -18,6 +49,13 @@ const VocaDetail = () => {
         alert(res.error);
       } else {
         setBookmark(res.result);
+        setMsg(res.MESSAGE);
+        MsgRef.current.style.animationName = "popUp";
+        MsgRef.current.style.animationDuration = "3s";
+        setTimeout(() => {
+          MsgRef.current.style.animationName = "";
+          MsgRef.current.style.animationDuration = "";
+        }, 3000);
       }
     } catch (error) {
       console.log(error);
@@ -25,29 +63,7 @@ const VocaDetail = () => {
     }
   }, [setBookmark, subid]);
 
-  const subDetail = useCallback(async () => {
-    try {
-      const res = await fetch(`/voca/sub/${subid}`);
-      const result = await res.json();
-      if (res.error) {
-        alert(res.error);
-      } else {
-        setSubject({ ...result.subject[0] });
-        setKeywords([...result.keywords]);
-      }
-    } catch (error) {
-      console.log(error);
-      alert("서버 연결에 문제가 발생했습니다.");
-    }
-  }, [subid]);
-
-  useEffect(() => {
-    (async () => {
-      await subDetail();
-    })();
-  }, [subDetail]);
-
-  const deleteHandler = (e) => {
+  const deleteHandler = () => {
     if (!window.confirm("이 주제를 삭제할까요?")) {
       return false;
     } else {
@@ -55,64 +71,92 @@ const VocaDetail = () => {
     }
   };
 
-  const keywordList = keywords.map((ele) => {
+  // state 리스트 로 만들기(index 칼럼 추가?)
+  const keywordList = keywords.map((ele, idx) => {
     return (
       <div key={ele.k_keyid} className="keyword">
-        <div>{ele.k_keyword}</div>
-        <div>{ele.k_desc}</div>
+        <div className="name">
+          <span>{ele.k_keyword}</span>
+          <button id="copy">
+            <FaClipboard />
+          </button>
+        </div>
+        <div className="desc">{ele.k_desc}</div>
       </div>
     );
   });
-
+  const keywordDot = keywords.map((ele) => {
+    return (
+      <button key={ele.k_keyid} className="keyword-dot">
+        <RxDot />
+      </button>
+    );
+  });
   return (
     <main className="Detail">
-      <section className="Detail title">
-        <div className="box">
+      <section className="Detail menu">
+        <div className="bookmark-wrap">
           <button
-            className="bookmark"
-            title="북마크"
+            className={bookmark === 0 ? "bookmark" : "bookmark active"}
             value={bookmark}
             onClick={bookmarkHandler}
-          ></button>
-          <a
-            className="search"
-            href={`https://google.com/search?q=${subject.s_subject}`}
-            target="_blank"
-            rel="noreferrer"
           >
-            Google 검색
-          </a>
-        </div>
-        <div className="box">
-          <div className="subject">{subject.s_subject}</div>
-          <Link className="category" to={`/voca/category/${catid}`}>
-            {subject.s_category}
-          </Link>
-        </div>
-        <div className="box">
-          <div className="length">{subject["tbl_keywords.length"]}</div>
-          <div className="btn-box">
-            <button
-              className="write"
-              title="수정"
-              data-catid={catid}
-              data-subid={subid}
-              onClick={clickWriteHandler}
-            >
-              수정
-            </button>
-            <button className="delete" title="삭제" onClick={deleteHandler}>
-              삭제
-            </button>
-            <button>PDF</button>
+            {bookmark === 0 ? <RiBookmarkLine /> : <RiBookmarkFill />}
+            북마크
+          </button>
+          <div className="msg" ref={MsgRef}>
+            {msg}
           </div>
         </div>
+        <button
+          className="write"
+          data-catid={catid}
+          data-subid={subid}
+          onClick={clickWriteHandler}
+        >
+          <FaPenAlt />
+          수정
+        </button>
+        <button className="delete" onClick={deleteHandler}>
+          <MdDelete />
+          삭제
+        </button>
+        <button>
+          <MdPictureAsPdf />
+          PDF
+        </button>
+        <a
+          className="search"
+          href={`https://google.com/search?q=${subject.s_subject}`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <RiGoogleFill />
+          검색
+        </a>
       </section>
+      <section className="Detail title">
+        <div className="subject">{subject.s_subject}</div>
+        <Link className="category" to={`/voca/category/${catid}`}>
+          {subject.s_category}
+        </Link>
+      </section>
+      <div className="keyword-count">
+        <FaTags />
+        {keyIndex}/{subject["tbl_keywords.length"]}
+      </div>
       <section className="Detail slide">
-        <button className="prev"></button>
-        <div className="keyword-list">{keywordList}</div>
-        <button className="next"></button>
+        <button className="prev">
+          <FaCaretLeft />
+        </button>
+        <div className="keyword-list-wrap">
+          <div className="keyword-list">{keywordList}</div>
+        </div>
+        <button className="next">
+          <FaCaretRight />
+        </button>
       </section>
+      <div className="keyword-button">{keywordDot}</div>
       <section className="Detail content">
         <div>{subject.s_content}</div>
       </section>

@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, useEffect, useCallback } from "react";
+import { useState, useLayoutEffect, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useVocaContext } from "../../context/VocaContext";
 import "../../css/Voca/VocaNote.css";

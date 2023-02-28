@@ -1,18 +1,16 @@
 import "../../css/Voca/VocaWrite.css";
-import {
-  useRef,
-  useState,
-  useLayoutEffect,
-  useEffect,
-  useCallback,
-} from "react";
-import { useParams, Link } from "react-router-dom";
+import { useRef, useState, useLayoutEffect, useCallback } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useVocaContext } from "../../context/VocaContext.js";
 import uuid from "react-uuid";
+import { MdDelete } from "react-icons/md";
+
+export const writeLoader = () => {};
 
 const VocaWrite = () => {
   const keyboxRef = useRef(null);
   const { catid, subid } = useParams();
+  const navigate = useNavigate();
   const { vocaSub, setVocaSub, vocaKey, setVocaKey, InitKey } =
     useVocaContext();
   const [keywordList, setKeywordList] = useState([]);
@@ -20,9 +18,9 @@ const VocaWrite = () => {
   const [keyIndex, setKeyIndex] = useState(1);
   const [keyMap, setKeyMap] = useState(new Map());
 
-  const KeywordItem = () => {
+  const KeywordItem = (key = {}) => {
     setKeyIndex(keyIndex + 1);
-    const id = uuid().substring(0, 8);
+    const id = key?.k_keyid || uuid().substring(0, 8);
     // subid 는 수정 시 subject 의 id
     keyMap.set(id, {
       ...InitKey(),
@@ -32,12 +30,17 @@ const VocaWrite = () => {
 
     return (
       <div className="keyword-item" key={id}>
-        {id}
-        <div className="keyword-index">{keyIndex}</div>
+        <div className="head-keyword">
+          <div className="keyword-index">{keyIndex}</div>
+          <button id="keyword-delete">
+            <MdDelete />
+          </button>
+        </div>
         <div className="wrap-keyword">
           <input
             className="keyword"
             name={id}
+            value={key?.k_keyword || ""}
             type="text"
             autoFocus
             autoComplete="false"
@@ -47,6 +50,7 @@ const VocaWrite = () => {
           <textarea
             className="desc"
             name={id}
+            value={key?.k_desc || ""}
             autoComplete="false"
             spellCheck="false"
             onChange={onChangeKeyHandler}
@@ -59,7 +63,7 @@ const VocaWrite = () => {
   // keywordItem 추가
   const addKeyword = useCallback(() => {
     const item = KeywordItem();
-    setKeywordList([item, ...keywordList]);
+    setKeywordList([...keywordList, item]);
   }, [keywordList, setKeywordList]);
 
   const OnChangeAttHandler = useCallback(
@@ -99,6 +103,7 @@ const VocaWrite = () => {
           alert(res.error);
         } else {
           setVocaSub({ ...res.subject[0] });
+          return { keys: res.keywords };
         }
       }
     } catch (error) {
@@ -109,11 +114,12 @@ const VocaWrite = () => {
 
   useLayoutEffect(() => {
     (async () => {
-      await fetchs();
-      const item = KeywordItem();
-      setKeywordList([item, ...keywordList]);
+      const { keys } = await fetchs();
+      console.log(keys);
+      const item = keys.map((key) => KeywordItem(key));
+      setKeywordList([...item]);
     })();
-  }, [fetchs]);
+  }, []);
 
   // useEffect 내에서 console, 이후 밖에서 console 을 찍으면
   // 밖에 있는 console 이 먼저 실행되고, useEffect 는 rendering 이후 실행되므로 console 이 나중에 실행된다.
@@ -142,7 +148,6 @@ const VocaWrite = () => {
         let url = `/voca/sub/insert`;
         let subjects = { ...vocaSub, s_catid: catid };
         let keywords = Array.from(keyMap.values());
-        console.log(keywords);
         // files 가 빈 배열로 뜸
         let files = fileList;
         if (subid) {
@@ -162,7 +167,7 @@ const VocaWrite = () => {
         console.log(error);
         alert("서버에 문제가 발생했습니다.\n다시 시도해주세요.");
       }
-      // window.location.href = `/voca/subject/${catid}/${vocaSub.s_subid}`;
+      navigate(`/voca/subject/${catid}/${vocaSub.s_subid}`, { replace: true });
     },
     [vocaSub, catid, subid]
   );
@@ -188,20 +193,21 @@ const VocaWrite = () => {
         />
         <section className="keyword-controller">
           <label>키워드</label>
+          <div id="keyword-box" ref={keyboxRef}>
+            {keywordList}
+          </div>
+          <button id="add-keyword" type="button" onClick={addKeyword}>
+            키워드 추가
+          </button>
         </section>
-        <div id="keyword-box" ref={keyboxRef}>
-          {keywordList}
-        </div>
-        <button id="add-keyword" type="button" onClick={addKeyword}>
-          키워드 추가
-        </button>
         <section>
           {/* ckeditor 로 교체 */}
+          <label htmlFor="content">메모</label>
           <textarea
             id="content"
             name="s_content"
             autoComplete="false"
-            onChange={onChangeKeyHandler}
+            onChange={onChangeSubHandler}
           />
         </section>
         <section className="attach-box">

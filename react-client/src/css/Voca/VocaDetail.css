@@ -1,20 +1,14 @@
+main.Detail {
+  padding-top: 0;
+}
 .Detail.title {
   width: 80%;
   padding: 2% 0;
   margin: 0 auto;
-  position: relative;
-}
-.Detail.title .box {
   display: flex;
-}
-.Detail.title button.bookmark:before {
-  font-family: "Font Awesome 5 Free";
-  content: "\f02e";
-  font-weight: 400;
-  font-size: 20pt;
-}
-.Detail.title button.bookmark[value="1"]:before {
-  font-weight: 900;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5em;
 }
 .Detail.title a.search {
   display: inline-block;
@@ -23,119 +17,175 @@
 .Detail.title a.search:hover {
   color: var(--yellow);
 }
-.Detail.title .box:nth-child(1) {
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 20%;
-  flex-direction: column;
+.Detail.menu {
+  width: 100%;
+  padding: 0.5em;
+  display: flex;
   justify-content: space-around;
   align-items: center;
+  border-bottom: 1px solid var(--blue);
 }
-.Detail.title .box:nth-child(2) {
-  width: 100%;
-  height: 100%;
-  flex-direction: column;
+.Detail.menu button,
+.Detail.menu a {
+  width: 8em;
+  border-radius: 5px;
+  padding: 0.5em 1em;
+  margin: 5px;
+  transition: all ease 0.3s;
+  font-size: 1em;
+  display: flex;
   justify-content: center;
   align-items: center;
+  gap: 0.5em;
 }
-.Detail.title .box:nth-child(3) {
-  height: 100%;
+
+.Detail.menu button svg,
+.Detail.menu a svg {
+  font-size: 1.2em;
+}
+.Detail.menu button:hover,
+.Detail.menu a:hover {
+  background-color: var(--yellow);
+}
+.bookmark-wrap {
+  position: relative;
+}
+.bookmark-wrap .msg {
   position: absolute;
-  top: 0;
-  right: 10%;
-  align-items: center;
+  bottom: -1;
+  left: calc(-4em / 2);
+  width: 12em;
+  text-align: center;
+  background-color: var(--light);
+  border: 1px solid #aaa;
+  border-radius: 10px;
+  padding: 5px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: all 0.1s;
+  user-select: none;
+  animation-timing-function: ease;
+}
+
+@keyframes popUp {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 100;
+  }
+  80% {
+    opacity: 100;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.bookmark.active {
+  color: var(--yellow) !important;
+}
+.bookmark.active:hover {
+  color: inherit !important;
 }
 .Detail.title .subject {
-  display: inline-block;
   padding: 10px 0;
   width: 100%;
   text-align: center;
-  font-size: 30pt;
+  font-size: 3em;
   font-weight: 700;
 }
 .Detail.title .category {
-  display: inline-block;
-  font-size: 15pt;
-  text-align: center;
+  font-size: 1.2em;
   transition: all ease 0.2s;
 }
 .Detail.title .category:hover {
-  color: var(--red);
+  color: var(--yellow);
 }
-.Detail.title .length {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #ccc;
+.keyword-count {
+  width: calc(80% - 15em);
+  margin: 0 auto;
   font-weight: 700;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
-}
-.Detail.title .btn-box {
-  margin-left: 100px;
-  display: flex;
-  flex-direction: column;
-}
-.Detail.title .btn-box button {
-  background-color: var(--blue);
-  border-radius: 5px;
-  width: 80px;
-  padding: 0.5em 1em;
-  margin: 5px;
-  color: white;
-  transition: all ease 0.3s;
-}
-.Detail.title .btn-box button:hover {
-  background-color: var(--yellow);
+  gap: 0.2em;
 }
 .Detail.slide {
-  width: 60%;
+  width: 80%;
   margin: 0 auto;
   display: flex;
-  padding: 3% 0 2%;
+  padding-top: 1em;
   justify-content: space-between;
+  align-items: center;
 }
 .Detail.slide button {
-  width: 80px;
-  height: 80px;
-  font-size: 25pt;
-  border: none;
-  background-color: transparent;
-}
-.Detail.slide button.prev:before {
-  content: "\f104";
-  font-family: "Font Awesome 5 Free";
-  font-weight: 900;
-}
-.Detail.slide button.next:before {
-  content: "\f105";
-  font-family: "Font Awesome 5 Free";
-  font-weight: 900;
-}
-.Detail.slide .keyword-list {
-  width: 100%;
-  margin: 0 10px;
-  display: flex;
-  justify-content: center;
-}
-.Detail.slide .keyword {
+  margin: 0 1.2em;
+  height: 100%;
+  font-size: 2em;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: calc(100% / 4);
+  transition: all 0.2s;
+}
+.Detail.slide button:hover {
+  color: var(--yellow);
+}
+.Detail.slide .keyword-list-wrap {
+  width: 100%;
+  min-height: 20vh;
+  position: relative;
+  overflow: hidden;
+}
+.Detail.slide .keyword-list {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* display: flex; */
+  /* justify-content: center; */
+}
+.Detail.slide .keyword {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
   border: 1px solid #aaa;
   border-radius: 5px;
-  margin: 0 10px;
   padding: 10px;
-  text-align: center;
   word-break: keep-all;
+}
+.keyword .name {
+  border-bottom: 1px dotted #aaa;
+  padding: 0.5em;
+  text-align: center;
+}
+.keyword .name #copy {
+  float: right;
+  font-size: 1.2em;
+  margin: 0;
+}
+.keyword .desc {
+  padding: 0.5em;
+}
+.keyword-button {
+  width: 100%;
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+  gap: 0.8em;
+}
+.keyword-dot {
+  font-size: 1.4em;
+  color: #ccc;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.keyword-dot:hover {
+  color: var(--yellow);
 }
 .Detail.content {
   width: 80%;
-  height: 60%;
-  margin: 0 auto;
+  min-height: 35vh;
+  margin: 5vh auto 0;
   border: 1px solid #aaa;
   border-radius: 5px;
   padding: 10px;
