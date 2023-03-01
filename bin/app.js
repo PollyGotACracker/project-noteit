@@ -23,6 +23,7 @@ import DB from "../models/index.js";
 import homeRouter from "../routes/home.js";
 import vocaRouter from "../routes/voca.js";
 import quizRouter from "../routes/quiz.js";
+import todoRouter from "../routes/todo.js";
 // import setRouter from "../routes/setting.js";
 
 // create express framework
@@ -49,6 +50,7 @@ app.use(express.static(path.join("public")));
 app.use("/home", homeRouter);
 app.use("/voca", vocaRouter);
 app.use("/quiz", quizRouter);
+app.use("/todo", todoRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

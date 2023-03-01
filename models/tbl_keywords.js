@@ -17,6 +17,10 @@ export default (sequelize) => {
           key: "s_subid",
         },
       },
+      k_index: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+      },
       k_keyword: {
         type: Sequelize.DataTypes.STRING(225),
         allowNull: false,

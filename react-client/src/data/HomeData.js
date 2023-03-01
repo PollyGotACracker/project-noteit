@@ -8,7 +8,7 @@ const getToday = () => {
   return today;
 };
 
-const msgList = [
+const speakListData = [
   "만나서 정말 반가워!",
   "힘들면 30분만 쉬는 거야~",
   "오늘도 화이팅이야!!",
@@ -17,4 +17,4 @@ const msgList = [
   "천재 앵무새는 모든 것을 알아요~",
 ];
 
-export { getToday, msgList };
+export { getToday, speakListData };

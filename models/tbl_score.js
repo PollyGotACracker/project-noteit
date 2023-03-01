@@ -12,7 +12,7 @@ export default (sequelize) => {
         type: Sequelize.DataTypes.STRING(225),
         allowNull: false,
         references: {
-          model: "tbl_user",
+          model: "tbl_users",
           key: "u_userid",
         },
       },

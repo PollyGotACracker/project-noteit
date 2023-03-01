@@ -10,8 +10,7 @@ const useVocaContext = () => {
 const VocaContextProvider = ({ children }) => {
   const InitCat = () => {
     const catData = {
-      // 임시 c_userid
-      c_userid: "polly",
+      c_userid: "polly@gmail.com",
       c_catid: uuid().substring(0, 8),
       c_category: "",
     };
@@ -35,6 +34,7 @@ const VocaContextProvider = ({ children }) => {
     const keyData = {
       k_keyid: "",
       k_subid: "",
+      k_index: 0,
       k_keyword: "",
       k_desc: "",
     };
@@ -60,17 +60,6 @@ const VocaContextProvider = ({ children }) => {
   const [vocaCat, setVocaCat] = useState(InitCat);
   const [vocaSub, setVocaSub] = useState(InitSub);
   const [vocaKey, setVocaKey] = useState(InitKey);
-
-  const clickWriteHandler = (e) => {
-    const target = e.target;
-    const catid = target?.dataset?.catid;
-    const subid = target?.dataset?.subid;
-    if (!subid) {
-      window.location.pathname = `/voca/write/${catid}`;
-    } else {
-      window.location.pathname = `/voca/write/${catid}/${subid}`;
-    }
-  };
 
   const deleteCatHandler = useCallback(async (catid) => {
     try {
@@ -122,7 +111,6 @@ const VocaContextProvider = ({ children }) => {
     vocaKey,
     InitKey,
     setVocaKey,
-    clickWriteHandler,
     deleteCatHandler,
     deleteSubHandler,
   };

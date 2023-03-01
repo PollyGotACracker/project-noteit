@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useReducer, useCallback, useRef } from "react";
 import { Link, useLoaderData, useParams } from "react-router-dom";
 import "../../css/Voca/VocaDetail.css";
 import { useVocaContext } from "../../context/VocaContext";
@@ -35,11 +35,35 @@ const VocaDetail = () => {
   const { data, keys } = useLoaderData();
   const [subject, setSubject] = useState({ ...data });
   const [keywords, setKeywords] = useState([...keys]);
-  const [keyIndex, setKeyIndex] = useState(1);
-  const { clickWriteHandler, deleteSubHandler } = useVocaContext();
+  const { deleteSubHandler } = useVocaContext();
   const [bookmark, setBookmark] = useState(subject.s_bookmark);
   const [msg, setMsg] = useState("");
-  const MsgRef = useRef(null);
+  const BookmarkMsg = useRef(null);
+
+  const changeKeyword = (state, action) => {
+    switch (action.type) {
+      case "PREV":
+        if (state > 1) return state - 1;
+        else if (state === 1) return action.payload;
+      case "NEXT":
+        if (state < action.payload) return state + 1;
+        else if (state === action.payload) return 1;
+      case "SELECT":
+        return action.payload;
+      default:
+        return state;
+    }
+  };
+  const [state, dispatch] = useReducer(changeKeyword, 1);
+
+  const showMsg = (ele) => {
+    ele.style.animationName = "popUp";
+    ele.style.animationDuration = "3s";
+    setTimeout(() => {
+      ele.style.animationName = "";
+      ele.style.animationDuration = "";
+    }, 3000);
+  };
 
   const bookmarkHandler = useCallback(async () => {
     try {
@@ -50,12 +74,7 @@ const VocaDetail = () => {
       } else {
         setBookmark(res.result);
         setMsg(res.MESSAGE);
-        MsgRef.current.style.animationName = "popUp";
-        MsgRef.current.style.animationDuration = "3s";
-        setTimeout(() => {
-          MsgRef.current.style.animationName = "";
-          MsgRef.current.style.animationDuration = "";
-        }, 3000);
+        showMsg(BookmarkMsg.current);
       }
     } catch (error) {
       console.log(error);
@@ -71,52 +90,66 @@ const VocaDetail = () => {
     }
   };
 
-  // state 리스트 로 만들기(index 칼럼 추가?)
-  const keywordList = keywords.map((ele, idx) => {
+  const copyKeyword = (e, value) => {
+    navigator.clipboard.writeText(value);
+    showMsg(e.currentTarget.nextSibling);
+  };
+
+  const keywordList = keywords.map((ele) => {
     return (
-      <div key={ele.k_keyid} className="keyword">
+      <div key={ele.k_keyid} data-id={ele.k_index} className="keyword">
         <div className="name">
           <span>{ele.k_keyword}</span>
-          <button id="copy">
-            <FaClipboard />
-          </button>
+          <div className="copy-wrap">
+            <button
+              className="copy-btn"
+              onClick={(e) => copyKeyword(e, ele.k_keyword)}
+            >
+              <FaClipboard />
+            </button>
+            <div className="copy msg">{"키워드가 복사되었습니다."}</div>
+          </div>
         </div>
         <div className="desc">{ele.k_desc}</div>
       </div>
     );
   });
+
+  const [keywordSlide, setKeywordSlide] = useState([...keywordList]);
+
   const keywordDot = keywords.map((ele) => {
     return (
-      <button key={ele.k_keyid} className="keyword-dot">
-        <RxDot />
+      <button
+        key={ele.k_keyid}
+        className={state === ele.k_index ? "keyword-dot active" : "keyword-dot"}
+        onClick={() => dispatch({ type: "SELECT", payload: ele.k_index })}
+      >
+        {state === ele.k_index ? <RxDotFilled /> : <RxDot />}
+        {ele.k_keyword}
       </button>
     );
   });
+
   return (
     <main className="Detail">
       <section className="Detail menu">
         <div className="bookmark-wrap">
           <button
-            className={bookmark === 0 ? "bookmark" : "bookmark active"}
+            className={bookmark === 0 ? "bookmark-btn" : "bookmark-btn active"}
             value={bookmark}
             onClick={bookmarkHandler}
           >
             {bookmark === 0 ? <RiBookmarkLine /> : <RiBookmarkFill />}
             북마크
           </button>
-          <div className="msg" ref={MsgRef}>
+          <div className="bookmark msg" ref={BookmarkMsg}>
             {msg}
           </div>
         </div>
-        <button
-          className="write"
-          data-catid={catid}
-          data-subid={subid}
-          onClick={clickWriteHandler}
-        >
+        <Link className="write" to={`/voca/write/${catid}/${subid}`}>
           <FaPenAlt />
           수정
-        </button>
+        </Link>
         <button className="delete" onClick={deleteHandler}>
           <MdDelete />
           삭제
@@ -143,16 +176,22 @@ const VocaDetail = () => {
       </section>
       <div className="keyword-count">
         <FaTags />
-        {keyIndex}/{subject["tbl_keywords.length"]}
+        {state}/{subject["tbl_keywords.length"]}
       </div>
       <section className="Detail slide">
-        <button className="prev">
+        <button
+          className="prev"
+          onClick={() => dispatch({ type: "PREV", payload: keywords?.length })}
+        >
           <FaCaretLeft />
         </button>
         <div className="keyword-list-wrap">
-          <div className="keyword-list">{keywordList}</div>
+          <div className="keyword-list">{keywordSlide[state - 1]}</div>
         </div>
-        <button className="next">
+        <button
+          className="next"
+          onClick={() => dispatch({ type: "NEXT", payload: keywords?.length })}
+        >
           <FaCaretRight />
         </button>
       </section>

@@ -1,7 +1,7 @@
 import Sequelize from "sequelize";
 export default (sequelize) => {
   return sequelize.define(
-    "tbl_user",
+    "tbl_users",
     {
       u_userid: {
         type: Sequelize.DataTypes.STRING(225),
@@ -15,13 +15,18 @@ export default (sequelize) => {
       u_nickname: {
         type: Sequelize.DataTypes.STRING(225),
         allowNull: false,
+        unique: "u_nickname",
       },
-      u_date: {
-        type: Sequelize.DataTypes.STRING(125),
+      u_profileimg: {
+        type: Sequelize.DataTypes.STRING(225),
+        allowNull: true,
+      },
+      u_profilestr: {
+        type: Sequelize.DataTypes.STRING(225),
         allowNull: true,
       },
       u_cscore: {
-        type: Sequelize.DataTypes.INTEGER,
+        type: Sequelize.DataTypes.BIGINT,
         allowNull: false,
         defaultValue: 0,
       },
@@ -30,7 +35,7 @@ export default (sequelize) => {
         allowNull: false,
         defaultValue: 1,
       },
-      u_mode: {
+      u_darkmode: {
         type: Sequelize.DataTypes.TINYINT,
         allowNull: false,
         defaultValue: 0,
@@ -38,7 +43,7 @@ export default (sequelize) => {
     },
     {
       sequelize,
-      tableName: "tbl_user",
+      tableName: "tbl_users",
       timestamps: false,
       indexes: [
         {
@@ -46,6 +51,12 @@ export default (sequelize) => {
           unique: true,
           using: "BTREE",
           fields: [{ name: "u_userid" }],
+        },
+        {
+          name: "u_nickname",
+          unique: true,
+          using: "BTREE",
+          fields: [{ name: "u_nickname" }],
         },
       ],
     }

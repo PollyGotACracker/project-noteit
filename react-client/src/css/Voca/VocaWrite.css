@@ -5,7 +5,7 @@ main.Write form {
   flex-direction: column;
 }
 
-main.Write label:not([for="attach"]) {
+main.Write label {
   display: inline-block;
   width: 100px;
   font-size: 15pt;
@@ -115,28 +115,7 @@ main.Write #keyword-box {
   margin: 10px 0;
 }
 
-main.Write input[type="file"] {
-  margin-top: 30px;
-  border: none;
-}
-
-main.Write input[type="file"]::file-selector-button {
-  display: none;
-}
-
-main.Write label[for="attach"] {
-  margin-top: 200px;
-}
-
-main.Write label[for="attach"]:before {
-  content: "\f1c5";
-  font-family: "Font Awesome 5 Free";
-  font-weight: 400;
-  margin-right: 10px;
-}
-
-main.Write .keyword-controller #add-keyword,
-main.Write label[for="attach"] {
+main.Write .keyword-controller #add-keyword {
   border-radius: 5px;
   border: 1px solid #aaa;
   width: 80px;
@@ -152,8 +131,7 @@ main.Write .keyword-controller #add-keyword {
   width: 120px;
 }
 
-main.Write .keyword-controller #add-keyword:hover,
-main.Write label[for="attach"]:hover {
+main.Write .keyword-controller #add-keyword:hover {
   border-color: var(--yellow);
   color: var(--yellow);
 }

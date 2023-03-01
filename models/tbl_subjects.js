@@ -33,6 +33,11 @@ export default (sequelize) => {
         type: Sequelize.DataTypes.STRING(10),
         allowNull: true,
       },
+      s_views: {
+        type: Sequelize.DataTypes.BIGINT,
+        allowNull: true,
+        defaultValue: 0,
+      },
       s_bookmark: {
         type: Sequelize.DataTypes.TINYINT,
         allowNull: false,

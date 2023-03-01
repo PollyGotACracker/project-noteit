@@ -47,14 +47,14 @@ main.Detail {
 .Detail.menu a:hover {
   background-color: var(--yellow);
 }
+.copy-wrap,
 .bookmark-wrap {
   position: relative;
 }
-.bookmark-wrap .msg {
+.msg {
   position: absolute;
-  bottom: -1;
   left: calc(-4em / 2);
-  width: 12em;
+  width: 14em;
   text-align: center;
   background-color: var(--light);
   border: 1px solid #aaa;
@@ -81,10 +81,10 @@ main.Detail {
     opacity: 0;
   }
 }
-.bookmark.active {
+.bookmark-btn.active {
   color: var(--yellow) !important;
 }
-.bookmark.active:hover {
+.bookmark-btn.active:hover {
   color: inherit !important;
 }
 .Detail.title .subject {
@@ -134,7 +134,7 @@ main.Detail {
   width: 100%;
   min-height: 20vh;
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 .Detail.slide .keyword-list {
   position: absolute;
@@ -158,13 +158,16 @@ main.Detail {
   padding: 0.5em;
   text-align: center;
 }
-.keyword .name #copy {
+.keyword .name .copy-wrap {
   float: right;
-  font-size: 1.2em;
+}
+.keyword .name .copy-wrap .copy-btn {
   margin: 0;
+  font-size: 1.2em;
 }
 .keyword .desc {
   padding: 0.5em;
+  white-space: pre-line;
 }
 .keyword-button {
   width: 100%;
@@ -174,10 +177,16 @@ main.Detail {
   gap: 0.8em;
 }
 .keyword-dot {
-  font-size: 1.4em;
-  color: #ccc;
+  color: #aaa;
+  font-size: 1em;
   cursor: pointer;
   transition: all 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.keyword-dot.active {
+  color: var(--yellow);
 }
 .keyword-dot:hover {
   color: var(--yellow);

@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useRef, useLayoutEffect } from "react";
 import "../css/Home.css";
-import { getToday, msgList as msgListData } from "../data/HomeData";
+import { getToday, speakListData } from "../data/HomeData";
 import Sidebar from "./Sidebar";
 
 const Main = () => {
   const [date, setDate] = useState(getToday().date);
   const [time, setTime] = useState(getToday().time);
-  const [msgList] = useState(msgListData);
+  const [speakList] = useState(speakListData);
+  const speak = useRef(null);
 
   // setInterval 은 설정한 시간을 보장하지 않기 때문에 setTimeout 재귀함수 사용
   const changeClock = () => {
@@ -15,7 +16,7 @@ const Main = () => {
   };
   setTimeout(changeClock, setTimeout(changeClock, 1000), 1000);
 
-  const typeWriter = (text, elem) => {
+  const typeWriter = (text) => {
     let i = 0;
     let speed = 0;
     const typing = () => {
@@ -23,24 +24,24 @@ const Main = () => {
         switch (text.charAt(i)) {
           case " ":
             speed = 160;
-            elem.insertAdjacentHTML("beforeend", "\xA0");
-            elem.style.animationName = "none";
+            speak.current.insertAdjacentHTML("beforeend", "\xA0");
+            speak.current.style.animationName = "none";
             break;
           case ",":
           case ".":
-            elem.insertAdjacentHTML("beforeend", text.charAt(i));
+            speak.current.insertAdjacentHTML("beforeend", text.charAt(i));
             speed = Math.floor(Math.random() * (900 - 500 + 1)) + 500;
-            elem.style.animationName = "blink";
+            speak.current.style.animationName = "blink";
             break;
           default:
             speed = 160;
-            elem.insertAdjacentHTML("beforeend", text.charAt(i));
-            elem.style.animationName = "none";
+            speak.current.insertAdjacentHTML("beforeend", text.charAt(i));
+            speak.current.style.animationName = "none";
         }
         i++;
         setTimeout(typing, speed);
       } else {
-        elem.style.animationName = "blink";
+        speak.current.style.animationName = "blink";
       }
     };
     typing();
@@ -53,12 +54,11 @@ const Main = () => {
    * 코드의 문제를 감지하고 경고하기 위해 구성 요소를 두 번 렌더링
    */
 
-  useEffect(() => {
-    const index = Math.floor(Math.random() * msgList.length + 1);
-    const msg = msgList[index - 1];
-    const box = document.querySelector(".Home .msg-box .msg");
-    typeWriter(msg, box);
-  }, [msgList]);
+  useLayoutEffect(() => {
+    const index = Math.floor(Math.random() * speakList.length + 1);
+    const msg = speakList[index - 1];
+    typeWriter(msg);
+  }, [speakList]);
 
   return (
     <main className="Home">
@@ -68,8 +68,8 @@ const Main = () => {
         <div className="today">{time}</div>
       </section>
       <section className="center">
-        <div className="msg-box">
-          <span className="msg"></span>
+        <div className="speak-box">
+          <span className="speak" ref={speak}></span>
         </div>
         <div className="bird-img">사진 영역</div>
       </section>

@@ -32,7 +32,7 @@ main.Home {
   flex-direction: column;
   align-items: center;
 }
-.Home .center .msg-box {
+.Home .center .speak-box {
   font-size: 15pt;
   width: 350px;
   padding: 30px 20px;
@@ -42,7 +42,7 @@ main.Home {
   user-select: none;
   position: relative;
 }
-.Home .center .msg-box .msg {
+.Home .center .speak-box .speak {
   border-right: 1px solid #181818;
   word-break: break-all;
   overflow-wrap: break-word;
@@ -54,7 +54,7 @@ main.Home {
     border-color: transparent;
   }
 }
-.Home .center .msg-box:after {
+.Home .center .speak-box:after {
   position: absolute;
   left: calc(50% - 15px);
   bottom: -16px;

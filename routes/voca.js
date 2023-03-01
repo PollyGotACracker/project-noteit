@@ -149,20 +149,42 @@ router.post("/sub/search", async (req, res) => {
   const value = req.body.value;
   const catid = req.body.catid;
   try {
-    const result = await DB.sequelize.query(
-      `SELECT s_subid, s_subject, s_catid, s_bookmark, COUNT(tbl_keywords.k_keyid) AS length 
-      FROM tbl_subjects INNER JOIN tbl_keywords ON s_subid = k_subid 
-      WHERE s_catid = "${catid}" AND (
-        s_subject LIKE "%${value}%" 
-        OR s_content LIKE "%${value}%" 
-        OR tbl_keywords.k_keyword LIKE "%${value}%"
-        ) 
-      GROUP BY s_subid ORDER BY s_subject`,
-      {
-        type: QueryTypes.SELECT,
-      }
-    );
-
+    let result;
+    if (value === "") {
+      result = await SUB.findAll({
+        raw: true,
+        order: [["s_subject", "ASC"]],
+        attributes: [
+          "s_subid",
+          "s_subject",
+          "s_catid",
+          "s_bookmark",
+          [sequelize.fn("count", Sequelize.col("k_keyid")), "length"],
+        ],
+        where: { s_catid: catid },
+        include: [
+          {
+            model: KEY,
+            as: "tbl_keywords",
+          },
+        ],
+        group: ["tbl_subjects.s_subid"],
+      });
+    } else {
+      result = await DB.sequelize.query(
+        `SELECT s_subid, s_subject, s_catid, s_bookmark, COUNT(tbl_keywords.k_keyid) AS length 
+        FROM tbl_subjects INNER JOIN tbl_keywords ON s_subid = k_subid 
+        WHERE s_catid = "${catid}" AND (
+          s_subject LIKE "%${value}%" 
+          OR s_content LIKE "%${value}%" 
+          OR tbl_keywords.k_keyword LIKE "%${value}%"
+          ) 
+        GROUP BY s_subid ORDER BY s_subject`,
+        {
+          type: QueryTypes.SELECT,
+        }
+      );
+    }
     return res.json(result);
   } catch (error) {
     console.error(error);
@@ -247,9 +269,9 @@ router.get("/sub/:subid", async (req, res, next) => {
       ],
       group: ["tbl_subjects.s_subid"],
     });
-    console.log(subject);
     const keywords = await KEY.findAll({
       where: { k_subid: subid },
+      order: [["k_index", "ASC"]],
     });
     return res.send({ subject, keywords });
   } catch (error) {
@@ -262,16 +284,7 @@ router.get("/sub/:subid", async (req, res, next) => {
 router.put("/sub/update", async (req, res, next) => {
   try {
     const subjects = req.body.subjects;
-    let keywords = req.body.keywords;
-    // 배열로 받은 keywords 를 각 객체로 생성
-    // ** 순서대로 저장?
-    keywords = keywords.map((keyword) => {
-      return {
-        k_keyid: v4().substring(0, 8),
-        k_subid: subjects.s_subid,
-        k_keyword: keyword,
-      };
-    });
+    const keywords = req.body.keywords;
     await SUB.update(subjects, { where: { s_subid: subjects.s_subid } });
     await KEY.destroy({ where: { k_subid: subjects.s_subid } });
     await KEY.bulkCreate(keywords);
