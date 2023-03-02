@@ -32,6 +32,9 @@ const TodoItem = ({ item }) => {
     todoEditor(uid);
   };
 
+  const today = moment().format("YYYY[-]MM[-]DD");
+  const isToday = item.t_deadline === today;
+
   return (
     <div className="item" data-id={item.t_todoid}>
       <div className="delete" onClick={deleteHandler}>
@@ -47,14 +50,18 @@ const TodoItem = ({ item }) => {
       >
         {item.t_content}
       </div>
-      <div
-        className={
-          item.t_deadline === moment().format("YYYY[-]MM[-]DD")
-            ? "deadline active"
-            : "deadline"
-        }
-      >
+      <div className={isToday ? "deadline active" : "deadline"}>
         {item.t_deadline}
+      </div>
+      <div className={isToday ? "deadline active" : "deadline"}>
+        {!item?.t_deadline
+          ? ""
+          : isToday
+          ? "D-day"
+          : `D${
+              (new Date(today) - new Date(item.t_deadline)) /
+              (1000 * 60 * 60 * 24)
+            }`}
       </div>
       <div className="prior">{item.t_prior}</div>
       <div className="complete" onClick={completeHandler}>

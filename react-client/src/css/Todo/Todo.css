@@ -24,7 +24,6 @@
 
 .Todo .input button:disabled {
   color: #888;
-  cursor: not-allowed;
   background-color: #ddd;
 }
 
@@ -33,12 +32,21 @@
   color: black;
 }
 
+.Todo .list {
+  margin-top: 5vh;
+}
+
 .Todo .item {
   display: flex;
   align-items: center;
   border-top: 1px solid #ddd;
   padding: 0 5px;
 }
+
+.Todo .item:first-child {
+  border-top: 0;
+}
+
 /* 
 cf) 
 다른 요소 hover 시 동작을 설정하려면
@@ -109,4 +117,17 @@ cf)
 .Todo .deadline.active {
   color: var(--red);
   font-weight: bold;
+}
+.Todo .prior-wrap {
+  position: relative;
+}
+.Todo .prior-option {
+  position: absolute;
+  flex-direction: column;
+  background-color: #ddd;
+  width: 100%;
+  border-radius: 10px;
+}
+.Todo .prior-option button:hover {
+  background-color: var(--yellow);
 }

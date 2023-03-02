@@ -4,8 +4,9 @@
   display: flex;
 }
 .App main {
-  width: 100%;
-  padding: 1%;
+  width: calc(100% - 80px);
+  height: 100%;
+  padding: 2%;
   flex: 1;
   overflow-x: hidden;
 }

@@ -11,7 +11,7 @@ const VocaWrite = () => {
   const keyboxRef = useRef(null);
   const { catid, subid } = useParams();
   const navigate = useNavigate();
-  const { vocaSub, setVocaSub, vocaKey, setVocaKey, InitKey } =
+  const { vocaSub, setVocaSub, InitSub, vocaKey, setVocaKey, InitKey } =
     useVocaContext();
   const [keywordList, setKeywordList] = useState([]);
 
@@ -79,7 +79,7 @@ const VocaWrite = () => {
         return alert(res.error);
       } else {
         // vocaSub 에 category 추가 및 해당 태그에 데이터 표시
-        setVocaSub({ ...vocaSub, s_category: res[0].c_category });
+        setVocaSub({ ...InitSub(), s_category: res[0].c_category });
       }
       // path 에 subid 가 있을 경우(UPDATE)
       if (subid) {
@@ -88,7 +88,7 @@ const VocaWrite = () => {
         if (res.error) {
           alert(res.error);
         } else {
-          setVocaSub({ ...res.subject[0] });
+          setVocaSub({ ...InitSub(), ...res.subject[0] });
           for (let key of res.keywords) {
             keyMap.set(key.k_keyid, key);
           }
@@ -138,13 +138,12 @@ const VocaWrite = () => {
         let url = `/voca/sub/insert`;
         let subjects = { ...vocaSub, s_catid: catid };
         let keywords = Array.from(keyMap.values());
-        // files 가 빈 배열로 뜸
-        // let files = fileList;
         if (subid) {
           method = "PUT";
           url = `/voca/sub/update`;
           subjects = { ...vocaSub, s_subid: subid };
         }
+
         const fetchOption = {
           method: method,
           headers: { "Content-Type": "application/json" },

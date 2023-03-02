@@ -5,8 +5,7 @@
   font-family: "NanumSquareNeo-Variable";
 }
 html {
-  width: 100vw;
-  height: 100vh;
+  height: 100%;
 }
 @font-face {
   font-family: "NanumSquareNeo-Variable";

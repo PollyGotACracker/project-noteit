@@ -8,7 +8,7 @@ const TodoList = () => {
     return <TodoItem item={item} key={item.t_todoid} />;
   });
 
-  return <section>{todoListItemView}</section>;
+  return <section className="list">{todoListItemView}</section>;
 };
 
 export default TodoList;

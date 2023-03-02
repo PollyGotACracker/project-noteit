@@ -1,7 +1,9 @@
 import { useTodoContext } from "../../context/TodoContext";
+import { useState } from "react";
 
 const TodoInput = () => {
   const { todoInsert, todoContent, setTodoContent } = useTodoContext();
+  const [showPrior, setShowPrior] = useState(false);
 
   const onClickHandler = () => {
     const t_content = todoContent.t_content;
@@ -13,6 +15,11 @@ const TodoInput = () => {
     const name = e.target.name;
     const value = e.target.value;
     setTodoContent({ ...todoContent, [`${name}`]: value });
+  };
+
+  const onChangePrior = (value) => {
+    setTodoContent({ ...todoContent, t_prior: value });
+    setShowPrior(false);
   };
 
   return (
@@ -29,7 +36,30 @@ const TodoInput = () => {
         onChange={onChangeHandler}
         value={todoContent.t_deadline}
       />
-      <button>중요도 {todoContent.t_prior}</button>
+      <div className="prior-wrap">
+        <button
+          onClick={() => {
+            setShowPrior(!showPrior);
+          }}
+        >
+          중요도 {todoContent.t_prior}
+        </button>
+        <div
+          className="prior-option"
+          style={{ display: showPrior ? "flex" : "none" }}
+        >
+          {[1, 2, 3, 4, 5].map((ele) => (
+            <button
+              key={ele}
+              onClick={() => {
+                onChangePrior(ele);
+              }}
+            >
+              {ele}
+            </button>
+          ))}
+        </div>
+      </div>
       <button
         onClick={onClickHandler}
         disabled={todoContent.t_content.length < 2}

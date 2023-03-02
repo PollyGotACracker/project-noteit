@@ -42,6 +42,12 @@ const TodoContexProvider = ({ children }) => {
   const todoInsert = useCallback(
     async (t_content, t_deadline) => {
       try {
+        const regexp = new RegExp(
+          "^d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$"
+        );
+        if (regexp.test(t_deadline)) {
+          t_deadline = "";
+        }
         let data = { ...TodoData(), t_content, t_deadline };
         let url = "/todo/insert";
         let method = "POST";
