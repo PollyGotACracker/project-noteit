@@ -14,7 +14,6 @@ const Main = () => {
     setDate(getToday().date);
     setTime(getToday().time);
   };
-  setTimeout(changeClock, setTimeout(changeClock, 1000), 1000);
 
   const typeWriter = (text) => {
     let i = 0;
@@ -55,10 +54,15 @@ const Main = () => {
    */
 
   useLayoutEffect(() => {
+    const clock = setTimeout(changeClock, setTimeout(changeClock, 1000), 1000);
     const index = Math.floor(Math.random() * speakList.length + 1);
     const msg = speakList[index - 1];
-    typeWriter(msg);
-  }, [speakList]);
+    const speak = typeWriter(msg);
+    return () => {
+      clearTimeout(clock);
+      clearTimeout(speak);
+    };
+  }, []);
 
   return (
     <main className="Home">

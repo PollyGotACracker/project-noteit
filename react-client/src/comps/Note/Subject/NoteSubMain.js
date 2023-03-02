@@ -1,39 +1,40 @@
 import { useState, useLayoutEffect, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
-import { useVocaContext } from "../../context/VocaContext";
-import "../../css/Voca/VocaNote.css";
-import VocaList from "./VocaList";
+import { useNoteContext } from "../../../context/NoteContext";
+import "../../../css/Note/NoteSubMain.css";
+import NoteSubItem from "./NoteSubItem";
 
-const VocaNote = () => {
+const NoteSubMain = () => {
   const { catid } = useParams();
-  const { vocaSubList, setVocaSubList } = useVocaContext();
+  const { noteSubList, setNoteSubList } = useNoteContext();
   const [catData, setCatData] = useState({});
   const [searchValue, setSearchValue] = useState("");
 
   const subList = useCallback(async () => {
     try {
-      const res = await fetch(`/voca/cat/${catid}`);
+      const res = await fetch(`/note/cat/${catid}`);
       const result = await res.json();
       if (res.error) {
         alert(res.error);
       } else {
         setCatData({ ...result.category[0] });
-        setVocaSubList([...result.subList]);
+        setNoteSubList([...result.subList]);
       }
     } catch (error) {
       console.log(error);
       alert("서버 연결에 문제가 발생했습니다.");
     }
-  }, [catid, setVocaSubList]);
+  }, [catid, setNoteSubList]);
 
+  // 뒤로 가기 시 최신 데이터를 가져오려면?
   useLayoutEffect(() => {
     (async () => {
       await subList();
     })();
   }, [subList]);
 
-  const vocaList = vocaSubList.map((item) => {
-    return <VocaList item={item} key={item.s_subid} />;
+  const noteList = noteSubList.map((item) => {
+    return <NoteSubItem item={item} key={item.s_subid} />;
   });
 
   const searchData = useCallback(
@@ -44,15 +45,15 @@ const VocaNote = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ value: searchValue, catid: catid }),
       };
-      await fetch(`/voca/sub/search`, fetchOption)
+      await fetch(`/note/sub/search`, fetchOption)
         .then((data) => data.json())
         .then((data) => {
           console.log(value, data);
-          setVocaSubList([...data]);
+          setNoteSubList([...data]);
         });
     },
 
-    [searchValue, catid, setVocaSubList]
+    [searchValue, catid, setNoteSubList]
   );
 
   // 마지막 글자가 저장되지 않음
@@ -68,13 +69,13 @@ const VocaNote = () => {
   // };
 
   return (
-    <main className="Note">
-      <section className="Note title">
+    <main className="Note Sub">
+      <section className="title">
         <div className="category">{catData.c_category}</div>
         <div className="length">({catData["tbl_subjects.length"] || 0})</div>
         <Link
           className="insert"
-          to={`/voca/write/${catid}`}
+          to={`/note/write/${catid}`}
           title="추가"
         ></Link>
         <form>
@@ -92,9 +93,9 @@ const VocaNote = () => {
         </form>
       </section>
       <section className="Note content">
-        <ul>{vocaList}</ul>
+        <ul>{noteList}</ul>
       </section>
     </main>
   );
 };
-export default VocaNote;
+export default NoteSubMain;

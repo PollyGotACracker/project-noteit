@@ -1,4 +1,4 @@
-.Voca section.top {
+.Note.Cat section.top {
   width: 100%;
   height: 150px;
   display: flex;
@@ -6,18 +6,18 @@
   justify-content: space-around;
   align-items: center;
 }
-.Voca section.top .title {
+.Note.Cat section.top .title {
   font-size: 25pt;
   font-weight: 900;
 }
-.Voca form {
+.Note.Cat form {
   width: 80%;
   margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.Voca form input[name="c_category"] {
+.Note.Cat form input[name="c_category"] {
   width: 30%;
   padding: 0.2em;
   font-size: 14pt;
@@ -26,7 +26,7 @@
   border-bottom: 1px solid var(--yellow);
   padding: 0.2em;
 }
-.Voca form #submit:before {
+.Note.Cat form #submit:before {
   content: "\f65e";
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
@@ -34,20 +34,20 @@
   font-size: 20pt;
   transition: all ease 0.2s;
 }
-.Voca form #submit:disabled:hover:before {
+.Note.Cat form #submit:disabled:hover:before {
   cursor: auto;
 }
-.Voca form #submit:not(:disabled):hover:before {
+.Note.Cat form #submit:not(:disabled):hover:before {
   color: var(--yellow);
 }
-.Voca section.cat-list {
+.Note.Cat section.cat-list {
   width: 90%;
   margin: 50px auto 0;
   display: grid;
   grid-template-columns: repeat(auto-fit, 20%);
   gap: 10px;
 }
-.Voca section.cat-list .Cat {
+.Note.Cat section.cat-list .Cat {
   border: 1px solid #aaa;
   border-radius: 5px;
   display: flex;
@@ -55,10 +55,10 @@
   align-items: center;
   padding: 40px 0;
 }
-.Voca section.cat-list .Cat:hover input[class*="title"] {
+.Note.Cat section.cat-list .Cat:hover input[class*="title"] {
   color: var(--yellow);
 }
-.Voca section.cat-list .Cat a[class*="link"] {
+.Note.Cat section.cat-list .Cat a[class*="link"] {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -66,7 +66,7 @@
   height: 120px;
   text-align: center;
 }
-.Voca section.cat-list .Cat input[class*="title"] {
+.Note.Cat section.cat-list .Cat input[class*="title"] {
   background-color: transparent;
   border: none;
   width: 100%;
@@ -77,19 +77,19 @@
   transition: all 0.2s ease-out;
   cursor: pointer;
 }
-.Voca section.cat-list .Cat .length {
+.Note.Cat section.cat-list .Cat .length {
   color: rgba(0, 0, 0, 0.5);
   font-size: 15pt;
   font-weight: 700;
 }
-.Voca section.cat-list .Cat .btn-box button {
+.Note.Cat section.cat-list .Cat .btn-box button {
   font-size: 12pt;
   font-weight: 700;
   transition: all ease 0.2s;
   margin: 0 10px;
 }
 
-.Voca section.cat-list .Cat button.update:hover,
-.Voca section.cat-list .Cat button.delete:hover {
+.Note.Cat section.cat-list .Cat button.update:hover,
+.Note.Cat section.cat-list .Cat button.delete:hover {
   color: var(--red);
 }

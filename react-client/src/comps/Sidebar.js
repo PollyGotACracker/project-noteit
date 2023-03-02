@@ -3,8 +3,10 @@ import "../css/Sidebar.css";
 const Sidebar = () => {
   return (
     <section className="Sidebar">
-      <div className="combo">
-        COMBO
+      <div className="profile-img">
+        <img />
+      </div>
+      <div className="profile-str">
         <span>{}</span>
       </div>
       <div className="point">

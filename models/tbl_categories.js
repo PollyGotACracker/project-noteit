@@ -22,6 +22,11 @@ export default (sequelize) => {
         allowNull: false,
         unique: "c_category",
       },
+      c_subcount: {
+        type: Sequelize.DataTypes.BIGINT,
+        allowNull: false,
+        defaultValue: 0,
+      },
       c_checked: {
         type: Sequelize.DataTypes.TINYINT,
         allowNull: false,

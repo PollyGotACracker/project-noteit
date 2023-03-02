@@ -9,7 +9,6 @@ CREATE TABLE IF NOT EXISTS tbl_users(
 	u_profileimg	VARCHAR(225),	
     u_profilestr	VARCHAR(225),
 	u_cscore	BIGINT	NOT NULL	DEFAULT 0,
-	u_bgm	TINYINT	NOT NULL	DEFAULT 1,
 	u_darkmode	TINYINT	NOT NULL	DEFAULT 0,
 	PRIMARY KEY(u_userid)
 );
@@ -36,6 +35,7 @@ CREATE TABLE IF NOT EXISTS tbl_categories(
 	c_catid	VARCHAR(225)	NOT NULL,
 	c_userid	VARCHAR(225)	NOT NULL,
 	c_category	VARCHAR(125)	NOT NULL UNIQUE,
+    c_subcount	BIGINT	NOT NULL	DEFAULT 0,
 	c_checked	TINYINT	NOT NULL	DEFAULT 0,
 	PRIMARY KEY(c_catid, c_userid),
 	CONSTRAINT fk_usecat
@@ -51,7 +51,8 @@ CREATE TABLE IF NOT EXISTS tbl_subjects(
 	s_category	VARCHAR(125)	NOT NULL,	
 	s_date	VARCHAR(10),
 	s_time	VARCHAR(10),
-    s_views	BIGINT		DEFAULT 0,
+    s_keycount	BIGINT	NOT NULL	DEFAULT 0,
+    s_views	BIGINT	NOT NULL	DEFAULT 0,
 	s_bookmark	TINYINT	NOT NULL	DEFAULT 0,
 	s_content	TEXT,
 	PRIMARY KEY(s_subid, s_catid),

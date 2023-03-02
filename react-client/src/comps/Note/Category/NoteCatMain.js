@@ -1,26 +1,26 @@
 import { useLayoutEffect, useCallback } from "react";
-import { useVocaContext } from "../../context/VocaContext.js";
-import "../../css/Voca/VocaMain.css";
-import VocaCat from "./VocaCat";
+import { useNoteContext } from "../../../context/NoteContext.js";
+import "../../../css/Note/NoteCatMain.css";
+import NoteCatItem from "./NoteCatItem";
+import { initCat } from "../../../data/NoteData";
 
-const VocaCategory = () => {
-  const { vocaCatList, setVocaCatList, InitCat, vocaCat, setVocaCat } =
-    useVocaContext();
+const NoteCatMain = () => {
+  const { noteCatList, setNoteCatList, noteCat, setNoteCat } = useNoteContext();
 
   const fetchs = useCallback(async () => {
     try {
-      let res = await fetch("/voca/cat");
+      let res = await fetch("/note/cat");
       res = await res.json();
       if (res.error) {
         alert(res.error);
       } else {
-        setVocaCatList([...res]);
+        setNoteCatList([...res]);
       }
     } catch (error) {
       console.log(error);
       alert("서버 연결에 문제가 발생했습니다.");
     }
-  }, [setVocaCatList]);
+  }, [setNoteCatList]);
 
   useLayoutEffect(() => {
     (async () => {
@@ -28,12 +28,12 @@ const VocaCategory = () => {
     })();
   }, [fetchs]);
 
-  const list = vocaCatList.map((item) => {
-    return <VocaCat key={item.c_catid} className="Item" item={item} />;
+  const list = noteCatList.map((item) => {
+    return <NoteCatItem key={item.c_catid} className="Item" item={item} />;
   });
 
   const onChangeHandler = (e) => {
-    setVocaCat({ ...vocaCat, [e.target.name]: e.target.value });
+    setNoteCat({ ...noteCat, [e.target.name]: e.target.value });
   };
 
   const insertCat = useCallback(async () => {
@@ -41,23 +41,23 @@ const VocaCategory = () => {
       const fetchOption = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(vocaCat),
+        body: JSON.stringify(noteCat),
       };
-      let res = await fetch("/voca/cat/insert", fetchOption);
+      let res = await fetch("/note/cat/insert", fetchOption);
       res = await res.json();
       if (res.error) {
         alert(res.error);
       } else {
         alert(res.result);
       }
-      setVocaCat({ ...InitCat() });
+      setNoteCat({ ...initCat() });
       fetchs();
       document.querySelector("input[name='c_category']").value = "";
     } catch (error) {
       console.log(error);
       alert("서버 연결에 문제가 발생했습니다.");
     }
-  }, [setVocaCat, vocaCat, InitCat]);
+  }, [setNoteCat, noteCat, initCat]);
 
   const onKeyDownHandler = (e) => {
     const keyCode = e.keyCode;
@@ -71,7 +71,7 @@ const VocaCategory = () => {
   };
 
   return (
-    <main className="Voca">
+    <main className="Note Cat">
       <section className="top">
         <div className="title">카테고리를 선택하세요!</div>
         <form>
@@ -85,7 +85,7 @@ const VocaCategory = () => {
             type="button"
             id="submit"
             onClick={onClickHandler}
-            disabled={vocaCat.c_category.length < 1}
+            disabled={noteCat.c_category.length < 1}
           ></button>
         </form>
       </section>
@@ -94,4 +94,4 @@ const VocaCategory = () => {
   );
 };
 
-export default VocaCategory;
+export default NoteCatMain;

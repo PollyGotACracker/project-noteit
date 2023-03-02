@@ -1,30 +1,29 @@
-import "../../css/Voca/VocaWrite.css";
-import { useRef, useState, useLayoutEffect, useCallback } from "react";
+import "../../css/Note/NoteWrite.css";
+import { useRef, useState, useLayoutEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { useVocaContext } from "../../context/VocaContext.js";
+import { useNoteContext } from "../../context/NoteContext";
+import { initSub, initKey } from "../../data/NoteData";
 import uuid from "react-uuid";
 import { MdDelete } from "react-icons/md";
 
 export const writeLoader = () => {};
 
-const VocaWrite = () => {
+const NoteWrite = () => {
+  const { noteSub, setNoteSub } = useNoteContext();
   const keyboxRef = useRef(null);
   const { catid, subid } = useParams();
   const navigate = useNavigate();
-  const { vocaSub, setVocaSub, InitSub, vocaKey, setVocaKey, InitKey } =
-    useVocaContext();
   const [keywordList, setKeywordList] = useState([]);
-
   const [keyIndex, setKeyIndex] = useState(1);
-  const [keyMap, setKeyMap] = useState(new Map());
+  const [keyMap] = useState(new Map());
 
   const KeywordItem = (key = {}) => {
     const id = key?.k_keyid || uuid().substring(0, 8);
     // subid 는 수정 시 subject 의 id
     keyMap.set(id, {
-      ...InitKey(),
+      ...initKey(),
       k_keyid: id,
-      k_subid: subid || vocaSub.s_subid,
+      k_subid: subid || noteSub.s_subid,
       k_index: key?.k_index || keyIndex,
       k_keyword: key?.k_keyword,
       k_desc: key?.k_desc,
@@ -65,30 +64,30 @@ const VocaWrite = () => {
   };
 
   // keywordItem 추가
-  const addKeyword = useCallback(() => {
+  const addKeyword = () => {
     const item = KeywordItem();
     setKeywordList([...keywordList, item]);
-  }, [keywordList, setKeywordList]);
+  };
 
   // fetch
-  const fetchs = useCallback(async () => {
+  const fetchs = async () => {
     try {
-      let res = await fetch(`/voca/cat/write/${catid}`);
+      let res = await fetch(`/note/cat/write/${catid}`);
       res = await res.json();
       if (res.error) {
         return alert(res.error);
       } else {
-        // vocaSub 에 category 추가 및 해당 태그에 데이터 표시
-        setVocaSub({ ...InitSub(), s_category: res[0].c_category });
+        // noteSub 에 category 추가 및 해당 태그에 데이터 표시
+        setNoteSub({ ...initSub(), s_category: res[0].c_category });
       }
       // path 에 subid 가 있을 경우(UPDATE)
       if (subid) {
-        let res = await fetch(`/voca/sub/${subid}`);
+        let res = await fetch(`/note/sub/${subid}`);
         res = await res.json();
         if (res.error) {
           alert(res.error);
         } else {
-          setVocaSub({ ...InitSub(), ...res.subject[0] });
+          setNoteSub({ ...initSub(), ...res.subject[0] });
           for (let key of res.keywords) {
             keyMap.set(key.k_keyid, key);
           }
@@ -100,7 +99,7 @@ const VocaWrite = () => {
       console.log(error);
       return alert("서버 연결에 문제가 발생했습니다.");
     }
-  }, [catid, setVocaSub, subid]);
+  };
 
   useLayoutEffect(() => {
     (async () => {
@@ -115,7 +114,7 @@ const VocaWrite = () => {
   }, []);
 
   const onChangeSubHandler = (e) => {
-    setVocaSub({ ...vocaSub, [e.target.name]: e.target.value });
+    setNoteSub({ ...noteSub, [e.target.name]: e.target.value });
   };
 
   const onChangeKeyHandler = (e) => {
@@ -130,36 +129,33 @@ const VocaWrite = () => {
     console.log("전체 키워드", keyMap);
   };
 
-  const submitHandler = useCallback(
-    async (e) => {
-      e.preventDefault();
-      try {
-        let method = "POST";
-        let url = `/voca/sub/insert`;
-        let subjects = { ...vocaSub, s_catid: catid };
-        let keywords = Array.from(keyMap.values());
-        if (subid) {
-          method = "PUT";
-          url = `/voca/sub/update`;
-          subjects = { ...vocaSub, s_subid: subid };
-        }
-
-        const fetchOption = {
-          method: method,
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ subjects, keywords }),
-        };
-        let res = await fetch(url, fetchOption);
-        res = await res.json();
-        alert(res.result);
-      } catch (error) {
-        console.log(error);
-        alert("서버에 문제가 발생했습니다.\n다시 시도해주세요.");
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      let method = "POST";
+      let url = `/note/sub/insert`;
+      let subjects = { ...noteSub, s_catid: catid };
+      let keywords = Array.from(keyMap.values());
+      if (subid) {
+        method = "PUT";
+        url = `/note/sub/update`;
+        subjects = { ...noteSub, s_subid: subid };
       }
-      navigate(`/voca/subject/${catid}/${vocaSub.s_subid}`, { replace: true });
-    },
-    [vocaSub, catid, subid]
-  );
+
+      const fetchOption = {
+        method: method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ subjects, keywords }),
+      };
+      let res = await fetch(url, fetchOption);
+      res = await res.json();
+      alert(res.result);
+    } catch (error) {
+      console.log(error);
+      alert("서버에 문제가 발생했습니다.\n다시 시도해주세요.");
+    }
+    navigate(`/note/subject/${catid}/${noteSub.s_subid}`, { replace: true });
+  };
 
   return (
     <main className="Write">
@@ -168,14 +164,14 @@ const VocaWrite = () => {
         <input
           id="category"
           name="s_category"
-          value={vocaSub.s_category}
+          value={noteSub.s_category}
           readOnly={true}
           onChange={onChangeSubHandler}
         />
         <label htmlFor="subject">주제</label>
         <input
           id="subject"
-          value={vocaSub.s_subject || ""}
+          value={noteSub.s_subject || ""}
           name="s_subject"
           onChange={onChangeSubHandler}
           autoComplete="false"
@@ -195,14 +191,14 @@ const VocaWrite = () => {
           <textarea
             id="content"
             name="s_content"
-            value={vocaSub.s_content || ""}
+            value={noteSub.s_content || ""}
             autoComplete="false"
             onChange={onChangeSubHandler}
           />
         </section>
 
         <section className="btn-box">
-          <Link id="back" to={`/voca/subject/${catid}/${subid}`}>
+          <Link id="back" to={`/note/subject/${catid}/${subid}`}>
             뒤로
           </Link>
           <button type="button" id="submit" onClick={submitHandler}>
@@ -214,4 +210,4 @@ const VocaWrite = () => {
   );
 };
 
-export default VocaWrite;
+export default NoteWrite;

@@ -1,7 +1,7 @@
 import moment from "moment";
 
-const TodoData = () => {
-  const Todo = {
+export const initTodo = () => {
+  const todoData = {
     t_todoid: 0,
     t_userid: "polly@gmail.com",
     t_date: moment().format("YYYY[-]MM[-]DD"),
@@ -12,7 +12,5 @@ const TodoData = () => {
     t_compdate: "",
     t_comptime: "",
   };
-  return Todo;
+  return todoData;
 };
-
-export { TodoData };

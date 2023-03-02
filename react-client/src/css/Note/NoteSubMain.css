@@ -1,11 +1,11 @@
-main.Note {
+.Note.Sub {
   display: flex;
   flex-direction: column;
   overflow-y: hidden;
   padding-top: 0 !important;
   position: relative;
 }
-.Note.title {
+.Note.Sub .title {
   width: 90%;
   height: 100px;
   display: flex;
@@ -17,7 +17,7 @@ main.Note {
   padding: 2% 5%;
   border-bottom: 1px solid #ccc;
 }
-.Note.title .category {
+.Note.Sub .title .category {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,23 +25,23 @@ main.Note {
   font-weight: 900;
   letter-spacing: 0.1em;
 }
-.Note.title .length {
+.Note.Sub .title .length {
   font-size: 20pt;
 }
-.Note.title .insert {
+.Note.Sub .title .insert {
   margin-left: 25px;
 }
-.Note.title .insert:before {
+.Note.Sub .title .insert:before {
   content: "\e494";
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
   font-size: 20pt;
   transition: all ease 0.2s;
 }
-.Note.title .insert:hover:before {
+.Note.Sub .title .insert:hover:before {
   color: var(--yellow);
 }
-.Note.title form {
+.Note.Sub .title form {
   margin-left: auto;
   display: flex;
   justify-content: center;
@@ -49,47 +49,47 @@ main.Note {
   border-radius: 5px;
   padding: 0.5em;
 }
-.Note.title form input {
+.Note.Sub .title form input {
   width: 100%;
   border: none;
   font-size: 12pt;
   margin-right: 20px;
 }
-.Note.title form button:before {
+.Note.Sub .title form button:before {
   content: "\f002";
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
   font-size: 15pt;
 }
-.Note.content {
+.Note.Sub .content {
   width: 80%;
   margin: 0 auto;
   margin-top: 120px;
   overflow-y: auto;
 }
-.Note.content ul {
+.Note.Sub .content ul {
   width: 100%;
 }
-.Note.content ul li {
+.Note.Sub .content ul li {
   display: grid;
   grid-template-columns: 1.5fr 10fr 1fr 1.5fr;
   list-style: none;
   padding: 10px;
   border-bottom: 1px dashed #ccc;
 }
-.Item > * {
+.Note.Sub .item > * {
   margin: 0 10px;
 }
-.Item.subject {
+.Note.Sub .item .subject {
   display: flex;
   align-items: center;
   cursor: pointer;
   transition: all ease 0.2s;
 }
-.Item.subject:hover {
+.Note.Sub .item .subject:hover {
   color: var(--yellow);
 }
-.Item.length {
+.Note.Sub .item .length {
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -98,7 +98,7 @@ main.Note {
   justify-content: center;
   align-items: center;
 }
-.Item button:before {
+.Note.Sub .item button:before {
   font-family: "Font Awesome 5 Free";
   font-style: normal;
   font-variant: normal;
@@ -108,25 +108,25 @@ main.Note {
   font-size: 15pt;
   overflow: hidden;
 }
-.Item button.bookmark:before {
+.Note.Sub .item button.bookmark:before {
   content: "\f02e";
   font-weight: 400;
   color: #aaa;
   transition: all 0.2s ease-out;
 }
-.Item button.bookmark:hover:before {
+.Note.Sub .item button.bookmark:hover:before {
   color: var(--yellow);
 }
-.Item button.bookmark[value="1"]:before {
+.Note.Sub .item button.bookmark[value="1"]:before {
   font-weight: 900;
   color: var(--yellow);
 }
-.Item button.delete:before {
+.Note.Sub .item button.delete:before {
   content: "\f00d";
   font-weight: 700;
   color: #aaa;
   transition: all 0.2s ease-out;
 }
-.Item button.delete:hover:before {
+.Note.Sub .item button.delete:hover:before {
   color: var(--red);
 }

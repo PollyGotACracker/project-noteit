@@ -20,8 +20,7 @@ import DB from "../models/index.js";
 
 // sample router modules
 // import indexRouter from "../routes/index.js";
-import homeRouter from "../routes/home.js";
-import vocaRouter from "../routes/voca.js";
+import noteRouter from "../routes/note.js";
 import quizRouter from "../routes/quiz.js";
 import todoRouter from "../routes/todo.js";
 // import setRouter from "../routes/setting.js";
@@ -47,8 +46,7 @@ app.use(cookieParser());
 app.use(express.static(path.join("public")));
 
 // router link enable
-app.use("/home", homeRouter);
-app.use("/voca", vocaRouter);
+app.use("/note", noteRouter);
 app.use("/quiz", quizRouter);
 app.use("/todo", todoRouter);
 

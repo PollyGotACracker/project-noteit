@@ -33,9 +33,14 @@ export default (sequelize) => {
         type: Sequelize.DataTypes.STRING(10),
         allowNull: true,
       },
+      s_keycount: {
+        type: Sequelize.DataTypes.BIGINT,
+        allowNull: false,
+        defaultValue: 0,
+      },
       s_views: {
         type: Sequelize.DataTypes.BIGINT,
-        allowNull: true,
+        allowNull: false,
         defaultValue: 0,
       },
       s_bookmark: {

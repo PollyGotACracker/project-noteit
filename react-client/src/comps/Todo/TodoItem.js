@@ -34,6 +34,8 @@ const TodoItem = ({ item }) => {
 
   const today = moment().format("YYYY[-]MM[-]DD");
   const isToday = item.t_deadline === today;
+  const dDay =
+    (new Date(today) - new Date(item.t_deadline)) / (1000 * 60 * 60 * 24);
 
   return (
     <div className="item" data-id={item.t_todoid}>
@@ -58,10 +60,7 @@ const TodoItem = ({ item }) => {
           ? ""
           : isToday
           ? "D-day"
-          : `D${
-              (new Date(today) - new Date(item.t_deadline)) /
-              (1000 * 60 * 60 * 24)
-            }`}
+          : `D${dDay > 0 ? "+" : ""}${dDay}`}
       </div>
       <div className="prior">{item.t_prior}</div>
       <div className="complete" onClick={completeHandler}>

@@ -30,11 +30,6 @@ export default (sequelize) => {
         allowNull: false,
         defaultValue: 0,
       },
-      u_bgm: {
-        type: Sequelize.DataTypes.TINYINT,
-        allowNull: false,
-        defaultValue: 1,
-      },
       u_darkmode: {
         type: Sequelize.DataTypes.TINYINT,
         allowNull: false,

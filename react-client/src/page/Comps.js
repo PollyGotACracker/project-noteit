@@ -2,11 +2,11 @@ import App from "../App";
 import Intro from "../comps/Intro";
 import Index from "../comps/Index";
 import Home from "../comps/Home";
-import VocaMain from "../comps/Voca/VocaMain";
-import VocaNote from "../comps/Voca/VocaNote";
-import VocaList from "../comps/Voca/VocaList";
-import VocaDetail, { detailLoader } from "../comps/Voca/VocaDetail";
-import VocaWrite from "../comps/Voca/VocaWrite";
+import NoteMain from "../comps/Note/NoteMain";
+import NoteCatMain from "../comps/Note/Category/NoteCatMain";
+import NoteSubMain from "../comps/Note/Subject/NoteSubMain";
+import NoteDetail, { detailLoader } from "../comps/Note/NoteDetail";
+import NoteWrite from "../comps/Note/NoteWrite";
 import QuizMain from "../comps/Quiz/QuizMain";
 import TodoMain from "../comps/Todo/TodoMain";
 import Set from "../comps/Set/Set";
@@ -17,12 +17,12 @@ export {
   Intro,
   Index,
   Home,
-  VocaMain,
-  VocaNote,
-  VocaList,
-  VocaDetail,
+  NoteMain,
+  NoteCatMain,
+  NoteSubMain,
+  NoteDetail,
   detailLoader,
-  VocaWrite,
+  NoteWrite,
   QuizMain,
   TodoMain,
   Set,

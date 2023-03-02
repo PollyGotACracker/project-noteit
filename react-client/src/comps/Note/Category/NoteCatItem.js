@@ -1,12 +1,12 @@
 import { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { useVocaContext } from "../../context/VocaContext";
+import { useNoteContext } from "../../../context/NoteContext";
 
-const VocaCat = (props) => {
+const NoteCatItem = (props) => {
   const { item } = props;
   const [title, setTitle] = useState(item.c_category);
   const [update, setUpdate] = useState("수정");
-  const { deleteCatHandler } = useVocaContext();
+  const { deleteCatHandler } = useNoteContext();
 
   const onChangeHandler = useCallback(
     (e) => {
@@ -32,7 +32,7 @@ const VocaCat = (props) => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ c_catid: catid, c_category: title }),
         };
-        let res = await fetch(`/voca/cat/update`, fetchOption);
+        let res = await fetch(`/note/cat/update`, fetchOption);
         res = res.json();
         if (res.error) {
           alert(res.error);
@@ -57,7 +57,7 @@ const VocaCat = (props) => {
     <div key={item.c_catid} className="Cat" data-id={item.c_catid}>
       <Link
         className={`link-${item.c_catid}`}
-        to={`/voca/category/${item.c_catid}`}
+        to={`/note/category/${item.c_catid}`}
       >
         <input
           className={`title-${item.c_catid}`}
@@ -83,4 +83,4 @@ const VocaCat = (props) => {
     </div>
   );
 };
-export default VocaCat;
+export default NoteCatItem;

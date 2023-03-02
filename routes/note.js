@@ -220,8 +220,9 @@ router.put("/sub/bookmark/:subid", async (req, res) => {
 router.post("/sub/insert", async (req, res, next) => {
   try {
     console.log(req.body);
-    const subjects = req.body.subjects;
+    let subjects = req.body.subjects;
     const keywords = req.body.keywords;
+    subjects = { ...subjects, s_keycount: keywords.length };
     // const files = req?.body?.files;
     // console.log(files);
 
@@ -238,12 +239,19 @@ router.post("/sub/insert", async (req, res, next) => {
     //   return uploadFileInfo;
     // };
 
-    const subResult = await SUB.create(subjects);
+    await SUB.create(subjects);
     // const filesInfo = files.map((file) => {
     //   return uploadFiles(subResult, file);
     // });
     // await ATT.bulkCreate(filesInfo);
     await KEY.bulkCreate(keywords);
+    console.log(subjects.s_catid);
+    await CAT.update(
+      {
+        c_subcount: sequelize.literal("c_subcount + 1"),
+      },
+      { where: { c_catid: subjects.s_catid } }
+    );
     return res.send({ result: "정상적으로 추가되었습니다." });
   } catch (error) {
     console.error(error);
@@ -299,7 +307,18 @@ router.put("/sub/update", async (req, res, next) => {
 router.delete("/sub/delete/:subid", async (req, res, next) => {
   try {
     const subid = req.params.subid;
+    const catid = await SUB.findOne({
+      attributes: ["s_catid"],
+      where: { s_subid: subid },
+    });
+    await KEY.destroy({ where: { k_subid: subid } });
     await SUB.destroy({ where: { s_subid: subid } });
+    await CAT.update(
+      {
+        c_subcount: sequelize.literal("c_subcount - 1"),
+      },
+      { where: { c_catid: catid } }
+    );
     return res.send({ result: "정상적으로 삭제되었습니다." });
   } catch (error) {
     console.error(error);

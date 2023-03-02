@@ -1,11 +1,11 @@
 import Nav from "../page/Nav";
-// import Music from "../comps/Music";
+import Player from "./Player";
 import { Outlet } from "react-router-dom";
 
 const Index = () => {
   return (
     <>
-      {/* <Music /> */}
+      <Player />
       <Nav />
       <Outlet />
     </>

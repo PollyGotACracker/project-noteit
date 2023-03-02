@@ -2,6 +2,7 @@
   width: 100%;
   height: 100%;
   display: flex;
+  position: relative;
 }
 .App main {
   width: calc(100% - 80px);
@@ -27,4 +28,24 @@
   cursor: pointer;
   user-select: none;
   border: none;
+}
+.player-btn {
+  position: absolute;
+  top: 2%;
+  right: 2%;
+  font-size: 1.8em;
+  color: #aaa;
+  transform-origin: center;
+}
+.player-btn.active {
+  color: var(--blue);
+  animation-name: play;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+@keyframes play {
+  100% {
+    transform: rotate(360deg);
+  }
 }

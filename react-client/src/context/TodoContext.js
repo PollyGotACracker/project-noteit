@@ -5,7 +5,7 @@ import {
   useCallback,
   useLayoutEffect,
 } from "react";
-import { TodoData } from "../data/TodoData";
+import { initTodo } from "../data/TodoData";
 
 const TodoContext = createContext();
 
@@ -13,9 +13,9 @@ const useTodoContext = () => {
   return useContext(TodoContext);
 };
 
-const TodoContexProvider = ({ children }) => {
+const TodoContextProvider = ({ children }) => {
   const [todoContentList, setTodoContentList] = useState([]);
-  const [todoContent, setTodoContent] = useState(TodoData());
+  const [todoContent, setTodoContent] = useState(initTodo());
 
   const fetchAll = useCallback(async () => {
     try {
@@ -48,7 +48,7 @@ const TodoContexProvider = ({ children }) => {
         if (regexp.test(t_deadline)) {
           t_deadline = "";
         }
-        let data = { ...TodoData(), t_content, t_deadline };
+        let data = { ...initTodo(), t_content, t_deadline };
         let url = "/todo/insert";
         let method = "POST";
 
@@ -72,7 +72,7 @@ const TodoContexProvider = ({ children }) => {
         } else {
           setTodoContentList([...result]);
         }
-        setTodoContent({ ...TodoData() });
+        setTodoContent({ ...initTodo() });
       } catch (error) {
         console.log(error);
         alert("서버 오류");
@@ -91,7 +91,7 @@ const TodoContexProvider = ({ children }) => {
         } else {
           setTodoContentList([...result]);
         }
-        setTodoContent({ ...TodoData() });
+        setTodoContent({ ...initTodo() });
       } catch (error) {
         console.log(error);
         alert("서버 오류");
@@ -111,7 +111,7 @@ const TodoContexProvider = ({ children }) => {
         } else {
           setTodoContentList([...result]);
         }
-        setTodoContent({ ...TodoData() });
+        setTodoContent({ ...initTodo() });
       } catch (error) {
         console.log(error);
         alert("서버 오류");
@@ -141,4 +141,4 @@ const TodoContexProvider = ({ children }) => {
   return <TodoContext.Provider value={props}>{children}</TodoContext.Provider>;
 };
 
-export { TodoContexProvider, useTodoContext };
+export { TodoContextProvider, useTodoContext };

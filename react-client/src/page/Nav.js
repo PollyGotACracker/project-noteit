@@ -20,7 +20,7 @@ const Nav = () => {
         <RiQuestionnaireFill />
         퀴즈
       </NavLink>
-      <NavLink className="voca" to="/voca">
+      <NavLink className="note" to="/note">
         <BsFillJournalBookmarkFill />
         노트
       </NavLink>
