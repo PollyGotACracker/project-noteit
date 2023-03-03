@@ -35,7 +35,6 @@ DB.sequelize.sync({ force: false }).then((dbConn) => {
 // Disable the fingerprinting of this web technology.
 app.disable("x-powered-by");
 
-// view engine setup
 app.set("views", path.join("react-client/build"));
 
 // middleWare enable

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Intro = () => {
   // title 에 span tag 추가 후 각각 css animation 설정
   const TitleContent = () => {
-    const titleChar = "NOTEit";
+    const titleChar = "NoteIT";
     let string = Array.from(titleChar);
 
     let content = string.map((char, index) => {

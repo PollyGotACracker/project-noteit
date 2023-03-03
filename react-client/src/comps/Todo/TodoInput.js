@@ -6,9 +6,7 @@ const TodoInput = () => {
   const [showPrior, setShowPrior] = useState(false);
 
   const onClickHandler = () => {
-    const t_content = todoContent.t_content;
-    const t_deadline = todoContent.t_deadline;
-    todoInsert(t_content, t_deadline);
+    todoInsert();
   };
 
   const onChangeHandler = (e) => {

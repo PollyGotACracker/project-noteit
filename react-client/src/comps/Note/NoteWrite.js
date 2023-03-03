@@ -1,7 +1,6 @@
 import "../../css/Note/NoteWrite.css";
 import { useRef, useState, useLayoutEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { useNoteContext } from "../../context/NoteContext";
 import { initSub, initKey } from "../../data/NoteData";
 import uuid from "react-uuid";
 import { MdDelete } from "react-icons/md";
@@ -9,64 +8,58 @@ import { MdDelete } from "react-icons/md";
 export const writeLoader = () => {};
 
 const NoteWrite = () => {
-  const { noteSub, setNoteSub } = useNoteContext();
   const keyboxRef = useRef(null);
   const { catid, subid } = useParams();
   const navigate = useNavigate();
-  const [keywordList, setKeywordList] = useState([]);
+  const [noteSub, setNoteSub] = useState(initSub);
+  const [keywordList, setKeywordList] = useState([{ ...initKey() }]);
   const [keyIndex, setKeyIndex] = useState(1);
-  const [keyMap] = useState(new Map());
 
-  const KeywordItem = (key = {}) => {
-    const id = key?.k_keyid || uuid().substring(0, 8);
-    // subid 는 수정 시 subject 의 id
-    keyMap.set(id, {
-      ...initKey(),
-      k_keyid: id,
-      k_subid: subid || noteSub.s_subid,
-      k_index: key?.k_index || keyIndex,
-      k_keyword: key?.k_keyword,
-      k_desc: key?.k_desc,
-    });
-    // 요소 추가 이후 실행됨
-    setKeyIndex(keyIndex + 1);
+  const KeywordItem = keywordList.map((item, idx) => {
+    // k_index 에 추가할 것
+    console.log(keywordList);
+    console.log(item.k_keyword);
+    // key 가 고유값이 아니면 input 동작에 영향을 줌
     return (
-      <div className="keyword-item" key={id}>
-        {id}
+      <div className="keyword-item" key={item.k_keyid}>
         <div className="head-keyword">
-          <div className="keyword-index">{keyMap.get(id).k_index}</div>
-          <button id="keyword-delete">
+          <div className="keyword-index">{idx + 1}</div>
+          <button
+            className="keyword-delete"
+            onClick={() => onDeleteKeyHandler(idx)}
+          >
             <MdDelete />
           </button>
         </div>
         <div className="wrap-keyword">
           <input
             className="keyword"
-            name={id}
-            value={keyMap.get(id).k_keyword}
+            name="k_keyword"
+            defaultValue={item.k_keyword}
             type="text"
+            placeholder="키워드 제목"
             autoFocus
-            autoComplete="false"
-            spellCheck="false"
-            onChange={onChangeKeyHandler}
+            // autoComplete="false"
+            // spellCheck="false"
+            onChange={(e) => onChangeKeyHandler(e, idx)}
           />
           <textarea
             className="desc"
-            name={id}
-            value={keyMap.get(id).k_desc}
-            autoComplete="false"
-            spellCheck="false"
-            onChange={onChangeKeyHandler}
+            name="k_desc"
+            placeholder="키워드 내용"
+            defaultValue={item.k_desc}
+            // autoComplete="false"
+            // spellCheck="false"
+            onChange={(e) => onChangeKeyHandler(e, idx)}
           />
         </div>
       </div>
     );
-  };
+  });
 
   // keywordItem 추가
   const addKeyword = () => {
-    const item = KeywordItem();
-    setKeywordList([...keywordList, item]);
+    setKeywordList([...keywordList, initKey()]);
   };
 
   // fetch
@@ -78,7 +71,7 @@ const NoteWrite = () => {
         return alert(res.error);
       } else {
         // noteSub 에 category 추가 및 해당 태그에 데이터 표시
-        setNoteSub({ ...initSub(), s_category: res[0].c_category });
+        setNoteSub({ ...noteSub, s_category: res[0].c_category });
       }
       // path 에 subid 가 있을 경우(UPDATE)
       if (subid) {
@@ -87,14 +80,10 @@ const NoteWrite = () => {
         if (res.error) {
           alert(res.error);
         } else {
-          setNoteSub({ ...initSub(), ...res.subject[0] });
-          for (let key of res.keywords) {
-            keyMap.set(key.k_keyid, key);
-          }
-          return 1;
+          setNoteSub({ ...noteSub, ...res.subject[0] });
+          setKeywordList([...res.keywords]);
         }
       }
-      return 0;
     } catch (error) {
       console.log(error);
       return alert("서버 연결에 문제가 발생했습니다.");
@@ -103,13 +92,17 @@ const NoteWrite = () => {
 
   useLayoutEffect(() => {
     (async () => {
-      const result = await fetchs();
-      if (result === 1) {
-        const keys = Array.from(keyMap.values());
-        const item = keys.map((key) => KeywordItem(key));
-        setKeywordList([...item]);
-        setKeyIndex(keys.length + 1);
-      }
+      await fetchs();
+      // const id = key?.k_keyid || uuid().substring(0, 8);
+      // // subid 는 수정 시 subject 의 id
+      // keyMap.set(id, {
+      //   ...initKey(),
+      //   k_keyid: id,
+      //   k_subid: subid || noteSub.s_subid,
+      //   k_index: key?.k_index || keyIndex,
+      //   k_keyword: key?.k_keyword,
+      //   k_desc: key?.k_desc,
+      // });
     })();
   }, []);
 
@@ -117,16 +110,16 @@ const NoteWrite = () => {
     setNoteSub({ ...noteSub, [e.target.name]: e.target.value });
   };
 
-  const onChangeKeyHandler = (e) => {
-    const key = e.target.name;
-    let subKey;
-    if (e.target.tagName === "INPUT") subKey = "k_keyword";
-    if (e.target.tagName === "TEXTAREA") subKey = "k_desc";
-    keyMap.set(key, {
-      ...keyMap.get(key),
-      [subKey]: e.target.value,
-    });
-    console.log("전체 키워드", keyMap);
+  const onChangeKeyHandler = (e, idx) => {
+    const _list = [...keywordList];
+    _list[idx][e.target.name] = e.target.value;
+    setKeywordList([..._list]);
+  };
+
+  const onDeleteKeyHandler = (idx) => {
+    const _list = [...keywordList];
+    _list.splice(idx, 1);
+    setKeywordList([..._list]);
   };
 
   const submitHandler = async (e) => {
@@ -135,7 +128,7 @@ const NoteWrite = () => {
       let method = "POST";
       let url = `/note/sub/insert`;
       let subjects = { ...noteSub, s_catid: catid };
-      let keywords = Array.from(keyMap.values());
+      let keywords = keywordList;
       if (subid) {
         method = "PUT";
         url = `/note/sub/update`;
@@ -179,7 +172,7 @@ const NoteWrite = () => {
         <section className="keyword-controller">
           <label>키워드</label>
           <div id="keyword-box" ref={keyboxRef}>
-            {keywordList}
+            {KeywordItem}
           </div>
           <button id="add-keyword" type="button" onClick={addKeyword}>
             키워드 추가

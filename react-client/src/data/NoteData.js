@@ -25,7 +25,7 @@ export const initSub = () => {
 
 export const initKey = () => {
   const keyData = {
-    k_keyid: "",
+    k_keyid: uuid().substring(0, 8),
     k_subid: "",
     k_index: 0,
     k_keyword: "",

@@ -6,8 +6,7 @@ import NoteSubItem from "./NoteSubItem";
 
 const NoteSubMain = () => {
   const { catid } = useParams();
-  const { noteSubList, setNoteSubList } = useNoteContext();
-  const [catData, setCatData] = useState({});
+  const { catData, setCatData, noteSubList, setNoteSubList } = useNoteContext();
   const [searchValue, setSearchValue] = useState("");
 
   const subList = useCallback(async () => {
@@ -24,7 +23,7 @@ const NoteSubMain = () => {
       console.log(error);
       alert("서버 연결에 문제가 발생했습니다.");
     }
-  }, [catid, setNoteSubList]);
+  }, [catid]);
 
   // 뒤로 가기 시 최신 데이터를 가져오려면?
   useLayoutEffect(() => {
@@ -37,26 +36,20 @@ const NoteSubMain = () => {
     return <NoteSubItem item={item} key={item.s_subid} />;
   });
 
-  const searchData = useCallback(
-    async (value) => {
-      setSearchValue(value);
-      const fetchOption = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ value: searchValue, catid: catid }),
-      };
-      await fetch(`/note/sub/search`, fetchOption)
-        .then((data) => data.json())
-        .then((data) => {
-          console.log(value, data);
-          setNoteSubList([...data]);
-        });
-    },
-
-    [searchValue, catid, setNoteSubList]
-  );
-
-  // 마지막 글자가 저장되지 않음
+  const searchData = async (value) => {
+    setSearchValue(value);
+    const fetchOption = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ value: searchValue, catid: catid }),
+    };
+    await fetch(`/note/sub/search`, fetchOption)
+      .then((data) => data.json())
+      .then((data) => {
+        console.log(value, data);
+        setNoteSubList([...data]);
+      });
+  };
 
   useLayoutEffect(() => {
     searchData(searchValue);

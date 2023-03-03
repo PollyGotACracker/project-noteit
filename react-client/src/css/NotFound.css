@@ -1,5 +1,5 @@
 main.NotFound {
-  background-image: url("../../public/images/not_found.svg");
+  background-image: url("../images/not_found.svg");
   background-size: 40% auto;
   background-position: center 20%;
   background-repeat: no-repeat;

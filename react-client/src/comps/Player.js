@@ -3,9 +3,9 @@ import { FaCompactDisc } from "react-icons/fa";
 
 const Player = () => {
   const bgPlaylist = [
-    "./audios/Lonesome_Star.mp3",
-    "./audios/Jeremiah_s_Song.mp3",
-    "./audios/The_Gift.mp3",
+    "../public/audios/Lonesome_Star.mp3",
+    "../public/audios/Jeremiah_s_Song.mp3",
+    "../public/audios/The_Gift.mp3",
   ];
   const [togglePlay, setTogglePlay] = useState(false);
   const [playIndex, setPlayIndex] = useState(

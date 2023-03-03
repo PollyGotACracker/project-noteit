@@ -47,7 +47,7 @@ main.Detail {
 .Detail.menu a:hover {
   background-color: var(--yellow);
 }
-.copy-wrap,
+
 .bookmark-wrap {
   position: relative;
 }
@@ -112,13 +112,14 @@ main.Detail {
 }
 .Detail.slide {
   width: 80%;
+  min-height: 20vh;
   margin: 0 auto;
   display: flex;
   padding-top: 1em;
   justify-content: space-between;
   align-items: center;
 }
-.Detail.slide button {
+.Detail.slide button:not(.copy-btn) {
   margin: 0 1.2em;
   height: 100%;
   font-size: 2em;
@@ -137,17 +138,13 @@ main.Detail {
   /* overflow: hidden; */
 }
 .Detail.slide .keyword-list {
-  position: absolute;
-  left: 0;
   width: 100%;
   height: 100%;
-  /* display: flex; */
-  /* justify-content: center; */
 }
 .Detail.slide .keyword {
   display: inline-block;
   width: 100%;
-  height: 100%;
+  min-height: 20vh;
   border: 1px solid #aaa;
   border-radius: 5px;
   padding: 10px;
@@ -158,16 +155,18 @@ main.Detail {
   padding: 0.5em;
   text-align: center;
 }
-.keyword .name .copy-wrap {
-  float: right;
-}
-.keyword .name .copy-wrap .copy-btn {
-  margin: 0;
-  font-size: 1.2em;
+.copy-wrap .copy-btn {
+  margin: 0 0 0.2em 0.2em;
+  font-size: 0.8em;
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+  transition: all 0.2s;
 }
 .keyword .desc {
   padding: 0.5em;
   white-space: pre-line;
+  height: 100%;
 }
 .keyword-button {
   width: 100%;

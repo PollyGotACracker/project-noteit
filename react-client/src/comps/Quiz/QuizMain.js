@@ -4,8 +4,9 @@ import Sidebar from "../Sidebar";
 
 const QuizMain = () => {
   const fetchs = useCallback(async () => {
-    let res = await fetch(`/quiz/rnd/select`);
-    res = await res.json();
+    const res = await fetch(`/quiz/rnd/select`).then((data) => {
+      data.json();
+    });
     console.log(res);
   });
 

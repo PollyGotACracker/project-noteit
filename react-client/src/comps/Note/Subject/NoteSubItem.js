@@ -1,16 +1,17 @@
 import { useState, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
+import { deleteSubHandler } from "../../../service/note.service";
 import { useNoteContext } from "../../../context/NoteContext";
 
 const NoteSubItem = (props) => {
   const { catid } = useParams();
   const { item } = props;
-  const { deleteSubHandler } = useNoteContext();
+  const { setCatData, setNoteSubList } = useNoteContext();
   const [bookmark, setBookmark] = useState(item.s_bookmark);
 
   const bookmarkHandler = useCallback(
     async (e) => {
-      const subid = e.target.closest(".Item").dataset.id;
+      const subid = e.target.closest(".item").dataset.id;
       try {
         let res = await fetch(`/note/sub/bookmark/${subid}`, { method: "PUT" });
         res = await res.json();
@@ -27,12 +28,26 @@ const NoteSubItem = (props) => {
     [setBookmark]
   );
 
-  const deleteHandler = (e) => {
-    const subid = e.target.closest(".Item").dataset.id;
+  const deleteHandler = async (e) => {
+    const subid = e.target.closest(".item").dataset.id;
     if (!window.confirm("이 주제를 삭제할까요?")) {
       return false;
     } else {
-      deleteSubHandler(subid, catid);
+      try {
+        await deleteSubHandler(subid, catid);
+        const res = await fetch(`/note/cat/${catid}`);
+        const result = await res.json();
+        if (res.error) {
+          console.log(res.error);
+          alert(res.error);
+        } else {
+          setCatData({ ...result.category[0] });
+          setNoteSubList([...result.subList]);
+        }
+      } catch (error) {
+        console.log(error);
+        alert("서버 연결에 문제가 발생했습니다.");
+      }
     }
   };
 

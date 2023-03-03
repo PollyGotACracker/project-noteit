@@ -55,7 +55,7 @@ main.Write .keyword-item {
   user-select: none;
 }
 
-.head-keyword #keyword-delete {
+.head-keyword .keyword-delete {
   font-size: 1.6em;
   color: #aaa;
   cursor: pointer;

@@ -1,7 +1,7 @@
 import { useState, useReducer, useCallback, useRef } from "react";
-import { Link, useLoaderData, useParams } from "react-router-dom";
+import { Link, useLoaderData, useNavigate, useParams } from "react-router-dom";
 import "../../css/Note/NoteDetail.css";
-import { useNoteContext } from "../../context/NoteContext";
+import { deleteSubHandler } from "../../service/note.service";
 import { RxDot, RxDotFilled } from "react-icons/rx";
 import { MdDelete, MdPictureAsPdf } from "react-icons/md";
 import { RiBookmarkLine, RiBookmarkFill, RiGoogleFill } from "react-icons/ri";
@@ -56,15 +56,16 @@ const showMsg = (ele) => {
 const NoteDetail = () => {
   const { catid, subid } = useParams();
   const { data, keys } = useLoaderData();
-  const { deleteSubHandler } = useNoteContext();
+  const nav = useNavigate();
   const [subject] = useState({ ...data });
   const [keywords] = useState([...keys]);
   const [bookmark, setBookmark] = useState(subject.s_bookmark);
   const [msg, setMsg] = useState("");
+  const [copyMsg, setCopyMsg] = useState("키워드 복사");
   const [state, dispatch] = useReducer(changeKeyword, 1);
   const BookmarkMsg = useRef(null);
 
-  const bookmarkHandler = useCallback(async () => {
+  const bookmarkHandler = async () => {
     try {
       let res = await fetch(`/note/sub/bookmark/${subid}`, { method: "PUT" });
       res = await res.json();
@@ -79,46 +80,44 @@ const NoteDetail = () => {
       console.log(error);
       alert("서버 접속 중 오류가 발생했습니다.");
     }
-  }, [setBookmark, subid]);
+  };
 
   const deleteHandler = async () => {
     if (!window.confirm("이 주제를 삭제할까요?")) {
       return false;
     } else {
-      const res = await deleteSubHandler(subid, catid).then(
-        (data) => data.json
-      );
-      if (res.error) {
-        alert(res.error);
-        return false;
+      const res = await deleteSubHandler(subid, catid);
+      if (res) {
+        alert(res);
+        nav(`/note/category/${catid}`, { replace: true });
       }
-      alert(res.result);
-      navigator(`/note/category/${catid}`, { replace: true });
     }
   };
 
-  const copyKeyword = (e, value) => {
+  const copyKeyword = (value) => {
     navigator.clipboard.writeText(value);
-    showMsg(e.currentTarget.nextSibling);
+    setCopyMsg("복사되었습니다.");
   };
 
   const keywordList = keywords.map((ele) => {
     return (
-      <div key={ele.k_keyid} data-id={ele.k_index} className="keyword">
-        <div className="name">
-          <span>{ele.k_keyword}</span>
-          <div className="copy-wrap">
-            <button
-              className="copy-btn"
-              onClick={(e) => copyKeyword(e, ele.k_keyword)}
-            >
-              <FaClipboard />
-            </button>
-            <div className="copy msg">{"키워드가 복사되었습니다."}</div>
-          </div>
+      <>
+        <div className="copy-wrap">
+          <button
+            className="copy-btn"
+            onClick={() => copyKeyword(ele.k_keyword)}
+          >
+            <FaClipboard />
+            <span className="copy-msg">{copyMsg}</span>
+          </button>
         </div>
-        <div className="desc">{ele.k_desc}</div>
-      </div>
+        <div key={ele.k_keyid} data-id={ele.k_index} className="keyword">
+          <div className="name">
+            <span>{ele.k_keyword}</span>
+          </div>
+          <div className="desc">{ele.k_desc}</div>
+        </div>
+      </>
     );
   });
   const [keywordSlide] = useState([...keywordList]);

@@ -1,11 +1,7 @@
 import express from "express";
-import sequelize, { UUID } from "sequelize";
+import sequelize from "sequelize";
 import Sequelize from "sequelize";
 import { QueryTypes } from "sequelize";
-import { Op } from "sequelize";
-import { v4 } from "uuid";
-import moment from "moment";
-import fileUp from "../modules/file_upload.js";
 import DB from "../models/index.js";
 const CAT = DB.models.tbl_categories;
 const SUB = DB.models.tbl_subjects;
@@ -245,13 +241,10 @@ router.post("/sub/insert", async (req, res, next) => {
     // });
     // await ATT.bulkCreate(filesInfo);
     await KEY.bulkCreate(keywords);
-    console.log(subjects.s_catid);
-    await CAT.update(
-      {
-        c_subcount: sequelize.literal("c_subcount + 1"),
-      },
-      { where: { c_catid: subjects.s_catid } }
-    );
+    await CAT.increment("c_subcount", {
+      by: 1,
+      where: { c_catid: subjects.s_catid },
+    });
     return res.send({ result: "정상적으로 추가되었습니다." });
   } catch (error) {
     console.error(error);
@@ -308,17 +301,16 @@ router.delete("/sub/delete/:subid", async (req, res, next) => {
   try {
     const subid = req.params.subid;
     const catid = await SUB.findOne({
+      raw: true,
       attributes: ["s_catid"],
       where: { s_subid: subid },
     });
-    await KEY.destroy({ where: { k_subid: subid } });
+    console.log(catid);
     await SUB.destroy({ where: { s_subid: subid } });
-    await CAT.update(
-      {
-        c_subcount: sequelize.literal("c_subcount - 1"),
-      },
-      { where: { c_catid: catid } }
-    );
+    await CAT.decrement("c_subcount", {
+      by: 1,
+      where: { c_catid: catid.s_catid },
+    });
     return res.send({ result: "정상적으로 삭제되었습니다." });
   } catch (error) {
     console.error(error);

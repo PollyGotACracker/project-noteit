@@ -39,47 +39,37 @@ const TodoContextProvider = ({ children }) => {
     })();
   }, [fetchAll]);
 
-  const todoInsert = useCallback(
-    async (t_content, t_deadline) => {
-      try {
-        const regexp = new RegExp(
-          "^d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$"
-        );
-        if (regexp.test(t_deadline)) {
-          t_deadline = "";
-        }
-        let data = { ...initTodo(), t_content, t_deadline };
-        let url = "/todo/insert";
-        let method = "POST";
+  const todoInsert = useCallback(async () => {
+    try {
+      const data = todoContent;
+      let url = "/todo/insert";
+      let method = "POST";
 
-        if (Number(todoContent.t_todoid) !== 0) {
-          data = todoContent;
-          url = "/todo/update";
-          method = "PUT";
-        }
-
-        const fetchOption = {
-          method: method,
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        };
-
-        const res = await fetch(url, fetchOption);
-        const result = await res.json();
-        if (result.error) {
-          alert(result.error);
-          return false;
-        } else {
-          setTodoContentList([...result]);
-        }
-        setTodoContent({ ...initTodo() });
-      } catch (error) {
-        console.log(error);
-        alert("서버 오류");
+      if (Number(todoContent.t_todoid) !== 0) {
+        url = "/todo/update";
+        method = "PUT";
       }
-    },
-    [setTodoContent, setTodoContentList, todoContentList, todoContent]
-  );
+
+      const fetchOption = {
+        method: method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      };
+
+      const res = await fetch(url, fetchOption);
+      const result = await res.json();
+      if (result.error) {
+        alert(result.error);
+        return false;
+      } else {
+        setTodoContentList([...result]);
+      }
+      setTodoContent({ ...initTodo() });
+    } catch (error) {
+      console.log(error);
+      alert("서버 오류");
+    }
+  }, [setTodoContent, setTodoContentList, todoContentList, todoContent]);
 
   const todoDelete = useCallback(
     async (uid) => {
