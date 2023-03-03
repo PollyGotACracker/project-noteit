@@ -26,18 +26,18 @@
   border-bottom: 1px solid var(--yellow);
   padding: 0.2em;
 }
-.Note.Cat form #submit:before {
-  content: "\f65e";
-  font-family: "Font Awesome 5 Free";
-  font-weight: 900;
+.Note.Cat #insert-btn {
   margin-left: 15px;
-  font-size: 20pt;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.8em;
   transition: all ease 0.2s;
 }
-.Note.Cat form #submit:disabled:hover:before {
+.Note.Cat form #insert-btn:disabled:hover {
   cursor: auto;
 }
-.Note.Cat form #submit:not(:disabled):hover:before {
+.Note.Cat form #insert-btn:not(:disabled):hover {
   color: var(--yellow);
 }
 .Note.Cat section.cat-list {

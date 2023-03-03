@@ -2,9 +2,8 @@ import "../../css/Note/NoteWrite.css";
 import { useRef, useState, useLayoutEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { initSub, initKey } from "../../data/NoteData";
-import uuid from "react-uuid";
 import { MdDelete } from "react-icons/md";
-
+import { FaCaretUp, FaCaretDown } from "react-icons/fa";
 export const writeLoader = () => {};
 
 const NoteWrite = () => {
@@ -13,12 +12,8 @@ const NoteWrite = () => {
   const navigate = useNavigate();
   const [noteSub, setNoteSub] = useState(initSub);
   const [keywordList, setKeywordList] = useState([{ ...initKey() }]);
-  const [keyIndex, setKeyIndex] = useState(1);
 
   const KeywordItem = keywordList.map((item, idx) => {
-    // k_index 에 추가할 것
-    console.log(keywordList);
-    console.log(item.k_keyword);
     // key 가 고유값이 아니면 input 동작에 영향을 줌
     return (
       <div className="keyword-item" key={item.k_keyid}>
@@ -39,8 +34,8 @@ const NoteWrite = () => {
             type="text"
             placeholder="키워드 제목"
             autoFocus
-            // autoComplete="false"
-            // spellCheck="false"
+            autoComplete="false"
+            spellCheck="false"
             onChange={(e) => onChangeKeyHandler(e, idx)}
           />
           <textarea
@@ -48,10 +43,22 @@ const NoteWrite = () => {
             name="k_desc"
             placeholder="키워드 내용"
             defaultValue={item.k_desc}
-            // autoComplete="false"
-            // spellCheck="false"
+            autoComplete="false"
+            spellCheck="false"
             onChange={(e) => onChangeKeyHandler(e, idx)}
           />
+        </div>
+        <div className="head-keyword">
+          <button name="up" type="button" onClick={(e) => moveKeyword(e, idx)}>
+            <FaCaretUp />
+          </button>
+          <button
+            name="down"
+            type="button"
+            onClick={(e) => moveKeyword(e, idx)}
+          >
+            <FaCaretDown />
+          </button>
         </div>
       </div>
     );
@@ -60,6 +67,19 @@ const NoteWrite = () => {
   // keywordItem 추가
   const addKeyword = () => {
     setKeywordList([...keywordList, initKey()]);
+  };
+
+  const moveKeyword = (e, idx) => {
+    const value = e.currentTarget.name;
+    const _list = [...keywordList];
+    if (value === "up") {
+      if (idx === 0) return false;
+      [_list[idx], _list[idx - 1]] = [_list[idx - 1], _list[idx]];
+    } else if (value === "down") {
+      if (idx === _list.length - 1) return false;
+      [_list[idx + 1], _list[idx]] = [_list[idx], _list[idx + 1]];
+    }
+    setKeywordList([..._list]);
   };
 
   // fetch
@@ -93,16 +113,6 @@ const NoteWrite = () => {
   useLayoutEffect(() => {
     (async () => {
       await fetchs();
-      // const id = key?.k_keyid || uuid().substring(0, 8);
-      // // subid 는 수정 시 subject 의 id
-      // keyMap.set(id, {
-      //   ...initKey(),
-      //   k_keyid: id,
-      //   k_subid: subid || noteSub.s_subid,
-      //   k_index: key?.k_index || keyIndex,
-      //   k_keyword: key?.k_keyword,
-      //   k_desc: key?.k_desc,
-      // });
     })();
   }, []);
 
@@ -128,7 +138,11 @@ const NoteWrite = () => {
       let method = "POST";
       let url = `/note/sub/insert`;
       let subjects = { ...noteSub, s_catid: catid };
-      let keywords = keywordList;
+      const keywords = keywordList.map((key, idx) => {
+        key.k_subid = noteSub.s_subid;
+        key.k_index = idx + 1;
+        return key;
+      });
       if (subid) {
         method = "PUT";
         url = `/note/sub/update`;

@@ -3,6 +3,7 @@ import { useNoteContext } from "../../../context/NoteContext.js";
 import "../../../css/Note/NoteCatMain.css";
 import NoteCatItem from "./NoteCatItem";
 import { initCat } from "../../../data/NoteData";
+import { HiFolderPlus } from "react-icons/hi2";
 
 const NoteCatMain = () => {
   const { noteCatList, setNoteCatList, noteCat, setNoteCat } = useNoteContext();
@@ -83,10 +84,12 @@ const NoteCatMain = () => {
           />
           <button
             type="button"
-            id="submit"
+            id="insert-btn"
             onClick={onClickHandler}
             disabled={noteCat.c_category.length < 1}
-          ></button>
+          >
+            <HiFolderPlus />
+          </button>
         </form>
       </section>
       <section className="cat-list">{list}</section>

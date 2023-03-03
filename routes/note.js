@@ -96,40 +96,15 @@ router.get("/cat/:catid", async (req, res, next) => {
     const category = await CAT.findAll({
       raw: true,
       where: { c_catid: catid },
-      include: [
-        {
-          model: SUB,
-          as: "tbl_subjects",
-          attributes: [
-            [sequelize.fn("count", Sequelize.col("s_subid")), "length"],
-          ],
-          order: [
-            ["s_date", "DESC"],
-            ["s_time", "DESC"],
-          ],
-        },
-      ],
-      group: ["tbl_categories.c_catid"],
     });
 
     const subList = await SUB.findAll({
       raw: true,
-      order: [["s_subject", "ASC"]],
-      attributes: [
-        "s_subid",
-        "s_subject",
-        "s_catid",
-        "s_bookmark",
-        [sequelize.fn("count", Sequelize.col("k_keyid")), "length"],
+      order: [
+        ["s_bookmark", "DESC"],
+        ["s_subject", "ASC"],
       ],
       where: { s_catid: catid },
-      include: [
-        {
-          model: KEY,
-          as: "tbl_keywords",
-        },
-      ],
-      group: ["tbl_subjects.s_subid"],
     });
     return res.send({ category, subList });
   } catch (error) {

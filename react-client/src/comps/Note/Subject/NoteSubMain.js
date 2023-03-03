@@ -3,6 +3,8 @@ import { useParams, Link } from "react-router-dom";
 import { useNoteContext } from "../../../context/NoteContext";
 import "../../../css/Note/NoteSubMain.css";
 import NoteSubItem from "./NoteSubItem";
+import { BsFillFileEarmarkPlusFill } from "react-icons/bs";
+import { IoFileTrayFull } from "react-icons/io5";
 
 const NoteSubMain = () => {
   const { catid } = useParams();
@@ -36,24 +38,23 @@ const NoteSubMain = () => {
     return <NoteSubItem item={item} key={item.s_subid} />;
   });
 
-  const searchData = async (value) => {
-    setSearchValue(value);
-    const fetchOption = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ value: searchValue, catid: catid }),
-    };
-    await fetch(`/note/sub/search`, fetchOption)
-      .then((data) => data.json())
-      .then((data) => {
-        console.log(value, data);
-        setNoteSubList([...data]);
-      });
-  };
+  // const searchData = async (value) => {
+  //   setSearchValue(value);
+  //   const fetchOption = {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({ value: searchValue, catid: catid }),
+  //   };
+  //   await fetch(`/note/sub/search`, fetchOption)
+  //     .then((data) => data.json())
+  //     .then((data) => {
+  //       setNoteSubList([...data]);
+  //     });
+  // };
 
-  useLayoutEffect(() => {
-    searchData(searchValue);
-  }, [searchValue]);
+  // useLayoutEffect(() => {
+  //   searchData(searchValue);
+  // }, [searchValue]);
 
   // const searchKeyword = (e) => {
   //   if (e.type === "click" || (e.type === "keydown" && e.keyCode === 13)) {
@@ -65,12 +66,13 @@ const NoteSubMain = () => {
     <main className="Note Sub">
       <section className="title">
         <div className="category">{catData.c_category}</div>
-        <div className="length">({catData["tbl_subjects.length"] || 0})</div>
-        <Link
-          className="insert"
-          to={`/note/write/${catid}`}
-          title="추가"
-        ></Link>
+        <div className="subcount">
+          <IoFileTrayFull />
+          {catData.c_subcount}
+        </div>
+        <Link className="insert-btn" to={`/note/write/${catid}`} title="추가">
+          <BsFillFileEarmarkPlusFill />
+        </Link>
         <form>
           <input
             className="input"

@@ -9,12 +9,12 @@ const Main = () => {
   const [speakList] = useState(speakListData);
   const speak = useRef(null);
 
-  // setInterval 은 설정한 시간을 보장하지 않기 때문에 setTimeout 재귀함수 사용
   const changeClock = () => {
     setDate(getToday().date);
     setTime(getToday().time);
   };
 
+  // 코드 수정할 것
   const typeWriter = (text) => {
     let i = 0;
     let speed = 0;
@@ -54,15 +54,21 @@ const Main = () => {
    */
 
   useLayoutEffect(() => {
-    const clock = setTimeout(changeClock, setTimeout(changeClock, 1000), 1000);
     const index = Math.floor(Math.random() * speakList.length + 1);
     const msg = speakList[index - 1];
     const speak = typeWriter(msg);
     return () => {
-      clearTimeout(clock);
       clearTimeout(speak);
     };
   }, []);
+
+  // setInterval 은 설정한 시간을 보장하지 않기 때문에 setTimeout 재귀함수 사용
+  useLayoutEffect(() => {
+    const clock = setTimeout(changeClock, setTimeout(changeClock, 1000), 1000);
+    return () => {
+      clearTimeout(clock);
+    };
+  }, [date, time]);
 
   return (
     <main className="Home">

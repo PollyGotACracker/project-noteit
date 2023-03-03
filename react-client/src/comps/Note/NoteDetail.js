@@ -3,15 +3,11 @@ import { Link, useLoaderData, useNavigate, useParams } from "react-router-dom";
 import "../../css/Note/NoteDetail.css";
 import { deleteSubHandler } from "../../service/note.service";
 import { RxDot, RxDotFilled } from "react-icons/rx";
-import { MdDelete, MdPictureAsPdf } from "react-icons/md";
-import { RiBookmarkLine, RiBookmarkFill, RiGoogleFill } from "react-icons/ri";
-import {
-  FaTags,
-  FaPenAlt,
-  FaClipboard,
-  FaCaretLeft,
-  FaCaretRight,
-} from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
+import { IoPrint } from "react-icons/io5";
+import { RxBookmark, RxBookmarkFilled } from "react-icons/rx";
+import { RiBallPenFill, RiGoogleFill } from "react-icons/ri";
+import { FaTags, FaClipboard, FaCaretLeft, FaCaretRight } from "react-icons/fa";
 
 export const detailLoader = async ({ params }) => {
   const subid = params?.subid;
@@ -144,7 +140,7 @@ const NoteDetail = () => {
             value={bookmark}
             onClick={bookmarkHandler}
           >
-            {bookmark === 0 ? <RiBookmarkLine /> : <RiBookmarkFill />}
+            {bookmark === 0 ? <RxBookmark /> : <RxBookmarkFilled />}
             북마크
           </button>
           <div className="bookmark msg" ref={BookmarkMsg}>
@@ -152,7 +148,7 @@ const NoteDetail = () => {
           </div>
         </div>
         <Link className="write" to={`/note/write/${catid}/${subid}`}>
-          <FaPenAlt />
+          <RiBallPenFill />
           수정
         </Link>
         <button className="delete" onClick={deleteHandler}>
@@ -160,8 +156,8 @@ const NoteDetail = () => {
           삭제
         </button>
         <button>
-          <MdPictureAsPdf />
-          PDF
+          <IoPrint />
+          인쇄
         </button>
         <a
           className="search"

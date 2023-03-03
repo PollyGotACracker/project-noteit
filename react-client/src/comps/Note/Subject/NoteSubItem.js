@@ -2,13 +2,16 @@ import { useState, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { deleteSubHandler } from "../../../service/note.service";
 import { useNoteContext } from "../../../context/NoteContext";
+import { RxBookmark, RxBookmarkFilled } from "react-icons/rx";
+import { FaTags } from "react-icons/fa";
+import { MdDelete, MdRemoveRedEye } from "react-icons/md";
 
-const NoteSubItem = (props) => {
+const NoteSubItem = ({ item }) => {
   const { catid } = useParams();
-  const { item } = props;
   const { setCatData, setNoteSubList } = useNoteContext();
   const [bookmark, setBookmark] = useState(item.s_bookmark);
 
+  // detail 과 통합할 것
   const bookmarkHandler = useCallback(
     async (e) => {
       const subid = e.target.closest(".item").dataset.id;
@@ -54,16 +57,27 @@ const NoteSubItem = (props) => {
   return (
     <li className="item" data-id={item.s_subid}>
       <button
-        className="bookmark"
+        className="bookmark-btn"
         title="북마크"
         value={bookmark}
         onClick={bookmarkHandler}
-      ></button>
+      >
+        {bookmark === 0 ? <RxBookmark /> : <RxBookmarkFilled />}
+      </button>
       <Link className="subject" to={`/note/subject/${catid}/${item.s_subid}`}>
         {item.s_subject}
       </Link>
-      <div className="length">{item.length}</div>
-      <button className="delete" title="삭제" onClick={deleteHandler}></button>
+      <div className="views">
+        <MdRemoveRedEye />
+        {item.s_views}
+      </div>
+      <div className="keycount">
+        <FaTags />
+        {item.s_keycount}
+      </div>
+      <button className="delete-btn" title="삭제" onClick={deleteHandler}>
+        <MdDelete />
+      </button>
     </li>
   );
 };

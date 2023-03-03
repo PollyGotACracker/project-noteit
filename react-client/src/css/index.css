@@ -18,8 +18,10 @@ html {
   --red: #c73935;
   --yellow: #e69215;
   --blue: #1d415b;
+  --green: #1aa36d;
   --violet: #3f3d56;
   --light: #faf9f7;
+  --dark: #333;
 }
 body {
   width: 100%;

@@ -25,20 +25,26 @@
   font-weight: 900;
   letter-spacing: 0.1em;
 }
-.Note.Sub .title .length {
-  font-size: 20pt;
+.Note.Sub .title .subcount {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2em;
+  margin: 0 2em 0 1em;
+  font-size: 1.2em;
 }
-.Note.Sub .title .insert {
-  margin-left: 25px;
+.Note.Sub .title .subcount svg {
+  font-size: 1.4em;
 }
-.Note.Sub .title .insert:before {
-  content: "\e494";
-  font-family: "Font Awesome 5 Free";
-  font-weight: 900;
-  font-size: 20pt;
+.Note.Sub .title .insert-btn {
+  font-size: 1.5em;
+  color: #aaa;
   transition: all ease 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.Note.Sub .title .insert:hover:before {
+.Note.Sub .title .insert-btn:hover {
   color: var(--yellow);
 }
 .Note.Sub .title form {
@@ -72,7 +78,7 @@
 }
 .Note.Sub .content ul li {
   display: grid;
-  grid-template-columns: 1.5fr 10fr 1fr 1.5fr;
+  grid-template-columns: 1.5fr 10fr 1fr 1fr 1.5fr;
   list-style: none;
   padding: 10px;
   border-bottom: 1px dashed #ccc;
@@ -89,44 +95,29 @@
 .Note.Sub .item .subject:hover {
   color: var(--yellow);
 }
-.Note.Sub .item .length {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: #eee;
+
+.Note.Sub .item .keycount,
+.Note.Sub .item .views {
+  color: #333;
+  user-select: none;
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 0.2em;
 }
-.Note.Sub .item button:before {
-  font-family: "Font Awesome 5 Free";
-  font-style: normal;
-  font-variant: normal;
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
-  display: block;
-  font-size: 15pt;
-  overflow: hidden;
-}
-.Note.Sub .item button.bookmark:before {
-  content: "\f02e";
-  font-weight: 400;
-  color: #aaa;
+.Note.Sub .item button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transition: all 0.2s ease-out;
+  color: #aaa;
+  font-size: 1.4em;
 }
-.Note.Sub .item button.bookmark:hover:before {
+.Note.Sub .item .bookmark-btn:hover,
+.Note.Sub .item .bookmark-btn[value="1"] {
   color: var(--yellow);
 }
-.Note.Sub .item button.bookmark[value="1"]:before {
-  font-weight: 900;
-  color: var(--yellow);
-}
-.Note.Sub .item button.delete:before {
-  content: "\f00d";
-  font-weight: 700;
-  color: #aaa;
-  transition: all 0.2s ease-out;
-}
-.Note.Sub .item button.delete:hover:before {
+
+.Note.Sub .item .delete-btn:hover {
   color: var(--red);
 }
