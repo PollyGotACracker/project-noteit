@@ -24,9 +24,6 @@ CREATE TABLE IF NOT EXISTS tbl_score(
 	PRIMARY KEY(sc_scoid),
 	CONSTRAINT fk_usesco
 	FOREIGN KEY(sc_userid) REFERENCES tbl_users(u_userid)
-	ON DELETE CASCADE,
-	CONSTRAINT fk_catsco
-	FOREIGN KEY(sc_catid) REFERENCES tbl_categories(c_catid)
 	ON DELETE CASCADE
 );
 
@@ -35,8 +32,9 @@ CREATE TABLE IF NOT EXISTS tbl_categories(
 	c_catid	VARCHAR(225)	NOT NULL,
 	c_userid	VARCHAR(225)	NOT NULL,
 	c_category	VARCHAR(125)	NOT NULL UNIQUE,
+    c_date	VARCHAR(10),
     c_subcount	BIGINT	NOT NULL	DEFAULT 0,
-	c_checked	TINYINT	NOT NULL	DEFAULT 0,
+	c_bookmark	TINYINT	NOT NULL	DEFAULT 0,
 	PRIMARY KEY(c_catid, c_userid),
 	CONSTRAINT fk_usecat
 	FOREIGN KEY(c_userid) REFERENCES tbl_users(u_userid)
@@ -50,7 +48,6 @@ CREATE TABLE IF NOT EXISTS tbl_subjects(
 	s_catid	VARCHAR(225)	NOT NULL,
 	s_category	VARCHAR(125)	NOT NULL,	
 	s_date	VARCHAR(10),
-	s_time	VARCHAR(10),
     s_keycount	BIGINT	NOT NULL	DEFAULT 0,
     s_views	BIGINT	NOT NULL	DEFAULT 0,
 	s_bookmark	TINYINT	NOT NULL	DEFAULT 0,

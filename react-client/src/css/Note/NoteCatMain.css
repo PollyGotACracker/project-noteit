@@ -42,54 +42,78 @@
 }
 .Note.Cat section.cat-list {
   width: 90%;
-  margin: 50px auto 0;
+  margin: 5vw auto 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, 20%);
-  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(30%, auto));
+  justify-items: center;
+  column-gap: 50px;
+  row-gap: 50px;
 }
-.Note.Cat section.cat-list .Cat {
-  border: 1px solid #aaa;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40px 0;
-}
-.Note.Cat section.cat-list .Cat:hover input[class*="title"] {
-  color: var(--yellow);
-}
-.Note.Cat section.cat-list .Cat a[class*="link"] {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.Note.Cat .cat-item {
   width: 100%;
-  height: 120px;
+}
+.Note.Cat .link-box {
+  border: 1px solid var(--darkgray);
+  border-radius: 5px;
+  padding: 0.4em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 20vh;
   text-align: center;
 }
-.Note.Cat section.cat-list .Cat input[class*="title"] {
+.Note.Cat .link-box:hover input[class*="title"] {
+  color: var(--yellow);
+}
+.Note.Cat .link-box:hover {
+  border: 1px solid var(--yellow);
+}
+.Note.Cat .link-box input[class*="title"] {
   background-color: transparent;
   border: none;
   width: 100%;
   text-align: center;
-  font-size: 18pt;
+  font-size: 1.8em;
   font-weight: 700;
-  margin-bottom: 20px;
   transition: all 0.2s ease-out;
   cursor: pointer;
+  flex: 1;
+}
+.Note.Cat section.cat-list .date {
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 0.8em;
+  flex: 1;
 }
 .Note.Cat section.cat-list .subcount {
   color: rgba(0, 0, 0, 0.5);
-  font-size: 15pt;
+  font-size: 1.2em;
   font-weight: 700;
+  flex: 1;
 }
-.Note.Cat section.cat-list .Cat .btn-box button {
-  font-size: 12pt;
-  font-weight: 700;
-  transition: all ease 0.2s;
-  margin: 0 10px;
+.Note.Cat .bookmark-btn {
+  color: #aaa;
+  font-size: 2em;
+  align-self: flex-start;
+  transform: translateY(-0.35em);
+  transition: all ease 0.3s;
+  flex: 0.5;
 }
-
-.Note.Cat section.cat-list .Cat button.update:hover,
-.Note.Cat section.cat-list .Cat button.delete:hover {
+.Note.Cat .bookmark-btn:hover {
+  color: var(--yellow);
+}
+.Note.Cat section.cat-list .btn-box {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 0.5em;
+}
+.Note.Cat section.cat-list .btn-box button {
+  font-size: 1em;
+}
+.Note.Cat section.cat-list .btn-box .update-btn:hover {
+  color: var(--yellow);
+}
+.Note.Cat section.cat-list .btn-box .delete-btn:hover {
   color: var(--red);
 }

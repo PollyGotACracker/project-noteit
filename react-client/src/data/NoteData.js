@@ -6,6 +6,7 @@ export const initCat = () => {
     c_userid: "polly@gmail.com",
     c_catid: uuid().substring(0, 8),
     c_category: "",
+    c_date: moment().format("YYYY[-]MM[-]DD"),
   };
   return catData;
 };
@@ -17,7 +18,6 @@ export const initSub = () => {
     s_catid: uuid().substring(0, 8),
     s_category: "",
     s_date: moment().format("YYYY[-]MM[-]DD"),
-    s_time: moment().format("HH:mm:ss"),
     s_content: "",
   };
   return subData;
@@ -34,15 +34,15 @@ export const initKey = () => {
   return keyData;
 };
 
-export const initAtt = () => {
-  const attData = {
-    a_attid: uuid().substring(0, 8),
-    a_subid: "",
-    a_date: moment().format("YYYY[-]MM[-]DD"),
-    a_time: moment().format("HH:mm:ss"),
-    a_originalname: "",
-    a_savename: "",
-    a_ext: "",
-  };
-  return attData;
-};
+// export const initAtt = () => {
+//   const attData = {
+//     a_attid: uuid().substring(0, 8),
+//     a_subid: "",
+//     a_date: moment().format("YYYY[-]MM[-]DD"),
+//     a_time: moment().format("HH:mm:ss"),
+//     a_originalname: "",
+//     a_savename: "",
+//     a_ext: "",
+//   };
+//   return attData;
+// };

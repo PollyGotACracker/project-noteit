@@ -1,33 +1,23 @@
 import { useLayoutEffect, useCallback } from "react";
 import { useNoteContext } from "../../../context/NoteContext.js";
+import { getCatHandler } from "../../../service/note.service";
 import "../../../css/Note/NoteCatMain.css";
 import NoteCatItem from "./NoteCatItem";
 import { initCat } from "../../../data/NoteData";
 import { HiFolderPlus } from "react-icons/hi2";
+import { useLoaderData } from "react-router-dom";
+
+export const catLoader = () => {
+  const data = getCatHandler();
+  return data;
+};
 
 const NoteCatMain = () => {
+  const data = useLoaderData();
   const { noteCatList, setNoteCatList, noteCat, setNoteCat } = useNoteContext();
-
-  const fetchs = useCallback(async () => {
-    try {
-      let res = await fetch("/note/cat");
-      res = await res.json();
-      if (res.error) {
-        alert(res.error);
-      } else {
-        setNoteCatList([...res]);
-      }
-    } catch (error) {
-      console.log(error);
-      alert("서버 연결에 문제가 발생했습니다.");
-    }
-  }, [setNoteCatList]);
-
   useLayoutEffect(() => {
-    (async () => {
-      await fetchs();
-    })();
-  }, [fetchs]);
+    setNoteCatList([...data]);
+  }, []);
 
   const list = noteCatList.map((item) => {
     return <NoteCatItem key={item.c_catid} className="Item" item={item} />;
@@ -52,7 +42,8 @@ const NoteCatMain = () => {
         alert(res.result);
       }
       setNoteCat({ ...initCat() });
-      fetchs();
+      const data = await getCatHandler();
+      setNoteCatList([...data]);
       document.querySelector("input[name='c_category']").value = "";
     } catch (error) {
       console.log(error);
@@ -72,7 +63,7 @@ const NoteCatMain = () => {
   };
 
   return (
-    <main className="Note Cat">
+    <article className="Note Cat">
       <section className="top">
         <div className="title">카테고리를 선택하세요!</div>
         <form>
@@ -93,7 +84,7 @@ const NoteCatMain = () => {
         </form>
       </section>
       <section className="cat-list">{list}</section>
-    </main>
+    </article>
   );
 };
 

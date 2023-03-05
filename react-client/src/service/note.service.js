@@ -1,3 +1,19 @@
+export const getCatHandler = async () => {
+  try {
+    let res = await fetch("/note/cat");
+    res = await res.json();
+    if (res.error) {
+      alert(res.error);
+      return false;
+    } else {
+      return res.result;
+    }
+  } catch (error) {
+    console.log(error);
+    alert("서버 연결에 문제가 발생했습니다.");
+  }
+};
+
 export const deleteCatHandler = async (catid) => {
   try {
     let res = await fetch(`/note/cat/delete/${catid}`, {
@@ -7,7 +23,7 @@ export const deleteCatHandler = async (catid) => {
     if (res.error) {
       alert(res.error);
     } else {
-      return null;
+      return false;
     }
   } catch (error) {
     console.log(error);

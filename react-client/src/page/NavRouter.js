@@ -7,10 +7,12 @@ import {
   Home,
   NoteMain,
   NoteCatMain,
+  catLoader,
   NoteSubMain,
   NoteDetail,
   detailLoader,
   NoteWrite,
+  writeLoader,
   QuizMain,
   TodoMain,
   Set,
@@ -27,12 +29,12 @@ const NavRouter = createBrowserRouter([
         path: "",
         element: <Index />,
         children: [
-          { path: "home", element: <Home /> },
+          { path: "", element: <Home /> },
           {
             path: "note",
             element: <NoteMain />,
             children: [
-              { path: "", element: <NoteCatMain /> },
+              { path: "", loader: catLoader, element: <NoteCatMain /> },
               {
                 path: "category/:catid",
                 element: <NoteSubMain />,
@@ -43,7 +45,11 @@ const NavRouter = createBrowserRouter([
                 loader: detailLoader,
                 element: <NoteDetail />,
               },
-              { path: "write/:catid/:subid?", element: <NoteWrite /> },
+              {
+                path: "write/:catid/:subid?",
+                loader: writeLoader,
+                element: <NoteWrite />,
+              },
             ],
           },
           { path: "todo", element: <TodoMain /> },

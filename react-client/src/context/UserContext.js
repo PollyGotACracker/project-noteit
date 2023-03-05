@@ -1,4 +1,4 @@
-import { useContext, createContext } from "react";
+import { useState, useContext, createContext } from "react";
 
 const UserContext = createContext();
 
@@ -7,9 +7,18 @@ const useUserContext = () => {
 };
 
 const UserContextProvider = ({ children }) => {
-  const tempUser = "polly@gmail.com";
+  const userID = "polly@gmail.com";
+  const nickname = "polly";
+  const profileImg = "polly@gmail.com";
+  const profileStr = "너무 졸리다";
+  const [cscore, setCscore] = useState(0);
+
   const props = {
-    tempUser,
+    userID,
+    nickname,
+    profileImg,
+    profileStr,
+    cscore,
   };
   return <UserContext.Provider value={props}>{children}</UserContext.Provider>;
 };

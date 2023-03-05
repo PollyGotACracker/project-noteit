@@ -3,10 +3,11 @@ import { FaCompactDisc } from "react-icons/fa";
 
 const Player = () => {
   const bgPlaylist = [
-    "../public/audios/Lonesome_Star.mp3",
-    "../public/audios/Jeremiah_s_Song.mp3",
-    "../public/audios/The_Gift.mp3",
+    "/audios/Lonesome_Star.mp3",
+    "/audios/Jeremiah_s_Song.mp3",
+    "/audios/The_Gift.mp3",
   ];
+
   const [togglePlay, setTogglePlay] = useState(false);
   const [playIndex, setPlayIndex] = useState(
     Math.floor(Math.random() * bgPlaylist.length)
@@ -19,7 +20,7 @@ const Player = () => {
     } else {
       playerRef.current.pause();
     }
-  }, [togglePlay]);
+  }, [togglePlay, playIndex]);
 
   const playNextAudio = () => {
     if (playIndex === bgPlaylist.length - 1) {
@@ -27,7 +28,6 @@ const Player = () => {
     } else {
       setPlayIndex(playIndex + 1);
     }
-    playerRef.current.play();
   };
 
   return (
@@ -42,7 +42,7 @@ const Player = () => {
       <audio
         preload="true"
         ref={playerRef}
-        src={bgPlaylist[playIndex]}
+        src={`${process.env.PUBLIC_URL}${bgPlaylist[playIndex]}`}
         onEnded={playNextAudio}
       ></audio>
       <FaCompactDisc />

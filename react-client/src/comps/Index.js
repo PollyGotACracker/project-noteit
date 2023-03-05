@@ -1,13 +1,15 @@
 import Nav from "../page/Nav";
-import Player from "./Player";
+import Sidebar from "./Sidebar";
 import { Outlet } from "react-router-dom";
 
 const Index = () => {
   return (
     <>
-      <Player />
       <Nav />
-      <Outlet />
+      <main className="Index">
+        <Outlet />
+        <Sidebar />
+      </main>
     </>
   );
 };

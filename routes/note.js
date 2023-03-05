@@ -2,11 +2,16 @@ import express from "express";
 import sequelize from "sequelize";
 import Sequelize from "sequelize";
 import { QueryTypes } from "sequelize";
+import fileUp from "../modules/file_upload.js";
+import { sanitizer } from "../modules/sanitize_html.js";
+import { v4 } from "uuid";
+import moment from "moment";
 import DB from "../models/index.js";
 const CAT = DB.models.tbl_categories;
 const SUB = DB.models.tbl_subjects;
 const KEY = DB.models.tbl_keywords;
 const ATT = DB.models.tbl_attachs;
+const SCO = DB.models.tbl_score;
 const router = express.Router();
 
 // 모든 category SELECT
@@ -14,19 +19,16 @@ router.get("/cat", async (req, res, next) => {
   try {
     const catList = await CAT.findAll({
       raw: true,
-      order: [["c_category", "ASC"]],
-      include: [
-        {
-          model: SUB,
-          as: "tbl_subjects",
-          attributes: [
-            [sequelize.fn("count", Sequelize.col("s_subid")), "length"],
-          ],
-        },
+      order: [
+        ["c_bookmark", "DESC"],
+        ["c_category", "ASC"],
       ],
-      group: ["tbl_categories.c_catid"],
+      include: {
+        model: SUB,
+        as: "tbl_subjects",
+      },
     });
-    return res.json(catList);
+    return res.json({ result: catList });
   } catch (error) {
     console.error(error);
     return res.send({ error: "SELECT 실행 중 문제가 발생했습니다." });
@@ -41,7 +43,7 @@ router.post("/cat/insert", async (req, res, next) => {
     return res.send({ result: "정상적으로 등록되었습니다." });
   } catch (err) {
     console.error(err);
-    return res.send({ error: "INSERT 실행 중 문제가 발생했습니다." });
+    return res.send({ error: "중복되는 카테고리 이름이 있습니다." });
   }
 });
 
@@ -52,10 +54,27 @@ router.put("/cat/update", async (req, res, next) => {
     const value = req.body.c_category;
     await CAT.update({ c_category: value }, { where: { c_catid: catid } });
     await SUB.update({ s_category: value }, { where: { s_catid: catid } });
+    await SCO.update({ sc_category: value }, { where: { sc_catid: catid } });
     return res.send({ result: "정상적으로 수정되었습니다." });
   } catch (err) {
     console.error(err);
     return res.send({ error: "UPDATE 실행 중 문제가 발생했습니다." });
+  }
+});
+
+// category bookmark toggle
+router.put("/cat/bookmark", async (req, res, next) => {
+  try {
+    const catid = req.body.catid;
+    const bookmark = req.body.bookmark;
+    const value = bookmark === 0 ? 1 : 0;
+    await CAT.update({ c_bookmark: value }, { where: { c_catid: catid } });
+    return res.send({ result: value });
+  } catch (error) {
+    console.error(error);
+    return res.send({
+      error: "카테고리 북마크 SQL 실행 중 문제가 발생했습니다.",
+    });
   }
 });
 
@@ -186,35 +205,41 @@ router.put("/sub/bookmark/:subid", async (req, res) => {
   }
 });
 
-// subject INSERT
-// router.post("/sub/insert", fileUp.array("attach"), async (req, res, next) => {
-router.post("/sub/insert", async (req, res, next) => {
+router.post("/upload", fileUp.single("upload"), async (req, res, next) => {
   try {
-    console.log(req.body);
-    let subjects = req.body.subjects;
-    const keywords = req.body.keywords;
-    subjects = { ...subjects, s_keycount: keywords.length };
-    // const files = req?.body?.files;
-    // console.log(files);
+    const file = req.file;
+    console.log(req.file);
+    const uploadFileInfo = {
+      a_attid: v4().substring(0, 8),
+      a_subid: req.body.subid,
+      a_date: moment().format("YYYY[-]MM[-]DD"),
+      a_time: moment().format("HH:mm:ss"),
+      a_originalname: file.originalname,
+      a_savename: file.filename,
+      a_ext: file.mimetype,
+    };
+    const result = await ATT.create(uploadFileInfo);
+    console.log(result);
+    return res.json({
+      uploaded: true,
+      url: uploadFileInfo.a_savename,
+    });
+  } catch (err) {
+    console.error(err);
+  }
+});
 
-    // const uploadFiles = (sub, file) => {
-    //   const uploadFileInfo = {
-    //     a_attid: v4().substring(0, 8),
-    //     a_subid: sub.s_subid,
-    //     a_date: moment().format("YYYY[-]MM[-]DD"),
-    //     a_time: moment().format("HH:mm:ss"),
-    //     a_original_name: file.a_original_name,
-    //     a_save_name: file.filename,
-    //     a_ext: file.a_ext,
-    //   };
-    //   return uploadFileInfo;
-    // };
+// subject INSERT
+router.post("/sub/insert", sanitizer, async (req, res, next) => {
+  try {
+    const keywords = req.body.keywords;
+    const subjects = {
+      ...req.body.subjects,
+      s_keycount: keywords.length,
+      s_content: req.filtered,
+    };
 
     await SUB.create(subjects);
-    // const filesInfo = files.map((file) => {
-    //   return uploadFiles(subResult, file);
-    // });
-    // await ATT.bulkCreate(filesInfo);
     await KEY.bulkCreate(keywords);
     await CAT.increment("c_subcount", {
       by: 1,
@@ -258,10 +283,14 @@ router.get("/sub/:subid", async (req, res, next) => {
 });
 
 // subject UPDATE
-router.put("/sub/update", async (req, res, next) => {
+router.put("/sub/update", sanitizer, async (req, res, next) => {
   try {
-    const subjects = req.body.subjects;
     const keywords = req.body.keywords;
+    const subjects = {
+      ...req.body.subjects,
+      s_keycount: keywords.length,
+      // s_content: req.filtered,
+    };
     await SUB.update(subjects, { where: { s_subid: subjects.s_subid } });
     await KEY.destroy({ where: { k_subid: subjects.s_subid } });
     await KEY.bulkCreate(keywords);

@@ -22,7 +22,7 @@ const Set = () => {
   );
 
   return (
-    <main className="Setting">
+    <article className="Setting">
       <section className="setting-box">
         <div className="wrapper">
           <div className="title">프로필 설정</div>
@@ -40,10 +40,6 @@ const Set = () => {
           </section>
         </div>
         <div className="wrapper">
-          <div className="title">배경음악</div>
-          <button className="music-btn"></button>
-        </div>
-        <div className="wrapper">
           <div className="title">PUSH 알림</div>
           <label htmlFor="push"></label>
           <input type="checkbox" id="push" value="1" name="push" />
@@ -57,8 +53,15 @@ const Set = () => {
             <input type="radio" id="dark" value="dark" name="theme" />
           </div>
         </div>
+        <div className="wrapper">
+          <div className="title">데이터 삭제</div>
+          <button>노트 삭제</button> <button>목표 삭제</button>
+        </div>
+        <div className="wrapper">
+          <div className="title">회원탈퇴</div>
+        </div>
       </section>
-    </main>
+    </article>
   );
 };
 

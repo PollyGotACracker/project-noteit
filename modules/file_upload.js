@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { v4 } from "uuid";
 
+// const upload_dir = path.join("react-client/public/uploads");
 const upload_dir = path.join("public/uploads");
 
 const storageOption = {
@@ -18,7 +19,7 @@ const storageOption = {
     const uploadFileName = newFileName.substring(newFileName.length - 255);
     cb(null, uploadFileName);
   },
-  distination: (req, file, cb) => {
+  destination: (req, file, cb) => {
     if (!fs.existsSync(upload_dir)) {
       fs.mkdirSync(upload_dir, { recursive: true });
     }

@@ -1,19 +1,24 @@
 import "../css/Sidebar.css";
+import Player from "./Player";
+import { useUserContext } from "../context/UserContext";
 
 const Sidebar = () => {
+  const { nickname, profileImg, profileStr, cscore } = useUserContext();
   return (
-    <section className="Sidebar">
+    <aside className="Sidebar">
+      <Player />
+      <div className="nickname">{nickname}</div>
       <div className="profile-img">
         <img />
       </div>
       <div className="profile-str">
-        <span>{}</span>
+        <span>{profileStr}</span>
       </div>
       <div className="point">
         POINT
-        <span>{}</span>
+        <div>{cscore}</div>
       </div>
-    </section>
+    </aside>
   );
 };
 

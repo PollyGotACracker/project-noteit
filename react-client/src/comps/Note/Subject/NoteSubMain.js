@@ -63,7 +63,7 @@ const NoteSubMain = () => {
   // };
 
   return (
-    <main className="Note Sub">
+    <article className="Note Sub">
       <section className="title">
         <div className="category">{catData.c_category}</div>
         <div className="subcount">
@@ -90,7 +90,7 @@ const NoteSubMain = () => {
       <section className="Note content">
         <ul>{noteList}</ul>
       </section>
-    </main>
+    </article>
   );
 };
 export default NoteSubMain;

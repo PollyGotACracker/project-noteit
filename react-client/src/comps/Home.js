@@ -1,7 +1,6 @@
 import { useState, useRef, useLayoutEffect } from "react";
 import "../css/Home.css";
 import { getToday, speakListData } from "../data/HomeData";
-import Sidebar from "./Sidebar";
 
 const Main = () => {
   const [date, setDate] = useState(getToday().date);
@@ -71,7 +70,7 @@ const Main = () => {
   }, [date, time]);
 
   return (
-    <main className="Home">
+    <article className="Home">
       <section className="left-sidebar">
         <div className="rnd-subject">랜덤 주제 영역</div>
         <div className="today">{date}</div>
@@ -83,8 +82,7 @@ const Main = () => {
         </div>
         <div className="bird-img">사진 영역</div>
       </section>
-      <Sidebar />
-    </main>
+    </article>
   );
 };
 

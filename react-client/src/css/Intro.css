@@ -81,11 +81,11 @@ form.login input {
 }
 
 form.login input[type="text"] {
-  background-image: url("../images/user.png");
+  background-image: url("../../assets/images/user.png");
 }
 
 form.login input[type="password"] {
-  background-image: url("../images/pwd.png");
+  background-image: url("../../assets/images/pwd.png");
 }
 
 form.login input::placeholder {
@@ -112,7 +112,7 @@ main.Intro .wrap-links > * {
   transition: all 0.3s ease-out;
 }
 .wrap-links button {
-  background-image: url("../images/enter.png");
+  background-image: url("../../assets/images/enter.png");
   background-repeat: no-repeat;
   background-position: right 5px bottom 50%;
   background-size: 16px;

@@ -16,7 +16,7 @@ const QuizMain = () => {
   }, [fetchs]);
 
   return (
-    <main className="Quiz">
+    <article className="Quiz">
       <section className="left-sidebar">
         <div className="subject-box">
           <div className="title">&#183; 주제 &#183;</div>
@@ -33,8 +33,7 @@ const QuizMain = () => {
         </div>
         <div className="bird-img">사진 영역</div>
       </section>
-      <Sidebar />
-    </main>
+    </article>
   );
 };
 

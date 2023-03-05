@@ -12,10 +12,6 @@ export default (sequelize) => {
         type: Sequelize.DataTypes.STRING(225),
         allowNull: false,
         primaryKey: true,
-        references: {
-          model: "tbl_subjects",
-          key: "s_subid",
-        },
       },
       a_date: {
         type: Sequelize.DataTypes.STRING(10),
@@ -48,11 +44,6 @@ export default (sequelize) => {
           unique: true,
           using: "BTREE",
           fields: [{ name: "a_attid" }, { name: "a_subid" }],
-        },
-        {
-          name: "fk_subatt",
-          using: "BTREE",
-          fields: [{ name: "a_subid" }],
         },
       ],
     }

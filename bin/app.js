@@ -25,6 +25,10 @@ import quizRouter from "../routes/quiz.js";
 import todoRouter from "../routes/todo.js";
 // import setRouter from "../routes/setting.js";
 
+// scheduler
+import { scheduleJob } from "node-schedule";
+import { removeAttach } from "../modules/remove_attach.js";
+
 // create express framework
 const app = express();
 
@@ -42,7 +46,8 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join("public")));
+app.use(express.static(path.join("react-client/build")));
+app.use("/uploads", express.static(path.join("public/uploads")));
 
 // router link enable
 app.use("/note", noteRouter);
@@ -63,6 +68,18 @@ app.use((err, req, res, next) => {
   // render the error page
   res.status(err.status || 500);
   res.render("error");
+});
+
+// execute scheduler
+app.listen(process.env.PORT, () => {
+  /**
+   * 게시되지 않은 첨부파일 완전 삭제(modules/attach_remove.js)
+   * 서버가 켜져 있을 때 매일 자정에 실행 : 0 0 0 * * *
+   */
+  // 테스트용 5초마다 실행 : */5 * * * * *
+  scheduleJob("0 0 0 * * *", async () => {
+    await removeAttach();
+  });
 });
 
 export default app;

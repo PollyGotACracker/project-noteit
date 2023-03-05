@@ -13,10 +13,6 @@ export default (sequelize) => {
         type: Sequelize.DataTypes.STRING(225),
         allowNull: false,
         primaryKey: true,
-        references: {
-          model: "tbl_users",
-          key: "u_userid",
-        },
       },
       t_date: {
         type: Sequelize.DataTypes.STRING(10),
@@ -58,11 +54,6 @@ export default (sequelize) => {
           unique: true,
           using: "BTREE",
           fields: [{ name: "t_todoid" }, { name: "t_userid" }],
-        },
-        {
-          name: "fk_usetodo",
-          using: "BTREE",
-          fields: [{ name: "t_userid" }],
         },
       ],
     }

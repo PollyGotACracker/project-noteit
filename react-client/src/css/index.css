@@ -6,6 +6,7 @@
 }
 html {
   height: 100%;
+  overflow-x: hidden;
 }
 @font-face {
   font-family: "NanumSquareNeo-Variable";
@@ -22,6 +23,8 @@ html {
   --violet: #3f3d56;
   --light: #faf9f7;
   --dark: #333;
+  --darkgray: #aaa;
+  --lightgray: #ccc;
 }
 body {
   width: 100%;
@@ -33,6 +36,16 @@ body {
   color: #181818;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+*::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  background-color: var(--darkgray);
+  border-radius: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--blue);
+  border-radius: 10px;
 }
 #root {
   width: 100%;

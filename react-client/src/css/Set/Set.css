@@ -2,7 +2,6 @@ section.setting-box * {
   user-select: none;
 }
 section.setting-box {
-  width: 50%;
   height: 100%;
   display: flex;
   flex-direction: column;

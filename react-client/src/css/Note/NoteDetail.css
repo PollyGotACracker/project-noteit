@@ -1,7 +1,7 @@
-main.Detail {
+.Detail {
   padding-top: 0;
 }
-.Detail.title {
+.Detail .title {
   width: 80%;
   padding: 2% 0;
   margin: 0 auto;
@@ -10,14 +10,14 @@ main.Detail {
   align-items: center;
   gap: 0.5em;
 }
-.Detail.title a.search {
+.Detail .title a.search {
   display: inline-block;
   color: var(--blue);
 }
-.Detail.title a.search:hover {
+.Detail .title a.search:hover {
   color: var(--yellow);
 }
-.Detail.menu {
+.Detail .menu {
   width: 100%;
   padding: 0.5em;
   display: flex;
@@ -25,8 +25,8 @@ main.Detail {
   align-items: center;
   border-bottom: 1px solid var(--blue);
 }
-.Detail.menu button,
-.Detail.menu a {
+.Detail .menu button,
+.Detail .menu a {
   border-radius: 5px;
   padding: 0.5em 1em;
   margin: 5px;
@@ -38,12 +38,12 @@ main.Detail {
   gap: 0.5em;
 }
 
-.Detail.menu button svg,
-.Detail.menu a svg {
+.Detail .menu button svg,
+.Detail .menu a svg {
   font-size: 1.2em;
 }
-.Detail.menu button:hover,
-.Detail.menu a:hover {
+.Detail .menu button:hover,
+.Detail .menu a:hover {
   background-color: var(--yellow);
 }
 
@@ -86,39 +86,30 @@ main.Detail {
 .bookmark-btn.active:hover {
   color: inherit !important;
 }
-.Detail.title .subject {
+.Detail .title .subject {
   padding: 10px 0;
   width: 100%;
   text-align: center;
   font-size: 3em;
   font-weight: 700;
 }
-.Detail.title .category {
+.Detail .title .category {
   font-size: 1.2em;
   transition: all ease 0.2s;
 }
-.Detail.title .category:hover {
+.Detail .title .category:hover {
   color: var(--yellow);
 }
-.keyword-count {
-  width: calc(80% - 15em);
-  margin: 0 auto;
-  font-weight: 700;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 0.2em;
-}
-.Detail.slide {
+
+.Detail .keyword-slide {
   width: 80%;
   min-height: 20vh;
   margin: 0 auto;
   display: flex;
-  padding-top: 1em;
   justify-content: space-between;
   align-items: center;
 }
-.Detail.slide button:not(.copy-btn) {
+.Detail .keyword-slide button:not(.copy-btn) {
   margin: 0 1.2em;
   height: 100%;
   font-size: 2em;
@@ -127,20 +118,20 @@ main.Detail {
   align-items: center;
   transition: all 0.2s;
 }
-.Detail.slide button:hover {
+.Detail .keyword-slide button:hover {
   color: var(--yellow);
 }
-.Detail.slide .keyword-list-wrap {
+.Detail .keyword-slide .keyword-list-wrap {
   width: 100%;
   min-height: 20vh;
   position: relative;
   /* overflow: hidden; */
 }
-.Detail.slide .keyword-list {
+.Detail .keyword-slide .keyword-list {
   width: 100%;
   height: 100%;
 }
-.Detail.slide .keyword {
+.Detail .keyword-slide .keyword {
   display: inline-block;
   width: 100%;
   min-height: 20vh;
@@ -154,20 +145,34 @@ main.Detail {
   padding: 0.5em;
   text-align: center;
 }
-.copy-wrap .copy-btn {
-  margin: 0 0 0.2em 0.2em;
-  font-size: 0.8em;
+.keyword-list-top {
+  width: 60%;
+  margin: 0 auto;
   display: flex;
+  justify-content: space-between;
+  padding: 0.5em;
+}
+.keyword-list-top .keyword-count {
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
   align-items: center;
   gap: 0.2em;
-  transition: all 0.2s;
+}
+.keyword-list-top .copy-btn {
+  margin: 0 0 0.2em 0.2em;
+  font-size: 0.8em;
+}
+.keyword-list-top .copy-btn:hover {
+  color: var(--yellow);
 }
 .keyword .desc {
   padding: 0.5em;
-  white-space: pre-line;
+  word-wrap: break-word;
+  word-break: keep-all;
   height: 100%;
 }
-.keyword-button {
+.keyword-list-bottom {
   width: 100%;
   margin: 10px 0;
   display: flex;
@@ -189,10 +194,9 @@ main.Detail {
 .keyword-dot:hover {
   color: var(--yellow);
 }
-.Detail.content {
-  width: 80%;
+.Detail .content {
   min-height: 35vh;
-  margin: 5vh auto 0;
+  margin: 5vh 10vw 0;
   border: 1px solid #aaa;
   border-radius: 5px;
   padding: 10px;

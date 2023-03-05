@@ -5,12 +5,12 @@ import TodoList from "./TodoList";
 
 const TodoMain = () => {
   return (
-    <main className="Todo">
+    <article className="Todo">
       <TodoContextProvider>
         <TodoInput />
         <TodoList />
       </TodoContextProvider>
-    </main>
+    </article>
   );
 };
 

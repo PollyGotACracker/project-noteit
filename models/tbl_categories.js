@@ -12,22 +12,22 @@ export default (sequelize) => {
         type: Sequelize.DataTypes.STRING(225),
         allowNull: false,
         primaryKey: true,
-        references: {
-          model: "tbl_users",
-          key: "u_userid",
-        },
       },
       c_category: {
         type: Sequelize.DataTypes.STRING(125),
         allowNull: false,
         unique: "c_category",
       },
+      c_date: {
+        type: Sequelize.DataTypes.STRING(10),
+        allowNull: true,
+      },
       c_subcount: {
         type: Sequelize.DataTypes.BIGINT,
         allowNull: false,
         defaultValue: 0,
       },
-      c_checked: {
+      c_bookmark: {
         type: Sequelize.DataTypes.TINYINT,
         allowNull: false,
         defaultValue: 0,
@@ -43,17 +43,6 @@ export default (sequelize) => {
           unique: true,
           using: "BTREE",
           fields: [{ name: "c_catid" }, { name: "c_userid" }],
-        },
-        {
-          name: "c_category",
-          unique: true,
-          using: "BTREE",
-          fields: [{ name: "c_category" }],
-        },
-        {
-          name: "fk_usecat",
-          using: "BTREE",
-          fields: [{ name: "c_userid" }],
         },
       ],
     }

@@ -1,13 +1,20 @@
-import { useState, useReducer, useCallback, useRef } from "react";
+import { useState, useReducer, useRef } from "react";
 import { Link, useLoaderData, useNavigate, useParams } from "react-router-dom";
 import "../../css/Note/NoteDetail.css";
+import "../../css/Note/Content.css";
 import { deleteSubHandler } from "../../service/note.service";
 import { RxDot, RxDotFilled } from "react-icons/rx";
 import { MdDelete } from "react-icons/md";
 import { IoPrint } from "react-icons/io5";
 import { RxBookmark, RxBookmarkFilled } from "react-icons/rx";
 import { RiBallPenFill, RiGoogleFill } from "react-icons/ri";
-import { FaTags, FaClipboard, FaCaretLeft, FaCaretRight } from "react-icons/fa";
+import {
+  FaTags,
+  FaClipboard,
+  FaCheck,
+  FaCaretLeft,
+  FaCaretRight,
+} from "react-icons/fa";
 
 export const detailLoader = async ({ params }) => {
   const subid = params?.subid;
@@ -59,7 +66,7 @@ const NoteDetail = () => {
   const [msg, setMsg] = useState("");
   const [copyMsg, setCopyMsg] = useState("키워드 복사");
   const [state, dispatch] = useReducer(changeKeyword, 1);
-  const BookmarkMsg = useRef(null);
+  const bookmarkRef = useRef(null);
 
   const bookmarkHandler = async () => {
     try {
@@ -70,7 +77,7 @@ const NoteDetail = () => {
       } else {
         setBookmark(res.result);
         setMsg(res.MESSAGE);
-        showMsg(BookmarkMsg.current);
+        showMsg(bookmarkRef.current);
       }
     } catch (error) {
       console.log(error);
@@ -90,30 +97,23 @@ const NoteDetail = () => {
     }
   };
 
-  const copyKeyword = (value) => {
+  const copyKeyword = () => {
+    const value = keywords[state].k_keyword;
     navigator.clipboard.writeText(value);
-    setCopyMsg("복사되었습니다.");
+    setCopyMsg("복사 완료!");
+    setTimeout(() => {
+      setCopyMsg("키워드 복사");
+    }, 3000);
   };
 
   const keywordList = keywords.map((ele) => {
     return (
-      <>
-        <div className="copy-wrap">
-          <button
-            className="copy-btn"
-            onClick={() => copyKeyword(ele.k_keyword)}
-          >
-            <FaClipboard />
-            <span className="copy-msg">{copyMsg}</span>
-          </button>
+      <div key={ele.k_keyid} data-id={ele.k_index} className="keyword">
+        <div className="name">
+          <span>{ele.k_keyword}</span>
         </div>
-        <div key={ele.k_keyid} data-id={ele.k_index} className="keyword">
-          <div className="name">
-            <span>{ele.k_keyword}</span>
-          </div>
-          <div className="desc">{ele.k_desc}</div>
-        </div>
-      </>
+        <div className="desc">{ele.k_desc}</div>
+      </div>
     );
   });
   const [keywordSlide] = useState([...keywordList]);
@@ -132,8 +132,8 @@ const NoteDetail = () => {
   });
 
   return (
-    <main className="Detail">
-      <section className="Detail menu">
+    <article className="Detail">
+      <section className="menu">
         <div className="bookmark-wrap">
           <button
             className={bookmark === 0 ? "bookmark-btn" : "bookmark-btn active"}
@@ -143,7 +143,7 @@ const NoteDetail = () => {
             {bookmark === 0 ? <RxBookmark /> : <RxBookmarkFilled />}
             북마크
           </button>
-          <div className="bookmark msg" ref={BookmarkMsg}>
+          <div className="bookmark msg" ref={bookmarkRef}>
             {msg}
           </div>
         </div>
@@ -169,17 +169,23 @@ const NoteDetail = () => {
           검색
         </a>
       </section>
-      <section className="Detail title">
+      <section className="title">
         <div className="subject">{subject.s_subject}</div>
         <Link className="category" to={`/note/category/${catid}`}>
           {subject.s_category}
         </Link>
       </section>
-      <div className="keyword-count">
-        <FaTags />
-        {state}/{subject["tbl_keywords.length"]}
-      </div>
-      <section className="Detail slide">
+      <section className="keyword-list-top">
+        <div className="keyword-count">
+          <FaTags />
+          {state}/{subject["tbl_keywords.length"]}
+        </div>
+        <button className="copy-btn" onClick={copyKeyword}>
+          {copyMsg === "키워드 복사" ? <FaClipboard /> : <FaCheck />}
+          <span className="copy-msg">{copyMsg}</span>
+        </button>
+      </section>
+      <section className="keyword-slide">
         <button
           className="prev"
           onClick={() => dispatch({ type: "PREV", payload: keywords?.length })}
@@ -196,11 +202,11 @@ const NoteDetail = () => {
           <FaCaretRight />
         </button>
       </section>
-      <div className="keyword-button">{keywordDot}</div>
-      <section className="Detail content">
-        <div>{subject.s_content}</div>
+      <div className="keyword-list-bottom">{keywordDot}</div>
+      <section className="content">
+        <div dangerouslySetInnerHTML={{ __html: subject?.s_content }}></div>
       </section>
-    </main>
+    </article>
   );
 };
 export default NoteDetail;

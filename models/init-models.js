@@ -17,89 +17,59 @@ function initModels(sequelize) {
   const tbl_todo = _tbl_todo(sequelize);
   const tbl_users = _tbl_users(sequelize);
 
-  tbl_score.belongsTo(tbl_categories, {
-    as: "sc_cat",
-    foreignKey: "sc_catid",
-    onDelete: "cascade",
-    onUpdate: "cascade",
-  });
-  tbl_categories.hasMany(tbl_score, {
-    as: "tbl_scores",
-    foreignKey: "sc_catid",
-    onDelete: "cascade",
-    onUpdate: "cascade",
-  });
   tbl_subjects.belongsTo(tbl_categories, {
     as: "s_cat",
     foreignKey: "s_catid",
     onDelete: "cascade",
-    onUpdate: "cascade",
   });
   tbl_categories.hasMany(tbl_subjects, {
     as: "tbl_subjects",
     foreignKey: "s_catid",
     onDelete: "cascade",
-    onUpdate: "cascade",
   });
-  tbl_attachs.belongsTo(tbl_subjects, {
-    as: "a_sub",
-    foreignKey: "a_subid",
-    onDelete: "cascade",
-    onUpdate: "cascade",
-  });
-  tbl_subjects.hasMany(tbl_attachs, {
-    as: "tbl_attaches",
-    foreignKey: "a_subid",
-    onDelete: "cascade",
-    onUpdate: "cascade",
-  });
+
   tbl_keywords.belongsTo(tbl_subjects, {
     as: "k_sub",
     foreignKey: "k_subid",
     onDelete: "cascade",
-    onUpdate: "cascade",
   });
   tbl_subjects.hasMany(tbl_keywords, {
     as: "tbl_keywords",
     foreignKey: "k_subid",
     onDelete: "cascade",
-    onUpdate: "cascade",
   });
+
   tbl_categories.belongsTo(tbl_users, {
     as: "c_users",
     foreignKey: "c_userid",
     onDelete: "cascade",
-    onUpdate: "cascade",
   });
   tbl_users.hasMany(tbl_categories, {
     as: "tbl_categories",
     foreignKey: "c_userid",
     onDelete: "cascade",
-    onUpdate: "cascade",
   });
+
   tbl_score.belongsTo(tbl_users, {
     as: "sc_users",
     foreignKey: "sc_userid",
     onDelete: "cascade",
-    onUpdate: "cascade",
   });
   tbl_users.hasMany(tbl_score, {
     as: "tbl_scores",
     foreignKey: "sc_userid",
     onDelete: "cascade",
-    onUpdate: "cascade",
   });
+
   tbl_todo.belongsTo(tbl_users, {
     as: "t_users",
     foreignKey: "t_userid",
     onDelete: "cascade",
-    onUpdate: "cascade",
   });
   tbl_users.hasMany(tbl_todo, {
     as: "tbl_todo",
     foreignKey: "t_userid",
     onDelete: "cascade",
-    onUpdate: "cascade",
   });
 
   return {

@@ -12,10 +12,6 @@ export default (sequelize) => {
         type: Sequelize.DataTypes.STRING(225),
         allowNull: false,
         primaryKey: true,
-        references: {
-          model: "tbl_subjects",
-          key: "s_subid",
-        },
       },
       k_index: {
         type: Sequelize.DataTypes.INTEGER,
@@ -40,11 +36,6 @@ export default (sequelize) => {
           unique: true,
           using: "BTREE",
           fields: [{ name: "k_keyid" }, { name: "k_subid" }],
-        },
-        {
-          name: "fk_subkey",
-          using: "BTREE",
-          fields: [{ name: "k_subid" }],
         },
       ],
     }

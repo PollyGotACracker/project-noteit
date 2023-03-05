@@ -16,20 +16,12 @@ export default (sequelize) => {
         type: Sequelize.DataTypes.STRING(225),
         allowNull: false,
         primaryKey: true,
-        references: {
-          model: "tbl_categories",
-          key: "c_catid",
-        },
       },
       s_category: {
         type: Sequelize.DataTypes.STRING(125),
         allowNull: false,
       },
       s_date: {
-        type: Sequelize.DataTypes.STRING(10),
-        allowNull: true,
-      },
-      s_time: {
         type: Sequelize.DataTypes.STRING(10),
         allowNull: true,
       },
@@ -52,6 +44,14 @@ export default (sequelize) => {
         type: Sequelize.DataTypes.TEXT,
         allowNull: true,
       },
+      s_thumb: {
+        type: Sequelize.DataTypes.STRING(256),
+        allowNull: true,
+      },
+      s_attachs: {
+        type: Sequelize.DataTypes.TEXT,
+        allowNull: true,
+      },
     },
     {
       sequelize,
@@ -63,11 +63,6 @@ export default (sequelize) => {
           unique: true,
           using: "BTREE",
           fields: [{ name: "s_subid" }, { name: "s_catid" }],
-        },
-        {
-          name: "fk_catsub",
-          using: "BTREE",
-          fields: [{ name: "s_catid" }],
         },
       ],
     }

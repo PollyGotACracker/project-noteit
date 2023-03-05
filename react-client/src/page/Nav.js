@@ -12,7 +12,7 @@ import { TbListCheck } from "react-icons/tb";
 const Nav = () => {
   return (
     <nav className="Nav">
-      <NavLink className="home" to="/home">
+      <NavLink className="home" to="/">
         <RiHome4Fill />
         메인
       </NavLink>
