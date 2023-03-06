@@ -1,4 +1,4 @@
-main.Intro {
+.Login {
   padding: 0 !important;
   background-color: var(--blue);
   display: flex;
@@ -7,11 +7,11 @@ main.Intro {
   justify-content: center;
 }
 
-main.Intro + nav {
+.Login + nav {
   display: none;
 }
 
-main.Intro .cover-img {
+.Login .cover-img {
   width: 35vh;
   height: 35vh;
   background-color: white;
@@ -30,7 +30,7 @@ main.Intro .cover-img {
   }
 }
 
-main.Intro .title {
+.Login .title {
   color: white;
   font-size: 40pt;
   font-weight: 900;
@@ -40,7 +40,7 @@ main.Intro .title {
   user-select: none;
 }
 
-main.Intro .title .char {
+.Login .title .char {
   display: inline-block;
   animation: cubic-bezier(0.195, 0.325, 0.6, 1.55) bounce;
 }
@@ -57,14 +57,14 @@ main.Intro .title .char {
   }
 }
 
-main.Intro form.login {
+.Login form.login {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 350px;
 }
 
-form.login input {
+.Login input {
   width: 100%;
   margin: 5px;
   padding: 10px;
@@ -80,29 +80,29 @@ form.login input {
   padding: 10px 40px;
 }
 
-form.login input[type="text"] {
+.Login form.login input[type="text"] {
   background-image: url("../../assets/images/user.png");
 }
 
-form.login input[type="password"] {
+.Login form.login input[type="password"] {
   background-image: url("../../assets/images/pwd.png");
 }
 
-form.login input::placeholder {
+.Login form.login input::placeholder {
   color: #ccc;
 }
 
-form.login input:focus {
+.Login form.login input:focus {
   border-bottom: 1px dashed var(--yellow);
 }
 
-main.Intro .wrap-links {
+.Login .wrap-links {
   display: flex;
   justify-content: space-between;
   width: 100%;
   margin-top: 3vh;
 }
-main.Intro .wrap-links > * {
+.Login .wrap-links > * {
   display: inline-block;
   width: 30%;
   color: white;
@@ -111,13 +111,13 @@ main.Intro .wrap-links > * {
   white-space: nowrap;
   transition: all 0.3s ease-out;
 }
-.wrap-links button {
+.Login .wrap-links button {
   background-image: url("../../assets/images/enter.png");
   background-repeat: no-repeat;
   background-position: right 5px bottom 50%;
   background-size: 16px;
 }
-.wrap-links a:hover,
-.wrap-links button:hover {
+.Login .wrap-links a:hover,
+.Login .wrap-links button:hover {
   color: var(--yellow);
 }

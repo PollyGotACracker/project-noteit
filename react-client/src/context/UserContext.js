@@ -7,18 +7,17 @@ const useUserContext = () => {
 };
 
 const UserContextProvider = ({ children }) => {
-  const userID = "polly@gmail.com";
-  const nickname = "polly";
-  const profileImg = "polly@gmail.com";
-  const profileStr = "너무 졸리다";
-  const [cscore, setCscore] = useState(0);
+  const [userData, setUserData] = useState({
+    userid: "",
+    nickname: "",
+    profileimg: "",
+    profilestr: "",
+    cscore: "",
+  });
 
   const props = {
-    userID,
-    nickname,
-    profileImg,
-    profileStr,
-    cscore,
+    userData,
+    setUserData,
   };
   return <UserContext.Provider value={props}>{children}</UserContext.Provider>;
 };

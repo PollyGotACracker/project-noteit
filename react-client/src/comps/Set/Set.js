@@ -1,42 +1,71 @@
 import "../../css/Set/Set.css";
-import { useState, useCallback } from "react";
+import { useRef, useState, useCallback } from "react";
+import { useUserContext } from "../../context/UserContext";
 
 const Set = () => {
-  const [fileList, setFileList] = useState([]);
-  const OnChangeAttHandler = useCallback(
-    (e) => {
-      const fileData = Array.from(e.target.files);
-      console.log(fileData);
-      const uploadFiles = fileData.map((file) => {
-        const item = {
-          url: URL.createObjectURL(file),
-          a_original_name: file.name,
-          a_ext: file.type,
-        };
-        return item;
-      });
-      console.log(uploadFiles);
-      setFileList([...uploadFiles]);
-    },
-    [fileList]
-  );
+  const { userData } = useUserContext();
+  const [profileData, setProfileData] = useState({
+    src: userData.profileImg,
+    // name: userData.profileStr,
+    str: userData.profileStr,
+  });
+  const imgRef = useRef(null);
+
+  const onChangeStrHandler = (e) => {
+    setProfileData({ ...profileData, str: e.target.value });
+  };
+  const onChangeImgHandler = (e) => {
+    const src = URL.createObjectURL(e.target.files[0]);
+    const name = e.target.files[0].name;
+    setProfileData({
+      ...profileData,
+      src,
+      name,
+    });
+  };
+
+  const onClickSubmitProfile = async () => {
+    const formData = new FormData();
+    formData.append("upload", imgRef.current.files[0]);
+    formData.append("str", profileData.str);
+    const fetchOption = {
+      method: "POST",
+      body: formData,
+    };
+    await fetch(`/set/${userData.userid}/profile`, fetchOption);
+  };
 
   return (
-    <article className="Setting">
+    <article className="Set">
       <section className="setting-box">
         <div className="wrapper">
           <div className="title">프로필 설정</div>
           <section className="attach-box">
-            <label htmlFor="attach">첨부</label>
+            <label htmlFor="upload">첨부</label>
+            <div className="upload-wrap">
+              <img
+                className="upload"
+                src={profileData?.src}
+                alt={profileData?.name}
+              />
+            </div>
             <input
               type="file"
-              id="attach"
-              name="attach"
+              id="upload"
+              name="upload"
               accept="image/*"
-              multiple
-              onChange={OnChangeAttHandler}
+              // multiple
+              ref={imgRef}
+              onChange={(e) => onChangeImgHandler(e)}
             />
-            <input placeholder="프로필 문구" />
+            <input
+              value={profileData.str}
+              placeholder="프로필 문구"
+              onChange={(e) => onChangeStrHandler(e)}
+            />
+            <button type="button" onClick={onClickSubmitProfile}>
+              등록
+            </button>
           </section>
         </div>
         <div className="wrapper">
@@ -58,7 +87,15 @@ const Set = () => {
           <button>노트 삭제</button> <button>목표 삭제</button>
         </div>
         <div className="wrapper">
-          <div className="title">회원탈퇴</div>
+          <div className="title">계정 삭제</div>
+          <input
+            type="password"
+            placeholder="비밀번호 입력"
+            onPaste={(e) => {
+              e.preventDefault();
+            }}
+          />
+          <button>삭제</button>
         </div>
       </section>
     </article>

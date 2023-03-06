@@ -4,14 +4,16 @@
   display: flex;
 }
 .App main {
-  margin: 1em;
-  padding: 1em 0;
   flex: 1;
   display: flex;
   overflow: hidden;
+  display: flex;
+}
+.App main.Index {
+  margin: 1em;
+  padding: 1em 0;
   border: 1px solid var(--darkgray);
   border-radius: 10px;
-  display: flex;
 }
 .App main article {
   flex: 1;

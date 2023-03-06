@@ -5,18 +5,31 @@ section.setting-box {
   height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
+}
+.Set .upload-wrap {
+  width: 20vw;
+  height: 20vw;
+  margin: 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
+.Set .upload {
+  height: 100%;
+  display: inline-block;
+}
 
-label[for="attach"]:before {
+label[for="upload"]:before {
   content: "\f1c5";
   font-family: "Font Awesome 5 Free";
   font-weight: 400;
   margin-right: 10px;
 }
 
-label[for="attach"] {
+label[for="upload"] {
   display: inline-block;
   width: 100px;
   font-size: 15pt;

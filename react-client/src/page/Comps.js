@@ -1,5 +1,5 @@
 import App from "../App";
-import Intro from "../comps/Intro";
+import Login from "../comps/Login";
 import Index from "../comps/Index";
 import Home from "../comps/Home";
 import NoteMain from "../comps/Note/NoteMain";
@@ -14,7 +14,7 @@ import NotFound from "../page/NotFound";
 
 export {
   App,
-  Intro,
+  Login,
   Index,
   Home,
   NoteMain,

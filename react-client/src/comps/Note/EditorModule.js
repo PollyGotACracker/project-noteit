@@ -10,7 +10,7 @@ export const EditorModule = ({ data, handler, subid }) => {
       // 업로드 시 사용될 file loader 객체 인스턴스 생성
       this.loader = loader;
       this.path = "/note/upload";
-      this.root = "http://localhost:3000";
+      this.url = "http://localhost:3000/uploads/";
     }
 
     // 업로드 method
@@ -67,7 +67,7 @@ export const EditorModule = ({ data, handler, subid }) => {
         // response 가 보낸 url 을 img tag 의 src 에 삽입
         resolve({
           // default: `${process.env.PUBLIC_URL}/uploads/${response.url}`,
-          default: `${this.root}/uploads/${response.url}`,
+          default: `${this.url}${response.url}`,
         });
       });
 

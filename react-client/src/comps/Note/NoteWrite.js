@@ -128,19 +128,6 @@ const NoteWrite = () => {
     setKeywordList([..._list]);
   };
 
-  // fetch
-  const fetchs = async () => {};
-
-  useLayoutEffect(() => {
-    (async () => {
-      await fetchs();
-    })();
-  }, []);
-
-  useLayoutEffect(() => {
-    console.log(noteSub);
-  }, [noteSub]);
-
   const onChangeSubHandler = (e) => {
     setNoteSub({ ...noteSub, [e.target.name]: e.target.value });
   };

@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import {
   App,
-  Intro,
+  Login,
   Index,
   Home,
   NoteMain,
@@ -25,7 +25,7 @@ const NavRouter = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
-      { path: "login", element: <Intro /> },
+      { path: "login", element: <Login /> },
       {
         path: "",
         element: <Index />,

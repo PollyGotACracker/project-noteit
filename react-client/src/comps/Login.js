@@ -1,7 +1,8 @@
-import "../css/Intro.css";
-import { Link } from "react-router-dom";
+import "../css/Login.css";
+import { useNavigate, Link } from "react-router-dom";
 
-const Intro = () => {
+const Login = () => {
+  const nav = useNavigate();
   // title 에 span tag 추가 후 각각 css animation 설정
   const TitleContent = () => {
     const titleChar = "NoteIT";
@@ -30,11 +31,11 @@ const Intro = () => {
   const onClickHandler = () => {
     // 유효성 검사 및 fetch
     // 아래는 임시 코드
-    window.location.replace("/home");
+    nav(`/`, { replace: true });
   };
 
   return (
-    <main className="Intro">
+    <main className="Login">
       <div className="cover-img"></div>
       <div className="title">
         <TitleContent />
@@ -66,4 +67,4 @@ const Intro = () => {
   );
 };
 
-export default Intro;
+export default Login;
