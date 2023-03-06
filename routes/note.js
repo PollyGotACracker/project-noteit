@@ -23,10 +23,6 @@ router.get("/cat", async (req, res, next) => {
         ["c_bookmark", "DESC"],
         ["c_category", "ASC"],
       ],
-      include: {
-        model: SUB,
-        as: "tbl_subjects",
-      },
     });
     return res.json({ result: catList });
   } catch (error) {
@@ -79,10 +75,18 @@ router.put("/cat/bookmark", async (req, res, next) => {
 });
 
 // category DELETE
-router.delete("/cat/delete/:catid", async (req, res, next) => {
+router.delete("/cat/:catid/delete", async (req, res, next) => {
+  const catid = req.params.catid;
   try {
-    const catid = req.params.catid;
+    let subid = await SUB.findAll({
+      raw: true,
+      where: { s_catid: catid },
+    });
+    subid = subid[0]?.s_subid;
+    await KEY.destroy({ where: { k_subid: subid || "" } });
+    await SUB.destroy({ where: { s_subid: subid || "" } });
     await CAT.destroy({ where: { c_catid: catid } });
+
     return res.send({ result: "정상적으로 삭제되었습니다." });
   } catch (err) {
     console.error(err);
@@ -258,23 +262,13 @@ router.get("/sub/:subid", async (req, res, next) => {
 
   try {
     const subject = await SUB.findAll({
-      raw: true,
       where: { s_subid: subid },
-      include: [
-        {
-          model: KEY,
-          as: "tbl_keywords",
-          attributes: [
-            [sequelize.fn("count", Sequelize.col("k_keyid")), "length"],
-          ],
-        },
-      ],
-      group: ["tbl_subjects.s_subid"],
     });
     const keywords = await KEY.findAll({
       where: { k_subid: subid },
       order: [["k_index", "ASC"]],
     });
+    await SUB.increment("s_views", { by: 1, where: { s_subid: subid } });
     return res.send({ subject, keywords });
   } catch (error) {
     console.error(error);
@@ -289,7 +283,7 @@ router.put("/sub/update", sanitizer, async (req, res, next) => {
     const subjects = {
       ...req.body.subjects,
       s_keycount: keywords.length,
-      // s_content: req.filtered,
+      s_content: req.filtered,
     };
     await SUB.update(subjects, { where: { s_subid: subjects.s_subid } });
     await KEY.destroy({ where: { k_subid: subjects.s_subid } });
@@ -301,19 +295,16 @@ router.put("/sub/update", sanitizer, async (req, res, next) => {
   }
 });
 
-router.delete("/sub/delete/:subid", async (req, res, next) => {
+router.delete("/sub/:catid/:subid/delete", async (req, res, next) => {
   try {
+    const catid = req.params.catid;
     const subid = req.params.subid;
-    const catid = await SUB.findOne({
-      raw: true,
-      attributes: ["s_catid"],
-      where: { s_subid: subid },
-    });
-    console.log(catid);
+
+    await KEY.destroy({ where: { k_subid: subid } });
     await SUB.destroy({ where: { s_subid: subid } });
     await CAT.decrement("c_subcount", {
       by: 1,
-      where: { c_catid: catid.s_catid },
+      where: { c_catid: catid },
     });
     return res.send({ result: "정상적으로 삭제되었습니다." });
   } catch (error) {

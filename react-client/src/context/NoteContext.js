@@ -9,7 +9,7 @@ const useNoteContext = () => {
 
 const NoteContextProvider = ({ children }) => {
   const [noteCatList, setNoteCatList] = useState([]);
-  const [catData, setCatData] = useState({});
+  const [catVal, setCatVal] = useState({});
   const [noteSubList, setNoteSubList] = useState([]);
   const [noteCat, setNoteCat] = useState(initCat);
   const [noteSub, setNoteSub] = useState(initSub);
@@ -20,8 +20,8 @@ const NoteContextProvider = ({ children }) => {
     setNoteCatList,
     noteSubList,
     setNoteSubList,
-    catData,
-    setCatData,
+    catVal,
+    setCatVal,
     noteCat,
     setNoteCat,
     noteSub,

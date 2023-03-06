@@ -1,6 +1,7 @@
 import "../css/Sidebar.css";
 import Player from "./Player";
 import { useUserContext } from "../context/UserContext";
+import { GiStarsStack } from "react-icons/gi";
 
 const Sidebar = () => {
   const { nickname, profileImg, profileStr, cscore } = useUserContext();
@@ -14,8 +15,8 @@ const Sidebar = () => {
       <div className="profile-str">
         <span>{profileStr}</span>
       </div>
-      <div className="point">
-        POINT
+      <div title="점수" className="score">
+        <GiStarsStack />
         <div>{cscore}</div>
       </div>
     </aside>

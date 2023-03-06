@@ -25,7 +25,9 @@ const Nav = () => {
         노트
       </NavLink>
       <NavLink className="todo" to="/todo">
-        <TbListCheck />
+        <div>
+          <TbListCheck />
+        </div>
         목표
       </NavLink>
       <NavLink className="setting" to="/setting">

@@ -69,6 +69,7 @@ const NoteCatMain = () => {
         <form>
           <input
             name="c_category"
+            maxLength={225}
             onChange={onChangeHandler}
             onKeyDown={onKeyDownHandler}
             placeholder="카테고리 추가..."

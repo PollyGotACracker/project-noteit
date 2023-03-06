@@ -7,22 +7,14 @@
     font-size: 20pt;
   } */
 
-.Sidebar .combo,
-.Sidebar .point {
-  font-weight: 700;
+.Sidebar div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-.Sidebar .combo:before,
-.Sidebar .point:before {
+.Sidebar .score svg {
   display: block;
-  font-family: "Font Awesome 5 Free";
-  font-weight: 900;
-  font-size: 30pt;
-  text-align: center;
-  margin-bottom: 15px;
-}
-.Sidebar .combo:before {
-  content: "\f11e";
-}
-.Sidebar .point:before {
-  content: "\f005";
+  margin-bottom: 0.2em;
+  font-size: 2.5em;
 }

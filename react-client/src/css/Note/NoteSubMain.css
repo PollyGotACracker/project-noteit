@@ -79,15 +79,14 @@
 .Note.Sub .content ul li {
   display: grid;
   grid-template-columns: 1.5fr 10fr 1fr 1fr 1.5fr;
+  gap: 10px;
   list-style: none;
   padding: 10px;
   border-bottom: 1px dashed #ccc;
 }
-.Note.Sub .item > * {
-  margin: 0 10px;
-}
 .Note.Sub .item .subject {
   display: flex;
+  white-space: nowrap;
   align-items: center;
   cursor: pointer;
   transition: all ease 0.2s;

@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useNoteContext } from "../../../context/NoteContext.js";
 import { getCatHandler, deleteCatHandler } from "../../../service/note.service";
 import { MdDelete } from "react-icons/md";
@@ -33,12 +33,11 @@ const NoteCatItem = ({ item }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ c_catid: catid, c_category: title }),
       };
-      let res = await fetch(`/note/cat/update`, fetchOption).then((data) =>
+      const res = await fetch(`/note/cat/update`, fetchOption).then((data) =>
         data.json()
       );
-      if (res.error) {
-        alert(res.error);
-      } else {
+      if (res?.error) alert(res.error);
+      else {
         input.readOnly = true;
         setUpdate("수정");
       }
@@ -81,7 +80,7 @@ const NoteCatItem = ({ item }) => {
 
   return (
     <section className="cat-item" key={item.c_catid}>
-      <button
+      <div
         className={`link-box`}
         onClick={() => {
           if (update === "완료") {
@@ -104,6 +103,7 @@ const NoteCatItem = ({ item }) => {
           className={`title-${item.c_catid}`}
           data-id={item.c_catid}
           value={title}
+          maxLength={225}
           spellCheck="false"
           readOnly={true}
           onChange={onChangeHandler}
@@ -112,12 +112,12 @@ const NoteCatItem = ({ item }) => {
         />
         <div className="date">{item.c_date}</div>
         <div className="subcount">{item.c_subcount}</div>
-      </button>
+      </div>
       <div className="btn-box">
         <button
           className="update-btn"
           type="button"
-          disabled={title < 1}
+          disabled={title.length < 1}
           title="수정"
           onClick={updateHandler}
         >

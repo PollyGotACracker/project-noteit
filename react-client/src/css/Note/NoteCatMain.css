@@ -11,14 +11,14 @@
   font-weight: 900;
 }
 .Note.Cat form {
-  width: 80%;
+  width: 50%;
   margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .Note.Cat form input[name="c_category"] {
-  width: 30%;
+  width: 100%;
   padding: 0.2em;
   font-size: 14pt;
   background-color: transparent;
@@ -42,12 +42,12 @@
 }
 .Note.Cat section.cat-list {
   width: 90%;
-  margin: 5vw auto 0;
+  margin: 8vh auto 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(30%, auto));
   justify-items: center;
-  column-gap: 50px;
-  row-gap: 50px;
+  column-gap: 1.5em;
+  row-gap: 3em;
 }
 .Note.Cat .cat-item {
   width: 100%;

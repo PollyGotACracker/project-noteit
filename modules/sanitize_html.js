@@ -111,7 +111,8 @@ const sanitizeOption = {
 };
 
 export const sanitizer = (req, res, next) => {
-  const filtered = sanitizeHtml(req.body.s_content, sanitizeOption);
+  // 첫 번째 인수로 필터링할 data 입력
+  const filtered = sanitizeHtml(req.body.subjects.s_content, sanitizeOption);
   // filtered.length < 200 ? filtered : `${filtered.slice(0, 200)}...`;
   req.filtered = filtered;
   next();

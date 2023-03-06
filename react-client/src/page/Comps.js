@@ -4,7 +4,7 @@ import Index from "../comps/Index";
 import Home from "../comps/Home";
 import NoteMain from "../comps/Note/NoteMain";
 import NoteCatMain, { catLoader } from "../comps/Note/Category/NoteCatMain";
-import NoteSubMain from "../comps/Note/Subject/NoteSubMain";
+import NoteSubMain, { subLoader } from "../comps/Note/Subject/NoteSubMain";
 import NoteDetail, { detailLoader } from "../comps/Note/NoteDetail";
 import NoteWrite, { writeLoader } from "../comps/Note/NoteWrite";
 import QuizMain from "../comps/Quiz/QuizMain";
@@ -21,6 +21,7 @@ export {
   NoteCatMain,
   catLoader,
   NoteSubMain,
+  subLoader,
   NoteDetail,
   detailLoader,
   NoteWrite,

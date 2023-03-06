@@ -1,38 +1,29 @@
-import { useState, useLayoutEffect, useCallback } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useState, useLayoutEffect } from "react";
+import { useLoaderData, useParams, Link, useLocation } from "react-router-dom";
 import { useNoteContext } from "../../../context/NoteContext";
 import "../../../css/Note/NoteSubMain.css";
 import NoteSubItem from "./NoteSubItem";
 import { BsFillFileEarmarkPlusFill } from "react-icons/bs";
 import { IoFileTrayFull } from "react-icons/io5";
+import { getSubHandler } from "../../../service/note.service";
+
+export const subLoader = async ({ params }) => {
+  const catid = params?.catid;
+  const { cat, sub } = await getSubHandler(catid);
+  return { cat, sub };
+};
 
 const NoteSubMain = () => {
+  const { cat, sub } = useLoaderData();
+  const location = useLocation();
   const { catid } = useParams();
-  const { catData, setCatData, noteSubList, setNoteSubList } = useNoteContext();
+  const { catVal, setCatVal, noteSubList, setNoteSubList } = useNoteContext();
   const [searchValue, setSearchValue] = useState("");
 
-  const subList = useCallback(async () => {
-    try {
-      const res = await fetch(`/note/cat/${catid}`);
-      const result = await res.json();
-      if (res.error) {
-        alert(res.error);
-      } else {
-        setCatData({ ...result.category[0] });
-        setNoteSubList([...result.subList]);
-      }
-    } catch (error) {
-      console.log(error);
-      alert("서버 연결에 문제가 발생했습니다.");
-    }
-  }, [catid]);
-
-  // 뒤로 가기 시 최신 데이터를 가져오려면?
   useLayoutEffect(() => {
-    (async () => {
-      await subList();
-    })();
-  }, [subList]);
+    setCatVal({ ...cat });
+    setNoteSubList([...sub]);
+  }, [cat, sub, location.key]);
 
   const noteList = noteSubList.map((item) => {
     return <NoteSubItem item={item} key={item.s_subid} />;
@@ -65,10 +56,10 @@ const NoteSubMain = () => {
   return (
     <article className="Note Sub">
       <section className="title">
-        <div className="category">{catData.c_category}</div>
+        <div className="category">{catVal.c_category}</div>
         <div className="subcount">
           <IoFileTrayFull />
-          {catData.c_subcount}
+          {catVal.c_subcount}
         </div>
         <Link className="insert-btn" to={`/note/write/${catid}`} title="추가">
           <BsFillFileEarmarkPlusFill />

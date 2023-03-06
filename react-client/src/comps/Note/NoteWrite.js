@@ -7,6 +7,7 @@ import { useParams, Link, useNavigate, useLoaderData } from "react-router-dom";
 import { initSub, initKey } from "../../data/NoteData";
 import { MdDelete } from "react-icons/md";
 import { FaCaretUp, FaCaretDown } from "react-icons/fa";
+import { getSubDetailHandler } from "../../service/note.service";
 
 export const writeLoader = async ({ params }) => {
   const catid = params?.catid;
@@ -27,15 +28,13 @@ export const writeLoader = async ({ params }) => {
 
     // path 에 subid 가 있을 경우(UPDATE)
     if (subid) {
-      let res = await fetch(`/note/sub/${subid}`).then((data) => data.json());
-      if (res.error) {
-        return alert(res.error);
-      } else {
+      const res = await getSubDetailHandler(subid);
+      if (res) {
         subData = {
-          ...res.subject[0],
+          ...res.data,
           s_date: moment().format("YYYY[-]MM[-]DD"),
         };
-        keyData = res.keywords;
+        keyData = res.keys;
       }
     }
     return { subData, keyData };
@@ -74,6 +73,7 @@ const NoteWrite = () => {
             type="text"
             placeholder="키워드 제목"
             autoFocus
+            maxLength={225}
             autoComplete="false"
             spellCheck="false"
             onChange={(e) => onChangeKeyHandler(e, idx)}
@@ -247,7 +247,7 @@ const NoteWrite = () => {
         </section>
 
         <section className="btn-box">
-          {/* INSERT 시에는 subid 없음 */}
+          {/* INSERT 시에는 subid 없어야 */}
           <Link id="back" to={`/note/subject/${catid}/${subid}`}>
             뒤로
           </Link>

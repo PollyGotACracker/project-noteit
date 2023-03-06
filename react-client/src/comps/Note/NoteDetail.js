@@ -2,7 +2,10 @@ import { useState, useReducer, useRef } from "react";
 import { Link, useLoaderData, useNavigate, useParams } from "react-router-dom";
 import "../../css/Note/NoteDetail.css";
 import "../../css/Note/Content.css";
-import { deleteSubHandler } from "../../service/note.service";
+import {
+  getSubDetailHandler,
+  deleteSubHandler,
+} from "../../service/note.service";
 import { RxDot, RxDotFilled } from "react-icons/rx";
 import { MdDelete } from "react-icons/md";
 import { IoPrint } from "react-icons/io5";
@@ -18,18 +21,9 @@ import {
 
 export const detailLoader = async ({ params }) => {
   const subid = params?.subid;
-  try {
-    const res = await fetch(`/note/sub/${subid}`);
-    const result = await res.json();
-    if (res.error) {
-      alert(res.error);
-    } else {
-      return { data: result.subject[0], keys: result.keywords };
-    }
-  } catch (error) {
-    console.log(error);
-    alert("서버 연결에 문제가 발생했습니다.");
-  }
+  const { data, keys } = await getSubDetailHandler(subid);
+  console.log(data, keys);
+  return { data, keys };
 };
 
 const changeKeyword = (state, action) => {
@@ -89,7 +83,7 @@ const NoteDetail = () => {
     if (!window.confirm("이 주제를 삭제할까요?")) {
       return false;
     } else {
-      const res = await deleteSubHandler(subid, catid);
+      const res = await deleteSubHandler(catid, subid);
       if (res) {
         alert(res);
         nav(`/note/category/${catid}`, { replace: true });
@@ -98,7 +92,7 @@ const NoteDetail = () => {
   };
 
   const copyKeyword = () => {
-    const value = keywords[state].k_keyword;
+    const value = keywords[state - 1].k_keyword;
     navigator.clipboard.writeText(value);
     setCopyMsg("복사 완료!");
     setTimeout(() => {
@@ -178,7 +172,7 @@ const NoteDetail = () => {
       <section className="keyword-list-top">
         <div className="keyword-count">
           <FaTags />
-          {state}/{subject["tbl_keywords.length"]}
+          {state}/{subject.s_keycount}
         </div>
         <button className="copy-btn" onClick={copyKeyword}>
           {copyMsg === "키워드 복사" ? <FaClipboard /> : <FaCheck />}

@@ -9,6 +9,7 @@ import {
   NoteCatMain,
   catLoader,
   NoteSubMain,
+  subLoader,
   NoteDetail,
   detailLoader,
   NoteWrite,
@@ -37,9 +38,14 @@ const NavRouter = createBrowserRouter([
               { path: "", loader: catLoader, element: <NoteCatMain /> },
               {
                 path: "category/:catid",
+                loader: subLoader,
                 element: <NoteSubMain />,
               },
-              { path: "category/:catid/search", element: <NoteSubMain /> },
+              {
+                path: "category/:catid/search",
+
+                element: <NoteSubMain />,
+              },
               {
                 path: "subject/:catid/:subid",
                 loader: detailLoader,

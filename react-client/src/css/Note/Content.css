@@ -78,7 +78,12 @@
   display: table;
   margin: 0.9em auto;
   min-width: 50px;
+  max-width: 100%;
   text-align: center;
+}
+
+.Detail .content img {
+  max-width: 100%;
 }
 
 .Detail .content .image.image_resized img {
