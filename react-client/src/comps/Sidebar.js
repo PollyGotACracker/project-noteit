@@ -3,6 +3,7 @@ import Player from "./Player";
 import { useUserContext } from "../context/UserContext";
 import { GiStarsStack } from "react-icons/gi";
 import { useState, useRef } from "react";
+import profile from "../assets/images/profile.png";
 
 const Sidebar = () => {
   const { userData } = useUserContext();
@@ -11,13 +12,12 @@ const Sidebar = () => {
 
   return (
     <aside className="Sidebar">
-      <Player />
       <div className="profile-img">
         <img
           src={
             userData?.u_profileimg !== ""
               ? `http://localhost:3000/uploads/${userData?.u_profileimg}`
-              : ""
+              : profile
           }
           ref={imgSrc}
           onLoad={() =>
@@ -43,6 +43,9 @@ const Sidebar = () => {
         <GiStarsStack />
         <div>{userData?.u_cscore}</div>
       </div>
+      <section className="player">
+        <Player />
+      </section>
     </aside>
   );
 };

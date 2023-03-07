@@ -72,7 +72,7 @@ const NoteCatMain = () => {
             maxLength={225}
             onChange={onChangeHandler}
             onKeyDown={onKeyDownHandler}
-            placeholder="카테고리 추가..."
+            placeholder="카테고리 추가"
           />
           <button
             type="button"

@@ -6,7 +6,7 @@ nav {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  background-color: var(--blue);
+  background: linear-gradient(rgba(29, 65, 91, 1), rgba(29, 65, 91, 0.6));
   padding: 15px 0;
 }
 @media only screen and (max-width: 600px) {
@@ -99,18 +99,6 @@ nav a.logout {
 nav a.quiz {
   position: relative;
 }
-nav a.quiz:after {
-  content: "?";
-  width: 100%;
-  height: 20px;
-  font-size: 10pt;
-  font-weight: 900;
-  /* color: rgba(0, 0, 0, 0.8); */
-  color: var(--blue);
-  position: absolute;
-  top: calc(50% - 26px);
-  left: 0;
-}
 nav a.quiz:hover svg {
   animation: 1s ease-out infinite jump;
   -webkit-animation: 1s ease-out infinite jump;
@@ -126,34 +114,6 @@ nav a.quiz:hover svg {
     transform: translateY(0);
   }
 }
-/* 
-nav a.voca:hover svg {
-  animation: 1.5s step-start infinite check;
-  -webkit-animation: 1.5s step-start infinite check;
-}
-@keyframes check {
-  0% {
-    content: "\f0ca";
-  }
-  25% {
-    content: "\f0ca";
-    height: 19px;
-    margin-bottom: 24px;
-  }
-  50% {
-    content: "\f0ae";
-    height: 19px;
-    margin-bottom: 24px;
-  }
-  75% {
-    content: "\f0ca";
-    height: 19px;
-    margin-bottom: 24px;
-  }
-  100% {
-    content: "\f0ca";
-  }
-} */
 
 nav a.quiz:hover:after {
   animation: 1s ease-out infinite marks;
@@ -209,9 +169,6 @@ nav a.setting:hover svg {
   -webkit-animation: 1s steps(5) infinite spin;
 }
 @keyframes spin {
-  /* 0% {
-    transform: rotateZ(0deg);
-  } */
   100% {
     transform: rotateZ(180deg);
   }

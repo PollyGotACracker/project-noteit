@@ -54,13 +54,11 @@
   width: 20vw;
   height: 20vw;
   margin: 2em auto;
-  border: 1px solid var(--darkgray);
   border-radius: 50%;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: gray;
 }
 .Set .upload {
   height: 100%;

@@ -10,8 +10,8 @@
   display: flex;
 }
 .App main.Index {
-  margin: 1em;
-  padding: 1em 0;
+  margin: 2em;
+  padding: 2em 0;
   border: 1px solid var(--darkgray);
   border-radius: 10px;
 }
@@ -21,13 +21,14 @@
   overflow-x: hidden;
 }
 .App main aside {
-  width: 20vw;
+  width: 15vw;
   padding: 1em;
   margin-left: 0.5em;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: flex-start;
+  gap: 2em;
   border-left: 1px solid var(--darkgray);
 }
 .App a {
@@ -43,6 +44,7 @@
   background-color: transparent;
   cursor: pointer;
   user-select: none;
+  -webkit-user-select: none;
   border: none;
   display: flex;
   justify-content: center;
@@ -91,23 +93,7 @@
   align-items: center;
   gap: 0.2em;
 }
-.player-btn {
-  font-size: 1.8em;
-  color: #aaa;
-  transform-origin: center;
-}
-.player-btn.active {
-  color: var(--blue);
-  animation-name: play;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-}
-@keyframes play {
-  100% {
-    transform: rotate(360deg);
-  }
-}
+
 @media only screen and (max-width: 600px) {
   .App {
     flex-direction: column-reverse;

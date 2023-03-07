@@ -119,6 +119,7 @@ const NoteCatItem = ({ item }) => {
           type="button"
           disabled={title.length < 1}
           title="수정"
+          style={{ color: update === "완료" ? "#e69215" : "" }}
           onClick={updateHandler}
         >
           <RiBallPenFill /> {update}

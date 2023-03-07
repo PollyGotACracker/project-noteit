@@ -1,5 +1,6 @@
 import "../../css/Set/Set.css";
 import { useRef, useState, useCallback } from "react";
+import profile from "../../assets/images/profile.png";
 import { getUserData } from "../../service/user.service";
 import { useUserContext } from "../../context/UserContext";
 import { FaUserEdit, FaBell, FaDatabase, FaUserTimes } from "react-icons/fa";
@@ -49,7 +50,6 @@ const Set = () => {
           <FaUserEdit />
           프로필 설정
         </div>
-
         <div className="upload-img-wrap">
           <img
             className="upload"
@@ -58,7 +58,7 @@ const Set = () => {
                 ? profileData.src
                 : userData.u_profileimg !== ""
                 ? `http://localhost:3000/uploads/${userData.u_profileimg}`
-                : ""
+                : profile
             }
             alt={profileData?.name}
             ref={imgPreview}
