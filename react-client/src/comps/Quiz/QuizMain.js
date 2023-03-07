@@ -1,19 +1,18 @@
-import { useEffect, useCallback } from "react";
+import { useEffect } from "react";
 import "../../css/Quiz/QuizMain.css";
-import Sidebar from "../Sidebar";
 
 const QuizMain = () => {
-  const fetchs = useCallback(async () => {
-    const res = await fetch(`/quiz/rnd/select`).then((data) => {
-      data.json();
-    });
-    console.log(res);
-  });
-
   useEffect(() => {
-    document.querySelector("input").focus();
-    fetchs();
-  }, [fetchs]);
+    (async () => {
+      const res = await fetch(`/quiz/rnd/get`).then((data) => data.json());
+      console.log(res);
+    })();
+  }, []);
+
+  // useEffect(() => {
+  //   document.querySelector("input").focus();
+  //   fetchs();
+  // }, [fetchs]);
 
   return (
     <article className="Quiz">

@@ -3,7 +3,7 @@ import { useLoaderData, useParams, Link, useLocation } from "react-router-dom";
 import { useNoteContext } from "../../../context/NoteContext";
 import "../../../css/Note/NoteSubMain.css";
 import NoteSubItem from "./NoteSubItem";
-import { BsFillFileEarmarkPlusFill } from "react-icons/bs";
+import { BsFillFileEarmarkPlusFill, BsSearch } from "react-icons/bs";
 import { IoFileTrayFull } from "react-icons/io5";
 import { getSubHandler } from "../../../service/note.service";
 
@@ -75,7 +75,9 @@ const NoteSubMain = () => {
             className="search"
             title="검색"
             // onClick={searchKeyword}
-          ></button>
+          >
+            <BsSearch />
+          </button>
         </form>
       </section>
       <section className="Note content">

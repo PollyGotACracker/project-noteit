@@ -1,4 +1,5 @@
 import express from "express";
+import Sequelize from "Sequelize";
 import DB from "../models/index.js";
 const CAT = DB.models.tbl_categories;
 const SUB = DB.models.tbl_subjects;
@@ -6,7 +7,7 @@ const KEY = DB.models.tbl_keywords;
 
 const router = express.Router();
 
-router.get("/rnd/select", async (req, res) => {
+router.get("/rnd/get", async (req, res) => {
   try {
     const data = await SUB.findAll({
       raw: true,
@@ -15,12 +16,12 @@ router.get("/rnd/select", async (req, res) => {
       include: {
         model: KEY,
         as: "tbl_keywords",
-        // order: sequelize.random(),
+        order: Sequelize.literal("rand()"),
       },
-      // order: sequelize.random(),
-      // limit: 5,
+      limit: 5,
     });
-    console.log(data);
+
+    const getNested = (data, prop) => {};
     // if (data.length === 0) {
     //   return res.send({ result: "북마크된 주제가 없습니다." });
     // }

@@ -61,12 +61,6 @@
   font-size: 12pt;
   margin-right: 20px;
 }
-.Note.Sub .title form button:before {
-  content: "\f002";
-  font-family: "Font Awesome 5 Free";
-  font-weight: 900;
-  font-size: 15pt;
-}
 .Note.Sub .content {
   width: 80%;
   margin: 0 auto;

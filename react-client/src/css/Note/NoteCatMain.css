@@ -19,12 +19,6 @@
 }
 .Note.Cat form input[name="c_category"] {
   width: 100%;
-  padding: 0.2em;
-  font-size: 14pt;
-  background-color: transparent;
-  border: none;
-  border-bottom: 1px solid var(--yellow);
-  padding: 0.2em;
 }
 .Note.Cat #insert-btn {
   margin-left: 15px;
@@ -33,12 +27,6 @@
   align-items: center;
   font-size: 1.8em;
   transition: all ease 0.2s;
-}
-.Note.Cat form #insert-btn:disabled:hover {
-  cursor: auto;
-}
-.Note.Cat form #insert-btn:not(:disabled):hover {
-  color: var(--yellow);
 }
 .Note.Cat section.cat-list {
   width: 90%;
@@ -109,6 +97,7 @@
   margin-top: 0.5em;
 }
 .Note.Cat section.cat-list .btn-box button {
+  color: var(--darkgray);
   font-size: 1em;
 }
 .Note.Cat section.cat-list .btn-box .update-btn:hover {

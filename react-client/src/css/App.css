@@ -48,10 +48,48 @@
   justify-content: center;
   align-items: center;
   gap: 0.2em;
+  font-size: 1em;
   transition: all ease 0.3s;
 }
-.App button.active {
+.App input {
+  background-color: transparent;
+  transition: all ease 0.3s;
+  border: 1px solid var(--darkgray);
+  border-radius: 10px;
+  padding: 0.5em;
+  font-size: 1em;
+  min-height: 1em;
+  outline: none;
+}
+.App textarea {
+  background-color: transparent;
+  font-size: 1em;
+  padding: 0.5em;
+  outline: none;
+}
+.App button:disabled:hover {
+  border-color: var(--darkgray);
+  color: var(--darkgray);
+  cursor: auto;
+}
+.App input:read-only:hover,
+.App input:read-only:focus {
+  border-color: var(--darkgray);
+}
+.App button.active,
+.App button:hover {
   color: var(--yellow);
+}
+.App button:hover,
+.App input:hover,
+.App input:focus {
+  border-color: var(--yellow);
+}
+.App label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2em;
 }
 .player-btn {
   font-size: 1.8em;

@@ -1,15 +1,17 @@
 import "../../css/Set/Set.css";
 import { useRef, useState, useCallback } from "react";
+import { getUserData } from "../../service/user.service";
 import { useUserContext } from "../../context/UserContext";
+import { FaUserEdit, FaBell, FaDatabase, FaUserTimes } from "react-icons/fa";
+import { RiSunLine, RiMoonLine } from "react-icons/ri";
+import { VscColorMode } from "react-icons/vsc";
 
 const Set = () => {
-  const { userData } = useUserContext();
-  const [profileData, setProfileData] = useState({
-    src: userData.profileImg,
-    // name: userData.profileStr,
-    str: userData.profileStr,
-  });
-  const imgRef = useRef(null);
+  const { userData, setUserData, profileData, setProfileData } =
+    useUserContext();
+  const [imagePrev, setImagePrev] = useState({ width: "", height: "" });
+  const imgPreview = useRef(null);
+  const imgInput = useRef(null);
 
   const onChangeStrHandler = (e) => {
     setProfileData({ ...profileData, str: e.target.value });
@@ -26,68 +28,126 @@ const Set = () => {
 
   const onClickSubmitProfile = async () => {
     const formData = new FormData();
-    formData.append("upload", imgRef.current.files[0]);
+    formData.append("upload", imgInput.current.files[0]);
     formData.append("str", profileData.str);
     const fetchOption = {
       method: "POST",
       body: formData,
     };
-    await fetch(`/set/${userData.userid}/profile`, fetchOption);
+    await fetch(`/set/${userData.u_userid}/profile`, fetchOption);
+    const result = await getUserData();
+    setUserData({
+      ...userData,
+      ...result,
+    });
   };
 
   return (
     <article className="Set">
       <section className="setting-box">
-        <div className="wrapper">
-          <div className="title">프로필 설정</div>
-          <section className="attach-box">
-            <label htmlFor="upload">첨부</label>
-            <div className="upload-wrap">
-              <img
-                className="upload"
-                src={profileData?.src}
-                alt={profileData?.name}
-              />
-            </div>
-            <input
-              type="file"
-              id="upload"
-              name="upload"
-              accept="image/*"
-              // multiple
-              ref={imgRef}
-              onChange={(e) => onChangeImgHandler(e)}
-            />
-            <input
-              value={profileData.str}
-              placeholder="프로필 문구"
-              onChange={(e) => onChangeStrHandler(e)}
-            />
-            <button type="button" onClick={onClickSubmitProfile}>
-              등록
-            </button>
-          </section>
+        <div className="title">
+          <FaUserEdit />
+          프로필 설정
         </div>
-        <div className="wrapper">
-          <div className="title">PUSH 알림</div>
-          <label htmlFor="push"></label>
-          <input type="checkbox" id="push" value="1" name="push" />
+
+        <div className="upload-img-wrap">
+          <img
+            className="upload"
+            src={
+              profileData.src !== ""
+                ? profileData.src
+                : userData.u_profileimg !== ""
+                ? `http://localhost:3000/uploads/${userData.u_profileimg}`
+                : ""
+            }
+            alt={profileData?.name}
+            ref={imgPreview}
+            onLoad={() => {
+              setImagePrev({
+                ...imagePrev,
+                width: imgPreview.current?.naturalWidth,
+                height: imgPreview.current?.naturalHeight,
+              });
+            }}
+            style={{
+              transform:
+                imagePrev.width < imagePrev.height
+                  ? `scale(${(imagePrev.height / imagePrev.width) * 1.1})`
+                  : "",
+            }}
+          />
         </div>
-        <div className="wrapper">
-          <div className="title">테마</div>
-          <div className="theme-box">
-            <label htmlFor="light">light</label>
-            <input type="radio" id="light" value="light" name="theme" />
-            <label htmlFor="dark">dark</label>
-            <input type="radio" id="dark" value="dark" name="theme" />
-          </div>
+        <div className="upload-box">
+          <input
+            type="file"
+            id="img-input"
+            name="upload"
+            accept="image/*"
+            // multiple
+            ref={imgInput}
+            onChange={(e) => onChangeImgHandler(e)}
+          />
+          <label htmlFor="img-input">업로드</label>
         </div>
-        <div className="wrapper">
-          <div className="title">데이터 삭제</div>
-          <button>노트 삭제</button> <button>목표 삭제</button>
+        <input
+          id="str-input"
+          value={profileData?.str}
+          placeholder="프로필 문구"
+          onChange={(e) => onChangeStrHandler(e)}
+        />
+        <button
+          id="profile-update-btn"
+          type="button"
+          onClick={onClickSubmitProfile}
+        >
+          등록
+        </button>
+      </section>
+      <section className="setting-box">
+        <div className="title">
+          <FaBell />
+          PUSH 알림
         </div>
-        <div className="wrapper">
-          <div className="title">계정 삭제</div>
+        <label htmlFor="push">
+          <FaBell />
+        </label>
+        <input type="checkbox" id="push" value="1" name="push" />
+      </section>
+      <section className="setting-box">
+        <div className="title">
+          <VscColorMode />
+          테마
+        </div>
+        <div className="theme-box">
+          <label htmlFor="light">
+            <RiSunLine />
+            light
+          </label>
+          <input type="radio" id="light" value="0" name="darkmode" />
+          <label htmlFor="dark">
+            <RiMoonLine />
+            dark
+          </label>
+          <input type="radio" id="dark" value="1" name="darkmode" />
+        </div>
+      </section>
+      <section className="setting-box">
+        <div className="title">
+          <FaDatabase />
+          데이터 삭제
+        </div>
+        <div className="data-box">
+          <button>노트 삭제</button>
+          <button>목표 삭제</button>
+          <button>점수 삭제</button>
+        </div>
+      </section>
+      <section className="setting-box">
+        <div className="title">
+          <FaUserTimes />
+          계정 삭제
+        </div>
+        <div className="account-box">
           <input
             type="password"
             placeholder="비밀번호 입력"

@@ -2,35 +2,23 @@ import "../css/Sidebar.css";
 import Player from "./Player";
 import { useUserContext } from "../context/UserContext";
 import { GiStarsStack } from "react-icons/gi";
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 
 const Sidebar = () => {
-  const { userData, setUserData } = useUserContext();
+  const { userData } = useUserContext();
   const [image, setImage] = useState({ width: "", height: "" });
   const imgSrc = useRef();
-
-  // 다른 곳으로 옮길 것
-  useEffect(() => {
-    (async () => {
-      const res = await fetch(`user/get`).then((data) => data.json());
-      console.log(res.data);
-      setUserData({
-        ...userData,
-        userid: res.data.u_userid,
-        nickname: res.data.u_nickname,
-        profileimg: res.data.u_profileimg,
-        profilestr: res.data.u_profilestr,
-        cscore: res.data.u_cscore,
-      });
-    })();
-  }, []);
 
   return (
     <aside className="Sidebar">
       <Player />
       <div className="profile-img">
         <img
-          src={`http://localhost:3000/uploads/${userData?.profileimg}`}
+          src={
+            userData?.u_profileimg !== ""
+              ? `http://localhost:3000/uploads/${userData?.u_profileimg}`
+              : ""
+          }
           ref={imgSrc}
           onLoad={() =>
             setImage({
@@ -42,18 +30,18 @@ const Sidebar = () => {
           style={{
             transform:
               image.width < image.height
-                ? `scale(${image.height / image.width})`
+                ? `scale(${(image.height / image.width) * 1.1})`
                 : "",
           }}
         />
       </div>
-      <div className="nickname">{userData?.nickname}</div>
+      <div className="nickname">{userData?.u_nickname}</div>
       <div className="profile-str">
-        <span>{userData?.profilestr}</span>
+        <span>{userData?.u_profilestr}</span>
       </div>
       <div title="점수" className="score">
         <GiStarsStack />
-        <div>{userData?.cscore}</div>
+        <div>{userData?.u_cscore}</div>
       </div>
     </aside>
   );
