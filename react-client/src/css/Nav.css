@@ -38,6 +38,9 @@ nav {
   .App main {
     flex-direction: column-reverse;
   }
+  .App main.Index {
+    margin: 1em;
+  }
   .App main article {
     margin-left: 0.5em;
     margin-right: 0.5em;
@@ -52,7 +55,11 @@ nav {
     display: block;
   }
   .App .Sidebar .menu {
-    display: block;
+    display: flex;
+    margin-top: auto;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.8em;
   }
   .Sidebar.active {
     right: 0;
@@ -68,6 +75,12 @@ nav {
   .App .blocker.active {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 100;
+  }
+  .App .side-btn {
+    font-size: 1.5em;
+    position: absolute;
+    top: 1em;
+    right: 1em;
   }
 }
 nav a {

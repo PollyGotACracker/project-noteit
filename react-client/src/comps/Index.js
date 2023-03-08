@@ -4,6 +4,7 @@ import { Outlet } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
 import { getUserData } from "../service/user.service";
 import { useEffect, useRef } from "react";
+import { BsThreeDotsVertical } from "react-icons/bs";
 
 const Index = () => {
   const { userData, setUserData, profileData, setProfileData } =
@@ -48,7 +49,7 @@ const Index = () => {
         <Sidebar ref={sideRef} blocker={blockRef} />
       </main>
       <button className="side-btn" onClick={showSidebar}>
-        메뉴 버튼
+        <BsThreeDotsVertical />
       </button>
       <div className="blocker" ref={blockRef} onClick={showSidebar}></div>
     </>

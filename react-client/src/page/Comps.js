@@ -8,6 +8,8 @@ import NoteSubMain, { subLoader } from "../comps/Note/Subject/NoteSubMain";
 import NoteDetail, { detailLoader } from "../comps/Note/NoteDetail";
 import NoteWrite, { writeLoader } from "../comps/Note/NoteWrite";
 import QuizMain from "../comps/Quiz/QuizMain";
+import QuizCat, { quizCatLoader } from "../comps/Quiz/QuizCat";
+import QuizSub, { quizSubLoader } from "../comps/Quiz/QuizSub";
 import TodoMain from "../comps/Todo/TodoMain";
 import Set from "../comps/Set/Set";
 import NotFound from "../page/NotFound";
@@ -27,6 +29,10 @@ export {
   NoteWrite,
   writeLoader,
   QuizMain,
+  QuizCat,
+  quizCatLoader,
+  QuizSub,
+  quizSubLoader,
   TodoMain,
   Set,
   NotFound,

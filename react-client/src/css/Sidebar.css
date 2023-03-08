@@ -34,8 +34,8 @@
 }
 .Sidebar .play-icon-wrap {
   position: relative;
-  width: 10vw;
-  height: 10vw;
+  width: calc(200px - (2em + 20px));
+  height: calc(200px - (2em + 20px));
   padding: 15px;
   display: flex;
   justify-content: center;
@@ -99,4 +99,14 @@
 }
 .Sidebar .score svg {
   font-size: 1.2em;
+  color: var(--blue);
+}
+.Sidebar .clock {
+  width: 100%;
+  padding: 5px 0;
+  text-align: center;
+}
+.Sidebar .clock > * {
+  font-size: 0.8em;
+  white-space: nowrap;
 }
