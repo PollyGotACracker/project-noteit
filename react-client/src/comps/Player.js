@@ -16,9 +16,9 @@ const changePlay = (state, action) => {
 };
 const Player = () => {
   const bgPlaylist = [
-    "/audios/Lonesome_Star.mp3",
-    "/audios/Jeremiah_s_Song.mp3",
-    "/audios/The_Gift.mp3",
+    { name: "Lonesome Star", path: "/audios/Lonesome_Star.mp3" },
+    { name: "Jeremah's Song", path: "/audios/Jeremiah_s_Song.mp3" },
+    { name: "The Gift", path: "/audios/The_Gift.mp3" },
   ];
   const [playIndex, setPlayIndex] = useReducer(
     changePlay,
@@ -41,6 +41,7 @@ const Player = () => {
       <div className="play-icon-wrap">
         <div className="play-icon" ref={playIconRef}></div>
       </div>
+      <div className="play-name">{bgPlaylist[playIndex].name}</div>
       <div className="play-btn-box">
         <button
           className="player-prev-btn"
@@ -72,7 +73,7 @@ const Player = () => {
       <audio
         preload="true"
         ref={playerRef}
-        src={`${process.env.PUBLIC_URL}${bgPlaylist[playIndex]}`}
+        src={`${process.env.PUBLIC_URL}${bgPlaylist[playIndex].path}`}
         onPlay={() => {
           playIconRef.current.style.animationName = "play";
           playIconRef.current.style.animationPlayState = "running";

@@ -1,6 +1,6 @@
 .Login {
   padding: 0 !important;
-  background-color: var(--blue);
+  background: linear-gradient(var(--blue), rgba(29, 65, 91, 0.7));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -67,9 +67,9 @@
 .Login input {
   width: 100%;
   margin: 5px;
-  padding: 10px;
+  border: 0;
   border-bottom: 1px dashed white;
-  background-color: transparent;
+  border-radius: 0;
   font-size: 12pt;
   color: white;
   caret-color: var(--yellow);
@@ -81,11 +81,11 @@
 }
 
 .Login form.login input[type="text"] {
-  background-image: url("../../assets/images/user.png");
+  background-image: url("../assets/images/user.png");
 }
 
 .Login form.login input[type="password"] {
-  background-image: url("../../assets/images/pwd.png");
+  background-image: url("../assets/images/pwd.png");
 }
 
 .Login form.login input::placeholder {
@@ -112,7 +112,7 @@
   transition: all 0.3s ease-out;
 }
 .Login .wrap-links button {
-  background-image: url("../../assets/images/enter.png");
+  background-image: url("../assets/images/enter.png");
   background-repeat: no-repeat;
   background-position: right 5px bottom 50%;
   background-size: 16px;

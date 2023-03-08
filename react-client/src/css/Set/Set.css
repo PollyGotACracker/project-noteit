@@ -39,7 +39,7 @@
   width: 100%;
   display: flex;
   justify-content: flex-end;
-  gap: 5em;
+  gap: 2vw;
 }
 .Set .setting-box:last-child {
   border-bottom: 0;

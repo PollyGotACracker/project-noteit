@@ -6,23 +6,31 @@ nav {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  background: linear-gradient(rgba(29, 65, 91, 1), rgba(29, 65, 91, 0.6));
+  background: linear-gradient(var(--blue), rgba(29, 65, 91, 0.7));
   padding: 15px 0;
 }
-@media only screen and (max-width: 600px) {
+
+@media only screen and (max-width: 720px) {
   .App {
     flex-direction: column-reverse;
+    position: relative;
   }
   nav {
     width: 100%;
     height: 80px;
     flex-direction: row;
+    background: none;
+    background-color: var(--blue);
   }
   nav a {
     height: 80px !important;
   }
   nav a.active {
     border-radius: 0 0 5px 5px !important;
+  }
+  nav a.setting,
+  nav a.logout {
+    display: none !important;
   }
   nav a.logout {
     margin-top: 0 !important;
@@ -35,12 +43,31 @@ nav {
     margin-right: 0.5em;
   }
   .App main aside {
-    border-left: 0;
-    border-bottom: 1px solid var(--darkgray);
-    width: 100%;
-    margin-bottom: 1em;
-    height: 10vh;
-    flex-direction: row;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: -200px;
+  }
+  .App .side-btn {
+    display: block;
+  }
+  .App .Sidebar .menu {
+    display: block;
+  }
+  .Sidebar.active {
+    right: 0;
+  }
+  .App .blocker {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -100;
+  }
+  .App .blocker.active {
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100;
   }
 }
 nav a {

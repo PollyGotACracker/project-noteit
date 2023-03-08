@@ -1,17 +1,10 @@
 import { useState, useRef, useLayoutEffect } from "react";
 import "../css/Home.css";
-import { getToday, speakListData } from "../data/HomeData";
+import { speakListData } from "../data/HomeData";
 
 const Main = () => {
-  const [date, setDate] = useState(getToday().date);
-  const [time, setTime] = useState(getToday().time);
   const [speakList] = useState(speakListData);
   const speak = useRef(null);
-
-  const changeClock = () => {
-    setDate(getToday().date);
-    setTime(getToday().time);
-  };
 
   // 코드 수정할 것
   const typeWriter = (text) => {
@@ -61,20 +54,10 @@ const Main = () => {
     };
   }, []);
 
-  // setInterval 은 설정한 시간을 보장하지 않기 때문에 setTimeout 재귀함수 사용
-  useLayoutEffect(() => {
-    const clock = setTimeout(changeClock, setTimeout(changeClock, 1000), 1000);
-    return () => {
-      clearTimeout(clock);
-    };
-  }, [date, time]);
-
   return (
     <article className="Home">
       <section className="left-sidebar">
         <div className="rnd-subject">랜덤 주제 영역</div>
-        <div className="today">{date}</div>
-        <div className="today">{time}</div>
       </section>
       <section className="center">
         <div className="speak-box">

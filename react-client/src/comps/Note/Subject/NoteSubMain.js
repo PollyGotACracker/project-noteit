@@ -80,8 +80,18 @@ const NoteSubMain = () => {
           </button>
         </form>
       </section>
-      <section className="Note content">
+      <section
+        className="content"
+        style={{ display: noteSubList.length !== 0 ? "flex" : "none" }}
+      >
         <ul>{noteList}</ul>
+      </section>
+      <section
+        className="no-data"
+        style={{ display: noteSubList.length === 0 ? "flex" : "none" }}
+      >
+        <div className="no-data-img"></div>
+        <div className="no-data-msg">새로운 주제를 만들어보세요!</div>
       </section>
     </article>
   );

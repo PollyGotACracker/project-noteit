@@ -43,7 +43,6 @@ const NavRouter = createBrowserRouter([
               },
               {
                 path: "category/:catid/search",
-
                 element: <NoteSubMain />,
               },
               {

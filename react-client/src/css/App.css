@@ -20,8 +20,8 @@
   padding: 0 1em;
   overflow-x: hidden;
 }
-.App main aside {
-  width: 15vw;
+.App main aside.Sidebar {
+  width: 200px;
   padding: 1em;
   margin-left: 0.5em;
   display: flex;
@@ -30,6 +30,9 @@
   justify-content: flex-start;
   gap: 2em;
   border-left: 1px solid var(--darkgray);
+  z-index: 101;
+  background-color: var(--light);
+  transition: all ease 0.3s;
 }
 .App a {
   color: inherit;
@@ -93,8 +96,13 @@
   align-items: center;
   gap: 0.2em;
 }
-
-@media only screen and (max-width: 600px) {
+.App .side-btn {
+  display: none;
+}
+.App .Sidebar .menu {
+  display: none;
+}
+/* @media only screen and (max-width: 720px) {
   .App {
     flex-direction: column-reverse;
   }
@@ -128,4 +136,4 @@
     height: 10vh;
     flex-direction: row;
   }
-}
+} */

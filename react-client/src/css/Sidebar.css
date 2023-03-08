@@ -1,24 +1,27 @@
-/* .Home .right-sidebar .music-btn {
-    width: 50px;
-    height: 50px;
-    background-color: transparent;
-    color: var(--blue);
-    border-radius: 50%;
-    font-size: 20pt;
-  } */
-
-.Sidebar div {
+.Sidebar * {
+  user-select: none;
+  -webkit-user-select: none;
+}
+.Sidebar section {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-.Sidebar div.play-btn-box {
+  gap: 0.4em;
   width: 100%;
+  border: 1px solid var(--darkgray);
+  border-radius: 10px;
+  padding: 10px;
+}
+.Sidebar .play-btn-box {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: row;
   gap: 2vw;
 }
-.Sidebar div.play-btn-box > button {
+.Sidebar .play-btn-box > button {
   font-size: 1.2em;
 }
 .Sidebar section.player {
@@ -28,16 +31,15 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
-  border: 1px solid var(--darkgray);
-  padding: 10px;
-  border-radius: 10px;
 }
 .Sidebar .play-icon-wrap {
   position: relative;
   width: 10vw;
   height: 10vw;
   padding: 15px;
-  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .Sidebar .play-icon-wrap:before {
   content: "";
@@ -77,8 +79,8 @@
   font-size: 1.8em;
 }
 .Sidebar .profile-img {
-  width: 10em;
-  height: 10em;
+  width: calc(200px - (2em + 20px));
+  height: calc(200px - (2em + 20px));
   margin: 0 auto;
   border-radius: 50%;
   overflow: hidden;
@@ -90,8 +92,11 @@
   height: 100%;
   display: inline-block;
 }
+.Sidebar .score {
+  display: flex;
+  justify-content: center;
+  gap: 0.5em;
+}
 .Sidebar .score svg {
-  display: block;
-  margin-bottom: 0.2em;
-  font-size: 2.5em;
+  font-size: 1.2em;
 }

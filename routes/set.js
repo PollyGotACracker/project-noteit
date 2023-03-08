@@ -19,10 +19,10 @@ router.post(
   async (req, res, next) => {
     const userid = req.params.userid;
     try {
-      const file = req.file;
+      const file = req?.file;
       const data = {
-        u_profileimg: file.filename,
-        u_profilestr: req.body.str,
+        u_profileimg: file?.filename,
+        u_profilestr: req?.body?.str,
       };
       const result = await USER.update(data, { where: { u_userid: userid } });
 

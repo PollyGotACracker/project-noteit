@@ -77,7 +77,7 @@
   width: 100%;
 }
 .Write .keyword-wrap .keyword {
-  background-image: url("../../../assets/images/keyword.png");
+  background-image: url("../../assets/images/keyword.png");
   border-bottom: 1px dashed var(--darkgray);
   background-repeat: no-repeat;
   background-position: left 10px bottom 50%;

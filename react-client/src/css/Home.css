@@ -17,14 +17,14 @@ main.Home {
   flex: 1;
   background-color: #aaa;
 }
-.Home .left-sidebar .today {
+/* .Home .left-sidebar .today {
   width: 100%;
   padding: 5px 0;
   font-size: 15pt;
   text-align: center;
   user-select: none;
   color: white;
-}
+} */
 .Home .center {
   width: 70%;
   display: flex;
