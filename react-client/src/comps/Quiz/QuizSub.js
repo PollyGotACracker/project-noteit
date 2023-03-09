@@ -51,6 +51,7 @@ const QuizSub = () => {
         delete _newSubData.tbl_keywords;
         setFeedbackMsg(msgList.wrong);
         setKeyIndex(keyIndex + 1);
+        // 주제를 건너뛸 경우 나머지 키워드 전부 추가하는 코드 필요!!
         setWrongAnswer((prev) => {
           let _prev = [...prev];
           if (_prev.length === 0) {

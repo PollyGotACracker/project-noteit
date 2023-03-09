@@ -59,7 +59,7 @@ const Sidebar = forwardRef((props, ref) => {
           <span>{userData?.u_profilestr}</span>
         </div>
         <div title="점수" className="score">
-          <GiStarsStack /> {userData?.u_cscore}
+          <GiStarsStack /> {userData?.u_totalscore}
         </div>
       </section>
       <section className="player">

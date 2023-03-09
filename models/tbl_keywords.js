@@ -17,6 +17,11 @@ export default (sequelize) => {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false,
       },
+      k_wrongcount: {
+        type: Sequelize.DataTypes.BIGINT,
+        allowNull: false,
+        defaultValue: 0,
+      },
       k_keyword: {
         type: Sequelize.DataTypes.STRING(225),
         allowNull: false,

@@ -32,7 +32,13 @@ router.get("/:catid/rndsub/get", async (req, res) => {
   const catid = req.params.catid;
   try {
     const data = await SUB.findAll({
-      attributes: ["s_subid", "s_subject", "s_category", "s_keycount"],
+      attributes: [
+        "s_catid",
+        "s_subid",
+        "s_subject",
+        "s_category",
+        "s_keycount",
+      ],
       where: {
         [Op.and]: [
           { s_bookmark: 1 },
@@ -41,7 +47,7 @@ router.get("/:catid/rndsub/get", async (req, res) => {
         ],
       },
       include: {
-        attributes: ["k_keyid", "k_keyword", "k_desc"],
+        attributes: ["k_keyid", "k_keyword", "k_desc", "k_wrongcount"],
         model: KEY,
         as: "tbl_keywords",
         order: Sequelize.literal("rand()"),

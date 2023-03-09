@@ -25,7 +25,7 @@ export default (sequelize) => {
         type: Sequelize.DataTypes.STRING(225),
         allowNull: true,
       },
-      u_cscore: {
+      u_totalscore: {
         type: Sequelize.DataTypes.BIGINT,
         allowNull: false,
         defaultValue: 0,

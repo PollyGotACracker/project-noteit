@@ -58,10 +58,6 @@ const NoteSubItem = ({ item }) => {
       <Link className="subject" to={`/note/subject/${catid}/${item.s_subid}`}>
         {item.s_subject}
       </Link>
-      <div className="views">
-        <MdRemoveRedEye />
-        {item.s_views}
-      </div>
       <div className="keycount">
         <FaTags />
         {item.s_keycount}

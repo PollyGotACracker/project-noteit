@@ -14,7 +14,7 @@ const ATT = DB.models.tbl_attachs;
 const SCO = DB.models.tbl_score;
 const router = express.Router();
 
-// 모든 category SELECT
+// SELECT all categories
 router.get("/cat", async (req, res, next) => {
   try {
     const catList = await CAT.findAll({
@@ -31,7 +31,7 @@ router.get("/cat", async (req, res, next) => {
   }
 });
 
-// category INSERT
+// INSERT category
 router.post("/cat/insert", async (req, res, next) => {
   try {
     let data = req.body;
@@ -43,7 +43,7 @@ router.post("/cat/insert", async (req, res, next) => {
   }
 });
 
-// category UPDATE
+// UPDATE category
 router.put("/cat/update", async (req, res, next) => {
   try {
     const catid = req.body.c_catid;
@@ -74,7 +74,7 @@ router.put("/cat/bookmark", async (req, res, next) => {
   }
 });
 
-// category DELETE
+// DELETE category
 router.delete("/cat/:catid/delete", async (req, res, next) => {
   const catid = req.params.catid;
   try {
@@ -82,9 +82,9 @@ router.delete("/cat/:catid/delete", async (req, res, next) => {
       raw: true,
       where: { s_catid: catid },
     });
-    subid = subid[0]?.s_subid;
-    await KEY.destroy({ where: { k_subid: subid || "" } });
-    await SUB.destroy({ where: { s_subid: subid || "" } });
+    subid = subid[0]?.s_subid || "";
+    await KEY.destroy({ where: { k_subid: subid } });
+    await SUB.destroy({ where: { s_subid: subid } });
     await CAT.destroy({ where: { c_catid: catid } });
 
     return res.send({ result: "정상적으로 삭제되었습니다." });
@@ -94,7 +94,7 @@ router.delete("/cat/:catid/delete", async (req, res, next) => {
   }
 });
 
-// 특정 category 내에서 subject INSERT 시 해당 category 정보 SELECT
+// SELECT specific category data (when SELECT/UPDATE subject, keywords)
 router.get("/cat/write/:catid", async (req, res, next) => {
   const catid = req.params.catid;
 
@@ -111,7 +111,7 @@ router.get("/cat/write/:catid", async (req, res, next) => {
   }
 });
 
-// 특정 category 내에서 모든 subject SELECT
+// SELECT all subjects (in specific category)
 router.get("/cat/:catid", async (req, res, next) => {
   const catid = req.params.catid;
 
@@ -136,9 +136,9 @@ router.get("/cat/:catid", async (req, res, next) => {
   }
 });
 
-// subject search
 // ** item 클릭 후 뒤로 가기 하면 화면이 초기화
 // input 값을 지우면 원래 목록으로 되돌아가지 않음
+// search
 router.post("/sub/search", async (req, res) => {
   const value = req.body.value;
   const catid = req.body.catid;
@@ -209,6 +209,7 @@ router.put("/sub/bookmark/:subid", async (req, res) => {
   }
 });
 
+// INSERT attach
 router.post("/upload", fileUp.single("upload"), async (req, res, next) => {
   try {
     const file = req.file;
@@ -233,7 +234,7 @@ router.post("/upload", fileUp.single("upload"), async (req, res, next) => {
   }
 });
 
-// subject INSERT
+// INSERT subject
 router.post("/sub/insert", sanitizer, async (req, res, next) => {
   try {
     const keywords = req.body.keywords;
@@ -256,7 +257,7 @@ router.post("/sub/insert", sanitizer, async (req, res, next) => {
   }
 });
 
-// subject 상세 정보
+// subject details
 router.get("/sub/:subid", async (req, res, next) => {
   const subid = req.params.subid;
 
@@ -268,7 +269,6 @@ router.get("/sub/:subid", async (req, res, next) => {
       where: { k_subid: subid },
       order: [["k_index", "ASC"]],
     });
-    await SUB.increment("s_views", { by: 1, where: { s_subid: subid } });
     return res.send({ subject, keywords });
   } catch (error) {
     console.error(error);
@@ -276,7 +276,7 @@ router.get("/sub/:subid", async (req, res, next) => {
   }
 });
 
-// subject UPDATE
+// UPDATE subject
 router.put("/sub/update", sanitizer, async (req, res, next) => {
   try {
     const keywords = req.body.keywords;
@@ -295,6 +295,7 @@ router.put("/sub/update", sanitizer, async (req, res, next) => {
   }
 });
 
+// DELETE subject
 router.delete("/sub/:catid/:subid/delete", async (req, res, next) => {
   try {
     const catid = req.params.catid;
