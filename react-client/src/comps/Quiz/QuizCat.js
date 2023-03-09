@@ -14,7 +14,7 @@ const QuizCat = () => {
   return (
     <section className="Cat">
       <div className="category-box">
-        <div>뭘 공부해볼까?</div>
+        <div>공부할 노트를 선택하세요!</div>
         {quizCatList.map((item) => (
           <Link key={item.c_catid} to={`/quiz/${item.c_catid}`}>
             {item.c_category}

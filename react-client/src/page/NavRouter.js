@@ -19,6 +19,7 @@ import {
   quizCatLoader,
   QuizSub,
   quizSubLoader,
+  QuizResult,
   TodoMain,
   Set,
   NotFound,
@@ -68,6 +69,7 @@ const NavRouter = createBrowserRouter([
             children: [
               { path: "", loader: quizCatLoader, element: <QuizCat /> },
               { path: ":catid", loader: quizSubLoader, element: <QuizSub /> },
+              { path: "result", element: <QuizResult /> },
             ],
           },
           { path: "setting", element: <Set /> },

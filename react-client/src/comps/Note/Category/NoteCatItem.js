@@ -4,7 +4,7 @@ import { useNoteContext } from "../../../context/NoteContext.js";
 import { getCatHandler, deleteCatHandler } from "../../../service/note.service";
 import { MdDelete } from "react-icons/md";
 import { BsBookmarkFill } from "react-icons/bs";
-import { RiBallPenFill } from "react-icons/ri";
+import { RiCheckFill, RiBallPenFill } from "react-icons/ri";
 
 const NoteCatItem = ({ item }) => {
   const nav = useNavigate();
@@ -18,7 +18,9 @@ const NoteCatItem = ({ item }) => {
     setTitle(e.target.value);
   };
 
-  const updateHandler = async () => {
+  const updateHandler = async (e) => {
+    await e.stopPropagation();
+    await e.preventDefault();
     const input = catRef.current;
     const catid = input.dataset.id;
 
@@ -44,7 +46,9 @@ const NoteCatItem = ({ item }) => {
     }
   };
 
-  const deleteHandler = async () => {
+  const deleteHandler = async (e) => {
+    await e.stopPropagation();
+    await e.preventDefault();
     const catid = catRef.current.dataset.id;
     if (!window.confirm("이 카테고리를 삭제할까요?")) {
       return false;
@@ -112,26 +116,26 @@ const NoteCatItem = ({ item }) => {
         />
         <div className="date">{item.c_date}</div>
         <div className="subcount">{item.c_subcount}</div>
-      </div>
-      <div className="btn-box">
-        <button
-          className="update-btn"
-          type="button"
-          disabled={title.length < 1}
-          title="수정"
-          style={{ color: update === "완료" ? "#e69215" : "" }}
-          onClick={updateHandler}
-        >
-          <RiBallPenFill /> {update}
-        </button>
-        <button
-          className="delete-btn"
-          type="button"
-          title="삭제"
-          onClick={deleteHandler}
-        >
-          <MdDelete /> 삭제
-        </button>
+        <div className="btn-box">
+          <button
+            className="update-btn"
+            type="button"
+            disabled={title.length < 1}
+            title="수정"
+            style={{ color: update === "완료" ? "#e69215" : "" }}
+            onClick={(e) => updateHandler(e)}
+          >
+            {update === "완료" ? <RiCheckFill /> : <RiBallPenFill />} {update}
+          </button>
+          <button
+            className="delete-btn"
+            type="button"
+            title="삭제"
+            onClick={(e) => deleteHandler(e)}
+          >
+            <MdDelete /> 삭제
+          </button>
+        </div>
       </div>
     </section>
   );

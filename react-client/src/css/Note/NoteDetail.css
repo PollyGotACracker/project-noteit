@@ -29,6 +29,7 @@
 }
 .Detail .menu button,
 .Detail .menu a {
+  color: inherit;
   border-radius: 5px;
   padding: 0.5em 1em;
   margin: 5px;
@@ -49,10 +50,10 @@
   background-color: var(--yellow);
 }
 
-.bookmark-wrap {
+.Detail .bookmark-wrap {
   position: relative;
 }
-.msg {
+.Detail .msg {
   position: absolute;
   left: calc(-4em / 2);
   width: 14em;
@@ -82,10 +83,10 @@
     opacity: 0;
   }
 }
-.bookmark-btn.active {
+.Detail .bookmark-btn.active {
   color: var(--yellow) !important;
 }
-.bookmark-btn.active:hover {
+.Detail .bookmark-btn.active:hover {
   color: inherit !important;
 }
 .Detail .title .subject {
@@ -143,46 +144,46 @@
   padding: 10px;
   word-break: keep-all;
 }
-.keyword .name {
+.Detail .keyword .name {
   border-bottom: 1px dotted #aaa;
   padding: 0.5em;
   text-align: center;
 }
-.keyword-list-top {
+.Detail .keyword-list-top {
   width: 60%;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
   padding: 0.5em;
 }
-.keyword-list-top .keyword-count {
+.Detail .keyword-list-top .keyword-count {
   font-weight: 700;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.2em;
 }
-.keyword-list-top .copy-btn {
+.Detail .keyword-list-top .copy-btn {
   margin: 0 0 0.2em 0.2em;
   font-size: 0.8em;
 }
-.keyword-list-top .copy-btn:hover {
+.Detail .keyword-list-top .copy-btn:hover {
   color: var(--yellow);
 }
-.keyword .desc {
+.Detail .keyword .desc {
   padding: 0.5em;
   word-wrap: break-word;
   word-break: keep-all;
   height: 100%;
 }
-.keyword-list-bottom {
+.Detail .keyword-list-bottom {
   width: 100%;
   margin: 10px 0;
   display: flex;
   justify-content: center;
   gap: 0.8em;
 }
-.keyword-dot {
+.Detail .keyword-dot {
   color: #aaa;
   font-size: 1em;
   cursor: pointer;
@@ -191,10 +192,10 @@
   justify-content: center;
   align-items: center;
 }
-.keyword-dot.active {
+.Detail .keyword-dot.active {
   color: var(--yellow);
 }
-.keyword-dot:hover {
+.Detail .keyword-dot:hover {
   color: var(--yellow);
 }
 .Detail .content {

@@ -11,7 +11,15 @@ const router = express.Router();
 router.get("/cat/get", async (req, res) => {
   try {
     const data = await CAT.findAll({
-      where: { c_bookmark: 1 },
+      where: { [Op.and]: [{ c_bookmark: 1 }, { c_subcount: { [Op.gt]: 0 } }] },
+      include: {
+        model: SUB,
+        as: "tbl_subjects",
+        attributes: ["s_subid"],
+        where: {
+          [Op.and]: [{ s_bookmark: 1 }, { s_keycount: { [Op.gt]: 0 } }],
+        },
+      },
     });
     return res.json({ data: data });
   } catch (error) {

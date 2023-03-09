@@ -83,7 +83,7 @@
 }
 .App button.active,
 .App button:hover {
-  color: var(--yellow);
+  color: var(--yellow) !important;
 }
 .App button:hover,
 .App input:hover,

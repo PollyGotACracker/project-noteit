@@ -10,6 +10,7 @@ import NoteWrite, { writeLoader } from "../comps/Note/NoteWrite";
 import QuizMain from "../comps/Quiz/QuizMain";
 import QuizCat, { quizCatLoader } from "../comps/Quiz/QuizCat";
 import QuizSub, { quizSubLoader } from "../comps/Quiz/QuizSub";
+import QuizResult from "../comps/Quiz/QuizResult";
 import TodoMain from "../comps/Todo/TodoMain";
 import Set from "../comps/Set/Set";
 import NotFound from "../page/NotFound";
@@ -33,6 +34,7 @@ export {
   quizCatLoader,
   QuizSub,
   quizSubLoader,
+  QuizResult,
   TodoMain,
   Set,
   NotFound,

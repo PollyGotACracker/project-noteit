@@ -142,6 +142,7 @@
 }
 .Write #back:hover,
 .Write #submit:hover {
+  color: inherit !important;
   background-color: var(--yellow);
 }
 .Write .btn-box {

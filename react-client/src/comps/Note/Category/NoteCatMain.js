@@ -6,6 +6,7 @@ import NoteCatItem from "./NoteCatItem";
 import { initCat } from "../../../data/NoteData";
 import { HiFolderPlus } from "react-icons/hi2";
 import { useLoaderData } from "react-router-dom";
+import { AiOutlineInfoCircle } from "react-icons/ai";
 
 export const catLoader = () => {
   const data = getCatHandler();
@@ -65,7 +66,11 @@ const NoteCatMain = () => {
   return (
     <article className="Note Cat">
       <section className="top">
-        <div className="title">카테고리를 선택하세요!</div>
+        <div className="title">노트 목록</div>
+        <div className="info">
+          <AiOutlineInfoCircle />
+          북마크된 아이템은 퀴즈에 표시됩니다.
+        </div>
         <form>
           <input
             name="c_category"
