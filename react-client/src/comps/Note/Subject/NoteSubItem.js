@@ -4,7 +4,7 @@ import { deleteSubHandler, getSubHandler } from "../../../service/note.service";
 import { useNoteContext } from "../../../context/NoteContext";
 import { RxBookmark, RxBookmarkFilled } from "react-icons/rx";
 import { FaTags } from "react-icons/fa";
-import { MdDelete, MdRemoveRedEye } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 
 const NoteSubItem = ({ item }) => {
   const { catid } = useParams();

@@ -26,12 +26,19 @@ const QuizResult = () => {
         틀린 문제 목록
         {wrongAnswer.map((item) => (
           <div key={item.s_subid}>
-            <div>{item.s_subject}</div>
-            <Link to={`/note/subject/${item.s_catid}/${item.s_subid}`}>
-              노트 보기
-            </Link>
+            <div>
+              <span>{item.s_subject}</span>
+              <span>{item.wrong.length} / </span>
+              <span>{item.s_keycount}</span>
+              <Link to={`/note/subject/${item.s_catid}/${item.s_subid}`}>
+                노트 보기
+              </Link>
+            </div>
             {item.wrong.map((item) => (
-              <div key={item.k_keyid}>{item.k_keyword}</div>
+              <div key={item.k_keyid}>
+                <span>{item.k_keyword}</span>
+                <span>{item.answer}</span>
+              </div>
             ))}
           </div>
         ))}

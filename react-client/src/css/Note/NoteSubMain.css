@@ -74,11 +74,14 @@
 }
 .Note.Sub .content ul li {
   display: grid;
-  grid-template-columns: 1.5fr 10fr 1fr 1fr 1.5fr;
+  grid-template-columns: 1.5fr 10fr 1fr 1.5fr;
   gap: 10px;
   list-style: none;
   padding: 10px;
-  border-bottom: 1px dashed #ccc;
+  border-bottom: 1px dashed var(--darkgray);
+}
+.Note.Sub .content ul li:last-child {
+  border-bottom: none;
 }
 .Note.Sub .item .subject {
   display: flex;
@@ -90,7 +93,6 @@
 .Note.Sub .item .subject:hover {
   color: var(--yellow);
 }
-
 .Note.Sub .item .keycount,
 .Note.Sub .item .views {
   color: #333;

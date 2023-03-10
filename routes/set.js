@@ -20,10 +20,20 @@ router.post(
     const userid = req.params.userid;
     try {
       const file = req?.file;
+      // const uploadFileInfo = {
+      //   a_attid: v4().substring(0, 8),
+      //   a_subid: req.body.subid,
+      //   a_date: moment().format("YYYY[-]MM[-]DD"),
+      //   a_time: moment().format("HH:mm:ss"),
+      //   a_originalname: file.originalname,
+      //   a_savename: file.filename,
+      //   a_ext: file.mimetype,
+      // };
       const data = {
         u_profileimg: file?.filename,
         u_profilestr: req?.body?.str,
       };
+      // await ATT.insert(uploadFileInfo);
       const result = await USER.update(data, { where: { u_userid: userid } });
 
       console.log(result);

@@ -1,13 +1,37 @@
-.Quiz .category-box,
+.Quiz .cat-box,
 .Quiz .subject-box {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1em;
-  width: 100%;
+  width: 80%;
   height: 20%;
-  border-bottom: 1px dashed var(--darkgray);
+  margin: 0 auto;
+  /* border-bottom: 1px solid var(--darkgray); */
 }
+.Quiz .cat-box .cat-item {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 5fr 1fr 1fr;
+  gap: 10px;
+  padding: 10px;
+  border-bottom: 1px dashed var(--darkgray);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all ease 0.2s;
+}
+.Quiz .cat-box .cat-item:last-child {
+  border-bottom: none;
+}
+.Quiz .cat-box .cat-item:hover {
+  color: var(--yellow);
+}
+.Quiz .cat-box .cat-item span:not(:first-child) {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+}
+
 .Quiz .subject-box .card {
   width: 60%;
   padding: 1.5em;
