@@ -26,7 +26,7 @@
 - Express
 - Sequelize
 
-## 기타 라이브러리
+## 기타
 
 - ckeditor5
 - sanitize-html

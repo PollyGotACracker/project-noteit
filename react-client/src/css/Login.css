@@ -1,14 +1,8 @@
 .Login {
-  padding: 0 !important;
-  background: linear-gradient(var(--blue), rgba(29, 65, 91, 0.7));
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-.Login + nav {
-  display: none;
 }
 
 .Login .cover-img {
@@ -104,18 +98,16 @@
 }
 .Login .wrap-links > * {
   display: inline-block;
-  width: 30%;
   color: white;
   font-size: 12pt;
-  text-align: center;
   white-space: nowrap;
   transition: all 0.3s ease-out;
 }
 .Login .wrap-links button {
-  background-image: url("../assets/images/enter.png");
-  background-repeat: no-repeat;
-  background-position: right 5px bottom 50%;
-  background-size: 16px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.2em;
 }
 .Login .wrap-links a:hover,
 .Login .wrap-links button:hover {

@@ -25,6 +25,14 @@
   border-radius: 0;
   border-bottom: 1px solid var(--darkgray);
 }
+.Write .keyword-info {
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+  font-size: 0.9em;
+  word-break: keep-all;
+  margin-left: 10px;
+}
 .Write .keyword-item {
   display: flex;
   align-items: center;

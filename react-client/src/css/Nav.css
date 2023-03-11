@@ -11,7 +11,7 @@ nav {
 }
 
 @media only screen and (max-width: 720px) {
-  .App {
+  main.Index {
     flex-direction: column-reverse;
     position: relative;
   }

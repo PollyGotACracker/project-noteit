@@ -69,7 +69,7 @@ const NoteCatMain = () => {
         <div className="title">노트 목록</div>
         <div className="info">
           <AiOutlineInfoCircle />
-          북마크된 아이템은 퀴즈에 표시됩니다.
+          북마크된 아이템의 키워드는 퀴즈에 표시됩니다.
         </div>
         <form>
           <input

@@ -9,12 +9,21 @@
   overflow: hidden;
   display: flex;
 }
+.App main.Intro {
+  padding: 0 !important;
+  background: linear-gradient(var(--blue), rgba(29, 65, 91, 0.7));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 .App main.Index {
   margin: 2em;
   padding: 2em 0;
   border: 1px solid var(--darkgray);
   border-radius: 10px;
 }
+
 .App main article {
   flex: 1;
   padding: 0 1em;

@@ -1,8 +1,9 @@
-import { useEffect, useCallback, useState, useRef } from "react";
-import { useLoaderData, Link, useNavigate } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { msgList } from "../../data/QuizData";
 import { getQuizSub } from "../../service/quiz.service";
-import { FaSadTear } from "react-icons/fa";
+import { IoArrowRedoCircleOutline } from "react-icons/io5";
+import { BsCheck2Circle, BsDroplet } from "react-icons/bs";
 
 export const quizSubLoader = async ({ params }) => {
   const catid = params?.catid;
@@ -21,6 +22,7 @@ const QuizSub = () => {
   const { _data, allKeyScore } = useLoaderData();
   const [quizSubList, setQuizSubList] = useState([..._data]);
   const [quizKeyList, setQuizKeyList] = useState([..._data[0]["tbl_keywords"]]);
+  const [correctList, setCorrectList] = useState([]);
   const [subIndex, setSubIndex] = useState(0);
   const [keyIndex, setKeyIndex] = useState(0);
   const [feedbackMsg, setFeedbackMsg] = useState(msgList.start);
@@ -31,17 +33,20 @@ const QuizSub = () => {
   const userAnswerRef = useRef(null);
   const msgInputRef = useRef(null);
 
+  // 키워드에서 중복되는 단어는 입력 안해도 되게 단어를 추출하면 좋겠음
+  // 보통 뒤에서부터 중복될 듯?
+
   const onKeyDownHandler = (e) => {
-    const val = quizKeyList[keyIndex]?.k_keyword?.replaceAll(" ", "");
     const answer = userAnswer?.replaceAll(" ", "");
+    const isCorrect = correctList.includes(answer);
     const lastSubIndex = quizSubList.length - 1;
     const lastKeyIndex = quizKeyList.length - 1;
     if (e.keyCode === 13) {
-      if (val === answer) {
+      if (isCorrect) {
         setFeedbackMsg(msgList.correct);
         setScore(score + 5);
       }
-      if (val !== answer) {
+      if (!isCorrect) {
         const _subid = quizSubList[subIndex].s_subid;
         const _keyData = { ...quizKeyList[keyIndex], answer: userAnswer };
         const _newSubData = {
@@ -51,24 +56,21 @@ const QuizSub = () => {
         delete _newSubData.tbl_keywords;
         setFeedbackMsg(msgList.wrong);
         setKeyIndex(keyIndex + 1);
+
         // 주제를 건너뛸 경우 나머지 키워드 전부 추가하는 코드 필요!!
         setWrongAnswer((prev) => {
           let _prev = [...prev];
-          if (_prev.length === 0) {
+          const length = _prev.length;
+          if (length === 0) {
             _prev = [..._prev, _newSubData];
             return _prev;
           } else {
-            if (_prev[_prev.length - 1].s_subid !== _subid) {
-              console.log(_prev[_prev.length - 1].s_subid, _subid);
+            if (_prev[length - 1].s_subid !== _subid) {
               _prev = [..._prev, _newSubData];
               return _prev;
             }
-            if (_prev[_prev.length - 1].s_subid === _subid) {
-              console.log(_prev[_prev.length - 1].s_subid, _subid);
-              _prev[_prev.length - 1].wrong = [
-                ..._prev[_prev.length - 1].wrong,
-                _keyData,
-              ];
+            if (_prev[length - 1].s_subid === _subid) {
+              _prev[length - 1].wrong = [..._prev[length - 1].wrong, _keyData];
               return _prev;
             }
           }
@@ -89,10 +91,18 @@ const QuizSub = () => {
     }
   };
 
+  // 키워드가 A(B, C) 일 경우 ["A", "B", "C"] 반환
   useEffect(() => {
-    console.log(wrongAnswer);
-  }, [wrongAnswer]);
+    const currentKeyStr = quizKeyList[keyIndex]?.k_keyword;
+    setCorrectList(() => {
+      return currentKeyStr
+        ?.replaceAll(" ", "")
+        ?.split(/[({,\,,)})]{1}/)
+        ?.filter((item) => item !== "");
+    });
+  }, [quizKeyList, keyIndex]);
 
+  // 결과 표시 대기 timeout
   const showResult = () => {
     msgInputRef.current.style.visibility = "hidden";
     setQuizKeyList([]);
@@ -114,17 +124,10 @@ const QuizSub = () => {
     }, msgDelay);
   };
 
-  useEffect(() => {
-    // 키워드에서 중복되는 단어는 입력 안해도 되게 단어를 추출하면 좋겠음
-    // 보통 뒤에서부터 중복될 듯??
-    // setQuizKeyList
-  }, [subIndex]);
-
+  // input focus
   useEffect(() => {
     userAnswerRef.current.focus();
   }, [onKeyDownHandler]);
-
-  // keyword 에서 틀린 횟수 표시하는 칼럼 추가
 
   return (
     <div className="Sub">
@@ -148,10 +151,19 @@ const QuizSub = () => {
             }
           }}
         >
-          <FaSadTear />이 주제 건너뛰기
+          <IoArrowRedoCircleOutline />이 주제 건너뛰기
         </button>
       </div>
-      <div>{feedbackMsg}</div>
+      <div>
+        {feedbackMsg === msgList.correct ? (
+          <BsCheck2Circle />
+        ) : feedbackMsg === msgList.wrong ? (
+          <BsDroplet />
+        ) : (
+          ""
+        )}
+        {feedbackMsg}
+      </div>
       <div>
         점수: {score} / {allKeyScore}
       </div>

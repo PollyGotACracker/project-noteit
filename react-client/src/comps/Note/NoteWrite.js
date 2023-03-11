@@ -2,12 +2,13 @@ import EditorModule from "./EditorModule";
 import "../../css/Note/NoteWrite.css";
 import "../../css/Note/Content.css";
 import moment from "moment";
-import { useRef, useState, useLayoutEffect } from "react";
+import { useRef, useState } from "react";
 import { useParams, Link, useNavigate, useLoaderData } from "react-router-dom";
 import { initSub, initKey } from "../../data/NoteData";
 import { MdDelete } from "react-icons/md";
 import { FaCaretUp, FaCaretDown } from "react-icons/fa";
 import { getSubDetailHandler } from "../../service/note.service";
+import { AiOutlineInfoCircle } from "react-icons/ai";
 
 export const writeLoader = async ({ params }) => {
   const catid = params?.catid;
@@ -23,7 +24,7 @@ export const writeLoader = async ({ params }) => {
       return alert(res.error);
     } else {
       subData = { s_category: res[0].c_category };
-      keyData = [{ ...initKey() }];
+      keyData = [];
     }
 
     // path 에 subid 가 있을 경우(UPDATE)
@@ -69,6 +70,7 @@ const NoteWrite = () => {
           <input
             className="keyword"
             name="k_keyword"
+            required={true}
             defaultValue={item.k_keyword}
             type="text"
             placeholder="키워드 제목"
@@ -81,6 +83,7 @@ const NoteWrite = () => {
           <textarea
             className="desc"
             name="k_desc"
+            required={true}
             placeholder="키워드 내용"
             defaultValue={item.k_desc}
             autoComplete="false"
@@ -211,12 +214,20 @@ const NoteWrite = () => {
         <input
           id="subject"
           value={noteSub.s_subject || ""}
+          required={true}
           name="s_subject"
           onChange={onChangeSubHandler}
           autoComplete="false"
         />
         <section className="keyword-controller">
           <label>키워드</label>
+          <div className="keyword-info">
+            <AiOutlineInfoCircle />
+            <span>
+              하나의 키워드를 소괄호 또는 쉼표로 분리하면 복수 정답으로
+              인정됩니다.
+            </span>
+          </div>
           <div id="keyword-box" ref={keyboxRef}>
             {KeywordItem}
           </div>

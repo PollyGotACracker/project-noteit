@@ -6,9 +6,9 @@ import NavRouterProvider from "./page/NavRouter";
 
 const root = ReactDOM.createRoot(document.querySelector("#root"));
 root.render(
-  //   <React.StrictMode>
-  <UserContextProvider>
-    <NavRouterProvider />
-  </UserContextProvider>
-  //   </React.StrictMode>
+  <React.StrictMode>
+    <UserContextProvider>
+      <NavRouterProvider />
+    </UserContextProvider>
+  </React.StrictMode>
 );

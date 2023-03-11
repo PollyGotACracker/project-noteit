@@ -1,5 +1,6 @@
 import "../css/Login.css";
 import { useNavigate, Link } from "react-router-dom";
+import { MdLogin } from "react-icons/md";
 
 const Login = () => {
   const nav = useNavigate();
@@ -31,11 +32,11 @@ const Login = () => {
   const onClickHandler = () => {
     // 유효성 검사 및 fetch
     // 아래는 임시 코드
-    nav(`/`, { replace: true });
+    nav(`/home`, { replace: true });
   };
 
   return (
-    <main className="Login">
+    <article className="Login">
       <div className="cover-img"></div>
       <div className="title">
         <TitleContent />
@@ -57,13 +58,14 @@ const Login = () => {
         />
         <div className="wrap-links">
           <Link to="">비밀번호 찾기</Link>
-          <Link to="">회원가입</Link>
+          <Link to={"/join"}>회원가입</Link>
           <button type="button" onClick={onClickHandler}>
             로그인
+            <MdLogin />
           </button>
         </div>
       </form>
-    </main>
+    </article>
   );
 };
 
