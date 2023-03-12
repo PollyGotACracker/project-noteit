@@ -104,14 +104,20 @@ const QuizSub = () => {
 
   // 결과 표시 대기 timeout
   const showResult = () => {
-    msgInputRef.current.style.visibility = "hidden";
+    msgInputRef.current.readOnly = true;
+
     setQuizKeyList([]);
     let msgDelay = 1000;
     if (feedbackMsg === msgList.start || feedbackMsg === msgList.nextSub) {
       msgDelay = 0;
     }
     setTimeout(() => {
-      setFeedbackMsg(msgList.calc);
+      // setFeedbackMsg(msgList.calc);
+      // 임시 코드
+      // document.querySelector(".Sub").style.display = "none";
+      // document.querySelector(".loading").style.zIndex = "1";
+      // document.querySelector(".loading").style.opacity = "1";
+
       setTimeout(() => {
         nav(`/quiz/result`, {
           state: {

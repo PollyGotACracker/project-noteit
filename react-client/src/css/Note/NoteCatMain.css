@@ -32,7 +32,7 @@
   width: 90%;
   margin: 8vh auto 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(30%, auto));
+  grid-template-columns: repeat(auto-fill, minmax(40%, auto));
   justify-items: center;
   column-gap: 1.5em;
   row-gap: 3em;

@@ -8,34 +8,34 @@ const Main = () => {
 
   // 코드 수정할 것
   const typeWriter = (text) => {
-    let i = 0;
-    let speed = 0;
-    const typing = () => {
-      if (i < text.length) {
-        switch (text.charAt(i)) {
-          case " ":
-            speed = 160;
-            speak.current.insertAdjacentHTML("beforeend", "\xA0");
-            speak.current.style.animationName = "none";
-            break;
-          case ",":
-          case ".":
-            speak.current.insertAdjacentHTML("beforeend", text.charAt(i));
-            speed = Math.floor(Math.random() * (900 - 500 + 1)) + 500;
-            speak.current.style.animationName = "blink";
-            break;
-          default:
-            speed = 160;
-            speak.current.insertAdjacentHTML("beforeend", text.charAt(i));
-            speak.current.style.animationName = "none";
-        }
-        i++;
-        setTimeout(typing, speed);
-      } else {
-        speak.current.style.animationName = "blink";
-      }
-    };
-    typing();
+    // let i = 0;
+    // let speed = 0;
+    // const typing = () => {
+    //   if (i < text.length) {
+    //     switch (text.charAt(i)) {
+    //       case " ":
+    //         speed = 160;
+    //         speak.current.insertAdjacentHTML("beforeend", "\xA0");
+    //         speak.current.style.animationName = "none";
+    //         break;
+    //       case ",":
+    //       case ".":
+    //         speak.current.insertAdjacentHTML("beforeend", text.charAt(i));
+    //         speed = Math.floor(Math.random() * (900 - 500 + 1)) + 500;
+    //         speak.current.style.animationName = "blink";
+    //         break;
+    //       default:
+    //         speed = 160;
+    //         speak.current.insertAdjacentHTML("beforeend", text.charAt(i));
+    //         speak.current.style.animationName = "none";
+    //     }
+    //     i++;
+    //     setTimeout(typing, speed);
+    //   } else {
+    //     speak.current.style.animationName = "blink";
+    //   }
+    // };
+    // typing();
   };
 
   /**

@@ -35,7 +35,7 @@ nav {
   nav a.logout {
     margin-top: 0 !important;
   }
-  .App main {
+  .App {
     flex-direction: column-reverse;
   }
   .App main.Index {
@@ -47,7 +47,7 @@ nav {
   }
   .App main aside {
     height: 100%;
-    position: absolute;
+    position: fixed;
     top: 0;
     right: -200px;
   }
