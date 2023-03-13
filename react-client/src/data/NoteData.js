@@ -3,6 +3,7 @@ import uuid from "react-uuid";
 
 export const initCat = () => {
   const catData = {
+    // temp
     c_userid: "polly@gmail.com",
     c_catid: uuid().substring(0, 8),
     c_category: "",

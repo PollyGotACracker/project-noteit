@@ -21,6 +21,7 @@ nav {
     flex-direction: row;
     background: none;
     background-color: var(--blue);
+    padding: 0 5vw;
   }
   nav a {
     height: 80px !important;

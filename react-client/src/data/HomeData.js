@@ -3,7 +3,7 @@ import moment from "moment";
 export const getToday = () => {
   const today = {
     date: moment().format("YYYY[/]MM[/]DD[ ]ddd"),
-    time: moment().format("HH:mm:ss"),
+    time: moment().format("LTS"),
   };
   return today;
 };
