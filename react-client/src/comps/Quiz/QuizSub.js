@@ -3,7 +3,9 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import { msgList } from "../../data/QuizData";
 import { getQuizSub } from "../../service/quiz.service";
 import { IoArrowRedoCircleOutline } from "react-icons/io5";
-import { BsCheck2Circle, BsDroplet } from "react-icons/bs";
+import { BsCheck2Circle, BsDroplet, BsHourglassSplit } from "react-icons/bs";
+
+import { IoIosHourglass } from "react-icons/io";
 
 export const quizSubLoader = async ({ params }) => {
   const catid = params?.catid;
@@ -31,6 +33,7 @@ const QuizSub = () => {
   const [score, setScore] = useState(0);
   const [userAnswer, setUserAnswer] = useState("");
   const userAnswerRef = useRef(null);
+  const feedbackRef = useRef(null);
   const msgInputRef = useRef(null);
 
   // 키워드에서 중복되는 단어는 입력 안해도 되게 단어를 추출하면 좋겠음
@@ -43,10 +46,14 @@ const QuizSub = () => {
     const lastKeyIndex = quizKeyList.length - 1;
     if (e.keyCode === 13) {
       if (isCorrect) {
+        feedbackRef.current.style.animationName = "bounce";
+
         setFeedbackMsg(msgList.correct);
         setScore(score + 5);
       }
       if (!isCorrect) {
+        feedbackRef.current.style.animationName = "shake";
+
         const _subid = quizSubList[subIndex].s_subid;
         const _keyData = { ...quizKeyList[keyIndex], answer: userAnswer };
         const _newSubData = {
@@ -107,16 +114,16 @@ const QuizSub = () => {
     msgInputRef.current.readOnly = true;
 
     setQuizKeyList([]);
-    let msgDelay = 1000;
+    let msgDelay = 2000;
     if (feedbackMsg === msgList.start || feedbackMsg === msgList.nextSub) {
       msgDelay = 0;
     }
     setTimeout(() => {
       // setFeedbackMsg(msgList.calc);
       // 임시 코드
-      // document.querySelector(".Sub").style.display = "none";
-      // document.querySelector(".loading").style.zIndex = "1";
-      // document.querySelector(".loading").style.opacity = "1";
+      document.querySelector(".Sub").style.display = "none";
+      document.querySelector(".loading").style.zIndex = "1";
+      document.querySelector(".loading").style.opacity = "1";
 
       setTimeout(() => {
         nav(`/quiz/result`, {
@@ -126,7 +133,7 @@ const QuizSub = () => {
             allKeyScore: allKeyScore,
           },
         });
-      }, 2000);
+      }, 3000);
     }, msgDelay);
   };
 
@@ -136,64 +143,69 @@ const QuizSub = () => {
   }, [onKeyDownHandler]);
 
   return (
-    <div className="Sub">
-      <div className="subject-box">
-        <div className="category">{quizSubList[subIndex]?.s_category}</div>
-        <div>{quizSubList.length}</div>
-        <div className="subject">
-          {subIndex + 1}
-          {quizSubList[subIndex]?.s_subject}
-        </div>
-        <div className="keycount">{quizSubList[subIndex]?.s_keycount}</div>
-        <button
-          onClick={() => {
-            if (subIndex < quizSubList.length - 1) {
-              setFeedbackMsg(msgList.nextSub);
-              setSubIndex(subIndex + 1);
-              setQuizKeyList([...quizSubList[subIndex + 1].tbl_keywords]);
-              setKeyIndex(0);
-            } else {
-              showResult();
-            }
-          }}
-        >
-          <IoArrowRedoCircleOutline />이 주제 건너뛰기
-        </button>
-      </div>
-      <div>
-        {feedbackMsg === msgList.correct ? (
-          <BsCheck2Circle />
-        ) : feedbackMsg === msgList.wrong ? (
-          <BsDroplet />
-        ) : (
-          ""
-        )}
-        {feedbackMsg}
-      </div>
-      <div>
-        점수: {score} / {allKeyScore}
-      </div>
-      <div className="keyword-box">
-        <div className="keyword">{quizKeyList[keyIndex]?.k_desc}</div>
-      </div>
-      <section className="center">
-        <div className="msg-box" ref={msgInputRef}>
-          <input
-            className="msg"
-            ref={userAnswerRef}
-            placeholder="키워드를 입력하세요!"
-            value={userAnswer}
-            onChange={(e) => {
-              setUserAnswer(e.target.value);
+    <>
+      <div className="Sub">
+        <div className="subject-box">
+          <div className="category">{quizSubList[subIndex]?.s_category}</div>
+          <div>{quizSubList.length}</div>
+          <div className="subject">
+            {subIndex + 1}. {quizSubList[subIndex]?.s_subject}
+          </div>
+          <div className="keycount">{quizSubList[subIndex]?.s_keycount}</div>
+          <button
+            onClick={() => {
+              if (subIndex < quizSubList.length - 1) {
+                setFeedbackMsg(msgList.nextSub);
+                setSubIndex(subIndex + 1);
+                setQuizKeyList([...quizSubList[subIndex + 1].tbl_keywords]);
+                setKeyIndex(0);
+              } else {
+                showResult();
+              }
             }}
-            onKeyDown={(e) => {
-              onKeyDownHandler(e);
-            }}
-          />
+          >
+            <IoArrowRedoCircleOutline />이 주제 건너뛰기
+          </button>
         </div>
-        <div className="bird-img">사진 영역</div>
+        <div className="feedback-msg" ref={feedbackRef}>
+          {feedbackMsg === msgList.correct ? (
+            <BsCheck2Circle />
+          ) : feedbackMsg === msgList.wrong ? (
+            <BsDroplet />
+          ) : (
+            ""
+          )}
+          {feedbackMsg}
+        </div>
+        <div>
+          점수: {score} / {allKeyScore}
+        </div>
+        <div className="keyword-box">
+          <div className="keyword-desc">{quizKeyList[keyIndex]?.k_desc}</div>
+        </div>
+        <section className="answer-box">
+          <div className="msg-box" ref={msgInputRef}>
+            <input
+              className="msg"
+              ref={userAnswerRef}
+              placeholder="키워드를 입력하세요!"
+              value={userAnswer}
+              onChange={(e) => {
+                setUserAnswer(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                onKeyDownHandler(e);
+              }}
+            />
+          </div>
+          <div className="bird-img">사진 영역</div>
+        </section>
+      </div>
+      <section className="loading">
+        <IoIosHourglass />
+        <span>잠시만 기다려주세요...</span>
       </section>
-    </div>
+    </>
   );
 };
 

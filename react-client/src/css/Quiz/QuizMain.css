@@ -46,6 +46,16 @@
   height: 80%;
   margin-top: 20pt;
 }
+.Quiz .keyword-desc {
+  white-space: pre-wrap;
+  word-break: keep-all;
+  padding: 2em;
+  border: 1px solid var(--darkgray);
+  border-radius: 10px;
+  margin: 0 auto;
+  max-width: 60%;
+  min-height: 20vh;
+}
 .Quiz .keycount {
   width: 50px;
   height: 50px;
@@ -57,13 +67,13 @@
   font-weight: 700;
   background-color: #faf9f7;
 }
-.Quiz .center {
-  width: 70%;
+.Quiz .answer-box {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.Quiz .center .msg-box {
+.Quiz .answer-box .msg-box {
   font-size: 15pt;
   width: 350px;
   padding: 30px 20px;
@@ -73,7 +83,7 @@
   user-select: none;
   position: relative;
 }
-.Quiz .center .msg-box:after {
+.Quiz .answer-box .msg-box:after {
   position: absolute;
   left: calc(50% - 15px);
   bottom: -16px;
@@ -85,12 +95,12 @@
   border-right: 1px solid #aaa;
   transform: rotateZ(135deg);
 }
-.Quiz .msg-box .msg {
+.Quiz .answer-box .msg {
   border: none;
   font-size: 12pt;
   width: 100%;
 }
-.Quiz .center .bird-img {
+.Quiz .answer-box .bird-img {
   width: 100%;
   height: 100%;
   background-color: #aaa;
@@ -98,13 +108,70 @@
 .Quiz {
   position: relative;
 }
+
 .Quiz .loading {
-  z-index: 100;
-  /* opacity: 0; */
+  z-index: -100;
+  opacity: 0;
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  transition: all ease 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: opacity ease 0.3s;
+}
+
+.Quiz .loading svg {
+  /* cf) 여러 애니메이션을 지정할 경우 순차적으로 실행되며 동시에 실행되지 않는다. */
+  animation: infinite ease-out 1.6s hourglassRotateZ,
+    infinite steps(1) 0.4s hourglassRotateX;
+  font-size: 12em;
+  color: #60798c;
+}
+
+@keyframes hourglassRotateZ {
+  100% {
+    transform: rotateZ(180deg);
+  }
+}
+@keyframes hourglassRotateX {
+  100% {
+    transform: scaleY(-1);
+  }
+}
+
+.Quiz .loading span {
+  margin-top: 2em;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.Quiz .feedback-msg {
+  animation-duration: 0.6s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  animation-iteration-count: infinite;
+  animation-delay: 10s;
+}
+
+@keyframes bounce {
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes shake {
+  20% {
+    transform: translateX(-5px);
+  }
+  60% {
+    transform: translateX(5px);
+  }
+  80% {
+    transform: translateX(-2px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
 }

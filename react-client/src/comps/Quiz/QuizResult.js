@@ -43,6 +43,7 @@ const QuizResult = () => {
           </div>
         ))}
       </div>
+      <Link to={`/quiz/${wrongAnswer[0].s_catid}`}>다시 풀기</Link>
     </section>
   );
 };
