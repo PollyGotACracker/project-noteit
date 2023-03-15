@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { msgList, initScore } from "../../data/QuizData";
 import { getQuizSub } from "../../service/quiz.service";
@@ -38,6 +38,7 @@ const QuizSub = () => {
   const msgInputRef = useRef(null);
   const descRef = useRef(null);
   const loadingRef = useRef(null);
+  const timeoutRef = useRef(null);
 
   const onKeyDownHandler = (e) => {
     const answer = userAnswer?.toUpperCase()?.replaceAll(" ", "");
@@ -51,13 +52,12 @@ const QuizSub = () => {
       }
       if (isCorrect) {
         setFeedbackMsg(msgList.correct);
-        setScore((score) => score + 5);
+        setKeyIndex(keyIndex + 1);
+        setScore(score + 5);
       }
       if (!isCorrect) {
         setFeedbackMsg(msgList.wrong);
         setKeyIndex(keyIndex + 1);
-        // StrictMode 때문에 두개씩 추가되는데...
-        // 주제를 건너뛸 경우 나머지 키워드 전부 추가하는 코드 필요!!
         addWrongItem({ state: "wrong", answer: userAnswer });
       }
       if (keyIndex < lastKeyIndex) {
@@ -69,56 +69,41 @@ const QuizSub = () => {
         setKeyIndex(0);
       }
       if (keyIndex === lastKeyIndex && subIndex === lastSubIndex) {
-        showResult(isCorrect);
+        console.log("결과");
+        showResult({ correct: isCorrect, jump: false });
       }
       setUserAnswer("");
     }
   };
 
-  const addWrongItem = ({ state, answer = "건너뛰었습니다!" }) => {
-    const _subid = quizSubList[subIndex].s_subid;
-    const _keyData = { ...quizKeyList[keyIndex], answer: answer };
-    const _newSubData = {
-      ...quizSubList[subIndex],
-      // wrong: [{ ..._keyData }],
-      wrong: [],
-    };
-    delete _newSubData.tbl_keywords;
-
+  // 문제를 건너뛰거나 틀릴 경우 틀린 문제 리스트 추가
+  const addWrongItem = ({ state, answer = "건너뛴 문제입니다." }) => {
     setWrongAnswer((prev) => {
       let _prev = [...prev];
       const length = _prev.length;
       const lastSub = _prev[length - 1]?.s_subid;
+      const _subid = quizSubList[subIndex].s_subid;
 
-      // 분기 처리가 제대로 되지 않음...
-      // 데이터가 없을 경우: 현재 sub 추가 후 다음 코드로
-      if (length === 0) {
-        console.log("noLength");
+      // 데이터가 없을 경우, 마지막 sub 가 현재 sub 와 다른 sub 일 경우: 현재 sub 추가 후 다음 코드로
+      if (length === 0 || (length !== 0 && lastSub !== _subid)) {
+        const _newSubData = {
+          ...quizSubList[subIndex],
+          wrong: [],
+        };
+        delete _newSubData.tbl_keywords;
         _prev = [..._prev, _newSubData];
-        console.log(_prev);
       }
-      // 이전 sub 가 현재 sub 와 다른 sub 일 경우: 현재 sub 추가 후 다음 코드로
-      if (length !== 0 && lastSub !== _subid) {
-        console.log("diffSub");
-        _prev = [..._prev, _newSubData];
-        console.log(_prev);
-      }
-      // 틀렸거나 key 를 넘겼을 경우: 현재 key 아이템 추가
       if (state === "wrong" || state === "nextKey") {
-        console.log("wrong or nextKey");
-        const prevData = _prev[_prev.length - 1]?.wrong || [];
-        _prev[_prev.length - 1].wrong = [...prevData, _keyData];
-        console.log(_prev);
+        const _keyData = { ...quizKeyList[keyIndex], answer: answer };
+        const _prevWrong = _prev[_prev.length - 1]?.wrong;
+        _prev[_prev.length - 1].wrong = [..._prevWrong, _keyData];
       }
-      // 현재 sub 를 넘겼을 경우: 현재, 이후 key 리스트 추가
       if (state === "nextSub") {
-        console.log("nextSub");
         const _keyDataList = quizKeyList
           ?.filter((_, index) => index >= keyIndex)
           ?.map((item) => (item = { ...item, answer: answer }));
-        const prevData = _prev[_prev.length - 1]?.wrong || [];
-        _prev[_prev.length - 1].wrong = [...prevData, ..._keyDataList];
-        console.log(_prev);
+        const _prevWrong = _prev[_prev.length - 1]?.wrong;
+        _prev[_prev.length - 1].wrong = [..._prevWrong, ..._keyDataList];
       }
 
       return _prev;
@@ -141,47 +126,62 @@ const QuizSub = () => {
   useEffect(() => {
     feedbackRef.current.style.opacity = "1";
     feedbackRef.current.style.animationPlayState = "running";
+
     if (feedbackMsg === msgList.correct) {
       feedbackRef.current.style.animationName = "bounceMsg";
     }
     if (feedbackMsg === msgList.wrong) {
       feedbackRef.current.style.animationName = "shakeMsg";
     }
-
     const msgMoveStop = setTimeout(() => {
       feedbackRef.current.style.animationName = "";
       feedbackRef.current.style.animationPlayState = "paused";
       feedbackRef.current.style.opacity = "0";
     }, 2400);
     return () => clearTimeout(msgMoveStop);
-  }, [subIndex, keyIndex]);
+  }, [subIndex, keyIndex, feedbackMsg, setFeedbackMsg]);
 
   // 결과 표시 대기 timeout
-  const showResult = (last = false) => {
-    const finalScore = last ? score + 5 : score;
-    userAnswerRef.current.disabled = true;
-    descRef.current.style.opacity = "0";
-    let msgDelay = 2400;
-    if (feedbackMsg === msgList.start || feedbackMsg === msgList.nextSub) {
-      msgDelay = 0;
-    }
-    setTimeout(() => {
-      subRef.current.style.display = "none";
-      loadingRef.current.style.zIndex = "1";
-      loadingRef.current.style.opacity = "1";
+  // 모든 state 의 값이 setting 된 이후에 실행하는 방법을 모르겠다
+  const showResult = useCallback(
+    ({ correct, jump }) => {
+      // state setting 문제
+      const finalScore = correct ? score + 5 : score;
 
+      userAnswerRef.current.disabled = true;
+
+      // setTimeout 중 다른 페이지로 넘어가도 navigate 가 실행됨
+      // useEffect, useRef 로 clearTimeout 도 안됨
+      // 퀴즈 완료 직후 사용자 클릭을 막기?
+      // document.querySelector("body").style.pointerEvents = "none";
+
+      descRef.current.style.opacity = "0";
+      let msgDelay = 2400;
+
+      // 문제를 넘겼을 경우 delay 0
+      if (jump) {
+        msgDelay = 0;
+      }
       setTimeout(() => {
-        nav(`/quiz/result`, {
-          state: {
-            wrongAnswer: wrongAnswer,
-            score: finalScore,
-            userScore: userScore,
-            allKeyScore: allKeyScore,
-          },
-        });
-      }, 3000);
-    }, msgDelay);
-  };
+        subRef.current.style.display = "none";
+        loadingRef.current.style.zIndex = "1";
+        loadingRef.current.style.opacity = "1";
+
+        setTimeout(() => {
+          // document.querySelector("body").style.pointerEvents = "auto";
+          nav(`/quiz/result`, {
+            state: {
+              wrongAnswer: wrongAnswer,
+              score: finalScore,
+              userScore: userScore,
+              allKeyScore: allKeyScore,
+            },
+          });
+        }, 3000);
+      }, msgDelay);
+    },
+    [subIndex, keyIndex]
+  );
 
   // input focus
   useEffect(() => {
@@ -214,7 +214,9 @@ const QuizSub = () => {
                 addWrongItem({ state: "nextSub" });
                 return false;
               } else {
-                showResult();
+                addWrongItem({ state: "nextSub" });
+                showResult({ correct: false, jump: true });
+                return false;
               }
             }}
           >
@@ -235,6 +237,7 @@ const QuizSub = () => {
           점수: {score} / {allKeyScore}
         </div>
         <div className="keyword-box">
+          {keyIndex + 1}
           <div className="keyword-desc" ref={descRef}>
             {quizKeyList[keyIndex]?.k_desc}
           </div>
@@ -259,7 +262,7 @@ const QuizSub = () => {
               const isLastSub = subIndex === quizSubList.length - 1;
               const isLastKey = keyIndex === quizKeyList.length - 1;
 
-              if (isLastSub === false && isLastKey === false) {
+              if (isLastKey === false) {
                 setFeedbackMsg(msgList.nextKey);
                 setKeyIndex(keyIndex + 1);
                 addWrongItem({ state: "nextKey" });
@@ -272,8 +275,11 @@ const QuizSub = () => {
                 setKeyIndex(0);
                 addWrongItem({ state: "nextKey" });
                 return false;
-              } else {
-                showResult();
+              }
+              if (isLastSub === true && isLastKey === true) {
+                addWrongItem({ state: "nextKey" });
+                showResult({ correct: false, jump: true });
+                return false;
               }
             }}
           >
