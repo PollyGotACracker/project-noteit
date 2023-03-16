@@ -38,7 +38,8 @@ const QuizSub = () => {
   const msgInputRef = useRef(null);
   const descRef = useRef(null);
   const loadingRef = useRef(null);
-  const timeoutRef = useRef(null);
+  let showLoading;
+  let showResult;
 
   const onKeyDownHandler = (e) => {
     const answer = userAnswer?.toUpperCase()?.replaceAll(" ", "");
@@ -70,7 +71,7 @@ const QuizSub = () => {
       }
       if (keyIndex === lastKeyIndex && subIndex === lastSubIndex) {
         console.log("결과");
-        showResult({ correct: isCorrect, jump: false });
+        navResult({ correct: isCorrect, jump: false });
       }
       setUserAnswer("");
     }
@@ -143,18 +144,13 @@ const QuizSub = () => {
 
   // 결과 표시 대기 timeout
   // 모든 state 의 값이 setting 된 이후에 실행하는 방법을 모르겠다
-  const showResult = useCallback(
+  const navResult = useCallback(
     ({ correct, jump }) => {
       // state setting 문제
       const finalScore = correct ? score + 5 : score;
 
+      // **넘기기 버튼 클릭 안되게 할 것**
       userAnswerRef.current.disabled = true;
-
-      // setTimeout 중 다른 페이지로 넘어가도 navigate 가 실행됨
-      // useEffect, useRef 로 clearTimeout 도 안됨
-      // 퀴즈 완료 직후 사용자 클릭을 막기?
-      // document.querySelector("body").style.pointerEvents = "none";
-
       descRef.current.style.opacity = "0";
       let msgDelay = 2400;
 
@@ -162,13 +158,13 @@ const QuizSub = () => {
       if (jump) {
         msgDelay = 0;
       }
-      setTimeout(() => {
+      showLoading = setTimeout(() => {
         subRef.current.style.display = "none";
         loadingRef.current.style.zIndex = "1";
         loadingRef.current.style.opacity = "1";
 
-        setTimeout(() => {
-          // document.querySelector("body").style.pointerEvents = "auto";
+        // 새로고침해도 initalize 안되게...
+        showResult = setTimeout(() => {
           nav(`/quiz/result`, {
             state: {
               wrongAnswer: wrongAnswer,
@@ -182,6 +178,14 @@ const QuizSub = () => {
     },
     [subIndex, keyIndex]
   );
+
+  // clearTimeout(setTimeout 중 다른 페이지로 넘어가도 navigate 실행 방지)
+  useEffect(() => {
+    return () => {
+      clearTimeout(showLoading);
+      clearTimeout(showResult);
+    };
+  }, []);
 
   // input focus
   useEffect(() => {
@@ -215,7 +219,7 @@ const QuizSub = () => {
                 return false;
               } else {
                 addWrongItem({ state: "nextSub" });
-                showResult({ correct: false, jump: true });
+                navResult({ correct: false, jump: true });
                 return false;
               }
             }}
@@ -278,7 +282,7 @@ const QuizSub = () => {
               }
               if (isLastSub === true && isLastKey === true) {
                 addWrongItem({ state: "nextKey" });
-                showResult({ correct: false, jump: true });
+                navResult({ correct: false, jump: true });
                 return false;
               }
             }}
