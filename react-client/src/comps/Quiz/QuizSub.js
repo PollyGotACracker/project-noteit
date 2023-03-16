@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from "react";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
 import { msgList, initScore } from "../../data/QuizData";
 import { getQuizSub } from "../../service/quiz.service";
 import { IoIosHourglass } from "react-icons/io";
@@ -28,7 +28,6 @@ const QuizSub = () => {
   const [subIndex, setSubIndex] = useState(0);
   const [keyIndex, setKeyIndex] = useState(0);
   const [feedbackMsg, setFeedbackMsg] = useState(msgList.start);
-  // 전역변수로 만들 것
   const [wrongAnswer, setWrongAnswer] = useState([]);
   const [score, setScore] = useState(0);
   const [userAnswer, setUserAnswer] = useState("");
@@ -38,8 +37,10 @@ const QuizSub = () => {
   const msgInputRef = useRef(null);
   const descRef = useRef(null);
   const loadingRef = useRef(null);
-  let showLoading;
-  let showResult;
+  const showLoading = useRef(null);
+  const showResult = useRef(null);
+  const loc = useLocation();
+  const [countDown, setCountDown] = useState(2000);
 
   const onKeyDownHandler = (e) => {
     const answer = userAnswer?.toUpperCase()?.replaceAll(" ", "");
@@ -70,8 +71,7 @@ const QuizSub = () => {
         setKeyIndex(0);
       }
       if (keyIndex === lastKeyIndex && subIndex === lastSubIndex) {
-        console.log("결과");
-        navResult({ correct: isCorrect, jump: false });
+        navResult({ jump: false });
       }
       setUserAnswer("");
     }
@@ -143,13 +143,10 @@ const QuizSub = () => {
   }, [subIndex, keyIndex, feedbackMsg, setFeedbackMsg]);
 
   // 결과 표시 대기 timeout
-  // 모든 state 의 값이 setting 된 이후에 실행하는 방법을 모르겠다
   const navResult = useCallback(
-    ({ correct, jump }) => {
-      // state setting 문제
-      const finalScore = correct ? score + 5 : score;
-
-      // **넘기기 버튼 클릭 안되게 할 것**
+    ({ jump }) => {
+      // 넘기기 버튼 클릭 방지
+      subRef.current.style.pointerEvents = "none";
       userAnswerRef.current.disabled = true;
       descRef.current.style.opacity = "0";
       let msgDelay = 2400;
@@ -158,43 +155,48 @@ const QuizSub = () => {
       if (jump) {
         msgDelay = 0;
       }
-      showLoading = setTimeout(() => {
+      showLoading.current = setTimeout(() => {
         subRef.current.style.display = "none";
         loadingRef.current.style.zIndex = "1";
         loadingRef.current.style.opacity = "1";
-
-        // 새로고침해도 initalize 안되게...
-        showResult = setTimeout(() => {
-          nav(`/quiz/result`, {
-            state: {
-              wrongAnswer: wrongAnswer,
-              score: finalScore,
-              userScore: userScore,
-              allKeyScore: allKeyScore,
-            },
-          });
-        }, 3000);
+        showResult.current = setInterval(() => {
+          setCountDown((prev) => prev - 1000);
+        }, 1000);
       }, msgDelay);
     },
     [subIndex, keyIndex]
   );
 
-  // clearTimeout(setTimeout 중 다른 페이지로 넘어가도 navigate 실행 방지)
+  useEffect(() => {
+    // useNavigate-useLocation 으로 데이터 넘김
+    // 새로고침해도 state 값이 initalize 안되게 하는 방법?
+    if (countDown < 0) {
+      nav(`/quiz/result`, {
+        state: {
+          wrongAnswer: wrongAnswer,
+          score: score,
+          userScore: userScore,
+          allKeyScore: allKeyScore,
+        },
+        replace: true,
+      });
+      clearTimeout(showLoading.current);
+      clearInterval(showResult.current);
+    }
+  }, [countDown]);
+
+  // 다른 페이지로 넘어가면 navigate 실행 방지
   useEffect(() => {
     return () => {
-      clearTimeout(showLoading);
-      clearTimeout(showResult);
+      clearTimeout(showLoading.current);
+      clearInterval(showResult.current);
     };
-  }, []);
+  }, [loc.pathname]);
 
   // input focus
   useEffect(() => {
     userAnswerRef.current.focus();
   }, [onKeyDownHandler]);
-
-  useEffect(() => {
-    console.log(wrongAnswer);
-  }, [wrongAnswer]);
 
   return (
     <>
@@ -219,7 +221,7 @@ const QuizSub = () => {
                 return false;
               } else {
                 addWrongItem({ state: "nextSub" });
-                navResult({ correct: false, jump: true });
+                navResult({ jump: true });
                 return false;
               }
             }}
@@ -282,7 +284,7 @@ const QuizSub = () => {
               }
               if (isLastSub === true && isLastKey === true) {
                 addWrongItem({ state: "nextKey" });
-                navResult({ correct: false, jump: true });
+                navResult({ jump: true });
                 return false;
               }
             }}
