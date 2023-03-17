@@ -70,11 +70,12 @@ router.all("/**", async (req, res) => {
   try {
     const list = await TODO.findAll({
       order: [
-        ["t_deadline", "ASC"],
+        ["t_deadline", "DESC"],
         ["t_prior", "ASC"],
         ["t_date", "DESC"],
       ],
     });
+
     return res.json(list);
   } catch (error) {
     console.error;

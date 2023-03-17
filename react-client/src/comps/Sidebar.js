@@ -2,18 +2,20 @@ import "../css/Sidebar.css";
 import Player from "./Player";
 import { useUserContext } from "../context/UserContext";
 import { GiStarsStack } from "react-icons/gi";
+import { RiLogoutBoxLine } from "react-icons/ri";
 import { useState, useRef, forwardRef, useLayoutEffect } from "react";
 import profile from "../assets/images/profile.png";
 import { getToday } from "../data/HomeData";
 import { Link } from "react-router-dom";
+import { BsSearch } from "react-icons/bs";
 
 const Sidebar = forwardRef((props, ref) => {
-  const { blocker } = props;
   const [date, setDate] = useState(getToday().date);
   const [time, setTime] = useState(getToday().time);
   const { userData } = useUserContext();
   const [image, setImage] = useState({ width: "", height: "" });
   const imgSrc = useRef();
+  const [searchValue, setSearchValue] = useState("");
 
   const changeClock = () => {
     setDate(getToday().date);
@@ -28,8 +30,36 @@ const Sidebar = forwardRef((props, ref) => {
     };
   }, [date, time]);
 
+  // const searchData = async (value) => {
+  //   setSearchValue(value);
+  //   const fetchOption = {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({ value: searchValue, catid: catid }),
+  //   };
+  //   await fetch(`/note/sub/search`, fetchOption)
+  //     .then((data) => data.json())
+  //     .then((data) => {
+  //       setNoteSubList([...data]);
+  //     });
+  // };
+
+  // useLayoutEffect(() => {
+  //   searchData(searchValue);
+  // }, [searchValue]);
+
+  // const searchKeyword = (e) => {
+  //   if (e.type === "click" || (e.type === "keydown" && e.keyCode === 13)) {
+  //     searchData(searchValue);
+  //   }
+  // };
+
   return (
     <aside className="Sidebar" ref={ref}>
+      <section className="clock">
+        <div className="today">{date}</div>
+        <div className="today">{time}</div>
+      </section>
       <section className="profile">
         <div className="profile-img">
           <img
@@ -61,16 +91,7 @@ const Sidebar = forwardRef((props, ref) => {
         <div title="점수" className="score">
           <GiStarsStack /> {userData?.u_totalscore}
         </div>
-      </section>
-      <section className="player">
-        <Player />
-      </section>
-      <section className="clock">
-        <div className="today">{date}</div>
-        <div className="today">{time}</div>
-      </section>
-      <section className="menu">
-        <Link
+        {/* <Link
           to={"/setting"}
           onClick={() => {
             ref.current.className = "Sidebar";
@@ -78,7 +99,29 @@ const Sidebar = forwardRef((props, ref) => {
           }}
         >
           설정
-        </Link>
+        </Link> */}
+      </section>
+      <section className="player">
+        <Player />
+      </section>
+      <form>
+        <input
+          className="input"
+          placeholder="검색어를 입력하세요..."
+          onChange={(e) => setSearchValue(e.target.value)}
+          // onKeyDown={searchKeyword}
+        />
+        <button
+          type="button"
+          className="search"
+          title="검색"
+          // onClick={searchKeyword}
+        >
+          <BsSearch />
+        </button>
+      </form>
+      <section className="logout">
+        <RiLogoutBoxLine />
         <Link to={"/logout"}>로그아웃</Link>
       </section>
     </aside>

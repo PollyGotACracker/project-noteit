@@ -18,26 +18,22 @@
   justify-content: center;
 }
 .App main.Index {
-  margin: 2em;
   padding: 2em 0;
-  border: 1px solid var(--darkgray);
-  border-radius: 10px;
 }
-
 .App main article {
   flex: 1;
   padding: 0 1em;
   overflow-x: hidden;
 }
 .App main aside.Sidebar {
-  width: 200px;
+  width: 260px;
   padding: 1em;
   margin-left: 0.5em;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: 2em;
+  gap: 1em;
   border-left: 1px solid var(--darkgray);
   z-index: 101;
   background-color: var(--light);
@@ -46,6 +42,7 @@
 .App a {
   color: inherit;
   text-decoration: none;
+  transition: all ease 0.2s;
 }
 .App input,
 .App button {
@@ -57,17 +54,16 @@
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
-  border: none;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.2em;
   font-size: 1em;
-  transition: all ease 0.3s;
+  transition: all ease 0.2s;
 }
 .App input {
   background-color: transparent;
-  transition: all ease 0.3s;
+  transition: all ease 0.2s;
   border: 1px solid var(--darkgray);
   border-radius: 10px;
   padding: 0.5em;
@@ -91,9 +87,11 @@
   border-color: var(--darkgray);
 }
 .App button.active,
+.App a:hover,
 .App button:hover {
-  color: var(--yellow) !important;
+  color: var(--yellow);
 }
+.App a:hover,
 .App button:hover,
 .App input:hover,
 .App input:focus {
@@ -105,44 +103,92 @@
   align-items: center;
   gap: 0.2em;
 }
-.App .side-btn {
+.header {
   display: none;
 }
-.App .Sidebar .menu {
+.Sidebar .logout {
   display: none;
 }
-/* @media only screen and (max-width: 720px) {
+@media only screen and (max-width: 1080px) {
   .App {
-    flex-direction: column-reverse;
+    overflow-y: hidden;
   }
-  nav {
+  main.Index {
+    flex-direction: column-reverse;
+    position: relative;
+  }
+  .Nav {
     width: 100%;
     height: 80px;
     flex-direction: row;
+    background: none;
+    background-color: var(--blue);
+    padding: 0 5vw;
   }
-  nav a {
+  .Nav a {
     height: 80px !important;
   }
-  nav a.active {
+  .Nav a.active {
     border-radius: 0 0 5px 5px !important;
   }
-  nav a.logout {
+  .Nav a.logout {
+    display: none !important;
+  }
+  .Nav a.logout {
     margin-top: 0 !important;
   }
-  .App main {
+  .App {
     flex-direction: column-reverse;
   }
+  .App main.Index {
+    margin: 0;
+    padding: 0;
+  }
   .App main article {
-    margin-left: 0.5em;
-    margin-right: 0.5em;
+    padding: 1em;
   }
   .App main aside {
-    border-left: 0;
-    border-bottom: 1px solid var(--darkgray);
-    width: 100%;
-    margin-left: 0;
-    margin-bottom: 1em;
-    height: 10vh;
-    flex-direction: row;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: -260px;
   }
-} */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em 2em;
+    border-bottom: 1px solid var(--darkgray);
+  }
+  .header .title {
+    font-size: 1.2em;
+    font-weight: 900;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .header .side-btn {
+    font-size: 1.5em;
+    display: flex;
+    align-items: center;
+  }
+  .Sidebar .logout {
+    display: flex;
+    flex-direction: row;
+    margin-top: auto;
+  }
+  .Sidebar.active {
+    right: 0;
+  }
+  .App .blocker {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -100;
+  }
+  .App .blocker.active {
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+  }
+}

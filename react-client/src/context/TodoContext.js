@@ -16,6 +16,7 @@ const useTodoContext = () => {
 const TodoContextProvider = ({ children }) => {
   const [todoContentList, setTodoContentList] = useState([]);
   const [todoContent, setTodoContent] = useState(initTodo());
+  const [isEdit, setIsEdit] = useState(false);
 
   const fetchAll = useCallback(async () => {
     try {
@@ -110,11 +111,11 @@ const TodoContextProvider = ({ children }) => {
     [setTodoContentList]
   );
 
-  const todoEditor = (uid) => {
-    const editorList = todoContentList.filter((item) => {
+  const todoEdit = (uid) => {
+    const editList = todoContentList.filter((item) => {
       return Number(item.t_todoid) === Number(uid);
     });
-    setTodoContent({ ...editorList[0] });
+    setTodoContent({ ...editList[0] });
   };
 
   const props = {
@@ -122,10 +123,12 @@ const TodoContextProvider = ({ children }) => {
     setTodoContent,
     todoContentList,
     setTodoContentList,
+    isEdit,
+    setIsEdit,
     todoInsert,
     todoDelete,
     todoComplete,
-    todoEditor,
+    todoEdit,
   };
 
   return <TodoContext.Provider value={props}>{children}</TodoContext.Provider>;

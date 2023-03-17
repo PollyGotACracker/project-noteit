@@ -9,8 +9,6 @@
   align-items: center;
   gap: 0.4em;
   width: 100%;
-  border: 1px solid var(--darkgray);
-  border-radius: 10px;
   padding: 10px;
 }
 .Sidebar .play-btn-box {
@@ -78,6 +76,10 @@
 .player-btn {
   font-size: 1.8em;
 }
+.Sidebar .profile {
+  border: 1px solid var(--darkgray);
+  border-radius: 10px;
+}
 .Sidebar .profile-img {
   width: calc(200px - (2em + 20px));
   height: calc(200px - (2em + 20px));
@@ -92,6 +94,10 @@
   height: 100%;
   display: inline-block;
 }
+.Sidebar .profile .nickname {
+  font-size: 1.2em;
+  font-weight: 700;
+}
 .Sidebar .score {
   display: flex;
   justify-content: center;
@@ -100,6 +106,9 @@
 .Sidebar .score svg {
   font-size: 1.2em;
   color: var(--blue);
+}
+.Sidebar .profile a {
+  margin-left: auto;
 }
 .Sidebar .clock {
   width: 100%;

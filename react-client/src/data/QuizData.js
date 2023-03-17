@@ -9,7 +9,7 @@ export const msgList = {
   nextSub: "다음 주제로 넘어왔어요!",
 };
 
-// 총 점수 포함해야
+// 제출시각 포함?
 export const initScore = () => {
   const score = {
     sc_scoid: uuid().substring(0, 8),

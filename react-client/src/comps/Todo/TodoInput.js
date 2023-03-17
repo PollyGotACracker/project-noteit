@@ -2,11 +2,15 @@ import { useTodoContext } from "../../context/TodoContext";
 import { useState } from "react";
 
 const TodoInput = () => {
-  const { todoInsert, todoContent, setTodoContent } = useTodoContext();
+  const { todoInsert, todoContent, setTodoContent, isEdit, setIsEdit } =
+    useTodoContext();
   const [showPrior, setShowPrior] = useState(false);
 
   const onClickHandler = () => {
     todoInsert();
+    if (isEdit === true) {
+      setIsEdit(false);
+    }
   };
 
   const onChangeHandler = (e) => {
@@ -23,7 +27,7 @@ const TodoInput = () => {
   return (
     <div className="input">
       <input
-        placeholder="TODO"
+        placeholder="목표"
         name="t_content"
         onChange={onChangeHandler}
         value={todoContent.t_content}
@@ -33,15 +37,17 @@ const TodoInput = () => {
         name="t_deadline"
         onChange={onChangeHandler}
         value={todoContent.t_deadline}
+        data-placeholder="마감일"
       />
-      <div className="prior-wrap">
-        <button
-          onClick={() => {
-            setShowPrior(!showPrior);
-          }}
-        >
-          중요도 {todoContent.t_prior}
-        </button>
+      <div
+        className="prior-wrap"
+        onClick={() => {
+          setShowPrior(!showPrior);
+        }}
+      >
+        <div className="prior-value" data-prior={todoContent.t_prior}>
+          중요도
+        </div>
         <div
           className="prior-option"
           style={{ display: showPrior ? "flex" : "none" }}
@@ -49,20 +55,22 @@ const TodoInput = () => {
           {[1, 2, 3, 4, 5].map((ele) => (
             <button
               key={ele}
+              data-prior={ele}
               onClick={() => {
                 onChangePrior(ele);
               }}
             >
-              {ele}
+              <span>{ele}</span>
             </button>
           ))}
         </div>
       </div>
       <button
+        className="submit"
         onClick={onClickHandler}
-        disabled={todoContent.t_content.length < 2}
+        disabled={todoContent.t_content.length < 1}
       >
-        Enter
+        {isEdit ? "수정" : "추가"}
       </button>
     </div>
   );

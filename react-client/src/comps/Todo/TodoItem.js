@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import moment from "moment";
 
 const TodoItem = ({ item }) => {
-  const { todoDelete, todoComplete, todoEditor } = useTodoContext();
+  const { todoDelete, todoComplete, todoEdit, setIsEdit } = useTodoContext();
 
   const deleteHandler = useCallback(
     (e) => {
@@ -12,7 +12,7 @@ const TodoItem = ({ item }) => {
       const uid = parent.dataset.id;
       const childDiv = parent.childNodes;
       const content = childDiv[2].textContent;
-      if (window.confirm(`"${content}"\n할일 아이템을 삭제합니다.`)) {
+      if (window.confirm(`"${content}"\n할 일 아이템을 삭제합니다.`)) {
         todoDelete(uid);
       }
     },
@@ -25,11 +25,12 @@ const TodoItem = ({ item }) => {
     todoComplete(uid);
   };
 
-  const editorHandler = (e) => {
+  const editHandler = (e) => {
     const target = e.target;
     const parent = target.closest("DIV.item");
     const uid = parent.dataset.id;
-    todoEditor(uid);
+    setIsEdit(true);
+    todoEdit(uid);
   };
 
   const today = moment().format("YYYY[-]MM[-]DD");
@@ -48,7 +49,8 @@ const TodoItem = ({ item }) => {
       </div>
       <div
         className={item.t_compdate ? "content line" : "content"}
-        onClick={editorHandler}
+        onClick={editHandler}
+        title="수정"
       >
         {item.t_content}
       </div>
@@ -62,7 +64,7 @@ const TodoItem = ({ item }) => {
           ? "D-day"
           : `D${dDay > 0 ? "+" : ""}${dDay}`}
       </div>
-      <div className="prior">{item.t_prior}</div>
+      <div className="prior" data-prior={item.t_prior}></div>
       <div className="complete" onClick={completeHandler}>
         &#x2713;
       </div>

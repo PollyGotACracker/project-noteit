@@ -46,6 +46,7 @@ router.get("/cat/get", async (req, res) => {
 router.get("/:catid/rndsub/get", async (req, res) => {
   const catid = req.params.catid;
   try {
+    // order: [Sequelize.fn("RAND")], order: [sequelize.random()] 다 안되는 이유??
     const data = await SUB.findAll({
       attributes: [
         "s_catid",
@@ -65,9 +66,7 @@ router.get("/:catid/rndsub/get", async (req, res) => {
         attributes: ["k_keyid", "k_keyword", "k_desc", "k_wrongcount"],
         model: KEY,
         as: "tbl_keywords",
-        order: Sequelize.literal("RAND()"),
       },
-      // order: Sequelize.literal("RAND()"),
     });
     console.log(data);
     return res.json({ data: data });

@@ -21,24 +21,26 @@
 }
 .Detail .menu {
   width: 100%;
-  padding: 0.5em;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+  /* display: flex; */
+  /* justify-content: space-around; */
+  /* align-items: center; */
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   border-bottom: 1px solid var(--blue);
 }
 .Detail .menu button,
 .Detail .menu a {
+  display: flex;
   color: inherit;
-  border-radius: 5px;
   padding: 0.5em 1em;
-  margin: 5px;
   transition: all ease 0.3s;
   font-size: 1em;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.5em;
+  border-bottom: 5px solid transparent;
 }
 
 .Detail .menu button svg,
@@ -47,7 +49,8 @@
 }
 .Detail .menu button:hover,
 .Detail .menu a:hover {
-  background-color: var(--yellow);
+  color: var(--yellow);
+  border-bottom-color: var(--yellow);
 }
 
 .Detail .bookmark-wrap {

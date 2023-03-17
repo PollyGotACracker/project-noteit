@@ -1,17 +1,25 @@
-.Quiz .cat-box,
-.Quiz .subject-box {
+.Quiz .Cat,
+.Quiz .Sub {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.Quiz .Cat .title {
+  font-weight: 700;
+  padding: 1em;
+}
+.Quiz .Cat .cat-list,
+.Quiz .Sub .subject-box {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 80%;
   height: 20%;
-  margin: 0 auto;
-  /* border-bottom: 1px solid var(--darkgray); */
 }
-.Quiz .cat-box .cat-item {
+.Quiz .cat-list .cat-item {
   width: 100%;
   display: grid;
-  grid-template-columns: 5fr 1fr 1fr;
+  grid-template-columns: 5fr 2fr 1fr 1fr;
   gap: 10px;
   padding: 10px;
   border-bottom: 1px dashed var(--darkgray);
@@ -19,61 +27,62 @@
   cursor: pointer;
   transition: all ease 0.2s;
 }
-.Quiz .cat-box .cat-item:last-child {
+.Quiz .cat-list .cat-item:last-child {
   border-bottom: none;
 }
-.Quiz .cat-box .cat-item:hover {
+.Quiz .cat-list .cat-item:hover {
   color: var(--yellow);
 }
-.Quiz .cat-box .cat-item span:not(:first-child) {
+.Quiz .cat-list .cat-item span:not(:first-child) {
   text-align: center;
   display: flex;
   align-items: center;
   gap: 0.2em;
 }
 
-.Quiz .subject-box .card {
+.Quiz .Sub .subject-box .subject {
   width: 60%;
-  padding: 1.5em;
-  border-radius: 5px;
-  background-color: #faf9f7;
+  padding: 1em;
   text-align: center;
   font-size: 16pt;
   font-weight: 700;
-}
-.Quiz .keyword-box {
-  width: 100%;
-  height: 80%;
-  margin-top: 20pt;
-}
-.Quiz .keyword-desc {
-  white-space: pre-wrap;
   word-break: keep-all;
+}
+.Quiz .Sub .keyword-box {
+  flex: 1.5;
+  width: 60%;
+}
+.Quiz .Sub .keyword-desc {
+  white-space: pre-wrap;
   padding: 2em;
   border: 1px solid var(--darkgray);
   border-radius: 10px;
   margin: 0 auto;
-  max-width: 60%;
-  min-height: 20vh;
+  min-width: 100%;
+  min-height: 80%;
+  word-break: keep-all;
 }
-.Quiz .keycount {
-  width: 50px;
-  height: 50px;
+.Quiz .Sub button {
+  border: 1px solid var(--darkgray);
+  border-radius: 10px;
+  padding: 0.5em;
+}
+.Quiz .Sub .keycount {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
-  border-radius: 50%;
-  font-size: 15pt;
-  font-weight: 700;
-  background-color: #faf9f7;
+  gap: 0.3em;
+  margin-right: 1em;
+  padding: 0.2em;
 }
-.Quiz .answer-box {
+.Quiz .Sub .answer-box {
   width: 100%;
+  flex: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.Quiz .answer-box .msg-box {
+.Quiz .Sub .answer-box .msg-box {
   font-size: 15pt;
   width: 350px;
   padding: 30px 20px;
@@ -83,7 +92,7 @@
   user-select: none;
   position: relative;
 }
-.Quiz .answer-box .msg-box:after {
+.Quiz .Sub .answer-box .msg-box:after {
   position: absolute;
   left: calc(50% - 15px);
   bottom: -16px;
@@ -95,61 +104,36 @@
   border-right: 1px solid #aaa;
   transform: rotateZ(135deg);
 }
-.Quiz .answer-box .msg {
+.Quiz .Sub .answer-box .msg {
   border: none;
   font-size: 12pt;
   width: 100%;
 }
-.Quiz .answer-box .bird-img {
+.Quiz .Sub .answer-box .bird-img {
   width: 100%;
   height: 100%;
   background-color: #aaa;
 }
 .Quiz {
+  /* .loading 의 position 맞춤 */
   position: relative;
 }
 
-.Quiz .loading {
-  z-index: -100;
-  opacity: 0;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+.Quiz .Sub {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+.Quiz .Sub .subject-box {
+  flex: 0.8;
+}
+.Quiz .Sub .feedback-msg {
+  flex: 0.8;
+  display: flex;
   justify-content: center;
   align-items: center;
-  transition: opacity ease 0.3s;
-}
-
-.Quiz .loading svg {
-  /* cf) 여러 애니메이션을 지정할 경우 순차적으로 실행되며 동시에 실행되지 않는다. */
-  animation: infinite ease-out 1.6s hourglassRotateZ,
-    infinite steps(1) 0.4s hourglassRotateX;
-  font-size: 12em;
-  color: #60798c;
-}
-
-@keyframes hourglassRotateZ {
-  100% {
-    transform: rotateZ(180deg);
-  }
-}
-@keyframes hourglassRotateX {
-  100% {
-    transform: scaleY(-1);
-  }
-}
-.Quiz .loading span {
-  margin-top: 2em;
-  user-select: none;
-  -webkit-user-select: none;
-}
-.Quiz .feedback-msg {
-  display: flex;
-  align-items: center;
+  flex: 0.5;
   gap: 0.3em;
   font-size: 1.5em;
   font-weight: 700;
@@ -158,10 +142,11 @@
   animation-iteration-count: infinite;
   transition: opacity ease 0.3s;
 }
-.Quiz .feedback-msg svg {
+.Quiz .Sub .feedback-msg svg {
   color: var(--blue);
+  font-weight: 900;
 }
-@keyframes bounceMsg {
+@keyframes jumpMsg {
   50% {
     transform: translateY(-5px);
   }
@@ -178,6 +163,38 @@
   }
   100% {
     transform: translateX(2px);
+  }
+}
+.Quiz .Sub .total-score {
+  position: absolute;
+  right: 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+}
+.Quiz .Sub .total-score div:first-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5em;
+  font-weight: 700;
+  transition: all ease-in-out 1s;
+  transform-origin: center;
+  animation-name: spinScore;
+  animation-duration: 2s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  animation-iteration-count: infinite;
+  animation-play-state: paused;
+}
+@keyframes spinScore {
+  50% {
+    color: var(--yellow);
+  }
+  100% {
+    transform: rotate(360deg);
+    color: inherit;
   }
 }
 .Quiz .result .score,
@@ -198,22 +215,34 @@
 .Quiz .result .wrong-list {
   margin-top: 5vh;
 }
-.Quiz .wrong-list .title {
+.Quiz .result .wrong-list .title {
   font-weight: 700;
+  padding: 0.5em;
   margin-bottom: 1em;
-}
-.Quiz .wrong-list .wrong-subject {
-  padding: 1em;
+  border-bottom: 2px solid var(--dark);
 }
 .Quiz .result a {
   display: flex;
-  justify-content: center;
   align-items: center;
   gap: 0.2em;
+  padding: 0.2em;
+}
+.Quiz .result .restart {
+  margin: 0 auto;
+  justify-content: center;
   width: 100px;
   border: 1px solid var(--darkgray);
-  padding: 0.2em;
   border-radius: 10px;
+}
+.Quiz .result .wrong-list .wrong-item {
+  padding: 1em;
+}
+.Quiz .result .wrong-list .subject > a {
+  padding: 0.5em 0;
+  font-weight: 700;
+}
+.Quiz .result .wrong-list .subject > div {
+  padding-left: 2em;
 }
 .Quiz .wrong-list .wrong-keyword {
   padding: 1em;
@@ -226,4 +255,40 @@
 .Quiz .wrong-list .wrong-keyword .desc {
   white-space: pre-wrap;
   word-break: keep-all;
+}
+.Quiz .loading {
+  z-index: -100;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: opacity ease 0.3s;
+}
+.Quiz .loading svg {
+  /* cf) 여러 애니메이션을 지정할 경우 순차적으로 실행되며 동시에 실행되지 않는다. */
+  animation: infinite ease-out 1.6s hourglassRotateZ,
+    infinite steps(1) 0.4s hourglassRotateX;
+  font-size: 12em;
+  color: #60798c;
+}
+@keyframes hourglassRotateZ {
+  100% {
+    transform: rotateZ(180deg);
+  }
+}
+@keyframes hourglassRotateX {
+  100% {
+    transform: scaleY(-1);
+  }
+}
+.Quiz .loading span {
+  margin-top: 2em;
+  user-select: none;
+  -webkit-user-select: none;
 }

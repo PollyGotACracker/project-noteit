@@ -48,9 +48,12 @@ const Index = () => {
         <Outlet />
         <Sidebar ref={sideRef} blocker={blockRef} />
       </main>
-      <button className="side-btn" onClick={showSidebar}>
-        <BsThreeDotsVertical />
-      </button>
+      <header className="header">
+        <span className="title">NoteIT</span>
+        <button className="side-btn" onClick={showSidebar}>
+          <BsThreeDotsVertical />
+        </button>
+      </header>
       <div className="blocker" ref={blockRef} onClick={showSidebar}></div>
     </>
   );
