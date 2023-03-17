@@ -31,7 +31,7 @@
   border-bottom: none;
 }
 .Quiz .cat-list .cat-item:hover {
-  color: var(--yellow);
+  color: var(--accent);
 }
 .Quiz .cat-list .cat-item span:not(:first-child) {
   text-align: center;
@@ -86,7 +86,7 @@
   font-size: 15pt;
   width: 350px;
   padding: 30px 20px;
-  background-color: white;
+  background-color: var(--background);
   border: 1px solid #aaa;
   border-radius: 10px;
   user-select: none;
@@ -99,7 +99,7 @@
   content: "";
   width: 30px;
   height: 30px;
-  background-color: white;
+  background-color: var(--background);
   border-top: 1px solid #aaa;
   border-right: 1px solid #aaa;
   transform: rotateZ(135deg);
@@ -190,7 +190,7 @@
 }
 @keyframes spinScore {
   50% {
-    color: var(--yellow);
+    color: var(--accent);
   }
   100% {
     transform: rotate(360deg);

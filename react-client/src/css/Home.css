@@ -28,7 +28,7 @@ main.Home {
   font-size: 15pt;
   width: 350px;
   padding: 30px 20px;
-  background-color: white;
+  background-color: var(--background);
   border: 1px solid #aaa;
   border-radius: 10px;
   user-select: none;
@@ -53,7 +53,7 @@ main.Home {
   content: "";
   width: 30px;
   height: 30px;
-  background-color: white;
+  background-color: var(--background);
   border-top: 1px solid #aaa;
   border-right: 1px solid #aaa;
   transform: rotateZ(135deg);

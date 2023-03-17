@@ -25,19 +25,17 @@ const Index = () => {
         str: result.u_profilestr,
       });
     })();
-  }, []);
+  }, [profileData, setProfileData, setUserData, userData]);
 
   const showSidebar = () => {
-    {
-      let sidebar = sideRef.current;
-      let blocker = blockRef.current;
-      if (sidebar.className === "Sidebar") {
-        sidebar.className = "Sidebar active";
-        blocker.className = "blocker active";
-      } else {
-        sidebar.className = "Sidebar";
-        blocker.className = "blocker";
-      }
+    let sidebar = sideRef.current;
+    let blocker = blockRef.current;
+    if (sidebar.className === "Sidebar") {
+      sidebar.className = "Sidebar active";
+      blocker.className = "blocker active";
+    } else {
+      sidebar.className = "Sidebar";
+      blocker.className = "blocker";
     }
   };
 

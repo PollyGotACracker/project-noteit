@@ -22,7 +22,7 @@ const NoteSubMain = () => {
   useLayoutEffect(() => {
     setCatVal({ ...cat });
     setNoteSubList([...sub]);
-  }, [cat, sub, location.key]);
+  }, [cat, sub, setCatVal, setNoteSubList, location.key]);
 
   const noteList = noteSubList.map((item) => {
     return <NoteSubItem item={item} key={item.s_subid} />;

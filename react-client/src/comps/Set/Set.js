@@ -1,5 +1,5 @@
 import "../../css/Set/Set.css";
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState } from "react";
 import profile from "../../assets/images/profile.png";
 import { getUserData } from "../../service/user.service";
 import { useUserContext } from "../../context/UserContext";
@@ -8,8 +8,14 @@ import { RiSunLine, RiMoonLine } from "react-icons/ri";
 import { VscColorMode } from "react-icons/vsc";
 
 const Set = () => {
-  const { userData, setUserData, profileData, setProfileData } =
-    useUserContext();
+  const {
+    userData,
+    setUserData,
+    profileData,
+    setProfileData,
+    colorTheme,
+    setColorTheme,
+  } = useUserContext();
   const [imagePrev, setImagePrev] = useState({ width: "", height: "" });
   const imgPreview = useRef(null);
   const imgInput = useRef(null);
@@ -41,6 +47,21 @@ const Set = () => {
       ...userData,
       ...result,
     });
+  };
+
+  const modeChangeHandler = (e) => {
+    let theme = "";
+    let bool = false;
+    if (e.target.checked) {
+      theme = "dark";
+      bool = true;
+    } else {
+      theme = "light";
+      bool = false;
+    }
+    localStorage.setItem("color-theme", theme);
+    document.documentElement.setAttribute("color-theme", theme);
+    setColorTheme(bool);
   };
 
   return (
@@ -128,6 +149,11 @@ const Set = () => {
             <RiMoonLine />
             dark
           </label>
+          <input
+            type="checkbox"
+            checked={colorTheme}
+            onClick={(e) => modeChangeHandler(e)}
+          />
           <input type="radio" id="dark" value="1" name="darkmode" />
         </div>
       </section>

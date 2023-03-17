@@ -91,7 +91,7 @@
   transition: all ease 0.2s;
 }
 .Note.Sub .item .subject:hover {
-  color: var(--yellow);
+  color: var(--accent);
 }
 .Note.Sub .item .keycount,
 .Note.Sub .item .views {
@@ -112,7 +112,7 @@
 }
 .Note.Sub .item .bookmark-btn:hover,
 .Note.Sub .item .bookmark-btn[value="1"] {
-  color: var(--yellow);
+  color: var(--accent);
 }
 .Note.Sub .item .delete-btn:hover {
   color: var(--red);

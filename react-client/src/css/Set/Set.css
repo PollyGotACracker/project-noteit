@@ -80,8 +80,8 @@
 }
 
 .Set label[for="img-input"]:hover {
-  border-color: var(--yellow);
-  color: var(--yellow);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .Set input[type="file"] {
@@ -118,7 +118,7 @@
 .Set label[for="push"]:hover,
 .Set label[for="light"]:hover,
 .Set label[for="dark"]:hover {
-  color: var(--yellow);
+  color: var(--accent);
 }
 .Set .setting-box .theme-box {
   width: 50%;

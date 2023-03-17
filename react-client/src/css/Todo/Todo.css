@@ -22,7 +22,7 @@ cf)
   border: 1px solid var(--darkgray);
 }
 .Todo .input input:focus {
-  border-color: var(--yellow);
+  border-color: var(--accent);
 }
 .Todo .input input[name="t_content"] {
   flex: 3 0 20vw;
@@ -57,7 +57,7 @@ html dataset 속성과, css before 가상선택자를 사용
   border-radius: 10px;
   border: 0;
   outline: 0;
-  background-color: var(--yellow);
+  background-color: var(--accent);
   color: var(--dark);
   font-weight: 700;
   cursor: pointer;
@@ -180,14 +180,14 @@ cf)
   transition: all ease 0.2s;
 }
 .Todo .prior-wrap:hover {
-  color: var(--yellow);
-  border-color: var(--yellow);
+  color: var(--accent);
+  border-color: var(--accent);
 }
 .Todo .prior-option {
   position: absolute;
   top: 50px;
   flex-direction: column;
-  background-color: var(--light);
+  background-color: var(--background);
   border: 1px solid var(--darkgray);
   border-radius: 10px;
   width: 100%;

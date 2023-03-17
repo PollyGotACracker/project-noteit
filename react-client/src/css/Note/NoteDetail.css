@@ -14,10 +14,10 @@
 }
 .Detail .title a.search {
   display: inline-block;
-  color: var(--blue);
+  color: var(--primary);
 }
 .Detail .title a.search:hover {
-  color: var(--yellow);
+  color: var(--accent);
 }
 .Detail .menu {
   width: 100%;
@@ -26,7 +26,7 @@
   /* align-items: center; */
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  border-bottom: 1px solid var(--blue);
+  border-bottom: 1px solid var(--primary);
 }
 .Detail .menu button,
 .Detail .menu a {
@@ -49,8 +49,8 @@
 }
 .Detail .menu button:hover,
 .Detail .menu a:hover {
-  color: var(--yellow);
-  border-bottom-color: var(--yellow);
+  color: var(--accent);
+  border-bottom-color: var(--accent);
 }
 
 .Detail .bookmark-wrap {
@@ -61,7 +61,7 @@
   left: calc(-4em / 2);
   width: 14em;
   text-align: center;
-  background-color: var(--light);
+  background-color: var(--background);
   border: 1px solid #aaa;
   border-radius: 10px;
   padding: 5px;
@@ -87,7 +87,7 @@
   }
 }
 .Detail .bookmark-btn.active {
-  color: var(--yellow) !important;
+  color: var(--accent) !important;
 }
 .Detail .bookmark-btn.active:hover {
   color: inherit !important;
@@ -104,7 +104,7 @@
   transition: all ease 0.2s;
 }
 .Detail .title .category:hover {
-  color: var(--yellow);
+  color: var(--accent);
 }
 
 .Detail .keyword-slide {
@@ -126,7 +126,7 @@
   transition: all 0.2s;
 }
 .Detail .keyword-slide button:hover {
-  color: var(--yellow);
+  color: var(--accent);
 }
 .Detail .keyword-slide .keyword-list-wrap {
   width: calc(100% - 10vw);
@@ -171,7 +171,7 @@
   font-size: 0.8em;
 }
 .Detail .keyword-list-top .copy-btn:hover {
-  color: var(--yellow);
+  color: var(--accent);
 }
 .Detail .keyword .desc {
   padding: 0.5em;
@@ -197,10 +197,10 @@
   align-items: center;
 }
 .Detail .keyword-dot.active {
-  color: var(--yellow);
+  color: var(--accent);
 }
 .Detail .keyword-dot:hover {
-  color: var(--yellow);
+  color: var(--accent);
 }
 .Detail .content {
   flex: 1;

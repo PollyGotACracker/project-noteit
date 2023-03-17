@@ -20,12 +20,15 @@ const UserContextProvider = ({ children }) => {
     name: "",
     str: "",
   });
+  const [colorTheme, setColorTheme] = useState();
 
   const props = {
     userData,
     setUserData,
     profileData,
     setProfileData,
+    colorTheme,
+    setColorTheme,
   };
   return <UserContext.Provider value={props}>{children}</UserContext.Provider>;
 };

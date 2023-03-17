@@ -36,7 +36,7 @@
   gap: 1em;
   border-left: 1px solid var(--darkgray);
   z-index: 101;
-  background-color: var(--light);
+  background-color: var(--background);
   transition: all ease 0.3s;
 }
 .App a {
@@ -89,13 +89,13 @@
 .App button.active,
 .App a:hover,
 .App button:hover {
-  color: var(--yellow);
+  color: var(--accent);
 }
 .App a:hover,
 .App button:hover,
 .App input:hover,
 .App input:focus {
-  border-color: var(--yellow);
+  border-color: var(--accent);
 }
 .App label {
   display: flex;
@@ -122,7 +122,7 @@
     height: 80px;
     flex-direction: row;
     background: none;
-    background-color: var(--blue);
+    background-color: var(--primary);
     padding: 0 5vw;
   }
   .Nav a {

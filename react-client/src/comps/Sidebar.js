@@ -63,6 +63,7 @@ const Sidebar = forwardRef((props, ref) => {
       <section className="profile">
         <div className="profile-img">
           <img
+            alt="avatar"
             src={
               userData?.u_profileimg !== ""
                 ? `http://localhost:3000/uploads/${userData?.u_profileimg}`

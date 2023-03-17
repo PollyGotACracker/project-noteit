@@ -70,7 +70,7 @@ const TodoContextProvider = ({ children }) => {
       console.log(error);
       alert("서버 오류");
     }
-  }, [setTodoContent, setTodoContentList, todoContentList, todoContent]);
+  }, [setTodoContent, setTodoContentList, todoContent]);
 
   const todoDelete = useCallback(
     async (uid) => {

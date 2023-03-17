@@ -49,7 +49,7 @@
 }
 .Write .keyword-btn-box .keyword-index {
   font-size: 1.5em;
-  color: var(--blue);
+  color: var(--primary);
   user-select: none;
 }
 .Write .keyword-btn-box .keyword-delete {
@@ -65,7 +65,7 @@
 }
 .Write .keyword-btn-box .keyword-up:hover,
 .Write .keyword-btn-box .keyword-down:hover {
-  color: var(--yellow);
+  color: var(--accent);
 }
 .Write .keyword-wrap {
   display: flex;
@@ -79,7 +79,7 @@
   overflow: auto;
 }
 .Write .keyword-wrap:focus-within {
-  border-color: var(--yellow);
+  border-color: var(--accent);
 }
 .Write .keyword-wrap > * {
   width: 100%;
@@ -124,8 +124,8 @@
   width: 120px;
 }
 .Write .keyword-controller #add-keyword:hover {
-  border-color: var(--yellow);
-  color: var(--yellow);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 .Write #content {
   width: 100%;
@@ -137,7 +137,7 @@
 }
 .Write #back,
 .Write #submit {
-  background-color: var(--blue);
+  background-color: var(--primary);
   border-radius: 5px;
   color: white;
   width: 80px;
@@ -151,7 +151,7 @@
 .Write #back:hover,
 .Write #submit:hover {
   color: inherit !important;
-  background-color: var(--yellow);
+  background-color: var(--accent);
 }
 .Write .btn-box {
   width: 100%;
@@ -160,7 +160,7 @@
   justify-content: space-between;
 }
 .Write .ck-editor * {
-  background-color: var(--light) !important;
+  background-color: var(--background) !important;
 }
 .Write .ck-rounded-corners .ck.ck-editor__top .ck-sticky-panel .ck-toolbar,
 .Write .ck-toolbar__items {

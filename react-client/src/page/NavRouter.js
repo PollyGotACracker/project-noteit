@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import {
   App,
+  getUserColorTheme,
   Intro,
   Login,
   Join,
@@ -30,6 +31,7 @@ import {
 const NavRouter = createBrowserRouter([
   {
     path: "/",
+    loader: getUserColorTheme,
     element: <App />,
     children: [
       {

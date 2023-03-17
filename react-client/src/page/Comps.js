@@ -1,4 +1,4 @@
-import App from "../App";
+import App, { getUserColorTheme } from "../App";
 import Intro from "../comps/Intro";
 import Login from "../comps/Login";
 import Join from "../comps/Join";
@@ -19,6 +19,7 @@ import NotFound from "../page/NotFound";
 
 export {
   App,
+  getUserColorTheme,
   Intro,
   Login,
   Join,

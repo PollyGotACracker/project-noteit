@@ -53,7 +53,7 @@
   text-align: center;
 }
 .Note.Cat .link-box:hover {
-  border: 1px solid var(--yellow);
+  border: 1px solid var(--accent);
 }
 .Note.Cat .link-box input[class*="title"] {
   background-color: transparent;
@@ -101,7 +101,7 @@
   font-size: 1em;
 }
 .Note.Cat .btn-box .update-btn:hover {
-  color: var(--yellow);
+  color: var(--accent);
 }
 .Note.Cat .btn-box .delete-btn:hover {
   color: var(--red);
