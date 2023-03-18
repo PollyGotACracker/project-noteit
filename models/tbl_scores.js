@@ -1,7 +1,7 @@
 import Sequelize from "sequelize";
 export default (sequelize) => {
   return sequelize.define(
-    "tbl_score",
+    "tbl_scores",
     {
       sc_scoid: {
         type: Sequelize.DataTypes.STRING(225),
@@ -13,6 +13,14 @@ export default (sequelize) => {
         allowNull: false,
       },
       sc_date: {
+        type: Sequelize.DataTypes.STRING(125),
+        allowNull: false,
+      },
+      sc_time: {
+        type: Sequelize.DataTypes.STRING(125),
+        allowNull: false,
+      },
+      sc_duration: {
         type: Sequelize.DataTypes.STRING(125),
         allowNull: false,
       },
@@ -31,7 +39,7 @@ export default (sequelize) => {
     },
     {
       sequelize,
-      tableName: "tbl_score",
+      tableName: "tbl_scores",
       timestamps: false,
       indexes: [
         {

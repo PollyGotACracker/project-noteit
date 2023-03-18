@@ -23,7 +23,7 @@ export default (sequelize) => {
       },
       s_date: {
         type: Sequelize.DataTypes.STRING(10),
-        allowNull: true,
+        allowNull: false,
       },
       s_keycount: {
         type: Sequelize.DataTypes.BIGINT,

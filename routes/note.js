@@ -277,7 +277,7 @@ router.get("/sub/:subid", async (req, res, next) => {
 });
 
 // UPDATE subject
-router.put("/sub/update", sanitizer, async (req, res, next) => {
+router.patch("/sub/update", sanitizer, async (req, res, next) => {
   try {
     const keywords = req.body.keywords;
     const subjects = {

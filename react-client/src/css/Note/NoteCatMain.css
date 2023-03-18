@@ -18,6 +18,7 @@
   align-items: center;
 }
 .Note.Cat form input[name="c_category"] {
+  color: var(--text);
   width: 100%;
 }
 .Note.Cat #insert-btn {
@@ -41,7 +42,7 @@
   width: 100%;
 }
 .Note.Cat .link-box {
-  border: 1px solid var(--darkgray);
+  border: 1px solid var(--border);
   border-radius: 5px;
   padding: 0.4em;
   display: flex;
@@ -56,6 +57,7 @@
   border: 1px solid var(--accent);
 }
 .Note.Cat .link-box input[class*="title"] {
+  color: var(--text);
   background-color: transparent;
   border: none;
   width: 100%;
@@ -67,7 +69,7 @@
   flex: 1;
 }
 .Note.Cat section.cat-list .date {
-  color: rgba(0, 0, 0, 0.5);
+  color: var(--subtext);
   font-size: 0.8em;
   flex: 1;
 }
@@ -84,10 +86,10 @@
   flex: 0.5;
 }
 .Note.Cat .bookmark-btn:not(.active) {
-  color: var(--darkgray);
+  color: var(--borderlight);
 }
 .Note.Cat .bookmark-btn:not(.active):hover {
-  color: var(--yellow);
+  color: var(--accent);
 }
 .Note.Cat .btn-box {
   width: 100%;
@@ -97,7 +99,7 @@
   flex: 1;
 }
 .Note.Cat .btn-box button {
-  color: var(--darkgray);
+  color: var(--subtext);
   font-size: 1em;
 }
 .Note.Cat .btn-box .update-btn:hover {

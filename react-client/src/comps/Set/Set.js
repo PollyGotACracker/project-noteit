@@ -1,5 +1,5 @@
 import "../../css/Set/Set.css";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import profile from "../../assets/images/profile.png";
 import { getUserData } from "../../service/user.service";
 import { useUserContext } from "../../context/UserContext";
@@ -140,21 +140,24 @@ const Set = () => {
           테마
         </div>
         <div className="theme-box">
-          <label htmlFor="light">
+          <span>
             <RiSunLine />
             light
-          </label>
-          <input type="radio" id="light" value="0" name="darkmode" />
-          <label htmlFor="dark">
-            <RiMoonLine />
-            dark
-          </label>
+          </span>
           <input
             type="checkbox"
-            checked={colorTheme}
+            id="darkmode"
+            hidden
+            defaultChecked={colorTheme}
             onClick={(e) => modeChangeHandler(e)}
           />
-          <input type="radio" id="dark" value="1" name="darkmode" />
+          <label htmlFor="darkmode" className="darkmode-toggle">
+            <span className="darkmode-btn"></span>
+          </label>
+          <span>
+            <RiMoonLine />
+            dark
+          </span>
         </div>
       </section>
       <section className="setting-box">
@@ -174,14 +177,17 @@ const Set = () => {
           계정 삭제
         </div>
         <div className="account-box">
-          <input
-            type="password"
-            placeholder="비밀번호 입력"
-            onPaste={(e) => {
-              e.preventDefault();
-            }}
-          />
-          <button>삭제</button>
+          <form>
+            <input
+              type="password"
+              autoComplete="false"
+              placeholder="비밀번호 입력"
+              onPaste={(e) => {
+                e.preventDefault();
+              }}
+            />
+            <button type="button">삭제</button>
+          </form>
         </div>
       </section>
     </article>

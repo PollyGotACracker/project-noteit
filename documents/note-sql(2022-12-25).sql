@@ -14,10 +14,12 @@ CREATE TABLE IF NOT EXISTS tbl_users(
 );
 
 -- 사용자점수
-CREATE TABLE IF NOT EXISTS tbl_score(
+CREATE TABLE IF NOT EXISTS tbl_scores(
 	sc_scoid	VARCHAR(225)	NOT NULL,
 	sc_userid	VARCHAR(225)	NOT NULL,
 	sc_date	VARCHAR(125)	NOT NULL,
+	sc_time	VARCHAR(125)	NOT NULL,
+	sc_duration	VARCHAR(125)	NOT NULL,
 	sc_catid	VARCHAR(125)	NOT NULL,
 	sc_category	VARCHAR(125)	NOT NULL,
 	sc_score	INT	NOT NULL,
@@ -32,7 +34,8 @@ CREATE TABLE IF NOT EXISTS tbl_categories(
 	c_catid	VARCHAR(225)	NOT NULL,
 	c_userid	VARCHAR(225)	NOT NULL,
 	c_category	VARCHAR(125)	NOT NULL UNIQUE,
-    c_date	VARCHAR(10),
+    c_date	VARCHAR(10) NOT NULL,
+	c_quizdate	VARCHAR(10),
     c_subcount	BIGINT	NOT NULL	DEFAULT 0,
 	c_bookmark	TINYINT	NOT NULL	DEFAULT 0,
 	PRIMARY KEY(c_catid, c_userid)
@@ -47,7 +50,7 @@ CREATE TABLE IF NOT EXISTS tbl_subjects(
 	s_subject	VARCHAR(125)	NOT NULL,
 	s_catid	VARCHAR(225)	NOT NULL,
 	s_category	VARCHAR(125)	NOT NULL,	
-	s_date	VARCHAR(10),
+	s_date	VARCHAR(10) NOT NULL,
     s_keycount	BIGINT	NOT NULL	DEFAULT 0,
 	s_bookmark	TINYINT	NOT NULL	DEFAULT 0,
 	s_content	TEXT,

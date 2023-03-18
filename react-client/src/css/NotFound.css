@@ -10,7 +10,7 @@ main.NotFound {
 }
 main.NotFound > * {
   user-select: none;
-  color: #3f3d56;
+  color: var(--text);
 }
 main.NotFound p {
   margin-top: 10px;

@@ -8,7 +8,7 @@
 .Login .cover-img {
   width: 35vh;
   height: 35vh;
-  background-color: white;
+  background-color: var(--lightalpha);
   border-radius: 50%;
   margin-bottom: 5vh;
   transform-origin: center;
@@ -25,7 +25,8 @@
 }
 
 .Login .title {
-  color: white;
+  /* light 수정하지 말 것 */
+  color: var(--light);
   font-size: 40pt;
   font-weight: 900;
   letter-spacing: 0.1em;
@@ -62,11 +63,11 @@
   width: 100%;
   margin: 5px;
   border: 0;
-  border-bottom: 1px dashed white;
+  border-bottom: 1px dashed var(--light);
   border-radius: 0;
   font-size: 12pt;
-  color: white;
-  caret-color: var(--yellow);
+  color: var(--light);
+  caret-color: var(--accent);
   transition: all 0.3s ease-out;
   background-repeat: no-repeat;
   background-position: left 10px bottom 50%;
@@ -83,11 +84,11 @@
 }
 
 .Login form.login input::placeholder {
-  color: #ccc;
+  color: var(--subtext);
 }
 
 .Login form.login input:focus {
-  border-bottom: 1px dashed var(--yellow);
+  border-bottom: 1px dashed var(--accent);
 }
 
 .Login .wrap-links {
@@ -98,7 +99,7 @@
 }
 .Login .wrap-links > * {
   display: inline-block;
-  color: white;
+  color: var(--light);
   font-size: 12pt;
   white-space: nowrap;
   transition: all 0.3s ease-out;
@@ -111,5 +112,5 @@
 }
 .Login .wrap-links a:hover,
 .Login .wrap-links button:hover {
-  color: var(--yellow);
+  color: var(--accent);
 }

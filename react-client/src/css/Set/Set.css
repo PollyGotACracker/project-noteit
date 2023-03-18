@@ -14,7 +14,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px dashed var(--darkgray);
+  border-bottom: 1px dashed var(--border);
 }
 .Set .setting-box:nth-child(1) {
   flex-direction: column;
@@ -71,7 +71,7 @@
   display: inline-block;
   user-select: none;
   border-radius: 5px;
-  border: 1px solid var(--darkgray);
+  border: 1px solid var(--border);
   padding: 0.5em;
   transition: all ease 0.2s;
   white-space: nowrap;
@@ -99,30 +99,59 @@
   margin: 1em 0;
   width: 100%;
 }
-
 .Set #profile-update-btn {
   align-self: flex-end;
 }
-.Set .setting-box #push,
-.Set .setting-box #light,
-.Set .setting-box #dark {
+.Set .setting-box #push {
   display: none;
 }
-.Set label[for="push"],
-.Set label[for="light"],
-.Set label[for="dark"] {
+.Set label[for="push"] {
   cursor: pointer;
   font-weight: 400;
   transition: all ease 0.2s;
 }
-.Set label[for="push"]:hover,
-.Set label[for="light"]:hover,
-.Set label[for="dark"]:hover {
+.Set label[for="push"]:hover {
   color: var(--accent);
+}
+.Set .darkmode-toggle {
+  width: 100px;
+  height: 40px;
+  display: block;
+  position: relative;
+  border-radius: 30px;
+  background-color: var(--lightgray);
+  cursor: pointer;
+}
+.Set .darkmode-toggle,
+.Set .darkmode-btn {
+  transition: all ease-in 0.2s;
+}
+.Set .darkmode-toggle .darkmode-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  position: absolute;
+  top: 50%;
+  left: 3px;
+  transform: translateY(-50%);
+}
+#darkmode:checked ~ .darkmode-toggle {
+  background-color: var(--gray);
+}
+#darkmode:checked ~ .darkmode-toggle .darkmode-btn {
+  left: calc(100% - 33px);
+  background-color: var(--primary);
 }
 .Set .setting-box .theme-box {
   width: 50%;
   display: flex;
   justify-content: flex-end;
-  gap: 5vw;
+  align-items: center;
+  gap: 1em;
+}
+.Set .setting-box .theme-box span {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
 }

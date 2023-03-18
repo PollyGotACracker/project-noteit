@@ -35,3 +35,56 @@ export const getQuizSub = async (catid) => {
     alert("서버 연결에 문제가 발생했습니다.");
   }
 };
+
+// score insert
+// category quizdate update
+// keywords wrongcount update
+// users totalscore update
+export const insertQuizScore = async (score, keyids) => {
+  const catid = score.sc_catid;
+  const date = score.sc_date;
+  const userid = score.sc_userid;
+  const totalscore = score.sc_score;
+
+  const scoFetchOption = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(score),
+  };
+  const patchFetchOption = {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+  };
+  const scoRes = await fetch(`/quiz/score/insert`, scoFetchOption).then(
+    (data) => data.json()
+  );
+  if (scoRes.error) {
+    alert(scoRes.error);
+    return false;
+  }
+  patchFetchOption.body = JSON.stringify({ catid, date });
+  const catRes = await fetch(`/quiz/cat/update`, patchFetchOption).then(
+    (data) => data.json()
+  );
+  if (catRes.error) {
+    alert(catRes.error);
+    return false;
+  }
+  patchFetchOption.body = JSON.stringify(keyids);
+  const keyRes = await fetch(`/quiz/key/update`, patchFetchOption).then(
+    (data) => data.json()
+  );
+  if (keyRes.error) {
+    alert(keyRes.error);
+    return false;
+  }
+  patchFetchOption.body = JSON.stringify({ userid, totalscore });
+  const userRes = await fetch(`/quiz/user/update`, patchFetchOption).then(
+    (data) => data.json()
+  );
+  if (userRes.error) {
+    alert(userRes.error);
+    return false;
+  }
+  if (userRes.result) return userRes.result;
+};

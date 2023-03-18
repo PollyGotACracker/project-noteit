@@ -2,7 +2,7 @@ import _tbl_attachs from "./tbl_attachs.js";
 import _tbl_categories from "./tbl_categories.js";
 import _tbl_holidays from "./tbl_holidays.js";
 import _tbl_keywords from "./tbl_keywords.js";
-import _tbl_score from "./tbl_score.js";
+import _tbl_scores from "./tbl_scores.js";
 import _tbl_subjects from "./tbl_subjects.js";
 import _tbl_todo from "./tbl_todo.js";
 import _tbl_users from "./tbl_users.js";
@@ -12,7 +12,7 @@ function initModels(sequelize) {
   const tbl_categories = _tbl_categories(sequelize);
   const tbl_holidays = _tbl_holidays(sequelize);
   const tbl_keywords = _tbl_keywords(sequelize);
-  const tbl_score = _tbl_score(sequelize);
+  const tbl_scores = _tbl_scores(sequelize);
   const tbl_subjects = _tbl_subjects(sequelize);
   const tbl_todo = _tbl_todo(sequelize);
   const tbl_users = _tbl_users(sequelize);
@@ -50,12 +50,12 @@ function initModels(sequelize) {
     onDelete: "cascade",
   });
 
-  tbl_score.belongsTo(tbl_users, {
+  tbl_scores.belongsTo(tbl_users, {
     as: "sc_users",
     foreignKey: "sc_userid",
     onDelete: "cascade",
   });
-  tbl_users.hasMany(tbl_score, {
+  tbl_users.hasMany(tbl_scores, {
     as: "tbl_scores",
     foreignKey: "sc_userid",
     onDelete: "cascade",
@@ -77,7 +77,7 @@ function initModels(sequelize) {
     tbl_categories,
     tbl_holidays,
     tbl_keywords,
-    tbl_score,
+    tbl_scores,
     tbl_subjects,
     tbl_todo,
     tbl_users,

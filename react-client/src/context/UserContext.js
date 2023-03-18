@@ -12,7 +12,7 @@ const UserContextProvider = ({ children }) => {
     u_nickname: "",
     u_profileimg: "",
     u_profilestr: "",
-    u_cscore: "",
+    u_totalscore: "",
   });
   // context provider 값이 rendering 전에 state 변수에 setting 되지 않음
   const [profileData, setProfileData] = useState({
@@ -20,7 +20,7 @@ const UserContextProvider = ({ children }) => {
     name: "",
     str: "",
   });
-  const [colorTheme, setColorTheme] = useState();
+  const [colorTheme, setColorTheme] = useState(false);
 
   const props = {
     userData,

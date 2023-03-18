@@ -25,7 +25,7 @@ const Index = () => {
         str: result.u_profilestr,
       });
     })();
-  }, [profileData, setProfileData, setUserData, userData]);
+  }, []);
 
   const showSidebar = () => {
     let sidebar = sideRef.current;

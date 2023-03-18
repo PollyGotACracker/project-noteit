@@ -32,7 +32,7 @@
 .Detail .content .table table th,
 .ck-content .table table td,
 .ck-content .table table th {
-  border: 1px solid #bfbfbf;
+  border: 1px solid var(--border);
   min-width: 2em;
   padding: 0.4em;
 }
@@ -46,7 +46,7 @@
 /* blockquote style : 인용구 */
 .Detail .content blockquote,
 .ck-content blockquote {
-  border-left: 5px solid #ccc;
+  border-left: 5px solid var(--border);
   font-style: italic;
   margin-left: 0;
   margin-right: 0;

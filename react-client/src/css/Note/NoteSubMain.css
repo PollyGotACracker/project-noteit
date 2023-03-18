@@ -14,8 +14,8 @@
   position: absolute;
   top: 0;
   left: 5%;
-  padding: 2% 5%;
-  border-bottom: 1px solid #ccc;
+  padding: 2em 4em;
+  border-bottom: 1px solid var(--border);
 }
 .Note.Sub .title .category {
   display: flex;
@@ -40,20 +40,20 @@
 }
 .Note.Sub .title .insert-btn {
   font-size: 1.5em;
-  color: #aaa;
+  color: var(--subtext);
   transition: all ease 0.2s;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-left: auto;
 }
 .Note.Sub .title .insert-btn:hover {
-  color: var(--yellow);
+  color: var(--accent);
 }
 .Note.Sub .title form {
   margin-left: auto;
   display: flex;
   justify-content: center;
-  background-color: white;
   border-radius: 5px;
   padding: 0.5em;
 }
@@ -78,7 +78,7 @@
   gap: 10px;
   list-style: none;
   padding: 10px;
-  border-bottom: 1px dashed var(--darkgray);
+  border-bottom: 1px dashed var(--border);
 }
 .Note.Sub .content ul li:last-child {
   border-bottom: none;
@@ -93,21 +93,20 @@
 .Note.Sub .item .subject:hover {
   color: var(--accent);
 }
-.Note.Sub .item .keycount,
-.Note.Sub .item .views {
-  color: #333;
+.Note.Sub .item .keycount {
+  color: var(--subtext);
   user-select: none;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.2em;
+  gap: 0.3em;
 }
 .Note.Sub .item button {
   display: flex;
   justify-content: center;
   align-items: center;
   transition: all 0.2s ease-out;
-  color: #aaa;
+  color: var(--subtext);
   font-size: 1.4em;
 }
 .Note.Sub .item .bookmark-btn:hover,

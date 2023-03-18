@@ -28,15 +28,19 @@ const TodoInput = () => {
     <div className="input">
       <input
         placeholder="목표"
+        className="t_content"
         name="t_content"
         onChange={onChangeHandler}
         value={todoContent.t_content}
       />
       <input
         type="date"
+        className={
+          todoContent?.t_deadline !== "" ? "t_deadline" : "t_deadline empty"
+        }
         name="t_deadline"
         onChange={onChangeHandler}
-        value={todoContent.t_deadline}
+        value={todoContent?.t_deadline}
         data-placeholder="마감일"
       />
       <div

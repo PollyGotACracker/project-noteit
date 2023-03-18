@@ -1,11 +1,13 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
 import { msgList, initScore } from "../../data/QuizData";
+import { useUserContext } from "../../context/UserContext";
 import { getQuizSub } from "../../service/quiz.service";
 import { FaTags } from "react-icons/fa";
 import { IoIosHourglass } from "react-icons/io";
 import { IoArrowRedoCircleOutline } from "react-icons/io5";
 import { BsStarFill, BsStars, BsCheck2Circle, BsDroplet } from "react-icons/bs";
+import moment from "moment";
 
 export const quizSubLoader = async ({ params }) => {
   const catid = params?.catid;
@@ -20,11 +22,12 @@ export const quizSubLoader = async ({ params }) => {
 };
 
 const QuizSub = () => {
-  const nav = useNavigate();
   const { _data, allKeyScore } = useLoaderData();
+  const nav = useNavigate();
+  const { userData } = useUserContext();
   const [quizSubList] = useState([..._data]);
   const [quizKeyList, setQuizKeyList] = useState([..._data[0]["tbl_keywords"]]);
-  const [userScore] = useState(initScore);
+  const [userScore, setUserScore] = useState(initScore);
   const [correctList, setCorrectList] = useState([]);
   const [subIndex, setSubIndex] = useState(0);
   const [keyIndex, setKeyIndex] = useState(0);
@@ -113,26 +116,58 @@ const QuizSub = () => {
   }, [subIndex, keyIndex, feedbackMsg, setFeedbackMsg]);
 
   // 결과 표시 대기 timeout
-  const navResult = useCallback(({ jump }) => {
-    // 넘기기 버튼 클릭 방지
-    subRef.current.style.pointerEvents = "none";
-    userAnswerRef.current.disabled = true;
-    descRef.current.style.opacity = "0";
-    let msgDelay = 2400;
+  // cf) useCallback 사용 시 함수에서 사용하는 변수를 [] 에 적어야 최신 값을 반영
+  const navResult = useCallback(
+    ({ jump }) => {
+      const _start = moment(
+        `${userScore.sc_date} ${userScore.sc_time}`,
+        "YYYY-MM-DD HH:mm:ss"
+      );
+      const _end = moment();
+      const _duration = {
+        HH: String(moment.duration(_end.diff(_start)).hours()).padStart(2, "0"),
+        mm: String(moment.duration(_end.diff(_start)).minutes()).padStart(
+          2,
+          "0"
+        ),
+        ss: String(moment.duration(_end.diff(_start)).seconds()).padStart(
+          2,
+          "0"
+        ),
+      };
 
-    // 문제를 넘겼을 경우 delay 0
-    if (jump) {
-      msgDelay = 0;
-    }
-    showLoading.current = setTimeout(() => {
-      subRef.current.style.display = "none";
-      loadingRef.current.style.zIndex = "1";
-      loadingRef.current.style.opacity = "1";
-      showResult.current = setInterval(() => {
-        setCountDown((prev) => prev - 1000);
-      }, 1000);
-    }, msgDelay);
-  }, []);
+      setUserScore((prev) => {
+        const _prev = {
+          ...prev,
+          sc_category: quizSubList[0].s_category,
+          sc_catid: quizSubList[0].s_catid,
+          sc_score: score,
+          sc_duration: `${_duration.HH}:${_duration.mm}:${_duration.ss}`,
+          sc_userid: userData.u_userid,
+        };
+        return _prev;
+      });
+
+      // 넘기기 버튼 클릭 방지
+      subRef.current.style.pointerEvents = "none";
+      userAnswerRef.current.disabled = true;
+      descRef.current.style.opacity = "0";
+      let msgDelay = 2400;
+      // 문제를 넘겼을 경우 delay 0
+      if (jump) {
+        msgDelay = 0;
+      }
+      showLoading.current = setTimeout(() => {
+        subRef.current.style.display = "none";
+        loadingRef.current.style.zIndex = "1";
+        loadingRef.current.style.opacity = "1";
+        showResult.current = setInterval(() => {
+          setCountDown((prev) => prev - 1000);
+        }, 1000);
+      }, msgDelay);
+    },
+    [score]
+  );
 
   useEffect(() => {
     // useNavigate-useLocation 으로 데이터 넘김
@@ -141,7 +176,6 @@ const QuizSub = () => {
       nav(`/quiz/result`, {
         state: {
           wrongAnswer: wrongAnswer,
-          score: score,
           userScore: userScore,
           allKeyScore: allKeyScore,
         },
@@ -150,7 +184,7 @@ const QuizSub = () => {
       clearTimeout(showLoading.current);
       clearInterval(showResult.current);
     }
-  }, [nav, allKeyScore, score, userScore, wrongAnswer, countDown]);
+  }, [allKeyScore, score, userScore, wrongAnswer, countDown]);
 
   // 다른 페이지로 넘어가면 navigate 실행 방지
   useEffect(() => {
@@ -251,7 +285,8 @@ const QuizSub = () => {
               }
             }}
           >
-            <IoArrowRedoCircleOutline />이 주제 건너뛰기
+            <IoArrowRedoCircleOutline />
+            주제 건너뛰기
           </button>
         </div>
         <div className="total-score">
@@ -276,15 +311,6 @@ const QuizSub = () => {
           {feedbackMsg}
         </div>
         <div className="keyword-box">
-          <div className="keycount">
-            <FaTags /> {keyIndex + 1} / {quizSubList[subIndex]?.s_keycount}
-          </div>
-
-          <div className="keyword-desc" ref={descRef}>
-            {quizKeyList[keyIndex]?.k_desc}
-          </div>
-        </div>
-        <section className="answer-box">
           <button
             onClick={() => {
               const isLastSub = subIndex === quizSubList.length - 1;
@@ -311,13 +337,22 @@ const QuizSub = () => {
               }
             }}
           >
-            다른 키워드로
+            <IoArrowRedoCircleOutline />
+            키워드 건너뛰기
           </button>
+          <div className="keycount">
+            <FaTags /> {keyIndex + 1} / {quizSubList[subIndex]?.s_keycount}
+          </div>
+          <div className="keyword-desc" ref={descRef}>
+            {quizKeyList[keyIndex]?.k_desc}
+          </div>
+        </div>
+        <section className="answer-box">
           <div className="msg-box" ref={msgInputRef}>
             <input
               className="msg"
               ref={userAnswerRef}
-              placeholder="키워드를 입력하세요!"
+              placeholder="정답을 입력하세요!"
               value={userAnswer}
               onChange={(e) => {
                 setUserAnswer(e.target.value);
@@ -327,7 +362,6 @@ const QuizSub = () => {
               }}
             />
           </div>
-          <div className="bird-img">사진 영역</div>
         </section>
       </div>
       <section className="loading" ref={loadingRef}>

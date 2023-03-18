@@ -11,7 +11,7 @@
 }
 .App main.Intro {
   padding: 0 !important;
-  background: linear-gradient(var(--blue), rgba(29, 65, 91, 0.7));
+  background: linear-gradient(var(--primary), var(--gradient));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,7 +22,7 @@
 }
 .App main article {
   flex: 1;
-  padding: 0 1em;
+  padding: 2em;
   overflow-x: hidden;
 }
 .App main aside.Sidebar {
@@ -34,9 +34,8 @@
   align-items: center;
   justify-content: flex-start;
   gap: 1em;
-  border-left: 1px solid var(--darkgray);
+  border-left: 1px solid var(--border);
   z-index: 101;
-  background-color: var(--background);
   transition: all ease 0.3s;
 }
 .App a {
@@ -51,6 +50,7 @@
 }
 .App button {
   background-color: transparent;
+  color: var(--text);
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
@@ -63,8 +63,9 @@
 }
 .App input {
   background-color: transparent;
+  color: var(--text);
   transition: all ease 0.2s;
-  border: 1px solid var(--darkgray);
+  border: 1px solid var(--border);
   border-radius: 10px;
   padding: 0.5em;
   font-size: 1em;
@@ -77,22 +78,23 @@
   padding: 0.5em;
   outline: none;
 }
+.App button:disabled,
 .App button:disabled:hover {
-  border-color: var(--darkgray);
-  color: var(--darkgray);
+  border-color: var(--lightalpha);
+  color: var(--lightalpha);
   cursor: auto;
 }
+.App input:read-only,
 .App input:read-only:hover,
 .App input:read-only:focus {
-  border-color: var(--darkgray);
+  border-color: var(--border);
 }
 .App button.active,
 .App a:hover,
 .App button:hover {
   color: var(--accent);
+  border-color: var(--accent);
 }
-.App a:hover,
-.App button:hover,
 .App input:hover,
 .App input:focus {
   border-color: var(--accent);
@@ -158,7 +160,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 1em 2em;
-    border-bottom: 1px solid var(--darkgray);
+    border-bottom: 1px solid var(--border);
   }
   .header .title {
     font-size: 1.2em;
@@ -167,9 +169,13 @@
     -webkit-user-select: none;
   }
   .header .side-btn {
+    color: var(--text);
     font-size: 1.5em;
     display: flex;
     align-items: center;
+  }
+  .Sidebar {
+    background-color: var(--background);
   }
   .Sidebar .logout {
     display: flex;
@@ -189,6 +195,7 @@
   }
   .App .blocker.active {
     background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(1px);
     z-index: 100;
   }
 }

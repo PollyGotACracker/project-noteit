@@ -179,7 +179,7 @@ const NoteWrite = () => {
       }
 
       if (subid) {
-        method = "PUT";
+        method = "PATCH";
         url = `/note/sub/update`;
         subjects = { ...subjects, s_subid: subid };
       }

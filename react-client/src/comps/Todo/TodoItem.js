@@ -1,6 +1,7 @@
 import { useTodoContext } from "../../context/TodoContext";
 import { useCallback } from "react";
 import moment from "moment";
+import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
 
 const TodoItem = ({ item }) => {
   const { todoDelete, todoComplete, todoEdit, setIsEdit } = useTodoContext();
@@ -41,7 +42,7 @@ const TodoItem = ({ item }) => {
   return (
     <div className="item" data-id={item.t_todoid}>
       <div className="delete" onClick={deleteHandler}>
-        &times;
+        <AiOutlineClose />
       </div>
       <div className="date">
         <div>{item.t_date}</div>
@@ -66,7 +67,7 @@ const TodoItem = ({ item }) => {
       </div>
       <div className="prior" data-prior={item.t_prior}></div>
       <div className="complete" onClick={completeHandler}>
-        &#x2713;
+        <AiOutlineCheck />
       </div>
     </div>
   );

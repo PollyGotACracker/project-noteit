@@ -19,15 +19,15 @@ cf)
   padding: 8px;
   border-radius: 10px;
   outline: none;
-  border: 1px solid var(--darkgray);
+  border: 1px solid var(--border);
 }
 .Todo .input input:focus {
   border-color: var(--accent);
 }
-.Todo .input input[name="t_content"] {
+.Todo .input .t_content {
   flex: 3 0 20vw;
 }
-.Todo .input input[name="t_deadline"] {
+.Todo .input .t_deadline {
   flex-basis: 250px;
 }
 /* 
@@ -36,21 +36,19 @@ input type="date" 에 placeholder 만들기
 html dataset 속성과, css before 가상선택자를 사용
 1. before 의 content 는 attr(data-...)  ==> 해당 요소의 속성값 적용됨
 2. before 의 width 는 100%
-:focus, :valid (선택 또는 유효값) 일 때 display: none
+:focus 또는 :valid (선택 또는 유효값) 일 때 display: none
 */
 
-.Todo .input input[name="t_deadline"]:before {
-  content: attr(data-placeholder);
+.Todo .input .t_deadline.empty:before {
+  content: attr(data-placeholder) !important;
   width: 100%;
 }
-
-.Todo .input input[name="t_deadline"]:focus:before,
-.Todo .input input[name="t_deadline"]:valid:before {
+.Todo .input .t_deadline:focus:before {
   display: none;
 }
 .Todo .input input::placeholder,
-.Todo .input input[name="t_deadline"]:before {
-  color: var(--darkgray);
+.Todo .input .t_deadline:before {
+  color: var(--subtext);
 }
 .Todo .input .submit {
   padding: 12px 16px;
@@ -58,13 +56,13 @@ html dataset 속성과, css before 가상선택자를 사용
   border: 0;
   outline: 0;
   background-color: var(--accent);
-  color: var(--dark);
+  color: var(--text);
   font-weight: 700;
   cursor: pointer;
   flex-basis: 100px;
 }
 .Todo .input button:disabled {
-  background-color: var(--lightgray);
+  background-color: var(--lightalpha);
 }
 .Todo .list {
   margin: 2em 1em 0;
@@ -75,7 +73,7 @@ html dataset 속성과, css before 가상선택자를 사용
   grid-template-columns: 0.5fr 1.5fr 5fr 1.5fr 1fr 1fr 0.5fr;
   align-items: center;
   justify-content: center;
-  border-top: 1px solid var(--lightgray);
+  border-top: 1px dashed var(--lightalpha);
   margin: 0 1em;
 }
 .Todo .item > *:not(:nth-child(3)) {
@@ -99,7 +97,7 @@ cf)
 .Todo .item .delete:hover,
 .Todo .item .complete:hover {
   cursor: pointer;
-  background-color: #eee;
+  background-color: var(--primary);
   border-radius: 50%;
   transition: all ease 0.2s;
 }
@@ -107,7 +105,7 @@ cf)
   color: var(--red);
 }
 .Todo .item .complete:hover {
-  color: var(--blue);
+  color: var(--accent);
 }
 .Todo .item div {
   padding: 8px;
@@ -115,14 +113,14 @@ cf)
 }
 .Todo .delete,
 .Todo .complete {
-  width: 30px;
-  height: 30px;
+  width: 2em;
+  height: 2em;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 20px;
   font-weight: 800;
-  color: #888;
+  color: var(--subtext);
   vertical-align: center;
   opacity: 0;
   transition: opacity ease 0.5s;
@@ -132,7 +130,7 @@ cf)
   display: flex;
   flex-direction: column;
   justify-content: center;
-  color: #888;
+  color: var(--subtext);
   font-size: 0.8em;
   text-align: center;
   gap: 0.4em;
@@ -149,18 +147,17 @@ cf)
 }
 .Todo .item .content.line {
   text-decoration: line-through;
-  color: #999;
+  color: var(--subtext);
 }
 .Todo .item .content:hover {
-  background-color: #eee;
-  border-radius: 5px;
+  color: var(--accent);
 }
 .Todo .item .date div {
   margin: 0;
   padding: 0;
 }
 .Todo .deadline {
-  color: #888;
+  color: var(--subtext);
   font-size: 0.8em;
 }
 .Todo .deadline.active {
@@ -169,7 +166,7 @@ cf)
 }
 .Todo .prior-wrap {
   position: relative;
-  border: 1px solid var(--darkgray);
+  border: 1px solid var(--border);
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -188,7 +185,7 @@ cf)
   top: 50px;
   flex-direction: column;
   background-color: var(--background);
-  border: 1px solid var(--darkgray);
+  border: 1px solid var(--border);
   border-radius: 10px;
   width: 100%;
 }
@@ -230,11 +227,15 @@ cf)
 .Todo *[data-prior="5"]:after {
   background-color: var(--violet);
 }
+/* 모드에 따른 input type="date" 캘린더 아이콘 색상 변경*/
+:root[color-theme="dark"] input::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
 @media only screen and (max-width: 1080px) {
-  .Todo .input input[name="t_content"] {
+  .Todo .input .t_content {
     flex-basis: 100%;
   }
-  .Todo .input input[name="t_deadline"] {
+  .Todo .input .t_deadline {
     flex: 1;
   }
 }

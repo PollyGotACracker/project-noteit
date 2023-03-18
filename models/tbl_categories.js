@@ -18,10 +18,6 @@ export default (sequelize) => {
         allowNull: false,
         unique: "c_category",
       },
-      c_date: {
-        type: Sequelize.DataTypes.STRING(10),
-        allowNull: true,
-      },
       c_subcount: {
         type: Sequelize.DataTypes.BIGINT,
         allowNull: false,
@@ -31,6 +27,14 @@ export default (sequelize) => {
         type: Sequelize.DataTypes.TINYINT,
         allowNull: false,
         defaultValue: 0,
+      },
+      c_date: {
+        type: Sequelize.DataTypes.STRING(10),
+        allowNull: false,
+      },
+      c_quizdate: {
+        type: Sequelize.DataTypes.STRING(125),
+        allowNull: true,
       },
     },
     {
