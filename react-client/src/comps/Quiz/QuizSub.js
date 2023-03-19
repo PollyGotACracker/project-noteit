@@ -13,16 +13,17 @@ export const quizSubLoader = async ({ params }) => {
   const catid = params?.catid;
   const _data = await getQuizSub(catid);
   // 획득 가능한 총 점수 계산
-  let allKeyScore = 0;
+  let keyCount = 0;
   for (let i of _data) {
-    const keycount = i.s_keycount;
-    allKeyScore += keycount * 5;
+    const _count = i.s_keycount;
+    keyCount += _count;
   }
-  return { _data, allKeyScore };
+  const keyScore = Math.round(100 / keyCount);
+  return { _data, keyScore };
 };
 
 const QuizSub = () => {
-  const { _data, allKeyScore } = useLoaderData();
+  const { _data, keyScore } = useLoaderData();
   const nav = useNavigate();
   const { userData } = useUserContext();
   const [quizSubList] = useState([..._data]);
@@ -117,8 +118,10 @@ const QuizSub = () => {
 
   // 결과 표시 대기 timeout
   // cf) useCallback 사용 시 함수에서 사용하는 변수를 [] 에 적어야 최신 값을 반영
+  // 라고 생각했는데 또 score 최신 값이 반영 안된다?
   const navResult = useCallback(
-    ({ jump }) => {
+    ({ latest = false, jump }) => {
+      const finalScore = latest ? score + keyScore : score;
       const _start = moment(
         `${userScore.sc_date} ${userScore.sc_time}`,
         "YYYY-MM-DD HH:mm:ss"
@@ -141,7 +144,7 @@ const QuizSub = () => {
           ...prev,
           sc_category: quizSubList[0].s_category,
           sc_catid: quizSubList[0].s_catid,
-          sc_score: score,
+          sc_score: finalScore,
           sc_duration: `${_duration.HH}:${_duration.mm}:${_duration.ss}`,
           sc_userid: userData.u_userid,
         };
@@ -177,14 +180,13 @@ const QuizSub = () => {
         state: {
           wrongAnswer: wrongAnswer,
           userScore: userScore,
-          allKeyScore: allKeyScore,
         },
         replace: true,
       });
       clearTimeout(showLoading.current);
       clearInterval(showResult.current);
     }
-  }, [allKeyScore, score, userScore, wrongAnswer, countDown]);
+  }, [score, userScore, wrongAnswer, countDown]);
 
   // 다른 페이지로 넘어가면 navigate 실행 방지
   useEffect(() => {
@@ -208,7 +210,7 @@ const QuizSub = () => {
         if (isCorrect) {
           setFeedbackMsg(msgList.correct);
           setKeyIndex(keyIndex + 1);
-          setScore(score + 5);
+          setScore(score + keyScore);
         }
         if (!isCorrect) {
           setFeedbackMsg(msgList.wrong);
@@ -224,7 +226,7 @@ const QuizSub = () => {
           setKeyIndex(0);
         }
         if (keyIndex === lastKeyIndex && subIndex === lastSubIndex) {
-          navResult({ jump: false });
+          navResult({ latest: isCorrect, jump: false });
         }
         setUserAnswer("");
       }
@@ -261,6 +263,14 @@ const QuizSub = () => {
   return (
     <>
       <div className="Sub" ref={subRef}>
+        <div className="total-score">
+          <div ref={scoreRef}>
+            <BsStarFill />
+          </div>
+          <div>
+            <span>{score}</span> / 100
+          </div>
+        </div>
         <div className="subject-box">
           <div className="category">{quizSubList[subIndex]?.s_category}</div>
           <div>
@@ -289,15 +299,6 @@ const QuizSub = () => {
             주제 건너뛰기
           </button>
         </div>
-        <div className="total-score">
-          <div ref={scoreRef}>
-            <BsStarFill />
-          </div>
-          <div>
-            <span>{score}</span> / {allKeyScore}
-          </div>
-        </div>
-
         <div className="feedback-msg" ref={feedbackRef}>
           {feedbackMsg === msgList.start ? (
             <BsStars />

@@ -68,6 +68,9 @@ html dataset 속성과, css before 가상선택자를 사용
   margin: 2em 1em 0;
   overflow-y: auto;
 }
+.Todo .list::-webkit-scrollbar {
+  background-color: transparent;
+}
 .Todo .item {
   display: grid;
   grid-template-columns: 0.5fr 1.5fr 5fr 1.5fr 1fr 1fr 0.5fr;

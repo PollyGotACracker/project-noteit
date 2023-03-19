@@ -11,12 +11,12 @@ import { FaTag } from "react-icons/fa";
 const QuizResult = () => {
   const location = useLocation();
   const { setUserData } = useUserContext();
-  const { wrongAnswer, userScore, allKeyScore } = location.state;
+  const { wrongAnswer, userScore } = location.state;
   const { dateStr, timeStr } = transferToday(
     userScore.sc_date,
     userScore.sc_time
   );
-  const ratio = userScore.sc_score / allKeyScore;
+  const ratio = userScore.sc_score / 100;
 
   const saveScore = async () => {
     const keyids = wrongAnswer
@@ -32,9 +32,7 @@ const QuizResult = () => {
 
   return (
     <section className="result">
-      <div className="score">
-        {userScore.sc_score} / {allKeyScore}
-      </div>
+      <div className="score">{userScore.sc_score} / 100</div>
       <div className="duration">{userScore.sc_duration}</div>
       <div className="feedback">
         {ratio === 1
@@ -50,37 +48,37 @@ const QuizResult = () => {
       <button type="button" onClick={saveScore}>
         기록 저장
       </button>
-      <Link className="restart" to={`/quiz/${wrongAnswer[0].s_catid}`}>
+      <Link className="restart" to={`/quiz/${userScore.sc_catid}`}>
         <MdRestartAlt />
         다시 풀기
       </Link>
       <div className="wrong-list">
         <div className="title">틀린 문제 목록</div>
         {wrongAnswer.map((item) => (
-          <div className="wrong-item" key={item.s_subid}>
+          <div className="wrong-item" key={item?.s_subid}>
             <div className="subject">
-              <Link to={`/note/subject/${item.s_catid}/${item.s_subid}`}>
+              <Link to={`/note/subject/${item?.s_catid}/${item?.s_subid}`}>
                 <BsJournalText />
-                {item.s_subject}
+                {item?.s_subject}
               </Link>
-              <div>· 키워드 수: {item.s_keycount}</div>
-              <div>· 오답 수: {item.wrong.length}</div>
+              <div>· 키워드 수: {item?.s_keycount}</div>
+              <div>· 오답 수: {item?.wrong.length}</div>
             </div>
-            {item.wrong.map((keyword) => (
-              <div className="wrong-keyword" key={keyword.k_keyid}>
+            {item?.wrong.map((keyword) => (
+              <div className="wrong-keyword" key={keyword?.k_keyid}>
                 <span className="keyword">
-                  <FaTag /> {keyword.k_keyword}
+                  <FaTag /> {keyword?.k_keyword}
                 </span>
                 <a
-                  href={`https://www.google.com/search?q=${item.s_subject} ${keyword.k_keyword}`}
+                  href={`https://www.google.com/search?q=${item?.s_subject} ${keyword.k_keyword}`}
                   target="_blank"
                   rel="noreferrer"
                 >
                   <RiGoogleLine />
                   검색
                 </a>
-                <div className="desc">{keyword.k_desc}</div>
-                <div className="answer">제출: {keyword.answer}</div>
+                <div className="desc">{keyword?.k_desc}</div>
+                <div className="answer">제출: {keyword?.answer}</div>
               </div>
             ))}
           </div>

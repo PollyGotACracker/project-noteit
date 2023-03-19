@@ -64,7 +64,7 @@ const NoteDetail = () => {
 
   const bookmarkHandler = async () => {
     try {
-      let res = await fetch(`/note/sub/bookmark/${subid}`, { method: "PUT" });
+      let res = await fetch(`/note/sub/bookmark/${subid}`, { method: "PATCH" });
       res = await res.json();
       if (res.error) {
         alert(res.error);

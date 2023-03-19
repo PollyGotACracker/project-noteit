@@ -1,5 +1,5 @@
 import "../../css/Set/Set.css";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import profile from "../../assets/images/profile.png";
 import { getUserData } from "../../service/user.service";
 import { useUserContext } from "../../context/UserContext";

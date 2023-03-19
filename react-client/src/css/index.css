@@ -8,7 +8,8 @@
 :root {
   --red: #c73935;
   --yellow: #e69215;
-  --lightyellow: rgba(249, 162, 2);
+  --lightyellow: rgba(249, 162, 2, 1);
+  --yellowalpha: rgba(249, 162, 2, 0.5);
   --blue: #1d415b;
   --bluealpha: rgba(29, 65, 91, 0.6);
   --grayblue: #60798c;
@@ -31,6 +32,7 @@
   --secondary: var(--grayblue);
   --gradient: var(--violetalpha);
   --accent: var(--yellow);
+  --accentalpha: var(--yellowalpha);
   --borderlight: var(--lightgray);
   --border: var(--gray);
   --borderdark: var(--darkgray);
@@ -44,6 +46,7 @@
   --secondary: var(--grayblue);
   --gradient: var(--bluealpha);
   --accent: var(--lightyellow);
+  --accentalpha: var(--yellowalpha);
   --borderlight: var(--lightgray);
   --border: var(--gray);
   --borderdark: var(--darkgray);
@@ -75,7 +78,6 @@ body {
   width: 5px;
   height: 5px;
   background-color: var(--borderdark);
-  border-radius: 10px;
 }
 *::-webkit-scrollbar-thumb {
   background: var(--primary);

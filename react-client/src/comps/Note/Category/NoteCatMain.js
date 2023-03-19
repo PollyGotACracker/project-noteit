@@ -16,6 +16,7 @@ export const catLoader = () => {
 const NoteCatMain = () => {
   const data = useLoaderData();
   const { noteCatList, setNoteCatList, noteCat, setNoteCat } = useNoteContext();
+
   useLayoutEffect(() => {
     setNoteCatList([...data]);
   }, []);

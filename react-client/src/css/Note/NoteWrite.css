@@ -21,6 +21,8 @@
 }
 .Write input,
 .Write textarea {
+  background-color: transparent;
+  color: inherit;
   border: none;
   border-radius: 0;
   border-bottom: 1px solid var(--darkgray);

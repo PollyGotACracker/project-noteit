@@ -31,7 +31,7 @@ const NoteCatItem = ({ item }) => {
     }
     if (update === "완료") {
       const fetchOption = {
-        method: "PUT",
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ c_catid: catid, c_category: title }),
       };
@@ -64,7 +64,7 @@ const NoteCatItem = ({ item }) => {
     await e.stopPropagation();
     await e.preventDefault();
     const fetchOption = {
-      method: "PUT",
+      method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         catid: catRef.current.dataset.id,

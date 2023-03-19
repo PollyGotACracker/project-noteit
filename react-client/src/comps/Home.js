@@ -1,10 +1,19 @@
 import { useState, useRef, useLayoutEffect } from "react";
 import "../css/Home.css";
 import { speakListData } from "../data/HomeData";
+import { useUserContext } from "../context/UserContext";
+import LineChart from "./LineChart";
+import DoughnutChart from "./DoughnutChart";
 
 const Main = () => {
   const [speakList] = useState(speakListData);
   const speak = useRef(null);
+  const { userData } = useUserContext();
+  const [dateData, setDateData] = useState([]);
+  const [scoreData, setScoreData] = useState([]);
+  const [catName, setCatName] = useState("");
+  const [subData, setSubData] = useState([]);
+  const [wrongData, setWrongData] = useState([]);
 
   // 코드 수정할 것
   const typeWriter = (text) => {
@@ -46,6 +55,30 @@ const Main = () => {
    */
 
   useLayoutEffect(() => {
+    (async () => {
+      if (userData.u_userid !== "") {
+        const line = await fetch(`${userData.u_userid}/stat/round`).then(
+          (data) => data.json()
+        );
+        const doughnut = await fetch(`${userData.u_userid}/stat/wrong`).then(
+          (data) => data.json()
+        );
+
+        if (line.error || doughnut.error) {
+          alert(line.error);
+          return false;
+        } else {
+          setDateData([...line.date]);
+          setScoreData([...line.score]);
+          setCatName(doughnut.cat);
+          setSubData([...doughnut.sub]);
+          setWrongData([...doughnut.wrong]);
+        }
+      }
+    })();
+  }, [userData.u_userid, userData.u_totalscore]);
+
+  useLayoutEffect(() => {
     const index = Math.floor(Math.random() * speakList.length + 1);
     const msg = speakList[index - 1];
     const speak = typeWriter(msg);
@@ -57,14 +90,15 @@ const Main = () => {
   return (
     <article className="Home">
       <section className="left-sidebar">
-        <div className="rnd-subject">랜덤 주제 영역</div>
+        <div className="rnd-subject">최근 공부한 노트: {catName}</div>
       </section>
       <section className="center">
         <div className="speak-box">
           <span className="speak" ref={speak}></span>
         </div>
-        <div className="bird-img">사진 영역</div>
       </section>
+      <LineChart cat={catName} dates={dateData} scores={scoreData} />
+      <DoughnutChart cat={catName} subs={subData} wrongs={wrongData} />
     </article>
   );
 };

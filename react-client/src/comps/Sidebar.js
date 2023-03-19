@@ -9,6 +9,7 @@ import { getToday } from "../data/HomeData";
 import { Link } from "react-router-dom";
 import { BsSearch } from "react-icons/bs";
 
+// 부모 comp 에서 ref 를 받아 내부 요소에 사용: 2번째 파라미터로 받아야
 const Sidebar = forwardRef((props, ref) => {
   const [date, setDate] = useState(getToday().date);
   const [time, setTime] = useState(getToday().time);

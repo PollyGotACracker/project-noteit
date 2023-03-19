@@ -10,25 +10,26 @@
   display: flex;
 }
 .App main.Intro {
-  padding: 0 !important;
   background: linear-gradient(var(--primary), var(--gradient));
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
-.App main.Index {
-  padding: 2em 0;
-}
-.App main article {
+.App main.Index article {
   flex: 1;
   padding: 2em;
+  padding-right: calc(260px + 2em);
   overflow-x: hidden;
 }
 .App main aside.Sidebar {
   width: 260px;
   padding: 1em;
   margin-left: 0.5em;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -119,6 +120,10 @@
     flex-direction: column-reverse;
     position: relative;
   }
+  .App main.Index article {
+    width: 100%;
+    padding: 1em;
+  }
   .Nav {
     width: 100%;
     height: 80px;
@@ -149,11 +154,8 @@
   .App main article {
     padding: 1em;
   }
-  .App main aside {
-    height: 100%;
-    position: fixed;
-    top: 0;
-    right: -260px;
+  .App main .Sidebar {
+    right: -260px !important;
   }
   .header {
     display: flex;

@@ -12,6 +12,7 @@
 
 ## 부가 기능
 
+- 반응형 UI
 - 페이지 프린트
 - 프로필 관리
 - 배경 음악
@@ -34,5 +35,6 @@
 - moment
 - react-uuid, uuid
 - react-router-dom
+- react-chartjs-2
 - react-transition-group
 - react-icons

@@ -44,7 +44,7 @@ router.post("/cat/insert", async (req, res, next) => {
 });
 
 // UPDATE category
-router.put("/cat/update", async (req, res, next) => {
+router.patch("/cat/update", async (req, res, next) => {
   try {
     const catid = req.body.c_catid;
     const value = req.body.c_category;
@@ -59,7 +59,7 @@ router.put("/cat/update", async (req, res, next) => {
 });
 
 // category bookmark toggle
-router.put("/cat/bookmark", async (req, res, next) => {
+router.patch("/cat/bookmark", async (req, res, next) => {
   try {
     const catid = req.body.catid;
     const bookmark = req.body.bookmark;
@@ -156,12 +156,10 @@ router.post("/sub/search", async (req, res) => {
           [sequelize.fn("count", Sequelize.col("k_keyid")), "length"],
         ],
         where: { s_catid: catid },
-        include: [
-          {
-            model: KEY,
-            as: "tbl_keywords",
-          },
-        ],
+        include: {
+          model: KEY,
+          as: "tbl_keywords",
+        },
         group: ["tbl_subjects.s_subid"],
       });
     } else {
@@ -187,7 +185,7 @@ router.post("/sub/search", async (req, res) => {
 });
 
 // subject bookmark toggle
-router.put("/sub/bookmark/:subid", async (req, res) => {
+router.patch("/sub/bookmark/:subid", async (req, res) => {
   try {
     const subid = req.params.subid;
     const bookmark = await SUB.findOne({
