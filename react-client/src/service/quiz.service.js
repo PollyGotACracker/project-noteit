@@ -44,7 +44,7 @@ export const insertQuizScore = async (score, keyids) => {
   const catid = score.sc_catid;
   const date = score.sc_date;
   const userid = score.sc_userid;
-  const totalscore = score.sc_score;
+  const userscore = score.sc_score;
 
   const scoFetchOption = {
     method: "POST",
@@ -78,7 +78,7 @@ export const insertQuizScore = async (score, keyids) => {
     alert(keyRes.error);
     return false;
   }
-  patchFetchOption.body = JSON.stringify({ userid, totalscore });
+  patchFetchOption.body = JSON.stringify({ userid, userscore });
   const userRes = await fetch(`/quiz/user/update`, patchFetchOption).then(
     (data) => data.json()
   );

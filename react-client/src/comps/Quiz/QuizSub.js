@@ -13,17 +13,16 @@ export const quizSubLoader = async ({ params }) => {
   const catid = params?.catid;
   const _data = await getQuizSub(catid);
   // 획득 가능한 총 점수 계산
-  let keyCount = 0;
+  let allKeyScore = 0;
   for (let i of _data) {
-    const _count = i.s_keycount;
-    keyCount += _count;
+    const keycount = i.s_keycount;
+    allKeyScore += keycount * 5;
   }
-  const keyScore = Math.round(100 / keyCount);
-  return { _data, keyScore };
+  return { _data, allKeyScore };
 };
 
 const QuizSub = () => {
-  const { _data, keyScore } = useLoaderData();
+  const { _data, allKeyScore } = useLoaderData();
   const nav = useNavigate();
   const { userData } = useUserContext();
   const [quizSubList] = useState([..._data]);
@@ -121,7 +120,7 @@ const QuizSub = () => {
   // 라고 생각했는데 또 score 최신 값이 반영 안된다?
   const navResult = useCallback(
     ({ latest = false, jump }) => {
-      const finalScore = latest ? score + keyScore : score;
+      const finalScore = latest ? score + 5 : score;
       const _start = moment(
         `${userScore.sc_date} ${userScore.sc_time}`,
         "YYYY-MM-DD HH:mm:ss"
@@ -145,6 +144,7 @@ const QuizSub = () => {
           sc_category: quizSubList[0].s_category,
           sc_catid: quizSubList[0].s_catid,
           sc_score: finalScore,
+          sc_totalscore: allKeyScore,
           sc_duration: `${_duration.HH}:${_duration.mm}:${_duration.ss}`,
           sc_userid: userData.u_userid,
         };
@@ -210,7 +210,7 @@ const QuizSub = () => {
         if (isCorrect) {
           setFeedbackMsg(msgList.correct);
           setKeyIndex(keyIndex + 1);
-          setScore(score + keyScore);
+          setScore(score + 5);
         }
         if (!isCorrect) {
           setFeedbackMsg(msgList.wrong);
@@ -268,7 +268,7 @@ const QuizSub = () => {
             <BsStarFill />
           </div>
           <div>
-            <span>{score}</span> / 100
+            <span>{score}</span> / {allKeyScore}
           </div>
         </div>
         <div className="subject-box">

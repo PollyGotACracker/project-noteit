@@ -154,8 +154,12 @@
   .App main article {
     padding: 1em;
   }
-  .App main .Sidebar {
+  .Sidebar {
     right: -260px !important;
+    background-color: var(--background);
+  }
+  .Sidebar.active {
+    right: 0 !important;
   }
   .header {
     display: flex;
@@ -176,17 +180,12 @@
     display: flex;
     align-items: center;
   }
-  .Sidebar {
-    background-color: var(--background);
-  }
   .Sidebar .logout {
     display: flex;
     flex-direction: row;
     margin-top: auto;
   }
-  .Sidebar.active {
-    right: 0;
-  }
+
   .App .blocker {
     position: absolute;
     top: 0;

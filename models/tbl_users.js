@@ -25,13 +25,8 @@ export default (sequelize) => {
         type: Sequelize.DataTypes.STRING(225),
         allowNull: true,
       },
-      u_totalscore: {
+      u_score: {
         type: Sequelize.DataTypes.BIGINT,
-        allowNull: false,
-        defaultValue: 0,
-      },
-      u_darkmode: {
-        type: Sequelize.DataTypes.TINYINT,
         allowNull: false,
         defaultValue: 0,
       },

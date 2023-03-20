@@ -116,17 +116,14 @@ router.patch("/key/update", async (req, res, next) => {
 router.patch("/user/update", async (req, res, next) => {
   try {
     const userid = req.body.userid;
-    const score = req.body.totalscore;
+    const score = req.body.userscore;
     let userscore = await USER.findOne({
       raw: true,
-      attributes: ["u_totalscore"],
+      attributes: ["u_score"],
       where: { u_userid: userid },
     });
-    userscore = Number(userscore.u_totalscore) + Number(score);
-    await USER.update(
-      { u_totalscore: userscore },
-      { where: { u_userid: userid } }
-    );
+    userscore = Number(userscore.u_score) + Number(score);
+    await USER.update({ u_score: userscore }, { where: { u_userid: userid } });
     return res.send({ result: "퀴즈 기록이 저장되었습니다." });
   } catch (error) {
     console.error(error);

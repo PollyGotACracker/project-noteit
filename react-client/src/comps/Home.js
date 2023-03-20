@@ -11,6 +11,7 @@ const Main = () => {
   const { userData } = useUserContext();
   const [dateData, setDateData] = useState([]);
   const [scoreData, setScoreData] = useState([]);
+  const [totalScoreData, setTotalScoreData] = useState([]);
   const [catName, setCatName] = useState("");
   const [subData, setSubData] = useState([]);
   const [wrongData, setWrongData] = useState([]);
@@ -63,13 +64,13 @@ const Main = () => {
         const doughnut = await fetch(`${userData.u_userid}/stat/wrong`).then(
           (data) => data.json()
         );
-
         if (line.error || doughnut.error) {
           alert(line.error);
           return false;
         } else {
           setDateData([...line.date]);
           setScoreData([...line.score]);
+          setTotalScoreData([...line.totalscore]);
           setCatName(doughnut.cat);
           setSubData([...doughnut.sub]);
           setWrongData([...doughnut.wrong]);
@@ -89,16 +90,25 @@ const Main = () => {
 
   return (
     <article className="Home">
-      <section className="left-sidebar">
-        <div className="rnd-subject">최근 공부한 노트: {catName}</div>
+      <section className="top-box">
+        <div className="subject">최근 공부한 노트: {catName}</div>
       </section>
-      <section className="center">
+      <section className="center-box">
+        <section className="chart-wrong">
+          <DoughnutChart cat={catName} subs={subData} wrongs={wrongData} />
+        </section>
         <div className="speak-box">
           <span className="speak" ref={speak}></span>
         </div>
       </section>
-      <LineChart cat={catName} dates={dateData} scores={scoreData} />
-      <DoughnutChart cat={catName} subs={subData} wrongs={wrongData} />
+      <section className="chart-round">
+        <LineChart
+          cat={catName}
+          dates={dateData}
+          scores={scoreData}
+          totalscores={totalScoreData}
+        />
+      </section>
     </article>
   );
 };

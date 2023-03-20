@@ -12,7 +12,7 @@ const UserContextProvider = ({ children }) => {
     u_nickname: "",
     u_profileimg: "",
     u_profilestr: "",
-    u_totalscore: "",
+    u_score: "",
   });
   // context provider 값이 rendering 전에 state 변수에 setting 되지 않음
   const [profileData, setProfileData] = useState({

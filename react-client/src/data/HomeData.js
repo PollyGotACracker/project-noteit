@@ -21,10 +21,15 @@ export const genColor = ({ count, alpha }) => {
   let i = 0;
   const bg = [];
   const border = [];
+  // hue 의 최대값은 360
+  // 색상 중복을 피하기 위하여 hue 의 gap 지정:
+  // 360 을 label 전체 개수로 나눈 값
+  const gap = parseInt(360 / count);
+  let hue = 0;
   while (i < count) {
-    const hue = Math.floor(Math.random() * 360 + 1);
-    bg.push(`hsla(${hue}, 80%, 50%, ${alpha})`);
-    border.push(`hsla(${hue}, 80%, 50%, 1)`);
+    bg.push(`hsla(${hue}, 70%, 50%, ${alpha})`);
+    border.push(`hsla(${hue}, 70%, 50%, 1)`);
+    hue += gap;
     i++;
   }
   return { bg, border };

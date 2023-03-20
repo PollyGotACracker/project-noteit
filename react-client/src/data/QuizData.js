@@ -9,7 +9,6 @@ export const msgList = {
   nextSub: "다음 주제로 넘어왔어요!",
 };
 
-// 제출시각 포함?
 export const initScore = () => {
   const score = {
     sc_scoid: uuid().substring(0, 8),
@@ -20,6 +19,7 @@ export const initScore = () => {
     sc_catid: "",
     sc_category: "",
     sc_score: 0,
+    sc_totalscore: 0,
   };
   return score;
 };

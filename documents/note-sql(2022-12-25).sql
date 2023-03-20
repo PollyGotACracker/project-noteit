@@ -8,8 +8,7 @@ CREATE TABLE IF NOT EXISTS tbl_users(
 	u_nickname	VARCHAR(225)	NOT NULL UNIQUE,	
 	u_profileimg	VARCHAR(225),	
     u_profilestr	VARCHAR(225),
-	u_totalscore	BIGINT	NOT NULL	DEFAULT 0,
-	u_darkmode	TINYINT	NOT NULL	DEFAULT 0,
+	u_score	BIGINT	NOT NULL	DEFAULT 0,
 	PRIMARY KEY(u_userid)
 );
 
@@ -23,6 +22,7 @@ CREATE TABLE IF NOT EXISTS tbl_scores(
 	sc_catid	VARCHAR(125)	NOT NULL,
 	sc_category	VARCHAR(125)	NOT NULL,
 	sc_score	INT	NOT NULL,
+    sc_totalscore	INT	NOT NULL,
 	PRIMARY KEY(sc_scoid)
 -- 	CONSTRAINT fk_usesco
 -- 	FOREIGN KEY(sc_userid) REFERENCES tbl_users(u_userid)
@@ -77,13 +77,13 @@ CREATE TABLE IF NOT EXISTS tbl_keywords(
 -- 첨부파일
 CREATE TABLE IF NOT EXISTS tbl_attachs(
 	a_attid	VARCHAR(225)	NOT NULL,
-	a_subid	VARCHAR(225)	NOT NULL,
+	a_subid	VARCHAR(225),
 	a_date	VARCHAR(10)	NOT NULL,
 	a_time	VARCHAR(10)	NOT NULL,
 	a_originalname	VARCHAR(225)	NOT NULL,
 	a_savename	VARCHAR(225)	NOT NULL,
 	a_ext	VARCHAR(10)	NOT NULL,
-	PRIMARY KEY(a_attid, a_subid)
+	PRIMARY KEY(a_attid)
 -- 	CONSTRAINT fk_subatt
 -- 	FOREIGN KEY(a_subid) REFERENCES tbl_subjects(s_subid)
 -- 	ON DELETE CASCADE

@@ -10,8 +10,7 @@ export default (sequelize) => {
       },
       a_subid: {
         type: Sequelize.DataTypes.STRING(225),
-        allowNull: false,
-        primaryKey: true,
+        allowNull: true,
       },
       a_date: {
         type: Sequelize.DataTypes.STRING(10),
@@ -43,7 +42,7 @@ export default (sequelize) => {
           name: "PRIMARY",
           unique: true,
           using: "BTREE",
-          fields: [{ name: "a_attid" }, { name: "a_subid" }],
+          fields: [{ name: "a_attid" }],
         },
       ],
     }

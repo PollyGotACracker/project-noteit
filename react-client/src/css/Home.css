@@ -1,7 +1,7 @@
 main.Home {
   display: flex;
 }
-.Home .left-sidebar {
+.Home .top-box {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -9,7 +9,6 @@ main.Home {
   width: 100%;
   border-bottom: 1px dashed var(--border);
   padding: 1%;
-  border-radius: 5px;
 }
 /* .Home .left-sidebar .rnd-subject {
   width: 80%;
@@ -18,13 +17,13 @@ main.Home {
   background-color: 
 } */
 
-.Home .center {
-  width: 70%;
+.Home .center-box {
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  justify-content: space-around;
   align-items: center;
 }
-.Home .center .speak-box {
+.Home .center-box .speak-box {
   font-size: 15pt;
   width: 350px;
   padding: 30px 20px;
@@ -33,7 +32,7 @@ main.Home {
   user-select: none;
   position: relative;
 }
-.Home .center .speak-box .speak {
+.Home .center-box .speak-box .speak {
   word-break: break-all;
   overflow-wrap: break-word;
   white-space: pre-line;
@@ -44,7 +43,7 @@ main.Home {
     border-color: transparent;
   }
 }
-.Home .center .speak-box:after {
+/* .Home .center-box .speak-box:after {
   position: absolute;
   left: calc(50% - 15px);
   bottom: -16px;
@@ -55,9 +54,16 @@ main.Home {
   border-top: 1px solid var(--border);
   border-right: 1px solid var(--border);
   transform: rotateZ(135deg);
-}
-.Home .center .bird-img {
+} */
+
+.Home section[class*="chart"] {
+  position: relative;
+  margin: 0 auto;
   width: 100%;
-  height: 100%;
-  background-color: var(--border);
+}
+.Home .chart-wrong {
+  height: 20vw;
+}
+.Home .chart-round {
+  height: 30vw;
 }

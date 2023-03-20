@@ -20,6 +20,9 @@ const DoughnutChart = ({ cat, subs, wrongs }) => {
     plugins: {
       legend: {
         position: "left",
+        labels: {
+          usePointStyle: true,
+        },
       },
       title: {
         display: true,

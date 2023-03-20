@@ -16,7 +16,7 @@ const QuizResult = () => {
     userScore.sc_date,
     userScore.sc_time
   );
-  const ratio = userScore.sc_score / 100;
+  const ratio = userScore.sc_score / userScore.sc_totalscore;
 
   const saveScore = async () => {
     const keyids = wrongAnswer
@@ -32,7 +32,9 @@ const QuizResult = () => {
 
   return (
     <section className="result">
-      <div className="score">{userScore.sc_score} / 100</div>
+      <div className="score">
+        {userScore.sc_score} / {userScore.sc_totalscore}
+      </div>
       <div className="duration">{userScore.sc_duration}</div>
       <div className="feedback">
         {ratio === 1

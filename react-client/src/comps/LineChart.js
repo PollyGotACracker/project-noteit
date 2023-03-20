@@ -1,39 +1,69 @@
 import {
   Chart as ChartJS,
-  CategoryScale,
   LinearScale,
+  CategoryScale,
+  BarElement,
   PointElement,
   LineElement,
-  Title,
-  Tooltip,
   Legend,
+  Tooltip,
+  LineController,
+  BarController,
 } from "chart.js";
-import { Line } from "react-chartjs-2";
+import { Chart } from "react-chartjs-2";
 
 ChartJS.register(
-  CategoryScale,
   LinearScale,
+  CategoryScale,
+  BarElement,
   PointElement,
   LineElement,
-  Title,
+  Legend,
   Tooltip,
-  Legend
+  LineController,
+  BarController
 );
 
-const LineChart = ({ cat, dates, scores }) => {
+const LineChart = ({ cat, dates, scores, totalscores }) => {
+  const footer = function (context) {
+    console.log(context.chart);
+
+    // console.log(context);
+    // console.log(context.chart);
+    // console.log(context.label);
+    // console.log(context.parsed);
+    // console.log(context.raw);
+    // console.log(context.formattedValue);
+    // console.log(context.dataset);
+    // console.log(context.datasetIndex);
+    // console.log(context.dataIndex);
+    // console.log(context.element);
+  };
+
   const options = {
     responsive: true,
     plugins: {
       legend: {
         position: "top",
+        labels: {
+          // usePointStyle: true,
+        },
+      },
+      tooltip: {
+        // usePointStyle: true,
+        // callbacks: {
+        //   title: (context) => context[0].label,
+        //   label: (context) => {
+        //   },
+        // },
       },
       title: {
         display: true,
         text: "퀴즈 기록",
       },
       interaction: {
-        mode: "index",
         intersect: false,
+        mode: "index",
       },
     },
   };
@@ -50,10 +80,17 @@ const LineChart = ({ cat, dates, scores }) => {
    */
   const data = {
     labels: dates,
+
     datasets: [
       {
-        label: cat,
+        label: "득점",
+
+        type: "line",
         data: scores,
+        pointStyle: "circle",
+        pointRadius: 10,
+        pointHoverRadius: 15,
+        borderWidth: 2,
         borderColor: getComputedStyle(
           document.documentElement
         ).getPropertyValue("--accent"),
@@ -61,16 +98,22 @@ const LineChart = ({ cat, dates, scores }) => {
           document.documentElement
         ).getPropertyValue("--accentalpha"),
       },
-      // {
-      //   label: "Dataset 2",
-      //   data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-      //   borderColor: "rgb(53, 162, 235)",
-      //   backgroundColor: "rgba(53, 162, 235, 0.5)",
-      // },
+      {
+        label: "총점",
+        type: "bar",
+        data: totalscores,
+        borderWidth: 2,
+        borderColor: getComputedStyle(
+          document.documentElement
+        ).getPropertyValue("--primary"),
+        backgroundColor: getComputedStyle(
+          document.documentElement
+        ).getPropertyValue("--primaryalpha"),
+      },
     ],
   };
 
-  return <Line options={options} data={data} />;
+  return <Chart options={options} data={data} />;
 };
 
 export default LineChart;

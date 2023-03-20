@@ -29,6 +29,7 @@
   --text: var(--dark);
   --subtext: var(--darkgray);
   --primary: var(--blue);
+  --primaryalpha: var(--bluealpha);
   --secondary: var(--grayblue);
   --gradient: var(--violetalpha);
   --accent: var(--yellow);
@@ -43,6 +44,7 @@
   --text: var(--light);
   --subtext: var(--gray);
   --primary: var(--violet);
+  --primaryalpha: var(--violetalpha);
   --secondary: var(--grayblue);
   --gradient: var(--bluealpha);
   --accent: var(--lightyellow);

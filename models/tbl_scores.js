@@ -36,6 +36,10 @@ export default (sequelize) => {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false,
       },
+      sc_totalscore: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+      },
     },
     {
       sequelize,

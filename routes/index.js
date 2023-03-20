@@ -33,13 +33,27 @@ router.get("/:userid/stat/round", async (req, res) => {
     });
     let _data = await SCO.findAll({
       raw: true,
-      attributes: ["sc_score", "sc_date", "sc_time"],
+      attributes: [
+        "sc_score",
+        "sc_totalscore",
+        "sc_date",
+        "sc_time",
+        [Sequelize.literal("sc_score / sc_totalscore * 100"), "calc"],
+      ],
       where: { sc_catid: _cat.c_catid },
+      order: [
+        ["sc_date", "DESC"],
+        ["sc_time", "ASC"],
+      ],
+      limit: 10,
     });
+
     // cf) chart.js 는 nested array 를 사용한 multiple-lines label 이 가능하다.
     const date = await _data.map((item) => [item.sc_date, item.sc_time]);
     const score = await _data.map((item) => item.sc_score);
-    return res.send({ date, score });
+    const totalscore = await _data.map((item) => item.sc_totalscore);
+    const calc = await _data.map((item) => Math.round(item.calc));
+    return res.send({ date, score, totalscore, calc });
   } catch (error) {
     console.error;
     return res.send({
