@@ -19,9 +19,10 @@ main.Home {
 
 .Home .center-box {
   width: 100%;
-  display: flex;
+  /* display: flex;
+  flex-wrap: wrap-reverse;
   justify-content: space-around;
-  align-items: center;
+  align-items: center; */
 }
 .Home .center-box .speak-box {
   font-size: 15pt;
@@ -58,12 +59,21 @@ main.Home {
 
 .Home section[class*="chart"] {
   position: relative;
-  margin: 0 auto;
+  margin: auto;
   width: 100%;
 }
 .Home .chart-wrong {
-  height: 20vw;
+  height: 100%;
+}
+.Home .chart-wrong {
+  width: 100% !important;
+  height: 600px !important;
 }
 .Home .chart-round {
-  height: 30vw;
+  height: 40%;
+}
+@media only screen and (max-width: 1080px) {
+  .Home section[class*="chart"] {
+    width: 100%;
+  }
 }

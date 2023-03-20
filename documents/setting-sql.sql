@@ -5,6 +5,7 @@ delete from tbl_scores;
 
 select * from tbl_users;
 select * from tbl_keywords;
+select * from tbl_subjects;
 select * from tbl_categories;
 
 INSERT INTO tbl_categories(c_catid,

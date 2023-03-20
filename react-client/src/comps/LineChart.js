@@ -9,6 +9,7 @@ import {
   Tooltip,
   LineController,
   BarController,
+  Title,
 } from "chart.js";
 import { Chart } from "react-chartjs-2";
 
@@ -21,13 +22,13 @@ ChartJS.register(
   Legend,
   Tooltip,
   LineController,
-  BarController
+  BarController,
+  Title
 );
 
 const LineChart = ({ cat, dates, scores, totalscores }) => {
-  const footer = function (context) {
-    console.log(context.chart);
-
+  const footer = function (tooltipItems) {
+    return tooltipItems.yLabel;
     // console.log(context);
     // console.log(context.chart);
     // console.log(context.label);
@@ -39,23 +40,32 @@ const LineChart = ({ cat, dates, scores, totalscores }) => {
     // console.log(context.dataIndex);
     // console.log(context.element);
   };
-
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
+    layout: {
+      padding: 20,
+    },
     plugins: {
       legend: {
         position: "top",
         labels: {
           // usePointStyle: true,
+          padding: 15,
         },
       },
       tooltip: {
+        displayColors: false,
+        titleFont: {
+          size: 15,
+        },
+        bodyFont: {
+          size: 14,
+        },
+        footerFont: {
+          size: 14,
+        },
         // usePointStyle: true,
-        // callbacks: {
-        //   title: (context) => context[0].label,
-        //   label: (context) => {
-        //   },
-        // },
       },
       title: {
         display: true,
@@ -80,17 +90,15 @@ const LineChart = ({ cat, dates, scores, totalscores }) => {
    */
   const data = {
     labels: dates,
-
     datasets: [
       {
         label: "득점",
-
         type: "line",
-        data: scores,
         pointStyle: "circle",
-        pointRadius: 10,
-        pointHoverRadius: 15,
-        borderWidth: 2,
+        data: scores,
+        pointRadius: 5,
+        pointHoverRadius: 10,
+        borderWidth: 1,
         borderColor: getComputedStyle(
           document.documentElement
         ).getPropertyValue("--accent"),
@@ -101,8 +109,10 @@ const LineChart = ({ cat, dates, scores, totalscores }) => {
       {
         label: "총점",
         type: "bar",
+        pointStyle: "rectRounded",
         data: totalscores,
-        borderWidth: 2,
+        barThickness: 50,
+        borderWidth: 1,
         borderColor: getComputedStyle(
           document.documentElement
         ).getPropertyValue("--primary"),

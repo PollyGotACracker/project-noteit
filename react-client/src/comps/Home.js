@@ -4,6 +4,7 @@ import { speakListData } from "../data/HomeData";
 import { useUserContext } from "../context/UserContext";
 import LineChart from "./LineChart";
 import DoughnutChart from "./DoughnutChart";
+import { defaults } from "chart.js";
 
 const Main = () => {
   const [speakList] = useState(speakListData);
@@ -54,6 +55,11 @@ const Main = () => {
    * <React.StrictMode>
    * 코드의 문제를 감지하고 경고하기 위해 구성 요소를 두 번 렌더링
    */
+
+  defaults.font.size = "15";
+  defaults.color = getComputedStyle(document.documentElement).getPropertyValue(
+    "--subtext"
+  );
 
   useLayoutEffect(() => {
     (async () => {
