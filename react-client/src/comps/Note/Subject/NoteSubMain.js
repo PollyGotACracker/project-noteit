@@ -6,6 +6,7 @@ import NoteSubItem from "./NoteSubItem";
 import { BsFillFileEarmarkPlusFill } from "react-icons/bs";
 import { IoFileTrayFull } from "react-icons/io5";
 import { getSubHandler } from "../../../service/note.service";
+import { ReactComponent as NoDataSvg } from "../../../assets/images/no_data.svg";
 
 export const subLoader = async ({ params }) => {
   const catid = params?.catid;
@@ -50,7 +51,12 @@ const NoteSubMain = () => {
         className="no-data"
         style={{ display: noteSubList.length === 0 ? "flex" : "none" }}
       >
-        <div className="no-data-img"></div>
+        <NoDataSvg
+          className="no-data-img"
+          fill={getComputedStyle(document.documentElement).getPropertyValue(
+            "--primary"
+          )}
+        />
         <div className="no-data-msg">새로운 주제를 만들어보세요!</div>
       </section>
     </article>

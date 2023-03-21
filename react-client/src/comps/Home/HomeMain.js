@@ -4,14 +4,17 @@ import { speakListData } from "../../data/HomeData";
 import { useUserContext } from "../../context/UserContext";
 import BoardTodo from "./BoardTodo";
 import BoardStudy from "./BoardStudy";
+import NoStat from "./NoStat";
 import DoughnutChart from "./DoughnutChart";
 import MultiChart from "./MultiChart";
 import { defaults } from "chart.js";
+import { RiLineChartLine } from "react-icons/ri";
 
 const HomeMain = () => {
   const { userData } = useUserContext();
   const speak = useRef(null);
   const speakMsgRef = useRef(null);
+  const [boardMsg, setBoardMsg] = useState("");
   const [speakList] = useState(speakListData);
   const [dateData, setDateData] = useState([]);
   const [scoreData, setScoreData] = useState([]);
@@ -47,7 +50,7 @@ const HomeMain = () => {
           (data) => data.json()
         );
         if (doughnut.error || line.error) {
-          alert(doughnut.error);
+          setBoardMsg(doughnut.error);
           return false;
         } else {
           setCatName(doughnut.cat);
@@ -111,19 +114,33 @@ const HomeMain = () => {
           <div className="speak-box">
             <span className="speak" ref={speak}></span>
           </div>
-          <div className="subject">최근 공부한 노트: {catName}</div>
+          <div className="subject">최근 공부한 노트: {catName || "없음"}</div>
         </section>
         <BoardTodo />
-        <section className="center-box">
-          <DoughnutChart cat={catName} subs={subData} wrongs={wrongData} />
-          <BoardStudy data={studyData} />
-        </section>
-        <MultiChart
-          cat={catName}
-          dates={dateData}
-          scores={scoreData}
-          totalscores={totalScoreData}
-        />
+        {totalScoreData.length !== 0 ? (
+          <section className="center-box">
+            <DoughnutChart cat={catName} subs={subData} wrongs={wrongData} />
+            <BoardStudy data={studyData} />
+          </section>
+        ) : (
+          ""
+        )}
+        <div className="chart-round">
+          <div className="title">
+            <RiLineChartLine />
+            퀴즈 기록
+          </div>
+          {scoreData.length !== 0 ? (
+            <MultiChart
+              cat={catName}
+              dates={dateData}
+              scores={scoreData}
+              totalscores={totalScoreData}
+            />
+          ) : (
+            <NoStat msg={boardMsg} />
+          )}
+        </div>
       </section>
     </article>
   );

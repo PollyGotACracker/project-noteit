@@ -2,6 +2,14 @@
   display: flex;
   flex-direction: column;
 }
+.Home .no-stat-img {
+  opacity: 0.8;
+  width: 100%;
+  height: 20vw;
+}
+.Home .no-stat-msg {
+  text-align: center;
+}
 .Home > .dashboard {
   user-select: none;
   -webkit-user-select: none;
@@ -94,6 +102,11 @@
   width: 100%;
   height: 100%;
 }
+.Home .study .no-thumb-img {
+  max-width: 80%;
+  max-height: calc(16vw + 1vh);
+  opacity: 0.8;
+}
 .Home .study .content {
   padding: 1em;
   width: 80%;
@@ -122,6 +135,10 @@
 .Home .todo {
   padding: 5vh 0 8vh;
 }
+.Home .todo .todo-msg {
+  text-align: center;
+  padding-left: 2em;
+}
 .Home .todo .todo-item {
   padding: 0.3em 2em;
   display: grid;
@@ -146,6 +163,10 @@
   transform: translateY(-8%);
 }
 @media only screen and (max-width: 1080px) {
+  .Home .no-stat-img {
+    width: 100%;
+    height: 30vw;
+  }
   .Home .chart-wrong,
   .Home .study {
     flex: 1;

@@ -16,7 +16,9 @@ const NoteSubItem = ({ item }) => {
     async (e) => {
       const subid = e.target.closest(".item").dataset.id;
       try {
-        let res = await fetch(`/note/sub/bookmark/${subid}`, { method: "PUT" });
+        let res = await fetch(`/note/sub/bookmark/${subid}`, {
+          method: "PATCH",
+        });
         res = await res.json();
         if (res.error) {
           alert(res.error);

@@ -62,7 +62,7 @@ router.get("/:userid/stat/wrong", async (req, res) => {
   } catch (error) {
     console.error;
     return res.send({
-      error: "통계 데이터를 가져오는 중 문제가 발생했습니다.",
+      error: "노트를 북마크에 추가하고 퀴즈를 풀어보세요!",
     });
   }
 });

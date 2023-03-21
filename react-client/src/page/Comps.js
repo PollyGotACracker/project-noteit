@@ -1,5 +1,6 @@
 import App, { getUserColorTheme } from "../App";
 import Intro from "../comps/Intro";
+import Main from "../comps/Main";
 import Login from "../comps/Login";
 import Join from "../comps/Join";
 import Index from "../comps/Index";
@@ -21,6 +22,7 @@ export {
   App,
   getUserColorTheme,
   Intro,
+  Main,
   Login,
   Join,
   Index,

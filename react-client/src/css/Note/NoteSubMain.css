@@ -100,8 +100,7 @@
 }
 .Note.Sub .no-data {
   width: 100%;
-  height: calc(100% - 100px);
-  position: absolute;
+  height: calc(100% - 260px);
   bottom: 0;
   display: flex;
   flex-direction: column;
@@ -110,15 +109,10 @@
 }
 .Note.Sub .no-data-img {
   opacity: 0.5;
-  width: 100%;
-  height: 100%;
-  background-image: url("../../assets/images/no_data.svg");
-  background-size: 200px auto;
-  background-position: center;
-  background-repeat: no-repeat;
+  width: 60%;
+  height: 60%;
 }
 .Note.Sub .no-data-msg {
-  position: absolute;
   bottom: 10vw;
   width: 100%;
   text-align: center;

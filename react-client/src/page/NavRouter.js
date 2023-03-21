@@ -4,6 +4,7 @@ import {
   App,
   getUserColorTheme,
   Intro,
+  Main,
   Login,
   Join,
   Index,
@@ -38,7 +39,8 @@ const NavRouter = createBrowserRouter([
         path: "",
         element: <Intro />,
         children: [
-          { path: "", element: <Login /> },
+          { path: "", element: <Main /> },
+          { path: "login", element: <Login /> },
           { path: "join", element: <Join /> },
         ],
       },

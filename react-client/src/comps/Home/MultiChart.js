@@ -12,7 +12,6 @@ import {
   TimeScale,
 } from "chart.js";
 import { Chart } from "react-chartjs-2";
-import { RiLineChartLine } from "react-icons/ri";
 
 ChartJS.register(
   LinearScale,
@@ -119,6 +118,7 @@ const MultiChart = ({ cat, dates, scores, totalscores }) => {
         data: totalscores,
         barThickness: 50,
         borderWidth: 1,
+        borderRadius: 10,
         borderColor: getComputedStyle(
           document.documentElement
         ).getPropertyValue("--primary"),
@@ -128,15 +128,7 @@ const MultiChart = ({ cat, dates, scores, totalscores }) => {
       },
     ],
   };
-  return (
-    <div className="chart-round">
-      <div className="title">
-        <RiLineChartLine />
-        퀴즈 기록
-      </div>
-      <Chart options={options} data={data} />
-    </div>
-  );
+  return <Chart options={options} data={data} />;
 };
 
 export default MultiChart;

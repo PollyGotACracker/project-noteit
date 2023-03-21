@@ -10,6 +10,8 @@
   display: flex;
 }
 .App main.Intro {
+  width: 100%;
+  height: 100%;
   background: linear-gradient(var(--primary), var(--gradient));
   display: flex;
   flex-direction: column;

@@ -1,0 +1,156 @@
+.Intro div,
+.Intro span,
+.Intro a,
+.Intro button {
+  color: var(--light);
+}
+.Intro input::placeholder {
+  color: var(--lightgray) !important;
+}
+.Intro .link-box {
+  padding: 2em 4em;
+  display: flex;
+  justify-content: flex-end;
+  gap: 5em;
+  width: 100%;
+}
+.Intro .link-box > * {
+  display: inline-block;
+}
+.Intro .link-box button {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.2em;
+}
+.Intro .link-box a:hover,
+.Intro .link-box button:hover {
+  color: var(--accent);
+}
+.Intro .link-box a.active {
+  color: var(--accent);
+}
+
+.Join {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Join .join-img {
+  width: 1000px;
+  position: fixed;
+  left: -10%;
+  bottom: -5em;
+  opacity: 0.8;
+}
+
+.Join .join-img circle:first-of-type {
+  transition: all linear 0.2s;
+  animation: 1s linear alternate infinite onoff;
+}
+.Join .join-img circle:last-of-type {
+  transition: all linear 0.2s;
+  animation: 5s 2s linear alternate infinite onoff;
+}
+@keyframes onoff {
+  100% {
+    opacity: 0.5;
+  }
+}
+
+.Join .form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  width: 60vh;
+  height: 60vh;
+  padding: 5em;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  z-index: 2;
+}
+
+.Main {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.Main .cover-img {
+  /* width: 60vh;
+  height: 40vh; */
+  flex: 2;
+}
+.Main .cover-img g:first-of-type {
+  transform-origin: center;
+  animation: 1s cubic-bezier(0.195, 0.325, 0.6, 1.55) upscale;
+}
+@keyframes upscale {
+  0% {
+    transform: scale(0.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.Main .title {
+  /* light 수정하지 말 것 */
+  color: var(--light);
+  font-size: 4em;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+  user-select: none;
+  flex: 1;
+}
+.Main .title .char {
+  display: inline-block;
+  animation: cubic-bezier(0.195, 0.325, 0.6, 1.55) bounce;
+}
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.Login form.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 350px;
+}
+.Login input {
+  width: 100%;
+  margin: 5px;
+  border: 0;
+  border-bottom: 1px dashed var(--light);
+  border-radius: 0;
+  color: var(--light);
+  caret-color: var(--accent);
+  background-repeat: no-repeat;
+  background-position: left 10px bottom 50%;
+  background-size: 16px;
+  padding: 10px 40px;
+}
+.Login form.login input[type="text"] {
+  background-image: url("../assets/images/user.png");
+}
+.Login form.login input[type="password"] {
+  background-image: url("../assets/images/pwd.png");
+}
+.Login form.login input::placeholder {
+  color: var(--subtext);
+}
+.Login form.login input:focus {
+  border-bottom: 1px dashed var(--accent);
+}
