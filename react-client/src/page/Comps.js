@@ -3,7 +3,7 @@ import Intro from "../comps/Intro";
 import Login from "../comps/Login";
 import Join from "../comps/Join";
 import Index from "../comps/Index";
-import Home from "../comps/Home";
+import HomeMain from "../comps/Home/HomeMain";
 import NoteMain from "../comps/Note/NoteMain";
 import NoteCatMain, { catLoader } from "../comps/Note/Category/NoteCatMain";
 import NoteSubMain, { subLoader } from "../comps/Note/Subject/NoteSubMain";
@@ -24,7 +24,7 @@ export {
   Login,
   Join,
   Index,
-  Home,
+  HomeMain,
   NoteMain,
   NoteCatMain,
   catLoader,

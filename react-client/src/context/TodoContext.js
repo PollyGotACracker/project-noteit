@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  useCallback,
-  useLayoutEffect,
-} from "react";
+import { createContext, useContext, useState, useCallback } from "react";
 import { initTodo } from "../data/TodoData";
 
 const TodoContext = createContext();
@@ -18,27 +12,22 @@ const TodoContextProvider = ({ children }) => {
   const [todoContent, setTodoContent] = useState(initTodo());
   const [isEdit, setIsEdit] = useState(false);
 
-  const fetchAll = useCallback(async () => {
-    try {
-      const res = await fetch("/todo");
-      const result = await res.json();
-      console.log(result);
-      if (result.error) {
-        alert(result.error);
+  const fetchAll = useCallback(
+    async (userid) => {
+      try {
+        const res = await fetch(`/todo/${userid}`).then((data) => data.json());
+        if (res.error) {
+          alert(res.error);
+          setTodoContentList([]);
+        }
+        setTodoContentList([...res]);
+      } catch (error) {
+        alert("서버 접속 오류");
         setTodoContentList([]);
       }
-      setTodoContentList([...result]);
-    } catch (error) {
-      alert("서버 접속 오류");
-      setTodoContentList([]);
-    }
-  }, [setTodoContentList]);
-
-  useLayoutEffect(() => {
-    (async () => {
-      await fetchAll();
-    })();
-  }, [fetchAll]);
+    },
+    [setTodoContentList]
+  );
 
   const todoInsert = useCallback(async () => {
     try {
@@ -119,6 +108,7 @@ const TodoContextProvider = ({ children }) => {
   };
 
   const props = {
+    fetchAll,
     todoContent,
     setTodoContent,
     todoContentList,

@@ -24,8 +24,7 @@
 }
 .App main aside.Sidebar {
   width: 260px;
-  padding: 1em;
-  margin-left: 0.5em;
+  padding: 2em;
   position: fixed;
   top: 0;
   bottom: 0;
@@ -35,7 +34,12 @@
   align-items: center;
   justify-content: flex-start;
   gap: 1em;
-  border-left: 1px solid var(--border);
+  background: linear-gradient(
+    90deg,
+    var(--sidebar),
+    255px,
+    transparent 255px 260px
+  );
   z-index: 101;
   transition: all ease 0.3s;
 }
@@ -43,6 +47,8 @@
   color: inherit;
   text-decoration: none;
   transition: all ease 0.2s;
+  white-space: nowrap;
+  gap: 0.3em;
 }
 .App input,
 .App button {
@@ -54,12 +60,12 @@
   color: var(--text);
   cursor: pointer;
   user-select: none;
-  -webkit-user-select: none;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.2em;
+  gap: 0.3em;
   font-size: 1em;
+  white-space: nowrap;
   transition: all ease 0.2s;
 }
 .App input {
@@ -112,6 +118,28 @@
 .Sidebar .logout {
   display: none;
 }
+*[data-prior]:after {
+  display: inline-block;
+  content: "";
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+}
+*[data-prior="1"]:after {
+  background-color: var(--red);
+}
+*[data-prior="2"]:after {
+  background-color: var(--yellow);
+}
+*[data-prior="3"]:after {
+  background-color: var(--green);
+}
+*[data-prior="4"]:after {
+  background-color: var(--blue);
+}
+*[data-prior="5"]:after {
+  background-color: var(--violet);
+}
 @media only screen and (max-width: 1080px) {
   .App {
     overflow-y: hidden;
@@ -156,7 +184,7 @@
   }
   .Sidebar {
     right: -260px !important;
-    background-color: var(--background);
+    background-color: var(--background) !important;
   }
   .Sidebar.active {
     right: 0 !important;
@@ -185,7 +213,6 @@
     flex-direction: row;
     margin-top: auto;
   }
-
   .App .blocker {
     position: absolute;
     top: 0;

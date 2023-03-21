@@ -59,32 +59,28 @@ export const insertQuizScore = async (score, keyids) => {
     (data) => data.json()
   );
   if (scoRes.error) {
-    alert(scoRes.error);
-    return false;
+    return scoRes;
   }
   patchFetchOption.body = JSON.stringify({ catid, date });
   const catRes = await fetch(`/quiz/cat/update`, patchFetchOption).then(
     (data) => data.json()
   );
   if (catRes.error) {
-    alert(catRes.error);
-    return false;
+    return catRes;
   }
   patchFetchOption.body = JSON.stringify(keyids);
   const keyRes = await fetch(`/quiz/key/update`, patchFetchOption).then(
     (data) => data.json()
   );
   if (keyRes.error) {
-    alert(keyRes.error);
-    return false;
+    return keyRes;
   }
   patchFetchOption.body = JSON.stringify({ userid, userscore });
   const userRes = await fetch(`/quiz/user/update`, patchFetchOption).then(
     (data) => data.json()
   );
   if (userRes.error) {
-    alert(userRes.error);
-    return false;
+    return userRes;
   }
-  if (userRes.result) return userRes.result;
+  if (userRes.result) return userRes;
 };

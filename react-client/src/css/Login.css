@@ -65,10 +65,8 @@
   border: 0;
   border-bottom: 1px dashed var(--light);
   border-radius: 0;
-  font-size: 12pt;
   color: var(--light);
   caret-color: var(--accent);
-  transition: all 0.3s ease-out;
   background-repeat: no-repeat;
   background-position: left 10px bottom 50%;
   background-size: 16px;

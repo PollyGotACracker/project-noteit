@@ -9,9 +9,10 @@ import {
   Tooltip,
   LineController,
   BarController,
-  Title,
+  TimeScale,
 } from "chart.js";
 import { Chart } from "react-chartjs-2";
+import { RiLineChartLine } from "react-icons/ri";
 
 ChartJS.register(
   LinearScale,
@@ -23,10 +24,10 @@ ChartJS.register(
   Tooltip,
   LineController,
   BarController,
-  Title
+  TimeScale
 );
 
-const LineChart = ({ cat, dates, scores, totalscores }) => {
+const MultiChart = ({ cat, dates, scores, totalscores }) => {
   const footer = function (tooltipItems) {
     return tooltipItems.yLabel;
     // console.log(context);
@@ -44,7 +45,16 @@ const LineChart = ({ cat, dates, scores, totalscores }) => {
     responsive: true,
     maintainAspectRatio: false,
     layout: {
-      padding: 20,
+      padding: 10,
+    },
+    scales: {
+      y: {
+        grid: {
+          color: getComputedStyle(document.documentElement).getPropertyValue(
+            "--lightalpha"
+          ),
+        },
+      },
     },
     plugins: {
       legend: {
@@ -66,10 +76,6 @@ const LineChart = ({ cat, dates, scores, totalscores }) => {
           size: 14,
         },
         // usePointStyle: true,
-      },
-      title: {
-        display: true,
-        text: "퀴즈 기록",
       },
       interaction: {
         intersect: false,
@@ -122,8 +128,15 @@ const LineChart = ({ cat, dates, scores, totalscores }) => {
       },
     ],
   };
-
-  return <Chart options={options} data={data} />;
+  return (
+    <div className="chart-round">
+      <div className="title">
+        <RiLineChartLine />
+        퀴즈 기록
+      </div>
+      <Chart options={options} data={data} />
+    </div>
+  );
 };
 
-export default LineChart;
+export default MultiChart;

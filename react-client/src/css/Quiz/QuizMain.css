@@ -4,9 +4,23 @@
   flex-direction: column;
   align-items: center;
 }
+.Quiz .Cat .head {
+  width: 80%;
+  border-bottom: 1px solid var(--border);
+  margin: 2em 0 1em;
+  padding: 0.6em;
+  display: grid;
+  grid-template-columns: 5fr 2fr 1fr 1fr;
+  gap: 10px;
+  text-align: center;
+  user-select: none;
+}
 .Quiz .Cat .title {
+  font-size: 1.2em;
   font-weight: 700;
   padding: 1em;
+  letter-spacing: 0.2em;
+  user-select: none;
 }
 .Quiz .Cat .cat-list,
 .Quiz .Sub .subject-box {
@@ -19,12 +33,16 @@
   width: 100%;
   display: grid;
   grid-template-columns: 5fr 2fr 1fr 1fr;
-  gap: 10px;
-  padding: 10px;
+  gap: 0.5em;
+  padding: 0.5em 1.5em;
   border-bottom: 1px dashed var(--border);
   white-space: nowrap;
   cursor: pointer;
   transition: all ease 0.2s;
+}
+.Quiz .cat-list .cat-item > *:not(:first-of-type) {
+  display: flex;
+  justify-content: center;
 }
 .Quiz .cat-list .cat-item:last-child {
   border-bottom: none;
@@ -36,14 +54,17 @@
   text-align: center;
   display: flex;
   align-items: center;
-  gap: 0.2em;
+  gap: 0.4em;
 }
 
+.Quiz .Sub .subject-box > *:not(button) {
+  font-size: 1.2em;
+}
 .Quiz .Sub .subject-box .subject {
   width: 60%;
   padding: 1em;
   text-align: center;
-  font-size: 16pt;
+  font-size: 1.5em;
   font-weight: 700;
   word-break: keep-all;
 }
@@ -62,12 +83,13 @@
   min-width: 100%;
   min-height: 25vh;
   word-break: keep-all;
+  line-height: 1.4em;
 }
 .Quiz .Sub button {
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 0.5em;
-  font-size: 0.8em;
+  font-size: 0.9em;
 }
 .Quiz .Sub .keycount {
   display: flex;
@@ -76,35 +98,35 @@
   gap: 0.3em;
 }
 .Quiz .Sub .answer-box {
-  width: 100%;
+  width: 70%;
   display: flex;
   justify-content: center;
 }
 .Quiz .Sub .answer-box .msg-box {
-  font-size: 15pt;
-  width: 350px;
+  width: 100%;
   padding: 30px 20px;
   background-color: var(--background);
   border: 1px solid var(--border);
   border-radius: 10px;
   user-select: none;
   position: relative;
+  caret-color: var(--accent);
 }
 .Quiz .Sub .answer-box .msg-box:after {
   position: absolute;
   left: calc(50% - 15px);
-  bottom: -16px;
+  top: -16px;
   content: "";
   width: 30px;
   height: 30px;
   background-color: var(--background);
-  border-top: 1px solid var(--border);
-  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  border-left: 1px solid var(--border);
   transform: rotateZ(135deg);
 }
 .Quiz .Sub .answer-box .msg {
   border: none;
-  font-size: 12pt;
+  font-size: 1.2em;
   width: 100%;
 }
 .Quiz {
@@ -124,7 +146,7 @@
   justify-content: center;
   align-items: center;
   flex: 0.5;
-  gap: 0.3em;
+  gap: 0.5em;
   font-size: 1.5em;
   font-weight: 700;
   animation-duration: 0.6s;
@@ -133,7 +155,8 @@
   transition: opacity ease 0.3s;
 }
 .Quiz .Sub .feedback-msg svg {
-  color: var(--primary);
+  color: var(--secondary);
+  font-size: 2em;
   font-weight: 900;
 }
 @keyframes jumpMsg {
@@ -188,6 +211,7 @@
   }
 }
 .Quiz .result .score,
+.Quiz .result .duration,
 .Quiz .result .feedback {
   text-align: center;
   margin-bottom: 0.5em;
@@ -205,15 +229,30 @@
 .Quiz .result a {
   display: flex;
   align-items: center;
-  gap: 0.2em;
   padding: 0.2em;
 }
+.Quiz .result .btn-box {
+  display: flex;
+  width: 60%;
+  margin: 2em auto;
+  flex-wrap: wrap;
+}
+.Quiz .result .save,
 .Quiz .result .restart {
   margin: 0 auto;
   justify-content: center;
-  width: 100px;
+  width: 120px;
+  padding: 0.5em;
   border: 1px solid var(--border);
   border-radius: 10px;
+}
+.Quiz .result .save-msg {
+  width: 100%;
+  padding-bottom: 2em;
+  height: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .Quiz .result .wrong-list {
   margin-top: 5vh;
@@ -227,9 +266,15 @@
   padding: 0.8em 0;
   font-weight: 700;
   gap: 0.4em;
-  border-bottom: 2px solid var(--border);
-  margin-bottom: 2em;
+  margin-bottom: 1em;
 }
+.Quiz .result .wrong-list .subject > a:after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--border);
+  pointer-events: none;
+}
+
 .Quiz .result .wrong-list .subject > div {
   padding: 0.2em 0 0.2em 2em;
 }
@@ -239,7 +284,7 @@
   gap: 0.2em;
   justify-content: space-between;
   padding: 1em;
-  margin: 2em 1em;
+  margin: 2em;
   border: 1px solid var(--subborder);
   border-radius: 5px;
 }
@@ -247,6 +292,7 @@
   display: flex;
   align-items: center;
   gap: 0.4em;
+  margin-bottom: 1em;
 }
 .Quiz .wrong-list .wrong-keyword .keyword svg {
   color: var(--subtext);
@@ -264,7 +310,7 @@
   top: 0;
   bottom: 0;
   left: 0;
-  right: 0;
+  right: 260px;
   display: flex;
   flex-direction: column;
   justify-content: center;

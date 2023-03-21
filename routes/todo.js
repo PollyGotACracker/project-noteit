@@ -4,12 +4,22 @@ import moment from "moment";
 const TODO = DB.models.tbl_todo;
 const router = express.Router();
 
-router.get("/", async (req, res, next) => {
+router.get("/:userid", async (req, res, next) => {
+  const userid = req.params.userid;
   try {
-    return next();
+    const list = await TODO.findAll({
+      order: [
+        ["t_prior", "ASC"],
+        ["t_deadline", "DESC"],
+        ["t_date", "DESC"],
+        ["t_time", "DESC"],
+      ],
+      where: { t_userid: userid },
+    });
+    return res.json(list);
   } catch (error) {
-    console.error(error);
-    return res.json({ error: "SELECT 오류" });
+    console.error;
+    return res.json({ error: "Todo SELECT 오류" });
   }
 });
 
@@ -63,24 +73,6 @@ router.put("/complete/:id", async (req, res, next) => {
   } catch (error) {
     console.error(error);
     return res.json({ error: "업데이트 오류" });
-  }
-});
-
-router.all("/**", async (req, res) => {
-  try {
-    const list = await TODO.findAll({
-      order: [
-        ["t_prior", "ASC"],
-        ["t_deadline", "DESC"],
-        ["t_date", "DESC"],
-        ["t_time", "DESC"],
-      ],
-    });
-
-    return res.json(list);
-  } catch (error) {
-    console.error;
-    return res.json({ error: "Todo SELECT 오류" });
   }
 });
 

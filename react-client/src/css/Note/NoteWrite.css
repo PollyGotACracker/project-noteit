@@ -25,7 +25,7 @@
   color: inherit;
   border: none;
   border-radius: 0;
-  border-bottom: 1px solid var(--darkgray);
+  border-bottom: 1px solid var(--border);
 }
 .Write .keyword-info {
   display: flex;

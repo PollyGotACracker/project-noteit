@@ -118,3 +118,19 @@
   font-size: 0.8em;
   white-space: nowrap;
 }
+.Sidebar .search {
+  width: 100%;
+  color: var(--light);
+  caret-color: var(--accent);
+  background-repeat: no-repeat;
+  background-position: left 10px bottom 50%;
+  background-size: 16px;
+  padding: 10px 10px 10px 40px;
+  background-image: url("../assets/images/search_light.png");
+}
+.Sidebar .search::placeholder {
+  color: var(--subtext);
+}
+:root[color-theme="dark"] .Sidebar .search {
+  background-image: url("../assets/images/search_dark.png");
+}

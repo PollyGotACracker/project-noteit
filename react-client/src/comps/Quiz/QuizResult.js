@@ -1,12 +1,13 @@
+import { useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { transferToday } from "../../data/QuizData";
 import { useUserContext } from "../../context/UserContext";
 import { getUserData } from "../../service/user.service";
 import { insertQuizScore } from "../../service/quiz.service";
-import { MdRestartAlt } from "react-icons/md";
+import { BsArrowRepeat } from "react-icons/bs";
 import { BsJournalText } from "react-icons/bs";
 import { RiGoogleLine } from "react-icons/ri";
-import { FaTag } from "react-icons/fa";
+import { FaRegSave, FaTag } from "react-icons/fa";
 
 const QuizResult = () => {
   const location = useLocation();
@@ -16,6 +17,7 @@ const QuizResult = () => {
     userScore.sc_date,
     userScore.sc_time
   );
+  const [saveMsg, setSaveMsg] = useState("");
   const ratio = userScore.sc_score / userScore.sc_totalscore;
 
   const saveScore = async () => {
@@ -23,11 +25,19 @@ const QuizResult = () => {
       .map((sub) => sub.wrong.map((key) => key.k_keyid))
       .flat(2);
     const res = await insertQuizScore(userScore, keyids);
-    if (res) {
-      alert(res);
+    if (res.error) {
+      setSaveMsg(res.error);
+      return false;
+    }
+    if (res.result) {
       const userData = await getUserData();
       setUserData({ ...userData });
+      setSaveMsg(res.result);
     }
+  };
+
+  const hello = () => {
+    setSaveMsg("기록을 저장 중입니다...");
   };
 
   return (
@@ -47,13 +57,24 @@ const QuizResult = () => {
       </div>
       <div className="date">{dateStr}</div>
       <div className="time">{timeStr}</div>
-      <button type="button" onClick={saveScore}>
-        기록 저장
-      </button>
-      <Link className="restart" to={`/quiz/${userScore.sc_catid}`}>
-        <MdRestartAlt />
-        다시 풀기
-      </Link>
+      <div className="btn-box">
+        <div className="save-msg">{saveMsg}</div>
+        <button
+          className="save"
+          type="button"
+          onClick={() => {
+            hello();
+            saveScore();
+          }}
+        >
+          <FaRegSave />
+          기록 저장
+        </button>
+        <Link className="restart" to={`/quiz/${userScore.sc_catid}`}>
+          <BsArrowRepeat />
+          다시 풀기
+        </Link>
+      </div>
       <div className="wrong-list">
         <div className="title">틀린 문제 목록</div>
         {wrongAnswer.map((item) => (

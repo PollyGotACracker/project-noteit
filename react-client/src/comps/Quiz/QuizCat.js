@@ -14,8 +14,8 @@ const QuizCat = () => {
 
   return (
     <section className="Cat">
-      <div className="title">공부할 노트를 선택하세요!</div>
-      <div>
+      <div className="title">공부할 노트를 선택하세요</div>
+      <div className="head">
         <span>노트 이름</span>
         <span>마지막 퀴즈 날짜</span>
         <span>총 주제 수</span>

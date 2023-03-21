@@ -1,5 +1,16 @@
-main.Home {
+.Home {
   display: flex;
+  flex-direction: column;
+}
+.Home > .dashboard {
+  user-select: none;
+  -webkit-user-select: none;
+  margin-bottom: 1em;
+}
+.Home > .content {
+  padding: 4%;
+  border: 1px solid var(--subborder);
+  border-radius: 10px;
 }
 .Home .top-box {
   display: flex;
@@ -7,73 +18,146 @@ main.Home {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  border-bottom: 1px dashed var(--border);
-  padding: 1%;
+  padding-bottom: 2.5%;
+  border-bottom: 1px solid var(--border);
 }
-/* .Home .left-sidebar .rnd-subject {
-  width: 80%;
-  margin: 20px 0;
-  flex: 1;
-  background-color: 
-} */
-
 .Home .center-box {
   width: 100%;
-  /* display: flex;
+  display: flex;
+  align-items: baseline;
+  gap: 5%;
   flex-wrap: wrap-reverse;
-  justify-content: space-around;
-  align-items: center; */
 }
-.Home .center-box .speak-box {
-  font-size: 15pt;
-  width: 350px;
-  padding: 30px 20px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
+.Home .speak-box {
+  font-size: 2em;
+  width: 100%;
+  text-align: center;
+  padding-bottom: 1em;
   user-select: none;
-  position: relative;
 }
-.Home .center-box .speak-box .speak {
+.Home .speak-box .speak {
   word-break: break-all;
   overflow-wrap: break-word;
   white-space: pre-line;
   animation: 0.5s step-end infinite alternate blink;
+  border-right: 1px solid var(--accent);
 }
 @keyframes blink {
   50% {
     border-color: transparent;
   }
 }
-/* .Home .center-box .speak-box:after {
-  position: absolute;
-  left: calc(50% - 15px);
-  bottom: -16px;
-  content: "";
-  width: 30px;
-  height: 30px;
-  background-color: var(--background);
-  border-top: 1px solid var(--border);
-  border-right: 1px solid var(--border);
-  transform: rotateZ(135deg);
-} */
 
-.Home section[class*="chart"] {
+.Home .title {
+  font-size: 1.2em;
+  padding-bottom: 1em;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.Home .title svg {
+  color: var(--secondary);
+}
+.Home div[class*="chart"] {
   position: relative;
-  margin: auto;
+  display: flex;
+  flex-direction: column;
   width: 100%;
 }
 .Home .chart-wrong {
+  height: 30vw;
+  flex-basis: 50%;
+}
+.Home .chart-wrong canvas {
+  transform: translateY(-12%);
+  align-self: center;
+}
+.Home .study {
+  flex: 1;
+}
+.Home .study .title {
+  align-self: flex-start;
+}
+.Home .study .thumb {
+  max-width: 80%;
+  max-height: calc(16vw + 1vh);
+  margin: 0 auto;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Home .study img {
+  width: 100%;
   height: 100%;
 }
-.Home .chart-wrong {
-  width: 100% !important;
-  height: 600px !important;
+.Home .study .content {
+  padding: 1em;
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+.Home .study .content .subject {
+  font-size: 1.2em;
+  word-break: keep-all;
+}
+.Home .study .content .keycount {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  font-size: 0.9em;
+  color: var(--subtext);
+}
+.Home .study a {
+  margin-left: auto;
+  border: 1px solid var(--border);
+  padding: 0.5em;
+  border-radius: 5px;
+}
+.Home .todo {
+  padding: 5vh 0 8vh;
+}
+.Home .todo .todo-item {
+  padding: 0.3em 2em;
+  display: grid;
+  grid-template-columns: 6fr 2fr 1.5fr 1fr;
+  gap: 0.5em;
+}
+.Home .todo .todo-item > * {
+  word-break: keep-all;
+  display: flex;
+  align-items: center;
+}
+.Home .todo .todo-item .deadline.active {
+  color: var(--red);
+}
+.Home .todo .todo-item > *:not(:first-child) {
+  font-size: 0.8em;
+  color: var(--subtext);
+  justify-content: center;
 }
 .Home .chart-round {
-  height: 40%;
+  height: 30vw;
+  transform: translateY(-8%);
 }
 @media only screen and (max-width: 1080px) {
-  .Home section[class*="chart"] {
-    width: 100%;
+  .Home .chart-wrong,
+  .Home .study {
+    flex: 1;
+    flex-basis: 100%;
+  }
+  .Home .study {
+    padding-bottom: 6vh;
+  }
+  .Home .chart-wrong {
+    height: 70vw;
+  }
+  .Home .chart-round {
+    height: 40vw;
   }
 }

@@ -31,29 +31,25 @@ const Sidebar = forwardRef((props, ref) => {
     };
   }, [date, time]);
 
-  // const searchData = async (value) => {
-  //   setSearchValue(value);
-  //   const fetchOption = {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({ value: searchValue, catid: catid }),
-  //   };
-  //   await fetch(`/note/sub/search`, fetchOption)
-  //     .then((data) => data.json())
-  //     .then((data) => {
-  //       setNoteSubList([...data]);
-  //     });
-  // };
+  const searchData = async (value) => {
+    setSearchValue(value);
+    const fetchOption = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ value: searchValue }),
+    };
+    await fetch(`/note/search`, fetchOption).then((data) => data.json());
+  };
 
-  // useLayoutEffect(() => {
-  //   searchData(searchValue);
-  // }, [searchValue]);
+  useLayoutEffect(() => {
+    searchData(searchValue);
+  }, [searchValue]);
 
-  // const searchKeyword = (e) => {
-  //   if (e.type === "click" || (e.type === "keydown" && e.keyCode === 13)) {
-  //     searchData(searchValue);
-  //   }
-  // };
+  const searchKeyword = (e) => {
+    if (e.keyCode === 13) {
+      searchData(searchValue);
+    }
+  };
 
   return (
     <aside className="Sidebar" ref={ref}>
@@ -93,34 +89,17 @@ const Sidebar = forwardRef((props, ref) => {
         <div title="점수" className="score">
           <GiStarsStack /> {userData?.u_score}
         </div>
-        {/* <Link
-          to={"/setting"}
-          onClick={() => {
-            ref.current.className = "Sidebar";
-            blocker.current.className = "blocker";
-          }}
-        >
-          설정
-        </Link> */}
       </section>
       <section className="player">
         <Player />
       </section>
       <form>
         <input
-          className="input"
-          placeholder="검색어를 입력하세요..."
-          onChange={(e) => setSearchValue(e.target.value)}
-          // onKeyDown={searchKeyword}
-        />
-        <button
-          type="button"
           className="search"
-          title="검색"
-          // onClick={searchKeyword}
-        >
-          <BsSearch />
-        </button>
+          placeholder="검색"
+          onChange={(e) => setSearchValue(e.target.value)}
+          onKeyDown={(e) => searchKeyword(e)}
+        />
       </form>
       <section className="logout">
         <RiLogoutBoxLine />

@@ -7,7 +7,7 @@ import {
   Login,
   Join,
   Index,
-  Home,
+  HomeMain,
   NoteMain,
   NoteCatMain,
   catLoader,
@@ -46,7 +46,7 @@ const NavRouter = createBrowserRouter([
         path: "",
         element: <Index />,
         children: [
-          { path: "home", element: <Home /> },
+          { path: "home", element: <HomeMain /> },
           { path: "todo", element: <TodoMain /> },
           {
             path: "note",

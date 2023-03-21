@@ -13,8 +13,7 @@ const Nav = () => {
   return (
     <nav className="Nav">
       <NavLink className="home" to={`/home`}>
-        <RiHome4Fill />
-        메인
+        <RiHome4Fill />홈
       </NavLink>
       <NavLink className="todo" to={`/todo`}>
         <div>

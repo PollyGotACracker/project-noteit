@@ -139,9 +139,8 @@ router.get("/cat/:catid", async (req, res, next) => {
 // ** item 클릭 후 뒤로 가기 하면 화면이 초기화
 // input 값을 지우면 원래 목록으로 되돌아가지 않음
 // search
-router.post("/sub/search", async (req, res) => {
+router.post("/search", async (req, res) => {
   const value = req.body.value;
-  const catid = req.body.catid;
   try {
     let result;
     if (value === "") {
@@ -155,7 +154,6 @@ router.post("/sub/search", async (req, res) => {
           "s_bookmark",
           [sequelize.fn("count", Sequelize.col("k_keyid")), "length"],
         ],
-        where: { s_catid: catid },
         include: {
           model: KEY,
           as: "tbl_keywords",
@@ -166,11 +164,11 @@ router.post("/sub/search", async (req, res) => {
       result = await DB.sequelize.query(
         `SELECT s_subid, s_subject, s_catid, s_bookmark, COUNT(tbl_keywords.k_keyid) AS length 
         FROM tbl_subjects INNER JOIN tbl_keywords ON s_subid = k_subid 
-        WHERE s_catid = "${catid}" AND (
+        WHERE
           s_subject LIKE "%${value}%" 
           OR s_content LIKE "%${value}%" 
           OR tbl_keywords.k_keyword LIKE "%${value}%"
-          ) 
+          
         GROUP BY s_subid ORDER BY s_subject`,
         {
           type: QueryTypes.SELECT,

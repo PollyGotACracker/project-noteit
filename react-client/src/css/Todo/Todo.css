@@ -208,29 +208,7 @@ cf)
   align-items: center;
   gap: 0.4em;
 }
-.Todo *[data-prior]:after {
-  display: inline-block;
-  content: "";
-  width: 1em;
-  height: 1em;
-  border-radius: 50%;
-}
-.Todo *[data-prior="1"]:after {
-  background-color: var(--red);
-}
-.Todo *[data-prior="2"]:after {
-  background-color: var(--yellow);
-}
-.Todo *[data-prior="3"]:after {
-  background-color: var(--green);
-}
-.Todo *[data-prior="4"]:after {
-  background-color: var(--blue);
-}
-.Todo *[data-prior="5"]:after {
-  background-color: var(--violet);
-}
-/* 모드에 따른 input type="date" 캘린더 아이콘 색상 변경*/
+/* 모드에 따른 input type="date" 캘린더 아이콘 색상 변경 */
 :root[color-theme="dark"] input::-webkit-calendar-picker-indicator {
   filter: invert(1);
 }
