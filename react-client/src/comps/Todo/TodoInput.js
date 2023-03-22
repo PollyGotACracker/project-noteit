@@ -1,13 +1,15 @@
 import { useTodoContext } from "../../context/TodoContext";
+import { useUserContext } from "../../context/UserContext";
 import { useState } from "react";
 
 const TodoInput = () => {
   const { todoInsert, todoContent, setTodoContent, isEdit, setIsEdit } =
     useTodoContext();
+  const { userData } = useUserContext();
   const [showPrior, setShowPrior] = useState(false);
 
   const onClickHandler = () => {
-    todoInsert();
+    todoInsert(userData.u_userid);
     if (isEdit === true) {
       setIsEdit(false);
     }
@@ -16,7 +18,11 @@ const TodoInput = () => {
   const onChangeHandler = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    setTodoContent({ ...todoContent, [`${name}`]: value });
+    setTodoContent({
+      ...todoContent,
+      [`${name}`]: value,
+      t_userid: userData.u_userid,
+    });
   };
 
   const onChangePrior = (value) => {

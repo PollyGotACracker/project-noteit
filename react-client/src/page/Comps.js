@@ -10,6 +10,7 @@ import NoteCatMain, { catLoader } from "../comps/Note/Category/NoteCatMain";
 import NoteSubMain, { subLoader } from "../comps/Note/Subject/NoteSubMain";
 import NoteDetail, { detailLoader } from "../comps/Note/NoteDetail";
 import NoteWrite, { writeLoader } from "../comps/Note/NoteWrite";
+import NoteSearch from "../comps/Note/NoteSearch";
 import QuizMain from "../comps/Quiz/QuizMain";
 import QuizCat, { quizCatLoader } from "../comps/Quiz/QuizCat";
 import QuizSub, { quizSubLoader } from "../comps/Quiz/QuizSub";
@@ -36,6 +37,7 @@ export {
   detailLoader,
   NoteWrite,
   writeLoader,
+  NoteSearch,
   QuizMain,
   QuizCat,
   quizCatLoader,

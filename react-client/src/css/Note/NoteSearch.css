@@ -1,0 +1,42 @@
+.Search .search-value,
+.Search .search-result {
+  text-align: center;
+}
+.Search .search-value {
+  text-align: center;
+  padding: 1em;
+  font-size: 1.5em;
+}
+.Search .search-value span {
+  color: var(--accent);
+}
+.Search .search-data {
+  margin: 3.5em 1em 1em;
+}
+.Search .search-data .subject-box {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1em;
+  margin-bottom: 1em;
+  border: 1px solid var(--subborder);
+  border-radius: 5px;
+}
+.Search .search-data .subject-box .subject {
+  flex: 1;
+}
+.Search .search-data .subject-box .category {
+  margin-left: auto;
+}
+.Search .search-data .subject-box .keyword-box {
+  width: 100%;
+}
+.Search .search-data .subject-box .keyword-box .keyword {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  padding: 0.25em 2em;
+}
+.Search .search-data .subject-box .keyword-box .keyword:first-child {
+  padding-top: 1em;
+}

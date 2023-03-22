@@ -39,6 +39,7 @@ const NoteSubMain = () => {
         </div>
         <Link className="insert-btn" to={`/note/write/${catid}`} title="추가">
           <BsFillFileEarmarkPlusFill />
+          주제 추가
         </Link>
       </section>
       <section

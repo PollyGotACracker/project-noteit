@@ -27,7 +27,6 @@ nav a {
 nav a.active {
   color: var(--accent) !important;
   background-color: var(--background);
-  border-radius: 5px 0 0 5px;
 }
 nav a svg {
   display: block;

@@ -8,7 +8,7 @@ const BoardStudy = ({ data }) => {
     <div className="study">
       <div className="title">
         <RiMarkPenLine />
-        자주 틀린 주제
+        랜덤 주제
       </div>
       <div className="thumb">
         {data?.s_thumb ? (

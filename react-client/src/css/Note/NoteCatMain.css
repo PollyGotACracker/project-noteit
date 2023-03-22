@@ -27,7 +27,9 @@
   justify-content: center;
   align-items: center;
   font-size: 1.8em;
-  transition: all ease 0.2s;
+}
+.Note.Cat #insert-btn:not(:disabled) {
+  color: var(--accent);
 }
 .Note.Cat section.cat-list {
   width: 90%;
@@ -99,7 +101,6 @@
   flex: 1;
 }
 .Note.Cat .btn-box button {
-  color: var(--subtext);
   font-size: 1em;
 }
 .Note.Cat .btn-box .update-btn:hover {

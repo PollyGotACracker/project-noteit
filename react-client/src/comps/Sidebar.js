@@ -6,14 +6,17 @@ import { RiLogoutBoxLine } from "react-icons/ri";
 import { useState, useRef, forwardRef, useLayoutEffect } from "react";
 import profile from "../assets/images/profile.png";
 import { getToday } from "../data/HomeData";
-import { Link } from "react-router-dom";
-import { BsSearch } from "react-icons/bs";
+import { Link, useNavigate } from "react-router-dom";
+import { RiSunLine, RiMoonLine } from "react-icons/ri";
 
-// 부모 comp 에서 ref 를 받아 내부 요소에 사용: 2번째 파라미터로 받아야
+// forwardRef: 부모 comp 에서 useRef 를 받아 내부 요소에 사용
+// 반드시 props 와 ref 를 인수로 받음
 const Sidebar = forwardRef((props, ref) => {
+  const { sidebar, blocker } = ref;
+  const navigate = useNavigate();
   const [date, setDate] = useState(getToday().date);
   const [time, setTime] = useState(getToday().time);
-  const { userData } = useUserContext();
+  const { userData, colorTheme, setColorTheme } = useUserContext();
   const [image, setImage] = useState({ width: "", height: "" });
   const imgSrc = useRef();
   const [searchValue, setSearchValue] = useState("");
@@ -34,25 +37,51 @@ const Sidebar = forwardRef((props, ref) => {
   const searchData = async (value) => {
     setSearchValue(value);
     const fetchOption = {
-      method: "POST",
+      method: "GET",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ value: searchValue }),
     };
-    await fetch(`/note/search`, fetchOption).then((data) => data.json());
-  };
+    const res = await fetch(
+      `/note/search?value=${searchValue}`,
+      fetchOption
+    ).then((data) => data.json());
 
-  useLayoutEffect(() => {
-    searchData(searchValue);
-  }, [searchValue]);
+    navigate(`/note/search?value=${value}`, {
+      state: { data: res.result, regexp: res.regexp, value: value },
+    });
+  };
 
   const searchKeyword = (e) => {
     if (e.keyCode === 13) {
-      searchData(searchValue);
+      const chk = searchValue.replaceAll(" ", "");
+      if (chk === "") {
+        e.preventDefault();
+        return false;
+      } else {
+        searchData(searchValue);
+        sidebar.current.className = "Sidebar";
+        blocker.current.className = "blocker";
+        e.preventDefault();
+      }
     }
   };
 
+  const modeChangeHandler = (e) => {
+    let theme = "";
+    let bool = false;
+    if (e.target.checked) {
+      theme = "dark";
+      bool = true;
+    } else {
+      theme = "light";
+      bool = false;
+    }
+    localStorage.setItem("color-theme", theme);
+    document.documentElement.setAttribute("color-theme", theme);
+    setColorTheme(bool);
+  };
+
   return (
-    <aside className="Sidebar" ref={ref}>
+    <aside className="Sidebar" ref={sidebar}>
       <section className="clock">
         <div className="today">{date}</div>
         <div className="today">{time}</div>
@@ -101,6 +130,24 @@ const Sidebar = forwardRef((props, ref) => {
           onKeyDown={(e) => searchKeyword(e)}
         />
       </form>
+      <section className="theme-box">
+        <span className="light">
+          <RiSunLine />
+        </span>
+        <input
+          type="checkbox"
+          id="darkmode"
+          hidden
+          checked={colorTheme}
+          onChange={(e) => modeChangeHandler(e)}
+        />
+        <label htmlFor="darkmode" className="darkmode-toggle">
+          <span className="darkmode-btn"></span>
+        </label>
+        <span className="dark">
+          <RiMoonLine />
+        </span>
+      </section>
       <section className="logout">
         <RiLogoutBoxLine />
         <Link to={"/logout"}>로그아웃</Link>

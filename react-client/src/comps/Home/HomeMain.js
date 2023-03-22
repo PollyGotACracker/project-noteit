@@ -22,6 +22,7 @@ const HomeMain = () => {
   const [catName, setCatName] = useState("");
   const [subData, setSubData] = useState([]);
   const [wrongData, setWrongData] = useState([]);
+  const [percentData, setPercentData] = useState([]);
   const [studyData, setStudyData] = useState({});
 
   /**
@@ -43,23 +44,24 @@ const HomeMain = () => {
   useLayoutEffect(() => {
     (async () => {
       if (userData.u_userid !== "") {
-        const doughnut = await fetch(`/${userData.u_userid}/stat/wrong`).then(
+        const wrong = await fetch(`/${userData.u_userid}/stat/wrong`).then(
           (data) => data.json()
         );
-        const line = await fetch(`/${userData.u_userid}/stat/round`).then(
+        const round = await fetch(`/${userData.u_userid}/stat/round`).then(
           (data) => data.json()
         );
-        if (doughnut.error || line.error) {
-          setBoardMsg(doughnut.error);
+        if (wrong.error || round.error) {
+          setBoardMsg(wrong.error);
           return false;
         } else {
-          setCatName(doughnut.cat);
-          setSubData([...doughnut.sub]);
-          setWrongData([...doughnut.wrong]);
-          setStudyData({ ...doughnut.study });
-          setDateData([...line.date]);
-          setScoreData([...line.score]);
-          setTotalScoreData([...line.totalscore]);
+          setCatName(wrong.cat);
+          setSubData([...wrong.sub]);
+          setWrongData([...wrong.wrong]);
+          setStudyData({ ...wrong.study });
+          setDateData([...round.date]);
+          setScoreData([...round.score]);
+          setTotalScoreData([...round.totalscore]);
+          setPercentData([...round.percent]);
         }
       }
     })();
@@ -132,10 +134,10 @@ const HomeMain = () => {
           </div>
           {scoreData.length !== 0 ? (
             <MultiChart
-              cat={catName}
               dates={dateData}
               scores={scoreData}
               totalscores={totalScoreData}
+              percent={percentData}
             />
           ) : (
             <NoStat msg={boardMsg} />

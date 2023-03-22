@@ -29,42 +29,47 @@ const TodoContextProvider = ({ children }) => {
     [setTodoContentList]
   );
 
-  const todoInsert = useCallback(async () => {
-    try {
-      const data = todoContent;
-      let url = "/todo/insert";
-      let method = "POST";
+  const todoInsert = useCallback(
+    async (userid) => {
+      try {
+        const data = todoContent;
+        let url = `/todo/${userid}/insert`;
+        let method = "POST";
 
-      if (Number(todoContent.t_todoid) !== 0) {
-        url = "/todo/update";
-        method = "PUT";
+        if (Number(todoContent.t_todoid) !== 0) {
+          url = `/todo/${userid}/update`;
+          method = "PATCH";
+        }
+
+        const fetchOption = {
+          method: method,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        };
+
+        const res = await fetch(url, fetchOption);
+        const result = await res.json();
+        if (result.error) {
+          alert(result.error);
+          return false;
+        } else {
+          setTodoContentList([...result]);
+        }
+        setTodoContent({ ...initTodo() });
+      } catch (error) {
+        console.log(error);
+        alert("서버 오류");
       }
-
-      const fetchOption = {
-        method: method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      };
-
-      const res = await fetch(url, fetchOption);
-      const result = await res.json();
-      if (result.error) {
-        alert(result.error);
-        return false;
-      } else {
-        setTodoContentList([...result]);
-      }
-      setTodoContent({ ...initTodo() });
-    } catch (error) {
-      console.log(error);
-      alert("서버 오류");
-    }
-  }, [setTodoContent, setTodoContentList, todoContent]);
+    },
+    [setTodoContent, setTodoContentList, todoContent]
+  );
 
   const todoDelete = useCallback(
-    async (uid) => {
+    async (userid, uid) => {
       try {
-        const res = await fetch(`/todo/delete/${uid}`, { method: "DELETE" });
+        const res = await fetch(`/todo/${userid}/delete/${uid}`, {
+          method: "DELETE",
+        });
         const result = await res.json();
         if (result.error) {
           alert(result.error);
@@ -81,9 +86,11 @@ const TodoContextProvider = ({ children }) => {
   );
 
   const todoComplete = useCallback(
-    async (uid) => {
+    async (userid, uid) => {
       try {
-        const res = await fetch(`/todo/complete/${uid}`, { method: "PUT" });
+        const res = await fetch(`/todo/${userid}/complete/${uid}`, {
+          method: "PATCH",
+        });
         const result = await res.json();
         console.log(result);
         if (result.error) {

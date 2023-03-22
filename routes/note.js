@@ -1,7 +1,5 @@
 import express from "express";
-import sequelize from "sequelize";
-import Sequelize from "sequelize";
-import { QueryTypes } from "sequelize";
+import { Op } from "sequelize";
 import fileUp from "../modules/file_upload.js";
 import { sanitizer } from "../modules/sanitize_html.js";
 import { v4 } from "uuid";
@@ -139,43 +137,59 @@ router.get("/cat/:catid", async (req, res, next) => {
 // ** item 클릭 후 뒤로 가기 하면 화면이 초기화
 // input 값을 지우면 원래 목록으로 되돌아가지 않음
 // search
-router.post("/search", async (req, res) => {
-  const value = req.body.value;
+router.get("/search", async (req, res) => {
+  const value = req.query.value;
   try {
-    let result;
-    if (value === "") {
-      result = await SUB.findAll({
-        raw: true,
-        order: [["s_subject", "ASC"]],
-        attributes: [
-          "s_subid",
-          "s_subject",
-          "s_catid",
-          "s_bookmark",
-          [sequelize.fn("count", Sequelize.col("k_keyid")), "length"],
+    // let result;
+    // 검색 결과가 즉시 반영될 경우, 키워드 값이 없을 때 전체 데이터 표시
+    // if (value === "") {
+    //   result = await SUB.findAll({
+    //     raw: true,
+    //     order: [["s_subject", "ASC"]],
+    //     attributes: [
+    //       "s_subid",
+    //       "s_subject",
+    //       "s_catid",
+    //       "s_bookmark",
+    //       [sequelize.fn("count", Sequelize.col("k_keyid")), "length"],
+    //     ],
+    //     include: {
+    //       model: KEY,
+    //       as: "tbl_keywords",
+    //     },
+    //     group: ["tbl_subjects.s_subid"],
+    //   });
+    // } else {
+
+    // "(A|B|C)"
+    let regexp = value
+      ?.split(" ")
+      ?.filter((item) => item !== "")
+      .join("|");
+    regexp = `(${regexp})`;
+
+    const result = await SUB.findAll({
+      include: {
+        model: KEY,
+        as: "tbl_keywords",
+      },
+      where: {
+        [Op.or]: [
+          { s_subject: { [Op.regexp]: regexp } },
+          { s_content: { [Op.regexp]: regexp } },
+          { ["$tbl_keywords.k_keyword$"]: { [Op.regexp]: regexp } },
+          { ["$tbl_keywords.k_desc$"]: { [Op.regexp]: regexp } },
         ],
-        include: {
-          model: KEY,
-          as: "tbl_keywords",
-        },
-        group: ["tbl_subjects.s_subid"],
-      });
-    } else {
-      result = await DB.sequelize.query(
-        `SELECT s_subid, s_subject, s_catid, s_bookmark, COUNT(tbl_keywords.k_keyid) AS length 
-        FROM tbl_subjects INNER JOIN tbl_keywords ON s_subid = k_subid 
-        WHERE
-          s_subject LIKE "%${value}%" 
-          OR s_content LIKE "%${value}%" 
-          OR tbl_keywords.k_keyword LIKE "%${value}%"
-          
-        GROUP BY s_subid ORDER BY s_subject`,
-        {
-          type: QueryTypes.SELECT,
-        }
-      );
-    }
-    return res.json(result);
+      },
+      order: [
+        ["s_category", "ASC"],
+        ["s_subject", "ASC"],
+        [KEY, "k_index", "ASC"],
+      ],
+    });
+
+    // }
+    return res.send({ result, regexp });
   } catch (error) {
     console.error(error);
     return res.send({ error: "SQL query 실행 중 문제가 발생했습니다." });

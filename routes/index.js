@@ -50,9 +50,10 @@ router.get("/:userid/stat/wrong", async (req, res) => {
       order: [["wrongcount", "DESC"]],
       group: ["k_subid"],
     });
+    const rndIdx = Math.floor(Math.random() * _data.length);
     const study = await SUB.findOne({
       attributes: ["s_catid", "s_subid", "s_subject", "s_keycount", "s_thumb"],
-      where: { s_subid: _data[0].s_subid },
+      where: { s_subid: _data[rndIdx].s_subid },
     });
     const cat = await _cat.c_category;
     // spread 안되는 이유?
@@ -99,8 +100,8 @@ router.get("/:userid/stat/round", async (req, res) => {
     const date = await _data.map((item) => [item.sc_date, item.sc_time]);
     const score = await _data.map((item) => item.sc_score);
     const totalscore = await _data.map((item) => item.sc_totalscore);
-    const calc = await _data.map((item) => Math.round(item.calc));
-    return res.send({ date, score, totalscore, calc });
+    const percent = await _data.map((item) => Math.round(item.calc));
+    return res.send({ date, score, totalscore, percent });
   } catch (error) {
     console.error;
     return res.send({

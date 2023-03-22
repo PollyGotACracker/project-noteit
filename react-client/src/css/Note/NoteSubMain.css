@@ -1,17 +1,19 @@
 .Note.Sub {
   display: flex;
   flex-direction: column;
+  align-items: center;
   overflow-y: hidden;
   padding-top: 0 !important;
   position: relative;
 }
 .Note.Sub .title {
-  width: 100%;
+  width: 90%;
   height: 100px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 2em 4em;
+  padding: 3em 4em 2em;
+  border-bottom: 2px solid var(--primary);
 }
 .Note.Sub .title .category {
   display: flex;
@@ -27,21 +29,22 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.2em;
+  gap: 0.4em;
   margin: 0 2em 0 1em;
   font-size: 1.2em;
 }
 .Note.Sub .title .subcount svg {
-  font-size: 1.4em;
+  font-size: 1.2em;
 }
 .Note.Sub .title .insert-btn {
-  font-size: 1.5em;
   color: var(--subtext);
-  transition: all ease 0.2s;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-left: auto;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 0.4em;
 }
 .Note.Sub .title .insert-btn:hover {
   color: var(--accent);

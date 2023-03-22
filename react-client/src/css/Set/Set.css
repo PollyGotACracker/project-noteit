@@ -12,6 +12,8 @@
   padding: 2em 3em;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  gap: 2em;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px dashed var(--border);
@@ -36,7 +38,7 @@
 }
 .Set .data-box,
 .Set .account-box {
-  width: 100%;
+  flex: 1;
   display: flex;
   justify-content: flex-end;
   gap: 2vw;
@@ -44,15 +46,15 @@
 .Set .setting-box:last-child {
   border-bottom: 0;
 }
-.Set .upload-box {
-  width: 100%;
+.Set .profile-box {
+  width: 500px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .Set .upload-img-wrap {
-  width: 20vw;
-  height: 20vw;
+  width: 200px;
+  height: 200px;
   margin: 2em auto;
   border-radius: 50%;
   overflow: hidden;
@@ -78,12 +80,10 @@
   cursor: pointer;
   text-align: center;
 }
-
 .Set label[for="img-input"]:hover {
   border-color: var(--accent);
   color: var(--accent);
 }
-
 .Set input[type="file"] {
   min-height: 1.2em;
   font-size: 1em;
@@ -91,7 +91,6 @@
   flex: 1;
   text-overflow: ellipsis;
 }
-
 .Set input[type="file"]::file-selector-button {
   display: none;
 }
@@ -107,51 +106,20 @@
 }
 .Set label[for="push"] {
   cursor: pointer;
+  font-size: 2em;
   font-weight: 400;
   transition: all ease 0.2s;
 }
 .Set label[for="push"]:hover {
   color: var(--accent);
 }
-.Set .darkmode-toggle {
-  width: 100px;
-  height: 40px;
-  display: block;
-  position: relative;
-  border-radius: 30px;
-  background-color: var(--lightgray);
-  cursor: pointer;
-}
-.Set .darkmode-toggle,
-.Set .darkmode-btn {
-  transition: all ease-in 0.2s;
-}
-.Set .darkmode-toggle .darkmode-btn {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: var(--primary);
-  position: absolute;
-  top: 50%;
-  left: 3px;
-  transform: translateY(-50%);
-}
-#darkmode:checked ~ .darkmode-toggle {
-  background-color: var(--gray);
-}
-#darkmode:checked ~ .darkmode-toggle .darkmode-btn {
-  left: calc(100% - 33px);
-  background-color: var(--primary);
-}
-.Set .setting-box .theme-box {
-  width: 50%;
+.Set .account-box form {
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 1em;
+  justify-content: space-between;
+  gap: 2em;
 }
-.Set .setting-box .theme-box span {
-  display: flex;
-  align-items: center;
-  gap: 0.3em;
+@media only screen and (max-width: 1080px) {
+  .Set .profile-box {
+    width: 70vw;
+  }
 }

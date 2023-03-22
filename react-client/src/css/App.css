@@ -35,7 +35,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: 1em;
+  gap: 2em;
   background: linear-gradient(
     90deg,
     var(--sidebar),
@@ -75,7 +75,7 @@
   color: var(--text);
   transition: all ease 0.2s;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 5px;
   padding: 0.5em;
   font-size: 1em;
   min-height: 1em;
@@ -89,8 +89,8 @@
 }
 .App button:disabled,
 .App button:disabled:hover {
-  border-color: var(--lightalpha);
-  color: var(--lightalpha);
+  border-color: var(--lightgray);
+  color: var(--lightgray);
   cursor: auto;
 }
 .App input:read-only,
@@ -186,7 +186,7 @@
   }
   .Sidebar {
     right: -260px !important;
-    background-color: var(--background) !important;
+    background: var(--background) !important;
   }
   .Sidebar.active {
     right: 0 !important;
@@ -196,13 +196,13 @@
     justify-content: space-between;
     align-items: center;
     padding: 1em 2em;
-    border-bottom: 1px solid var(--border);
+    background-color: var(--sidebar);
+    box-shadow: 5px 0 5px rgba(0, 0, 0, 0.2);
   }
   .header .title {
     font-size: 1.2em;
     font-weight: 900;
     user-select: none;
-    -webkit-user-select: none;
   }
   .header .side-btn {
     color: var(--text);

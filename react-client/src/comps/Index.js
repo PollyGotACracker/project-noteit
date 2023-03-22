@@ -44,7 +44,8 @@ const Index = () => {
       <Nav />
       <main className="Index">
         <Outlet />
-        <Sidebar ref={sideRef} blocker={blockRef} />
+        {/* useRef 전달 */}
+        <Sidebar ref={{ sidebar: sideRef, blocker: blockRef }} />
       </main>
       <header className="header">
         <span className="title">NoteIT</span>

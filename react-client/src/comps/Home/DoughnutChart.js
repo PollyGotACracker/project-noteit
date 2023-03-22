@@ -6,7 +6,7 @@ import { RiDonutChartFill } from "react-icons/ri";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const DoughnutChart = ({ cat, subs, wrongs }) => {
+const DoughnutChart = ({ subs, wrongs }) => {
   const [bgColors, setBgColors] = useState([]);
 
   useEffect(() => {
@@ -73,7 +73,7 @@ const DoughnutChart = ({ cat, subs, wrongs }) => {
     <div className="chart-wrong">
       <div className="title">
         <RiDonutChartFill />
-        {cat} 주제별 오답 순위
+        주제별 오답 순위
       </div>
       <Doughnut options={options} data={data} />
     </div>

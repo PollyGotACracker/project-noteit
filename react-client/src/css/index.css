@@ -24,7 +24,7 @@
   --gray: #aaa;
   --darkgray: #555;
   --lightalpha: rgba(255, 255, 255, 0.3);
-  --semialpha: rgba(0, 0, 0, 0.08);
+  --semialpha: rgba(0, 0, 0, 0.04);
   --darkalpha: rgba(0, 0, 0, 0.5);
 }
 :root[color-theme="light"] {

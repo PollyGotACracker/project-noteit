@@ -1,10 +1,12 @@
 import { useTodoContext } from "../../context/TodoContext";
+import { useUserContext } from "../../context/UserContext";
 import { useCallback } from "react";
 import moment from "moment";
 import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
 
 const TodoItem = ({ item }) => {
   const { todoDelete, todoComplete, todoEdit, setIsEdit } = useTodoContext();
+  const { userData } = useUserContext();
 
   const deleteHandler = useCallback(
     (e) => {
@@ -14,7 +16,7 @@ const TodoItem = ({ item }) => {
       const childDiv = parent.childNodes;
       const content = childDiv[2].textContent;
       if (window.confirm(`"${content}"\n할 일 아이템을 삭제합니다.`)) {
-        todoDelete(uid);
+        todoDelete(userData.u_userid, uid);
       }
     },
     [todoDelete]
@@ -23,7 +25,7 @@ const TodoItem = ({ item }) => {
   const completeHandler = (e) => {
     const target = e.target;
     const uid = target.closest("DIV.item").dataset.id;
-    todoComplete(uid);
+    todoComplete(userData.u_userid, uid);
   };
 
   const editHandler = (e) => {

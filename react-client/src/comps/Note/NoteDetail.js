@@ -149,7 +149,7 @@ const NoteDetail = () => {
           <MdDelete />
           삭제
         </button>
-        <button>
+        <button onClick={() => window.print()}>
           <IoPrint />
           인쇄
         </button>

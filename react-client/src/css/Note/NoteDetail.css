@@ -5,7 +5,7 @@
 }
 .Detail .title {
   width: 80%;
-  padding: 2% 0;
+  padding: 5% 0;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -21,9 +21,6 @@
 }
 .Detail .menu {
   width: 100%;
-  /* display: flex; */
-  /* justify-content: space-around; */
-  /* align-items: center; */
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   border-bottom: 1px solid var(--primary);
@@ -96,7 +93,7 @@
   padding: 10px 0;
   width: 100%;
   text-align: center;
-  font-size: 3em;
+  font-size: 2em;
   font-weight: 700;
 }
 .Detail .title .category {

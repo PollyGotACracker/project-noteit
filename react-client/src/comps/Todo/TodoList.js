@@ -11,7 +11,7 @@ const TodoList = () => {
     (async () => {
       if (userData?.u_userid !== "") await fetchAll(userData?.u_userid);
     })();
-  }, [fetchAll, userData.u_userid]);
+  }, [fetchAll, userData?.u_userid]);
 
   const todoListItemView = todoContentList.map((item) => {
     return <TodoItem item={item} key={item.t_todoid} />;

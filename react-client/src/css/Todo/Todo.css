@@ -58,11 +58,10 @@ html dataset 속성과, css before 가상선택자를 사용
   background-color: var(--accent);
   color: var(--text);
   font-weight: 700;
-  cursor: pointer;
   flex-basis: 100px;
 }
 .Todo .input button:disabled {
-  background-color: var(--lightalpha);
+  background-color: var(--subborder);
 }
 .Todo .list {
   margin: 2em 1em 0;
@@ -76,8 +75,8 @@ html dataset 속성과, css before 가상선택자를 사용
   grid-template-columns: 0.5fr 1.5fr 5fr 1.5fr 1fr 1fr 0.5fr;
   align-items: center;
   justify-content: center;
-  border-top: 1px dashed var(--lightalpha);
-  margin: 0 1em;
+  border-top: 1px dashed var(--border);
+  margin: 0 2em;
 }
 .Todo .item > *:not(:nth-child(3)) {
   display: flex;

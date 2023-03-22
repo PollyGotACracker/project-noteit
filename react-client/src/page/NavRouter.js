@@ -18,6 +18,7 @@ import {
   detailLoader,
   NoteWrite,
   writeLoader,
+  NoteSearch,
   QuizMain,
   QuizCat,
   quizCatLoader,
@@ -61,10 +62,6 @@ const NavRouter = createBrowserRouter([
                 element: <NoteSubMain />,
               },
               {
-                path: "category/:catid/search",
-                element: <NoteSubMain />,
-              },
-              {
                 path: "subject/:catid/:subid",
                 loader: detailLoader,
                 element: <NoteDetail />,
@@ -73,6 +70,10 @@ const NavRouter = createBrowserRouter([
                 path: "write/:catid/:subid?",
                 loader: writeLoader,
                 element: <NoteWrite />,
+              },
+              {
+                path: "search",
+                element: <NoteSearch />,
               },
             ],
           },

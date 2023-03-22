@@ -4,18 +4,10 @@ import profile from "../../assets/images/profile.png";
 import { getUserData } from "../../service/user.service";
 import { useUserContext } from "../../context/UserContext";
 import { FaUserEdit, FaBell, FaDatabase, FaUserTimes } from "react-icons/fa";
-import { RiSunLine, RiMoonLine } from "react-icons/ri";
-import { VscColorMode } from "react-icons/vsc";
 
 const Set = () => {
-  const {
-    userData,
-    setUserData,
-    profileData,
-    setProfileData,
-    colorTheme,
-    setColorTheme,
-  } = useUserContext();
+  const { userData, setUserData, profileData, setProfileData } =
+    useUserContext();
   const [imagePrev, setImagePrev] = useState({ width: "", height: "" });
   const imgPreview = useRef(null);
   const imgInput = useRef(null);
@@ -47,21 +39,6 @@ const Set = () => {
       ...userData,
       ...result,
     });
-  };
-
-  const modeChangeHandler = (e) => {
-    let theme = "";
-    let bool = false;
-    if (e.target.checked) {
-      theme = "dark";
-      bool = true;
-    } else {
-      theme = "light";
-      bool = false;
-    }
-    localStorage.setItem("color-theme", theme);
-    document.documentElement.setAttribute("color-theme", theme);
-    setColorTheme(bool);
   };
 
   return (
@@ -98,7 +75,7 @@ const Set = () => {
             }}
           />
         </div>
-        <div className="upload-box">
+        <div className="profile-box">
           <input
             type="file"
             id="img-input"
@@ -110,12 +87,14 @@ const Set = () => {
           />
           <label htmlFor="img-input">업로드</label>
         </div>
-        <input
-          id="str-input"
-          value={profileData?.str}
-          placeholder="프로필 문구"
-          onChange={(e) => onChangeStrHandler(e)}
-        />
+        <div className="profile-box">
+          <input
+            id="str-input"
+            value={profileData?.str}
+            placeholder="프로필 문구"
+            onChange={(e) => onChangeStrHandler(e)}
+          />
+        </div>
         <button
           id="profile-update-btn"
           type="button"
@@ -134,32 +113,7 @@ const Set = () => {
         </label>
         <input type="checkbox" id="push" value="1" name="push" />
       </section>
-      <section className="setting-box">
-        <div className="title">
-          <VscColorMode />
-          테마
-        </div>
-        <div className="theme-box">
-          <span>
-            <RiSunLine />
-            light
-          </span>
-          <input
-            type="checkbox"
-            id="darkmode"
-            hidden
-            defaultChecked={colorTheme}
-            onClick={(e) => modeChangeHandler(e)}
-          />
-          <label htmlFor="darkmode" className="darkmode-toggle">
-            <span className="darkmode-btn"></span>
-          </label>
-          <span>
-            <RiMoonLine />
-            dark
-          </span>
-        </div>
-      </section>
+
       <section className="setting-box">
         <div className="title">
           <FaDatabase />

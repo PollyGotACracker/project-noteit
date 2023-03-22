@@ -27,7 +27,6 @@
   align-items: center;
   width: 100%;
   padding-bottom: 2.5%;
-  border-bottom: 1px solid var(--border);
 }
 .Home .center-box {
   width: 100%;
@@ -38,6 +37,7 @@
 }
 .Home .speak-box {
   font-size: 2em;
+  font-weight: 700;
   width: 100%;
   text-align: center;
   padding-bottom: 1em;
@@ -55,17 +55,24 @@
     border-color: transparent;
   }
 }
-
 .Home .title {
+  width: 100%;
   font-size: 1.2em;
-  padding-bottom: 1em;
+  margin-bottom: 1em;
   display: flex;
   align-items: center;
   gap: 0.5em;
   user-select: none;
-  -webkit-user-select: none;
+  padding: 0.5em;
+  white-space: nowrap;
+}
+.Home .title:after {
+  content: "";
+  flex: 1;
+  border: 1px solid var(--secondary);
 }
 .Home .title svg {
+  font-size: 1.5em;
   color: var(--secondary);
 }
 .Home div[class*="chart"] {
@@ -75,7 +82,7 @@
   width: 100%;
 }
 .Home .chart-wrong {
-  height: 30vw;
+  height: 35vw;
   flex-basis: 50%;
 }
 .Home .chart-wrong canvas {
@@ -108,7 +115,7 @@
   opacity: 0.8;
 }
 .Home .study .content {
-  padding: 1em;
+  padding: 2em 1em;
   width: 80%;
   margin: 0 auto;
   display: flex;
@@ -132,15 +139,18 @@
   padding: 0.5em;
   border-radius: 5px;
 }
-.Home .todo {
-  padding: 5vh 0 8vh;
+.Home .todo,
+.Home .chart-wrong,
+.Home .study,
+.Home .chart-round {
+  padding: 5vh 0;
 }
 .Home .todo .todo-msg {
   text-align: center;
   padding-left: 2em;
 }
 .Home .todo .todo-item {
-  padding: 0.3em 2em;
+  padding: 0.3em 5vw;
   display: grid;
   grid-template-columns: 6fr 2fr 1.5fr 1fr;
   gap: 0.5em;
@@ -179,6 +189,6 @@
     height: 70vw;
   }
   .Home .chart-round {
-    height: 40vw;
+    height: 60vw;
   }
 }

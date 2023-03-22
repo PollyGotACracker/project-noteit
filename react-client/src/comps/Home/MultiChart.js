@@ -12,6 +12,7 @@ import {
   TimeScale,
 } from "chart.js";
 import { Chart } from "react-chartjs-2";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 
 ChartJS.register(
   LinearScale,
@@ -26,7 +27,7 @@ ChartJS.register(
   TimeScale
 );
 
-const MultiChart = ({ cat, dates, scores, totalscores }) => {
+const MultiChart = ({ dates, scores, totalscores, percent }) => {
   const footer = function (tooltipItems) {
     return tooltipItems.yLabel;
     // console.log(context);
@@ -47,7 +48,25 @@ const MultiChart = ({ cat, dates, scores, totalscores }) => {
       padding: 10,
     },
     scales: {
+      y1: {
+        title: {
+          display: true,
+          text: "백분율(%)",
+        },
+        type: "linear",
+        display: true,
+        position: "left",
+        min: 0,
+        max: 100,
+      },
       y: {
+        title: {
+          display: true,
+          text: "점수(점)",
+        },
+        type: "linear",
+        display: true,
+        position: "right",
         grid: {
           color: getComputedStyle(document.documentElement).getPropertyValue(
             "--lightalpha"
@@ -56,10 +75,15 @@ const MultiChart = ({ cat, dates, scores, totalscores }) => {
       },
     },
     plugins: {
+      // ChartDataLabels
+      datalabels: {
+        align: "end",
+        formatter: (value, context) =>
+          context.datasetIndex == 0 ? value + "%" : "",
+      },
       legend: {
         position: "top",
         labels: {
-          // usePointStyle: true,
           padding: 15,
         },
       },
@@ -97,13 +121,14 @@ const MultiChart = ({ cat, dates, scores, totalscores }) => {
     labels: dates,
     datasets: [
       {
-        label: "득점",
+        label: "백분율",
         type: "line",
-        pointStyle: "circle",
-        data: scores,
+        pointStyle: "rectRot",
+        data: percent,
         pointRadius: 5,
         pointHoverRadius: 10,
         borderWidth: 1,
+        yAxisID: "y1",
         borderColor: getComputedStyle(
           document.documentElement
         ).getPropertyValue("--accent"),
@@ -112,13 +137,27 @@ const MultiChart = ({ cat, dates, scores, totalscores }) => {
         ).getPropertyValue("--accentalpha"),
       },
       {
+        label: "득점",
+        type: "line",
+        pointStyle: "circle",
+        data: scores,
+        pointRadius: 5,
+        pointHoverRadius: 10,
+        borderWidth: 0,
+        yAxisID: "y",
+        backgroundColor: getComputedStyle(
+          document.documentElement
+        ).getPropertyValue("--secondary"),
+      },
+      {
         label: "총점",
         type: "bar",
         pointStyle: "rectRounded",
         data: totalscores,
-        barThickness: 50,
+        barThickness: 40,
         borderWidth: 1,
         borderRadius: 10,
+        yAxisID: "y",
         borderColor: getComputedStyle(
           document.documentElement
         ).getPropertyValue("--primary"),
@@ -128,7 +167,7 @@ const MultiChart = ({ cat, dates, scores, totalscores }) => {
       },
     ],
   };
-  return <Chart options={options} data={data} />;
+  return <Chart options={options} data={data} plugins={[ChartDataLabels]} />;
 };
 
 export default MultiChart;
