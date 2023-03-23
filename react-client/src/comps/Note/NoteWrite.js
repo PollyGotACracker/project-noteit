@@ -124,7 +124,8 @@ const NoteWrite = () => {
     if (value === "up") {
       if (idx === 0) return false;
       [_list[idx], _list[idx - 1]] = [_list[idx - 1], _list[idx]];
-    } else if (value === "down") {
+    }
+    if (value === "down") {
       if (idx === _list.length - 1) return false;
       [_list[idx + 1], _list[idx]] = [_list[idx], _list[idx + 1]];
     }

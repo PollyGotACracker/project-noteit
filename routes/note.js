@@ -47,8 +47,8 @@ router.patch("/cat/update", async (req, res, next) => {
     const catid = req.body.c_catid;
     const value = req.body.c_category;
     await CAT.update({ c_category: value }, { where: { c_catid: catid } });
-    await SUB.update({ s_category: value }, { where: { s_catid: catid } });
-    await SCO.update({ sc_category: value }, { where: { sc_catid: catid } });
+    await SUB?.update({ s_category: value }, { where: { s_catid: catid } });
+    await SCO?.update({ sc_category: value }, { where: { sc_catid: catid } });
     return res.send({ result: "정상적으로 수정되었습니다." });
   } catch (err) {
     console.error(err);

@@ -1,0 +1,40 @@
+@media print {
+  .Sidebar,
+  nav {
+    display: none !important;
+  }
+  article {
+    padding: 0 !important;
+  }
+  .Detail .menu,
+  .Detail .keyword-list-top,
+  .Detail .keyword-list-bottom,
+  .Detail .keyword .wrong,
+  .Detail .keyword-slide button {
+    display: none !important;
+  }
+  .Detail .title {
+    padding-top: 0;
+  }
+  .Detail .keyword-slide .keyword-list-wrap {
+    width: 100%;
+  }
+  .Detail .keyword-slide,
+  .Detail .keyword-slide .keyword-list-wrap,
+  .Detail .keyword-slide .keyword {
+    overflow: visible;
+    min-height: unset;
+  }
+  .Detail .keyword-slide .keyword-list {
+    position: relative;
+    left: auto !important;
+    transform: translateX(0) !important;
+    flex-direction: column;
+    gap: 1em;
+  }
+  .Detail .content {
+    margin-left: 0;
+    margin-right: 0;
+    page-break-inside: avoid;
+  }
+}

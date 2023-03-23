@@ -1,4 +1,5 @@
 import express from "express";
+import { Op } from "sequelize";
 import DB from "../models/index.js";
 import moment from "moment";
 const TODO = DB.models.tbl_todo;
@@ -16,8 +17,11 @@ router.post("/:userid/insert", async (req, res, next) => {
 });
 router.patch("/:userid/update", async (req, res, next) => {
   const data = req.body;
+  const userid = req.params.userid;
   try {
-    await TODO.update(data, { where: { t_todoid: data.t_todoid } });
+    await TODO.update(data, {
+      where: { [Op.and]: [{ t_todoid: data.t_todoid }, { t_userid: userid }] },
+    });
     return next();
   } catch (error) {
     console.error(error);
@@ -27,8 +31,11 @@ router.patch("/:userid/update", async (req, res, next) => {
 
 router.delete("/:userid/delete/:id", async (req, res, next) => {
   const id = req.params.id;
+  const userid = req.params.userid;
   try {
-    await TODO.destroy({ where: { t_todoid: id } });
+    await TODO.destroy({
+      where: { [Op.and]: [{ t_todoid: id }, { t_userid: userid }] },
+    });
     return next();
   } catch (error) {
     console.error(error);
@@ -38,6 +45,7 @@ router.delete("/:userid/delete/:id", async (req, res, next) => {
 
 router.patch("/:userid/complete/:id", async (req, res, next) => {
   const id = req.params.id;
+  const userid = req.params.userid;
   try {
     const todo = await TODO.findByPk(id);
     const date = moment().format("YYYY[-]MM[-]DD");
@@ -48,7 +56,7 @@ router.patch("/:userid/complete/:id", async (req, res, next) => {
         t_compdate: todo.t_compdate ? "" : date,
         t_comptime: todo.t_comptime ? "" : time,
       },
-      { where: { t_todoid: id } }
+      { where: { [Op.and]: [{ t_todoid: id }, { t_userid: userid }] } }
     );
     return next();
   } catch (error) {
@@ -63,7 +71,7 @@ router.use("/:userid", async (req, res, next) => {
     const list = await TODO.findAll({
       order: [
         ["t_prior", "ASC"],
-        ["t_deadline", "DESC"],
+        ["t_deadline", "ASC"],
         ["t_date", "DESC"],
         ["t_time", "DESC"],
       ],

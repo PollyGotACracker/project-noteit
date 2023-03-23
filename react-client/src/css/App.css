@@ -17,6 +17,29 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
+}
+.App main.Intro .star {
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 40px #fff, 0 0 80px #fff;
+  animation: twinkle linear infinite;
+  opacity: 0.8;
+}
+@keyframes twinkle {
+  0% {
+    opacity: 0.8;
+  }
+  10% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.8;
+  }
 }
 .App main.Index article {
   flex: 1;
@@ -36,6 +59,12 @@
   align-items: center;
   justify-content: flex-start;
   gap: 2em;
+  /* 
+  article 의 scrollbar 가 페이지 중앙에 있는 문제로 
+  width:100%, padding 은 사이드바 너비만큼 늘림
+  scrollbar 는 부모 요소(article)의 z-index 가 적용되어 사이드바 밑으로 가려지는 문제 발생
+  따라서 사이드바의 위치를 조정하거나, 백그라운드 색상 조정해야
+  */
   background: linear-gradient(
     90deg,
     var(--sidebar),
@@ -164,9 +193,6 @@
   }
   .Nav a {
     height: 80px !important;
-  }
-  .Nav a.active {
-    border-radius: 0 0 5px 5px !important;
   }
   .Nav a.logout {
     display: none !important;

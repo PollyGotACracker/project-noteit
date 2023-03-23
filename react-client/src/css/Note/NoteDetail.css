@@ -103,7 +103,6 @@
 .Detail .title .category:hover {
   color: var(--accent);
 }
-
 .Detail .keyword-slide {
   width: 100%;
   min-height: 20vh;
@@ -113,7 +112,6 @@
   align-items: center;
 }
 .Detail .keyword-slide button:not(.copy-btn) {
-  /* margin: 0 1.2em; */
   width: 5vw;
   height: 100%;
   font-size: 2em;
@@ -129,43 +127,52 @@
   width: calc(100% - 10vw);
   min-height: 20vh;
   position: relative;
-  /* overflow: hidden; */
+  overflow: hidden;
 }
 .Detail .keyword-slide .keyword-list {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
   width: 100%;
   height: 100%;
+  transition: all ease-in-out 0.3s;
 }
 .Detail .keyword-slide .keyword {
   display: inline-block;
-  width: 100%;
+  min-width: 100%;
   min-height: 20vh;
   border: 1px solid #aaa;
   border-radius: 5px;
   padding: 10px;
   word-break: keep-all;
 }
-.Detail .keyword .name {
+.Detail .keyword .top-box {
   border-bottom: 1px dotted var(--border);
-  padding: 0.5em;
+  padding: 1em;
   text-align: center;
 }
+.Detail .keyword .top-box .wrong {
+  margin-top: 0.8em;
+  font-size: 0.8em;
+}
 .Detail .keyword-list-top {
-  width: 60%;
+  width: 80%;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
   padding: 0.5em;
 }
 .Detail .keyword-list-top .keyword-count {
-  font-weight: 700;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.2em;
+  font-size: 0.9em;
 }
 .Detail .keyword-list-top .copy-btn {
   margin: 0 0 0.2em 0.2em;
-  font-size: 0.8em;
+  font-size: 0.9em;
 }
 .Detail .keyword-list-top .copy-btn:hover {
   color: var(--accent);

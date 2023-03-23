@@ -6,17 +6,16 @@ const Main = () => {
   const TitleContent = () => {
     const titleChar = "NoteIT";
     let string = Array.from(titleChar);
-
     let content = string.map((char, index) => {
       // 1 은 cover-img 의 animation duration
-      const duration = 0.3;
-      const delay = 1 + duration * Number(index);
+      const DURATION = 0.3;
+      const delay = 1 + DURATION * Number(index);
       return (
         <span
           className="char"
           key={index}
           style={{
-            animationDuration: `${duration}s`,
+            animationDuration: `${DURATION}s`,
             animationDelay: `${delay}s`,
           }}
         >
@@ -38,6 +37,7 @@ const Main = () => {
       <div className="title">
         <TitleContent />
       </div>
+      <div className="subtitle">머리에 들어오는 그 날까지!</div>
     </article>
   );
 };

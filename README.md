@@ -7,8 +7,9 @@
 - 단어장에 주제와 세부 키워드, 이미지를 포함한 상세 설명
 - 카테고리, 주제 북마크
 - 단답식 퀴즈와 점수 표시
-- 키워드별 틀린 횟수 표시
-- 점수 통계 표시
+- 주제별 / 키워드별 틀린 횟수표시
+- 점수 기록 그래프 표시
+- 중요도, 마감일을 포함한 투두리스트
 
 ## 부가 기능
 
@@ -17,9 +18,8 @@
 - 프로필 관리
 - 배경 음악
 - 다크 모드
-- 중요도, 완료기한을 포함한 투두리스트
 
-## 개발 도구
+## DEVELOPMENT TOOLS
 
 - React
 - Node.js
@@ -27,7 +27,7 @@
 - Express
 - Sequelize
 
-## 기타
+## PACKAGES
 
 - ckeditor5
 - sanitize-html
@@ -35,6 +35,7 @@
 - moment
 - react-uuid, uuid
 - react-router-dom
-- react-chartjs-2
+- chart.js, react-chartjs-2
+- react-spinners
 - react-transition-group
 - react-icons

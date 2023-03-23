@@ -17,7 +17,7 @@ const DoughnutChart = ({ subs, wrongs }) => {
   const options = {
     responsive: true,
     maintainAspectRatio: true,
-    cutout: "80%",
+    cutout: "50%",
     plugins: {
       legend: {
         position: "left",

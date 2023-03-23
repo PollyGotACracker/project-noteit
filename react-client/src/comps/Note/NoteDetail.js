@@ -2,6 +2,7 @@ import { useState, useReducer, useRef } from "react";
 import { Link, useLoaderData, useNavigate, useParams } from "react-router-dom";
 import "../../css/Note/NoteDetail.css";
 import "../../css/Note/Content.css";
+import "../../css/Note/NotePrint.css";
 import {
   getSubDetailHandler,
   deleteSubHandler,
@@ -22,23 +23,7 @@ import {
 export const detailLoader = async ({ params }) => {
   const subid = params?.subid;
   const { data, keys } = await getSubDetailHandler(subid);
-  console.log(data, keys);
   return { data, keys };
-};
-
-const changeKeyword = (state, action) => {
-  switch (action.type) {
-    case "PREV":
-      if (state > 1) return state - 1;
-      else if (state === 1) return action.payload;
-    case "NEXT":
-      if (state < action.payload) return state + 1;
-      else if (state === action.payload) return 1;
-    case "SELECT":
-      return action.payload;
-    default:
-      return state;
-  }
 };
 
 const showMsg = (ele) => {
@@ -59,8 +44,40 @@ const NoteDetail = () => {
   const [bookmark, setBookmark] = useState(subject.s_bookmark);
   const [msg, setMsg] = useState("");
   const [copyMsg, setCopyMsg] = useState("키워드 복사");
-  const [state, dispatch] = useReducer(changeKeyword, 1);
+  const [position, setPosition] = useState(0);
   const bookmarkRef = useRef(null);
+
+  const changeKeyword = (state, action) => {
+    switch (action.type) {
+      case "PREV":
+        if (state > 1) {
+          setPosition(position + 100);
+          return state - 1;
+        }
+        if (state === 1) {
+          setPosition((action.payload - 1) * 100 * -1);
+          return action.payload;
+        }
+      case "NEXT":
+        if (state < action.payload) {
+          setPosition(position - 100);
+          return state + 1;
+        }
+        if (state === action.payload) {
+          setPosition(0);
+          return 1;
+        }
+      case "SELECT": {
+        setPosition((action.payload - 1) * 100 * -1);
+        return action.payload;
+      }
+      default: {
+        setPosition(state * 100 * -1);
+        return state;
+      }
+    }
+  };
+  const [state, dispatch] = useReducer(changeKeyword, 1);
 
   const bookmarkHandler = async () => {
     try {
@@ -100,11 +117,16 @@ const NoteDetail = () => {
     }, 3000);
   };
 
-  const keywordList = keywords.map((ele) => {
+  const keywordList = keywords.map((ele, idx) => {
     return (
-      <div key={ele.k_keyid} data-id={ele.k_index} className="keyword">
-        <div className="name">
-          <span>{ele.k_keyword}</span>
+      <div
+        key={`${ele.k_keyid}-${idx}`}
+        data-id={ele.k_index}
+        className="keyword"
+      >
+        <div className="top-box">
+          <div className="key">{ele.k_keyword}</div>
+          <div className="wrong">틀린 횟수: {ele.k_wrongcount}</div>
         </div>
         <div className="desc">{ele.k_desc}</div>
       </div>
@@ -112,10 +134,10 @@ const NoteDetail = () => {
   });
   const [keywordSlide] = useState([...keywordList]);
 
-  const keywordDot = keywords.map((ele) => {
+  const keywordDot = keywords.map((ele, idx) => {
     return (
       <button
-        key={ele.k_keyid}
+        key={`${ele.k_keyid}-${idx}`}
         className={state === ele.k_index ? "keyword-dot active" : "keyword-dot"}
         onClick={() => dispatch({ type: "SELECT", payload: ele.k_index })}
       >
@@ -172,8 +194,9 @@ const NoteDetail = () => {
       <section className="keyword-list-top">
         <div className="keyword-count">
           <FaTags />
-          {state}/{subject.s_keycount}
+          {state} / {subject.s_keycount}
         </div>
+
         <button className="copy-btn" onClick={copyKeyword}>
           {copyMsg === "키워드 복사" ? <FaClipboard /> : <FaCheck />}
           <span className="copy-msg">{copyMsg}</span>
@@ -187,7 +210,12 @@ const NoteDetail = () => {
           <FaCaretLeft />
         </button>
         <div className="keyword-list-wrap">
-          <div className="keyword-list">{keywordSlide[state - 1]}</div>
+          <div
+            className="keyword-list"
+            style={{ transform: `translateX(${position}%)` }}
+          >
+            {keywordSlide}
+          </div>
         </div>
         <button
           className="next"

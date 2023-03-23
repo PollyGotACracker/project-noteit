@@ -8,7 +8,7 @@
   color: var(--lightgray) !important;
 }
 .Intro .link-box {
-  padding: 2em 4em;
+  padding: 4em 6em;
   display: flex;
   justify-content: flex-end;
   gap: 5em;
@@ -44,6 +44,7 @@
   left: -10%;
   bottom: -5em;
   opacity: 0.8;
+  z-index: 10;
 }
 
 .Join .join-img circle:first-of-type {
@@ -63,13 +64,27 @@
 .Join .form {
   display: flex;
   flex-direction: column;
-  gap: 1em;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 3em;
   width: 60vh;
   height: 60vh;
   padding: 5em;
   background: rgba(255, 255, 255, 0.2);
   border-radius: 10px;
   z-index: 2;
+}
+.Join .form .greeting-msg {
+  font-size: 3em;
+  font-weight: 700;
+  flex: 1;
+}
+.Join .form input {
+  width: 100%;
+}
+.Join .form button {
+  align-self: flex-end;
+  flex: 1;
 }
 
 .Main {
@@ -81,9 +96,8 @@
   justify-content: center;
 }
 .Main .cover-img {
-  /* width: 60vh;
-  height: 40vh; */
   flex: 2;
+  z-index: 10;
 }
 .Main .cover-img g:first-of-type {
   transform-origin: center;
@@ -105,7 +119,7 @@
   letter-spacing: 0.1em;
   white-space: nowrap;
   user-select: none;
-  flex: 1;
+  flex: 0.5;
 }
 .Main .title .char {
   display: inline-block;
@@ -122,7 +136,10 @@
     transform: translateY(0);
   }
 }
-
+.Main .subtitle {
+  color: var(--light);
+  flex: 1;
+}
 .Login form.login {
   display: flex;
   flex-direction: column;

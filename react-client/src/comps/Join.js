@@ -4,6 +4,7 @@ const Join = () => {
   return (
     <article className="Join">
       <div className="form">
+        <div className="greeting-msg">반갑습니다!</div>
         <input
           id="u_userid"
           name="u_userid"
@@ -25,8 +26,7 @@ const Join = () => {
           placeholder="비밀번호 확인"
           autoComplete="false"
         />
-        <button type="button">가입</button>
-        <button type="button">Google</button>
+        <button type="button">완료</button>
       </div>
       <JoinSvg
         className="join-img"

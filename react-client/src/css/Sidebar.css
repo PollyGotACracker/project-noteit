@@ -122,6 +122,7 @@
 .Sidebar .clock {
   width: 100%;
   text-align: center;
+  padding-bottom: 0;
 }
 .Sidebar .clock > * {
   font-size: 0.8em;
