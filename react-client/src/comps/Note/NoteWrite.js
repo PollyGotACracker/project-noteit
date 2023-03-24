@@ -118,6 +118,12 @@ const NoteWrite = () => {
     setKeywordList([...keywordList, initKey()]);
   };
 
+  /**
+   * destructuring 을 이용한 배열 요소 순서 변경
+   * 변수의 값을 재할당하는 방식
+   * 단, 객체 리터럴일 경우 코드 전체를 소괄호로 묶어야
+   * 중괄호를 코드 블록이 아닌 표현식으로 인식
+   */
   const moveKeyword = (e, idx) => {
     const value = e.currentTarget.name;
     const _list = [...keywordList];
