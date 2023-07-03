@@ -1,6 +1,6 @@
 import { useTodoContext } from "../../context/TodoContext";
 import { useUserContext } from "../../context/UserContext";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const TodoInput = () => {
   const { todoInsert, todoContent, setTodoContent, isEdit, setIsEdit } =
@@ -86,4 +86,4 @@ const TodoInput = () => {
   );
 };
 
-export default TodoInput;
+export default React.memo(TodoInput);

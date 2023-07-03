@@ -1,6 +1,6 @@
 import { useTodoContext } from "../../context/TodoContext";
 import { useUserContext } from "../../context/UserContext";
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 import moment from "moment";
 import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
 
@@ -43,8 +43,8 @@ const TodoItem = ({ item }) => {
 
   return (
     <div className="item" data-id={item.t_todoid}>
-      <div className="delete" onClick={deleteHandler}>
-        <AiOutlineClose />
+      <div className="complete" onClick={completeHandler}>
+        <AiOutlineCheck />
       </div>
       <div className="date">
         <div>{item.t_date}</div>
@@ -68,11 +68,11 @@ const TodoItem = ({ item }) => {
           : `D${dDay > 0 ? "+" : ""}${dDay}`}
       </div>
       <div className="prior" data-prior={item.t_prior}></div>
-      <div className="complete" onClick={completeHandler}>
-        <AiOutlineCheck />
+      <div className="delete" onClick={deleteHandler}>
+        <AiOutlineClose />
       </div>
     </div>
   );
 };
 
-export default TodoItem;
+export default React.memo(TodoItem);

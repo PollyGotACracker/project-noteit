@@ -1,9 +1,9 @@
 /**
  * http Server Setting
  */
-import http from 'http';
-import app from './app.js';
-import createDebug from 'debug';
+import http from "http";
+import app from "./app.js";
+import createDebug from "debug";
 
 // port number check
 const normalizePort = (val) => {
@@ -21,8 +21,7 @@ const normalizePort = (val) => {
   return false;
 };
 
-
-const debug = createDebug('project-voca:server');
+const debug = createDebug("project-note:server");
 const port = normalizePort(process.env.PORT || "3000");
 
 /**
@@ -30,7 +29,6 @@ const port = normalizePort(process.env.PORT || "3000");
  * http and app(express framework) integration
  */
 const server = http.createServer(app);
-
 
 server.listen(port);
 
@@ -46,11 +44,9 @@ server.on("error", (error) => {
     case "EACCES":
       console.error(bind + " requires elevated privileges");
       process.exit(1);
-      break;
     case "EADDRINUSE":
       console.error(bind + " is already in use");
       process.exit(1);
-      break;
     default:
       throw error;
   }

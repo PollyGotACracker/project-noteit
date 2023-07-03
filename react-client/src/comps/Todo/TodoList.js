@@ -1,23 +1,33 @@
-import { useLayoutEffect } from "react";
+import { useEffect, createRef } from "react";
 import { useUserContext } from "../../context/UserContext";
 import { useTodoContext } from "../../context/TodoContext";
+import useLoading from "../../hooks/useLoading";
+import ListContainer from "../../components/ListContainer";
+import ListItem from "../../components/ListItem";
 import TodoItem from "./TodoItem";
 
 const TodoList = () => {
   const { userData } = useUserContext();
   const { fetchAll, todoContentList } = useTodoContext();
+  const { isLoading, showContent } = useLoading();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     (async () => {
-      if (userData?.u_userid !== "") await fetchAll(userData?.u_userid);
+      userData?.u_userid && (await fetchAll(userData?.u_userid));
+      todoContentList && showContent();
     })();
-  }, [fetchAll, userData?.u_userid]);
+  }, []);
 
-  const todoListItemView = todoContentList.map((item) => {
-    return <TodoItem item={item} key={item.t_todoid} />;
+  const todoContent = todoContentList.map((item) => {
+    const nodeRef = createRef(null);
+    return (
+      <ListItem key={item.t_todoid} nodeRef={nodeRef}>
+        <TodoItem item={item} />
+      </ListItem>
+    );
   });
 
-  return <section className="list">{todoListItemView}</section>;
+  return <ListContainer isLoading={isLoading}>{todoContent}</ListContainer>;
 };
 
 export default TodoList;

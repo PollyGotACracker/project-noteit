@@ -219,3 +219,22 @@ cf)
     flex: 1;
   }
 }
+
+/* React Transition Group */
+.Todo .list .item-enter {
+  opacity: 0;
+}
+
+.Todo .list .item-enter-active {
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.Todo .list .item-exit {
+  opacity: 1;
+}
+
+.Todo .list .item-exit-active {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
