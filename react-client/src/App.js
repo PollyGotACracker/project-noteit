@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Outlet, useLoaderData } from "react-router-dom";
-import "./css/App.css";
-import { useUserContext } from "./context/UserContext";
+import "./styles/App.css";
+import { useUserContext } from "./contexts/UserContext";
 
 export const getUserColorTheme = () => {
   /**
