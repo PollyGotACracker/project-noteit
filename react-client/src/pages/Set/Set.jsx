@@ -1,15 +1,15 @@
 import "../../styles/Set/Set.css";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import profile from "../../assets/images/profile.png";
 import { getUserData } from "../../service/user.service";
 import { useUserContext } from "../../contexts/UserContext";
 import { FaUserEdit, FaBell, FaDatabase, FaUserTimes } from "react-icons/fa";
+import SettingBox from "../../components/SettingBox";
+import UserAvatar from "../../components/UserAvatar";
 
 const Set = () => {
   const { userData, setUserData, profileData, setProfileData } =
     useUserContext();
-  const [imagePrev, setImagePrev] = useState({ width: "", height: "" });
-  const imgPreview = useRef(null);
   const imgInput = useRef(null);
 
   const onChangeStrHandler = (e) => {
@@ -43,36 +43,16 @@ const Set = () => {
 
   return (
     <article className="Set">
-      <section className="setting-box">
-        <div className="title">
-          <FaUserEdit />
-          프로필 설정
-        </div>
+      <SettingBox icon={<FaUserEdit />} title={"프로필 설정"}>
         <div className="upload-img-wrap">
-          <img
-            className="upload"
+          <UserAvatar
             src={
-              profileData.src !== ""
+              profileData.src
                 ? profileData.src
-                : userData.u_profileimg !== ""
-                ? `http://localhost:3000/uploads/${userData.u_profileimg}`
+                : userData.u_profileimg
+                ? `/uploads/${userData.u_profileimg}`
                 : profile
             }
-            alt={profileData?.name}
-            ref={imgPreview}
-            onLoad={() => {
-              setImagePrev({
-                ...imagePrev,
-                width: imgPreview.current?.naturalWidth,
-                height: imgPreview.current?.naturalHeight,
-              });
-            }}
-            style={{
-              transform:
-                imagePrev.width < imagePrev.height
-                  ? `scale(${(imagePrev.height / imagePrev.width) * 1.1})`
-                  : "",
-            }}
           />
         </div>
         <div className="profile-box">
@@ -102,34 +82,21 @@ const Set = () => {
         >
           등록
         </button>
-      </section>
-      <section className="setting-box">
-        <div className="title">
-          <FaBell />
-          PUSH 알림
-        </div>
+      </SettingBox>
+      <SettingBox icon={<FaBell />} title={"PUSH 알림"}>
         <label htmlFor="push">
           <FaBell />
         </label>
         <input type="checkbox" id="push" value="1" name="push" />
-      </section>
-
-      <section className="setting-box">
-        <div className="title">
-          <FaDatabase />
-          데이터 삭제
-        </div>
+      </SettingBox>
+      <SettingBox icon={<FaDatabase />} title={"데이터 삭제"}>
         <div className="data-box">
           <button>노트 삭제</button>
           <button>목표 삭제</button>
           <button>점수 삭제</button>
         </div>
-      </section>
-      <section className="setting-box">
-        <div className="title">
-          <FaUserTimes />
-          계정 삭제
-        </div>
+      </SettingBox>
+      <SettingBox icon={<FaUserTimes />} title={"계정 삭제"}>
         <div className="account-box">
           <form>
             <input
@@ -143,7 +110,7 @@ const Set = () => {
             <button type="button">삭제</button>
           </form>
         </div>
-      </section>
+      </SettingBox>
     </article>
   );
 };

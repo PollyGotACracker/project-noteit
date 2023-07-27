@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { genColor } from "../../data/HomeData";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
+import genColor from "../../utils/genColor";
 import { RiDonutChartFill } from "react-icons/ri";
 
 ChartJS.register(ArcElement, Tooltip, Legend);

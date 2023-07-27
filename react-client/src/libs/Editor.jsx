@@ -1,9 +1,10 @@
 // https://ckeditor.com/ckeditor-5/online-builder/
 // https://ckeditor.com/docs/ckeditor5/latest/installation/frameworks/react.html
 
-import Editor from "ckeditor5-custom-build/build/ckeditor";
+import CustomEditor from "ckeditor5-custom-build/build/ckeditor";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
-export const EditorModule = ({ data, handler, subid }) => {
+
+export const Editor = ({ data, handler, subid }) => {
   // UploadAdapter Interface 를 implement 하여 CustomAdapter 구현
   class imageUploadAdapter {
     constructor(loader) {
@@ -94,7 +95,7 @@ export const EditorModule = ({ data, handler, subid }) => {
   // mediaEmbed: 미디어(영상) 링크 embed 하여 게시글 저장 시 oembed 대신 iframe tag 로 저장
   return (
     <CKEditor
-      editor={Editor}
+      editor={CustomEditor}
       config={{
         mediaEmbed: {
           previewsInData: true,
@@ -121,4 +122,4 @@ export const EditorModule = ({ data, handler, subid }) => {
   );
 };
 
-export default EditorModule;
+export default Editor;

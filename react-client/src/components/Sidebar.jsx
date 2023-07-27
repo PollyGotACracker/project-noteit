@@ -3,11 +3,13 @@ import Player from "./Player";
 import { useUserContext } from "../contexts/UserContext";
 import { GiStarsStack } from "react-icons/gi";
 import { RiLogoutBoxLine } from "react-icons/ri";
-import { useState, useRef, forwardRef, useLayoutEffect } from "react";
+import { useState, forwardRef, useLayoutEffect } from "react";
 import profile from "../assets/images/profile.png";
 import { getToday } from "../data/HomeData";
 import { Link, useNavigate } from "react-router-dom";
 import { RiSunLine, RiMoonLine } from "react-icons/ri";
+import UserAvatar from "./UserAvatar";
+import { setThemeStorage } from "../utils/manageThemeStorage";
 
 // forwardRef: 부모 comp 에서 useRef 를 받아 내부 요소에 사용
 // 반드시 props 와 ref 를 인수로 받음
@@ -17,8 +19,6 @@ const Sidebar = forwardRef((props, ref) => {
   const [date, setDate] = useState(getToday().date);
   const [time, setTime] = useState(getToday().time);
   const { userData, colorTheme, setColorTheme } = useUserContext();
-  const [image, setImage] = useState({ width: "", height: "" });
-  const imgSrc = useRef();
   const [searchValue, setSearchValue] = useState("");
 
   const changeClock = () => {
@@ -65,19 +65,9 @@ const Sidebar = forwardRef((props, ref) => {
     }
   };
 
-  const modeChangeHandler = (e) => {
-    let theme = "";
-    let bool = false;
-    if (e.target.checked) {
-      theme = "dark";
-      bool = true;
-    } else {
-      theme = "light";
-      bool = false;
-    }
-    localStorage.setItem("color-theme", theme);
-    document.documentElement.setAttribute("color-theme", theme);
-    setColorTheme(bool);
+  const modeChangeHandler = ({ target }) => {
+    setThemeStorage(target.checked);
+    setColorTheme(target.checked);
   };
 
   return (
@@ -88,27 +78,12 @@ const Sidebar = forwardRef((props, ref) => {
       </section>
       <section className="profile">
         <div className="profile-img">
-          <img
-            alt="avatar"
+          <UserAvatar
             src={
               userData?.u_profileimg
                 ? `/uploads/${userData?.u_profileimg}`
                 : profile
             }
-            ref={imgSrc}
-            onLoad={() =>
-              setImage({
-                ...image,
-                width: imgSrc.current?.naturalWidth,
-                height: imgSrc.current?.naturalHeight,
-              })
-            }
-            style={{
-              transform:
-                image.width < image.height
-                  ? `scale(${(image.height / image.width) * 1.1})`
-                  : "",
-            }}
           />
         </div>
         <div className="nickname">{userData?.u_nickname}</div>

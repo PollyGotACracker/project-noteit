@@ -1,4 +1,4 @@
-import EditorModule from "./EditorModule";
+import Editor from "../../libs/Editor";
 import "../../styles/Note/NoteWrite.css";
 import "../../styles/Note/Content.css";
 import moment from "moment";
@@ -244,7 +244,7 @@ const NoteWrite = () => {
         </section>
         <section>
           <label htmlFor="content">메모</label>
-          <EditorModule
+          <Editor
             data={noteSub.s_content}
             handler={onChangeContentHandler}
             subid={noteSub.s_subid}
@@ -252,8 +252,14 @@ const NoteWrite = () => {
         </section>
 
         <section className="btn-box">
-          {/* INSERT 시에는 subid 없어야 */}
-          <Link id="back" to={`/note/subject/${catid}/${subid}`}>
+          <Link
+            id="back"
+            to={
+              subid
+                ? `/note/subject/${catid}/${subid}`
+                : `/note/category/${catid}`
+            }
+          >
             뒤로
           </Link>
           <button type="button" id="submit" onClick={submitHandler}>
