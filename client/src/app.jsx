@@ -1,10 +1,15 @@
 import { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { useRoutes } from "react-router-dom";
+import { QueryClientProvider } from "react-query";
 import "@styles/app.css";
+import { routes } from "@/router";
+import { getClient } from "@services/core";
 import { useUserContext } from "@contexts/userContext";
 import { getThemeStorage, setThemeStorage } from "@utils/manageThemeStorage";
 
 const App = () => {
+  const route = useRoutes(routes);
+  const queryClient = getClient();
   const { setColorTheme } = useUserContext();
 
   useEffect(() => {
@@ -14,9 +19,7 @@ const App = () => {
   }, []);
 
   return (
-    <div className="App">
-      <Outlet />
-    </div>
+    <QueryClientProvider client={queryClient}>{route}</QueryClientProvider>
   );
 };
 

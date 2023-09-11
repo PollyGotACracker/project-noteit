@@ -26,27 +26,14 @@ const NoteCatPage = () => {
   };
 
   const insertCat = useCallback(async () => {
-    try {
-      const fetchOption = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(noteCat),
-      };
-      let res = await fetch("/server/note/cat/insert", fetchOption);
-      res = await res.json();
-      if (res.error) {
-        alert(res.error);
-      } else {
-        alert(res.result);
-      }
-      setNoteCat({ ...initCat() });
-      const data = await getCatHandler();
-      setNoteCatList([...data]);
-      document.querySelector("input[name='c_category']").value = "";
-    } catch (error) {
-      console.log(error);
-      alert("서버 연결에 문제가 발생했습니다.");
-    }
+    const res = await insertCat(noteCat);
+    if (res?.error) alert(res.error);
+    else alert(res.result);
+
+    setNoteCat({ ...initCat() });
+    const data = await getCatHandler();
+    setNoteCatList([...data]);
+    document.querySelector("input[name='c_category']").value = "";
   }, [setNoteCat, noteCat, initCat]);
 
   const onKeyDownHandler = (e) => {

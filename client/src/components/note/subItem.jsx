@@ -1,6 +1,10 @@
 import { useState, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
-import { deleteSubHandler, getSubHandler } from "@services/note.service";
+import {
+  deleteSubHandler,
+  getSubHandler,
+  updateSubBookmark,
+} from "@services/note.service";
 import { useNoteContext } from "@contexts/noteContext";
 import { RxBookmark, RxBookmarkFilled } from "react-icons/rx";
 import { FaTags } from "react-icons/fa";
@@ -11,24 +15,12 @@ const NoteSubItem = ({ item }) => {
   const { setNoteSubList } = useNoteContext();
   const [bookmark, setBookmark] = useState(item.s_bookmark);
 
-  // detail 과 통합할 것
   const bookmarkHandler = useCallback(
     async (e) => {
-      const subid = e.target.closest(".item").dataset.id;
-      try {
-        let res = await fetch(`/server/note/sub/bookmark/${subid}`, {
-          method: "PATCH",
-        });
-        res = await res.json();
-        if (res.error) {
-          alert(res.error);
-        } else {
-          setBookmark(res.result);
-        }
-      } catch (error) {
-        console.log(error);
-        alert("서버 접속 중 오류가 발생했습니다.");
-      }
+      const subId = e.target.closest(".item").dataset.id;
+      const res = await updateSubBookmark(subId);
+      if (res?.error) alert(res.error);
+      else setBookmark(res);
     },
     [setBookmark]
   );

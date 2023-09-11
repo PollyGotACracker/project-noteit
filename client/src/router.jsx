@@ -1,6 +1,5 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {
-  App,
+  GlobalLayout,
   SignInGnb,
   SignOutGnb,
   Main,
@@ -25,10 +24,10 @@ import {
   Error,
 } from "@/routeList.js";
 
-const NavRouter = createBrowserRouter([
+export const routes = [
   {
     path: "/",
-    element: <App />,
+    element: <GlobalLayout />,
     children: [
       {
         path: "",
@@ -84,10 +83,4 @@ const NavRouter = createBrowserRouter([
       { path: "*", element: <Error /> },
     ],
   },
-]);
-
-const NavRouterProvider = () => {
-  return <RouterProvider router={NavRouter}></RouterProvider>;
-};
-
-export default NavRouterProvider;
+];

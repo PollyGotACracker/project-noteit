@@ -1,7 +1,9 @@
 import "@styles/dashboard.css";
-import { useState, useRef, useLayoutEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { defaults } from "chart.js";
+import { useQueries } from "react-query";
 import { RiLineChartLine } from "react-icons/ri";
+import getDashboardQueries from "@services/dashboard.service";
 import { useUserContext } from "@contexts/userContext";
 import { speakListData } from "@data/dashboard";
 import Todo from "@components/dashboard/todo";
@@ -12,25 +14,14 @@ import Scores from "@components/dashboard/scores";
 
 const DashboardPage = () => {
   const { userData } = useUserContext();
+  const userId = "polly@gmail.com";
+  const [{ data: todos }, { data: wrongs }, { data: scores }] = useQueries(
+    getDashboardQueries(userId)
+  );
+
   const speak = useRef(null);
   const speakMsgRef = useRef(null);
-  const [boardMsg, setBoardMsg] = useState("");
   const [speakList] = useState(speakListData);
-  const [dateData, setDateData] = useState([]);
-  const [scoreData, setScoreData] = useState([]);
-  const [totalScoreData, setTotalScoreData] = useState([]);
-  const [catName, setCatName] = useState("");
-  const [subData, setSubData] = useState([]);
-  const [wrongData, setWrongData] = useState([]);
-  const [percentData, setPercentData] = useState([]);
-  const [studyData, setStudyData] = useState({});
-
-  /**
-   * cf)
-   * useEffect() 내에서 console.log 가 두 번 이상 실행될 경우
-   * <React.StrictMode>
-   * 코드의 문제를 감지하고 경고하기 위해 구성 요소를 두 번 렌더링
-   */
 
   // default chart style
   defaults.font.family = getComputedStyle(
@@ -40,32 +31,6 @@ const DashboardPage = () => {
   defaults.color = getComputedStyle(document.documentElement).getPropertyValue(
     "--subtext"
   );
-
-  useLayoutEffect(() => {
-    (async () => {
-      if (userData.u_userid !== "") {
-        const wrong = await fetch(
-          `/server/${userData.u_userid}/stat/wrong`
-        ).then((data) => data.json());
-        const round = await fetch(
-          `/server/${userData.u_userid}/stat/round`
-        ).then((data) => data.json());
-        if (wrong.error || round.error) {
-          setBoardMsg(wrong.error);
-          return false;
-        } else {
-          setCatName(wrong.cat);
-          setSubData([...wrong.sub]);
-          setWrongData([...wrong.wrong]);
-          setStudyData({ ...wrong.study });
-          setDateData([...round.date]);
-          setScoreData([...round.score]);
-          setTotalScoreData([...round.totalscore]);
-          setPercentData([...round.percent]);
-        }
-      }
-    })();
-  }, [userData.u_userid, userData.u_totalscore]);
 
   // 코드 수정할 것
   const typeWriter = (text) => {
@@ -99,7 +64,7 @@ const DashboardPage = () => {
     typing();
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const index = Math.floor(Math.random() * speakList.length + 1);
     const msg = speakList[index - 1];
     typeWriter(msg);
@@ -116,13 +81,19 @@ const DashboardPage = () => {
           <div className="speak-box">
             <span className="speak" ref={speak}></span>
           </div>
-          <div className="subject">최근 공부한 노트: {catName || "없음"}</div>
+          <div className="subject">
+            최근 공부한 노트: {wrongs?.cat || "없음"}
+          </div>
         </section>
-        <Todo />
-        {totalScoreData.length !== 0 ? (
+        <Todo todos={todos} />
+        {scores?.totalscore?.length !== 0 ? (
           <section className="center-box">
-            <Wrongs cat={catName} subs={subData} wrongs={wrongData} />
-            <Article data={studyData} />
+            <Wrongs
+              cat={wrongs?.cat}
+              subs={wrongs?.sub}
+              wrongs={wrongs?.wrong}
+            />
+            <Article data={wrongs?.study} />
           </section>
         ) : (
           ""
@@ -132,15 +103,15 @@ const DashboardPage = () => {
             <RiLineChartLine />
             퀴즈 기록
           </div>
-          {scoreData.length !== 0 ? (
+          {scores?.score?.length !== 0 ? (
             <Scores
-              dates={dateData}
-              scores={scoreData}
-              totalscores={totalScoreData}
-              percent={percentData}
+              dates={scores?.date}
+              scores={scores?.score}
+              totalscores={scores?.totalscore}
+              percent={scores?.percent}
             />
           ) : (
-            <NoStat msg={boardMsg} />
+            <NoStat msg={wrongs?.error} />
           )}
         </div>
       </section>

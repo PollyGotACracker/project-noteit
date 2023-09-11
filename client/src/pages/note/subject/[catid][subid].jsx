@@ -80,21 +80,12 @@ const NoteDetailPage = () => {
   const [state, dispatch] = useReducer(changeKeyword, 1);
 
   const bookmarkHandler = async () => {
-    try {
-      let res = await fetch(`/server/note/sub/bookmark/${subid}`, {
-        method: "PATCH",
-      });
-      res = await res.json();
-      if (res.error) {
-        alert(res.error);
-      } else {
-        setBookmark(res.result);
-        setMsg(res.MESSAGE);
-        showMsg(bookmarkRef.current);
-      }
-    } catch (error) {
-      console.log(error);
-      alert("서버 접속 중 오류가 발생했습니다.");
+    let res = await updateSubBookmark(subid);
+    if (res?.error) alert(res.error);
+    else {
+      setBookmark(res.result);
+      setMsg(res.MESSAGE);
+      showMsg(bookmarkRef.current);
     }
   };
 

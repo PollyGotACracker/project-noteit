@@ -1,13 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import { RecoilRoot } from "recoil";
 import "@styles/global.css";
 import { UserContextProvider } from "@contexts/userContext";
-import NavRouterProvider from "@/router";
+import App from "./app";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   // <React.StrictMode>
   <UserContextProvider>
-    <NavRouterProvider />
+    <RecoilRoot>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </RecoilRoot>
   </UserContextProvider>
   // </React.StrictMode>
 );

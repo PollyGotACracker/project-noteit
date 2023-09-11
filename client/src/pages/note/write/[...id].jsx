@@ -5,7 +5,7 @@ import moment from "moment";
 import { MdDelete } from "react-icons/md";
 import { FaCaretUp, FaCaretDown } from "react-icons/fa";
 import { AiOutlineInfoCircle } from "react-icons/ai";
-import { getSubDetailHandler } from "@services/note.service";
+import { getSubDetailHandler, getSubWriteData } from "@services/note.service";
 import { initSub, initKey } from "@data/note";
 import Editor from "@libs/editor";
 
@@ -14,34 +14,27 @@ export const writeLoader = async ({ params }) => {
   const subid = params?.subid;
   let subData = {};
   let keyData = [];
-  try {
-    // category 이름 select
-    let res = await fetch(`/server/note/cat/write/${catid}`).then((data) =>
-      data.json()
-    );
-    if (res.error) {
-      return alert(res.error);
-    } else {
-      subData = { s_category: res[0].c_category };
-      keyData = [];
-    }
 
-    // path 에 subid 가 있을 경우(UPDATE)
-    if (subid) {
-      const res = await getSubDetailHandler(subid);
-      if (res) {
-        subData = {
-          ...res.data,
-          s_date: moment().format("YYYY[-]MM[-]DD"),
-        };
-        keyData = res.keys;
-      }
-    }
-    return { subData, keyData };
-  } catch (error) {
-    console.log(error);
-    return alert("서버 연결에 문제가 발생했습니다.");
+  // category 이름 select
+  let res = await getSubWriteData(catid);
+  if (res?.error) return alert(res.error);
+  else {
+    subData = { s_category: res[0].c_category };
+    keyData = [];
   }
+
+  // path 에 subid 가 있을 경우(UPDATE)
+  if (subid) {
+    const res = await getSubDetailHandler(subid);
+    if (res) {
+      subData = {
+        ...res.data,
+        s_date: moment().format("YYYY[-]MM[-]DD"),
+      };
+      keyData = res.keys;
+    }
+  }
+  return { subData, keyData };
 };
 
 const NoteWritePage = () => {
@@ -159,50 +152,38 @@ const NoteWritePage = () => {
   };
 
   const submitHandler = async () => {
-    try {
-      let method = "POST";
-      let url = `/server/note/sub/insert`;
-      let subjects = { ...noteSub, s_catid: catid };
-
-      const keywords = keywordList.map((key, idx) => {
-        key.k_subid = noteSub.s_subid;
-        key.k_index = idx + 1;
-        return key;
+    const keywords = keywordList.map((key, idx) => {
+      key.k_subid = noteSub.s_subid;
+      key.k_index = idx + 1;
+      return key;
+    });
+    const images = document?.querySelectorAll(".ck-content img");
+    if (images) {
+      const imageArr = Array?.from(images).map((item) => {
+        const index = item?.src?.lastIndexOf("/");
+        const url = item?.src?.slice(index + 1);
+        return url;
       });
-
-      const images = document?.querySelectorAll(".ck-content img");
-      if (images) {
-        const imageArr = Array?.from(images).map((item) => {
-          const index = item?.src?.lastIndexOf("/");
-          const url = item?.src?.slice(index + 1);
-          return url;
-        });
-        subjects = {
-          ...subjects,
-          s_thumb: imageArr[0],
-          s_attachs: `${imageArr}`,
-        };
-      }
-
-      if (subid) {
-        method = "PATCH";
-        url = `/server/note/sub/update`;
-        subjects = { ...subjects, s_subid: subid };
-      }
-
-      const fetchOption = {
-        method: method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ subjects, keywords }),
+      subjects = {
+        ...subjects,
+        s_thumb: imageArr[0],
+        s_attachs: `${imageArr}`,
       };
-
-      let res = await fetch(url, fetchOption).then((data) => data.json());
-      alert(res.result);
-      nav(`/note/subject/${catid}/${noteSub.s_subid}`, { replace: true });
-    } catch (error) {
-      console.log(error);
-      alert("서버에 문제가 발생했습니다.\n다시 시도해주세요.");
     }
+
+    let request = "insert";
+    let subjects = { ...noteSub, s_catid: catid };
+    if (subid) {
+      request = "update";
+      subjects = { ...subjects, s_subid: subid };
+    }
+    const res = updateNote({
+      request,
+      subjects,
+      keywords,
+    });
+    alert(res);
+    nav(`/note/subject/${catid}/${noteSub.s_subid}`, { replace: true });
   };
 
   return (

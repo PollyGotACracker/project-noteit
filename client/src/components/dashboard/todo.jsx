@@ -1,36 +1,17 @@
-import { useLayoutEffect, useState } from "react";
 import moment from "moment";
-import { useUserContext } from "@contexts/userContext";
 import { MdChecklist } from "react-icons/md";
 
-const DashboardTodo = () => {
-  const { userData } = useUserContext();
-  const [todoList, setTodoList] = useState([]);
-  const [errMsg, setErrMsg] = useState("");
-
-  useLayoutEffect(() => {
-    (async () => {
-      if (userData.u_userid !== "") {
-        const todo = await fetch(`/server/${userData.u_userid}/todo`).then(
-          (data) => data.json()
-        );
-        if (todo.error) {
-          setErrMsg(todo.error);
-          return false;
-        } else setTodoList([...todo]);
-      }
-    })();
-  }, [userData.u_userid]);
-
+const DashboardTodo = ({ todos }) => {
+  if (!todos) return null;
   return (
-    <div className="todo">
+    <div className="todos">
       <div className="title">
         <MdChecklist />
         TODO
       </div>
-      {todoList?.length !== 0 ? (
+      {todos?.length !== 0 ? (
         <div>
-          {todoList.map((item) => {
+          {todos?.map((item) => {
             const today = moment().format("YYYY[-]MM[-]DD");
             const isToday = item.t_deadline === today;
             const dDay =
@@ -56,7 +37,7 @@ const DashboardTodo = () => {
           })}
         </div>
       ) : (
-        <div className="todo-msg">목표를 추가해보세요!</div>
+        <div className="todo-msg">{todos.error || "목표를 추가해보세요!"}</div>
       )}
     </div>
   );

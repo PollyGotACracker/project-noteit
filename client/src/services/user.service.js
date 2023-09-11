@@ -6,3 +6,12 @@ export const getUserData = async () => {
   }
   if (res.data) return res.data;
 };
+
+export const setUserData = async ({ userId, data }) => {
+  const fetchOption = {
+    method: "POST",
+    body: data,
+  };
+  const res = await fetch(`/server/set/${userId}/profile`, fetchOption);
+  return res;
+};

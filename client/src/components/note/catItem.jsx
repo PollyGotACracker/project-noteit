@@ -1,10 +1,15 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useNoteContext } from "@contexts/noteContext";
-import { getCatHandler, deleteCatHandler } from "@services/note.service.js";
+import {
+  getCatHandler,
+  deleteCatHandler,
+  updateCatBookmark,
+} from "@services/note.service.js";
 import { MdDelete } from "react-icons/md";
 import { BsBookmarkFill } from "react-icons/bs";
 import { RiCheckFill, RiBallPenFill } from "react-icons/ri";
+import { updateCat } from "@/services/note.service";
 
 const NoteCatItem = ({ item }) => {
   const nav = useNavigate();
@@ -22,7 +27,7 @@ const NoteCatItem = ({ item }) => {
     await e.stopPropagation();
     await e.preventDefault();
     const input = catRef.current;
-    const catid = input.dataset.id;
+    const catId = input.dataset.id;
 
     if (update === "수정") {
       setUpdate("완료");
@@ -30,14 +35,7 @@ const NoteCatItem = ({ item }) => {
       input.focus();
     }
     if (update === "완료") {
-      const fetchOption = {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ c_catid: catid, c_category: title }),
-      };
-      const res = await fetch(`/server/note/cat/update`, fetchOption).then(
-        (data) => data.json()
-      );
+      const res = await updateCat({ catId: catId, category: title });
       if (res?.error) alert(res.error);
       else {
         input.readOnly = true;
@@ -63,23 +61,13 @@ const NoteCatItem = ({ item }) => {
     // 이벤트 버블링 방지. 모두 적용해야
     await e.stopPropagation();
     await e.preventDefault();
-    const fetchOption = {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        catid: catRef.current.dataset.id,
-        bookmark: bookmark,
-      }),
+    const body = {
+      catId: catRef.current.dataset.id,
+      bookmark: bookmark,
     };
-    const res = await fetch(`/server/note/cat/bookmark`, fetchOption).then(
-      (data) => data.json()
-    );
-    if (res.error) {
-      alert(res.error);
-      return false;
-    } else {
-      setBookmark(res.result);
-    }
+    const res = await updateCatBookmark(body);
+    if (res?.error) alert(res.error);
+    else setBookmark(res.result);
   };
 
   return (

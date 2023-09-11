@@ -1,5 +1,10 @@
 import { createContext, useContext, useState, useCallback } from "react";
 import { initTodo } from "@data/todo";
+import {
+  getTodos,
+  insertTodo,
+  updateTodoComplete,
+} from "@/services/todo.service";
 
 const TodoContext = createContext();
 
@@ -13,97 +18,44 @@ const TodoContextProvider = ({ children }) => {
   const [isEdit, setIsEdit] = useState(false);
 
   const getTodoList = useCallback(
-    async (userid) => {
-      try {
-        const res = await fetch(`/server/todo/${userid}`).then((data) =>
-          data.json()
-        );
-        if (res.error) {
-          alert(res.error);
-          setTodoList([]);
-        }
-        setTodoList([...res]);
-      } catch (error) {
-        alert("서버 접속 오류");
-        setTodoList([]);
-      }
+    async (userId) => {
+      const res = await getTodos(userId);
+      if (res?.error) alert(res.error);
+      if (res) setTodoList([...res]);
     },
     [setTodoList]
   );
 
   const todoInsert = useCallback(
-    async (userid) => {
-      try {
-        const data = todoNewItem;
-        let url = `/server/todo/${userid}/insert`;
-        let method = "POST";
-
-        if (Number(todoNewItem.t_todoid) !== 0) {
-          url = `/server/todo/${userid}/update`;
-          method = "PATCH";
-        }
-
-        const fetchOption = {
-          method: method,
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        };
-
-        const res = await fetch(url, fetchOption);
-        const result = await res.json();
-        if (result.error) {
-          alert(result.error);
-          return false;
-        } else {
-          setTodoList([...result]);
-        }
+    async (userId) => {
+      const res = insertTodo({ userId: userId, todo: todoNewItem });
+      if (res?.error) alert(res.error);
+      else {
+        setTodoList([...res]);
         setTodoNewItem({ ...initTodo() });
-      } catch (error) {
-        console.log(error);
-        alert("서버 오류");
       }
     },
     [setTodoNewItem, setTodoList, todoNewItem]
   );
 
   const todoDelete = useCallback(
-    async (userid, uid) => {
-      try {
-        const res = await fetch(`/server/todo/${userid}/delete/${uid}`, {
-          method: "DELETE",
-        });
-        const result = await res.json();
-        if (result.error) {
-          alert(result.error);
-        } else {
-          setTodoList([...result]);
-        }
-      } catch (error) {
-        console.log(error);
-        alert("서버 오류");
+    async (userId, uid) => {
+      const res = await deleteTodo({ userId, uid });
+      if (res?.error) {
+        alert(res.error);
+      } else {
+        setTodoList([...res]);
       }
     },
     [setTodoNewItem, setTodoList]
   );
 
   const todoComplete = useCallback(
-    async (userid, uid) => {
-      try {
-        const res = await fetch(`/server/todo/${userid}/complete/${uid}`, {
-          method: "PATCH",
-        });
-        const result = await res.json();
-        console.log(result);
-        if (result.error) {
-          return alert(result.error);
-        } else {
-          setTodoList([...result]);
-        }
-        setTodoNewItem({ ...initTodo() });
-      } catch (error) {
-        console.log(error);
-        alert("서버 오류");
-      }
+    async (userId, uid) => {
+      const res = updateTodoComplete({ userId, uid });
+      if (res?.error) alert(res.error);
+      else setTodoList([...res]);
+      setTodoNewItem({ ...initTodo() });
     },
     [setTodoList]
   );

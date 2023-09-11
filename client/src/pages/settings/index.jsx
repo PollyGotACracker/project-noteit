@@ -29,11 +29,7 @@ const SettingsPage = () => {
     const formData = new FormData();
     formData.append("upload", imgInput.current.files[0]);
     formData.append("str", profileData.str);
-    const fetchOption = {
-      method: "POST",
-      body: formData,
-    };
-    await fetch(`/server/set/${userData.u_userid}/profile`, fetchOption);
+    await setUserData({ userId: userData.u_userid, data: formData });
     const result = await getUserData();
     setUserData({
       ...userData,

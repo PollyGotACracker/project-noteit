@@ -9,6 +9,7 @@ import { setThemeStorage } from "@utils/manageThemeStorage";
 import getClock from "@utils/getClock";
 import UserAvatar from "@components/userAvatar";
 import AudioPlayer from "@components/audioPlayer";
+import { getSearchResult } from "@/services/search.service";
 
 // forwardRef: 부모 comp 에서 useRef 를 받아 내부 요소에 사용
 // 반드시 props 와 ref 를 인수로 받음
@@ -35,17 +36,9 @@ const Sidebar = forwardRef((props, ref) => {
 
   const searchData = async (value) => {
     setSearchValue(value);
-    const fetchOption = {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    };
-    const res = await fetch(
-      `/server/search?value=${searchValue}`,
-      fetchOption
-    ).then((data) => data.json());
-
+    const { data, regexp } = await getSearchResult(value);
     navigate(`/search?value=${value}`, {
-      state: { data: res.result, regexp: res.regexp, value: value },
+      state: { data, regexp, value },
     });
   };
 

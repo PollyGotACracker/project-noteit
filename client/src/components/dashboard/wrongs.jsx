@@ -10,7 +10,7 @@ const DashboardWrongs = ({ subs, wrongs }) => {
   const [bgColors, setBgColors] = useState([]);
 
   useEffect(() => {
-    const { bg } = genColor({ count: subs.length, alpha: 1 });
+    const { bg } = genColor({ count: subs?.length, alpha: 1 });
     setBgColors([...bg]);
   }, [subs]);
 
