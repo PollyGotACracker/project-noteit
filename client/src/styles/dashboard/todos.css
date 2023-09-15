@@ -1,0 +1,30 @@
+.Dashboard .todos {
+  padding-bottom: 5vh;
+}
+
+.Dashboard .todos .todos-msg {
+  text-align: center;
+}
+
+.Dashboard .todos .todos-item {
+  padding: 0.3em 5vw;
+  display: grid;
+  grid-template-columns: 6fr 2fr 1.5fr 1fr;
+  gap: 0.5em;
+}
+
+.Dashboard .todos .todo-item > * {
+  word-break: keep-all;
+  display: flex;
+  align-items: center;
+}
+
+.Dashboard .todos .todos-item .deadline.active {
+  color: var(--red);
+}
+
+.Dashboard .todos .todos-item > *:not(:first-child) {
+  font-size: 0.8em;
+  color: var(--subtext);
+  justify-content: center;
+}

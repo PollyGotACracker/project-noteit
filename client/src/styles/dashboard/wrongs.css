@@ -1,0 +1,24 @@
+.Dashboard .chart-wrongs {
+  height: 35vw;
+  flex-basis: 50%;
+}
+
+.Dashboard .chart-wrongs canvas {
+  transform: translateY(-12%);
+  align-self: center;
+}
+
+.Dashboard .chart-wrongs {
+  padding: 5vh 0;
+}
+
+@media only screen and (max-width: 1080px) {
+  .Dashboard .chart-wrongs {
+    flex: 1;
+    flex-basis: 100%;
+  }
+
+  .Dashboard .chart-wrongs {
+    height: 80vw;
+  }
+}

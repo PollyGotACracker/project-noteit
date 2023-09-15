@@ -13,6 +13,9 @@ import {
 } from "chart.js";
 import { Chart } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import { RiLineChartLine } from "react-icons/ri";
+import { getStyle } from "@utils/manageStyle";
+import NoStat from "@components/dashboard/noStat";
 
 ChartJS.register(
   LinearScale,
@@ -27,20 +30,7 @@ ChartJS.register(
   TimeScale
 );
 
-const DashboardScores = ({ dates, scores, totalscores, percent }) => {
-  const footer = function (tooltipItems) {
-    return tooltipItems.yLabel;
-    // console.log(context);
-    // console.log(context.chart);
-    // console.log(context.label);
-    // console.log(context.parsed);
-    // console.log(context.raw);
-    // console.log(context.formattedValue);
-    // console.log(context.dataset);
-    // console.log(context.datasetIndex);
-    // console.log(context.dataIndex);
-    // console.log(context.element);
-  };
+const DashboardScores = ({ dates, scores, totalscores, percent, error }) => {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -68,9 +58,7 @@ const DashboardScores = ({ dates, scores, totalscores, percent }) => {
         display: true,
         position: "right",
         grid: {
-          color: getComputedStyle(document.documentElement).getPropertyValue(
-            "--lightalpha"
-          ),
+          color: getStyle("--lightalpha"),
         },
       },
     },
@@ -107,16 +95,6 @@ const DashboardScores = ({ dates, scores, totalscores, percent }) => {
     },
   };
 
-  /**
-   * cf)
-   * css var 변수 값 가져오기
-   * getComputedStyle(document.documentElement)
-   *  .getPropertyValue('--variable-name');
-   *
-   * css var 변수 값 세팅하기
-   * document.documentElement.style
-   *  .setProperty('--variable-name', 'black');
-   */
   const data = {
     labels: dates,
     datasets: [
@@ -129,12 +107,8 @@ const DashboardScores = ({ dates, scores, totalscores, percent }) => {
         pointHoverRadius: 10,
         borderWidth: 1,
         yAxisID: "y1",
-        borderColor: getComputedStyle(
-          document.documentElement
-        ).getPropertyValue("--accent"),
-        backgroundColor: getComputedStyle(
-          document.documentElement
-        ).getPropertyValue("--accentalpha"),
+        borderColor: getStyle("--accent"),
+        backgroundColor: getStyle("--accentalpha"),
       },
       {
         label: "득점",
@@ -145,9 +119,7 @@ const DashboardScores = ({ dates, scores, totalscores, percent }) => {
         pointHoverRadius: 10,
         borderWidth: 0,
         yAxisID: "y",
-        backgroundColor: getComputedStyle(
-          document.documentElement
-        ).getPropertyValue("--secondary"),
+        backgroundColor: getStyle("--secondary"),
       },
       {
         label: "총점",
@@ -158,16 +130,25 @@ const DashboardScores = ({ dates, scores, totalscores, percent }) => {
         borderWidth: 1,
         borderRadius: 10,
         yAxisID: "y",
-        borderColor: getComputedStyle(
-          document.documentElement
-        ).getPropertyValue("--primary"),
-        backgroundColor: getComputedStyle(
-          document.documentElement
-        ).getPropertyValue("--primaryalpha"),
+        borderColor: getStyle("--primary"),
+        backgroundColor: getStyle("--primaryalpha"),
       },
     ],
   };
-  return <Chart options={options} data={data} plugins={[ChartDataLabels]} />;
+
+  return (
+    <div className="chart-scores">
+      <div className="title">
+        <RiLineChartLine />
+        퀴즈 기록
+      </div>
+      {error ? (
+        <NoStat msg={error} />
+      ) : (
+        <Chart options={options} data={data} plugins={[ChartDataLabels]} />
+      )}
+    </div>
+  );
 };
 
 export default DashboardScores;

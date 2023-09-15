@@ -12,6 +12,6 @@ export const setUserData = async ({ userId, data }) => {
     method: "POST",
     body: data,
   };
-  const res = await fetch(`/server/set/${userId}/profile`, fetchOption);
+  const res = await fetch(`/server/user/${userId}/profile`, fetchOption);
   return res;
 };

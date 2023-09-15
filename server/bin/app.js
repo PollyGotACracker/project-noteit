@@ -19,11 +19,11 @@ import logger from "morgan";
 import DB from "../models/index.js";
 
 // sample router modules
-import indexRouter from "../routes/index.js";
+import dashboardRouter from "../routes/dashboard.js";
 import noteRouter from "../routes/note.js";
 import quizRouter from "../routes/quiz.js";
 import todoRouter from "../routes/todo.js";
-import settingsRouter from "../routes/settings.js";
+import userRouter from "../routes/user.js";
 
 // scheduler
 import { scheduleJob } from "node-schedule";
@@ -50,11 +50,11 @@ app.use(express.static(path.join("react-client/build")));
 app.use("/uploads", express.static(path.join("public/uploads")));
 
 // router link enable
-app.use("/", indexRouter);
+app.use("/dashboard", dashboardRouter);
 app.use("/note", noteRouter);
 app.use("/quiz", quizRouter);
 app.use("/todo", todoRouter);
-app.use("/settings", settingsRouter);
+app.use("/user", userRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

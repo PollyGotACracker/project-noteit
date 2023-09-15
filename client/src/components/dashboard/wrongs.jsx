@@ -1,18 +1,13 @@
-import { useEffect, useState } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import genColor from "@utils/genColor";
 import { RiDonutChartFill } from "react-icons/ri";
+import genColor from "@utils/genColor";
+import { getStyle } from "@utils/manageStyle";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const DashboardWrongs = ({ subs, wrongs }) => {
-  const [bgColors, setBgColors] = useState([]);
-
-  useEffect(() => {
-    const { bg } = genColor({ count: subs?.length, alpha: 1 });
-    setBgColors([...bg]);
-  }, [subs]);
+const DashboardWrongs = ({ subject, wrong, error }) => {
+  const bgList = genColor({ count: subject?.length, alpha: 1 });
 
   const options = {
     responsive: true,
@@ -54,15 +49,13 @@ const DashboardWrongs = ({ subs, wrongs }) => {
   };
 
   const data = {
-    labels: subs,
+    labels: subject,
     datasets: [
       {
         label: "누적 오답 수",
-        data: wrongs,
-        backgroundColor: bgColors,
-        borderColor: getComputedStyle(
-          document.documentElement
-        ).getPropertyValue("--background"),
+        data: wrong,
+        backgroundColor: bgList,
+        borderColor: getStyle("--background"),
         borderWidth: 8,
         hoverOffset: 25,
       },
@@ -70,12 +63,16 @@ const DashboardWrongs = ({ subs, wrongs }) => {
   };
 
   return (
-    <div className="chart-wrong">
+    <div className="chart-wrongs">
       <div className="title">
         <RiDonutChartFill />
         주제별 오답 순위
       </div>
-      <Doughnut options={options} data={data} />
+      {error ? (
+        <NoStat msg={error} />
+      ) : (
+        <Doughnut options={options} data={data} />
+      )}
     </div>
   );
 };

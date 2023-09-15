@@ -1,8 +1,9 @@
 import moment from "moment";
 import { MdChecklist } from "react-icons/md";
 
-const DashboardTodo = ({ todos }) => {
+const DashboardTodos = ({ todos }) => {
   if (!todos) return null;
+
   return (
     <div className="todos">
       <div className="title">
@@ -19,7 +20,7 @@ const DashboardTodo = ({ todos }) => {
               (1000 * 60 * 60 * 24);
 
             return (
-              <div className="todo-item" key={item.t_todoid}>
+              <div className="todos-item" key={item.t_todoid}>
                 <div>{item.t_content}</div>
                 <div className={isToday ? "deadline active" : "deadline"}>
                   {item.t_deadline}
@@ -37,10 +38,12 @@ const DashboardTodo = ({ todos }) => {
           })}
         </div>
       ) : (
-        <div className="todo-msg">{todos.error || "목표를 추가해보세요!"}</div>
+        <div className="todos-msg">
+          {todos?.error || "목표를 추가해보세요!"}
+        </div>
       )}
     </div>
   );
 };
 
-export default DashboardTodo;
+export default DashboardTodos;

@@ -1,0 +1,14 @@
+.Dashboard .chart-scores {
+  padding: 5vh 0;
+}
+
+.Dashboard .chart-scores {
+  height: 30vw;
+  transform: translateY(-8%);
+}
+
+@media only screen and (max-width: 1080px) {
+  .Dashboard .chart-scores {
+    height: 60vw;
+  }
+}

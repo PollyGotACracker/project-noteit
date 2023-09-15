@@ -84,3 +84,9 @@ export const routes = [
     ],
   },
 ];
+
+export const URLS = {
+  UPLOADS: "/server/uploads",
+  CATEGORY: "/note/category",
+  SUBJECT: "/note/subject",
+};

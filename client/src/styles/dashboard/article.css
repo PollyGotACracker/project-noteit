@@ -1,0 +1,71 @@
+.Dashboard .article {
+  padding: 5vh 0;
+  flex: 1;
+}
+
+.Dashboard .article a {
+  margin-left: auto;
+  border: 1px solid var(--border);
+  padding: 0.5em;
+  border-radius: 5px;
+}
+
+.Dashboard .article img {
+  width: 100%;
+  height: 100%;
+}
+
+.Dashboard .article .title {
+  align-self: flex-start;
+}
+
+.Dashboard .article .thumb {
+  max-width: 80%;
+  max-height: calc(16vw + 1vh);
+  margin: 0 auto;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Dashboard .article .no-thumb-img {
+  max-width: 80%;
+  max-height: calc(16vw + 1vh);
+  opacity: 0.8;
+}
+
+.Dashboard .article .content {
+  padding: 2em 1em;
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+.Dashboard .article .content .subject {
+  font-size: 1.2em;
+  word-break: keep-all;
+}
+
+.Dashboard .article .content .keycount {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  font-size: 0.9em;
+  color: var(--subtext);
+}
+
+@media only screen and (max-width: 1080px) {
+  .Dashboard .article {
+    flex: 1;
+    flex-basis: 100%;
+    padding-bottom: 6vh;
+  }
+
+  .Dashboard .article .thumb {
+    max-height: 40vw;
+  }
+}
