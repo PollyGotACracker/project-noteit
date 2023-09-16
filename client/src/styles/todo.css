@@ -10,6 +10,31 @@ cf)
   flex-direction: column;
   overflow-y: hidden;
 }
+
+.Todo .progress-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 15px;
+  padding: 15px 10px;
+}
+
+.Todo .progress-ratio {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.Todo .progress-ratio svg {
+  font-size: 1.2em;
+}
+
+.Todo .progress-bar {
+  height: 10px;
+  border-radius: 50px;
+  background: linear-gradient(90deg, var(--primary), 90%, var(--accent));
+}
+
 .Todo .input {
   display: flex;
   flex-wrap: wrap;
