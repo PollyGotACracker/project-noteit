@@ -1,7 +1,7 @@
 import express from "express";
 import { Op } from "sequelize";
-import DB from "../models/index.js";
 import moment from "moment";
+import DB from "../models/index.js";
 const TODO = DB.models.tbl_todo;
 const router = express.Router();
 
@@ -10,11 +10,12 @@ router.post("/:userid/insert", async (req, res, next) => {
   try {
     await TODO.create(data);
     return next();
-  } catch (error) {
-    console.error(error);
-    return res.json({ error: "서버 오류" });
+  } catch (err) {
+    console.log(err);
+    return res.send({ error: "Todo 아이템 추가 중 오류가 발생했습니다." });
   }
 });
+
 router.patch("/:userid/update", async (req, res, next) => {
   const data = req.body;
   const userid = req.params.userid;
@@ -23,9 +24,9 @@ router.patch("/:userid/update", async (req, res, next) => {
       where: { [Op.and]: [{ t_todoid: data.t_todoid }, { t_userid: userid }] },
     });
     return next();
-  } catch (error) {
-    console.error(error);
-    return res.json({ error: "서버 오류" });
+  } catch (err) {
+    console.log(err);
+    return res.send({ error: "Todo 아이템 수정 중 오류가 발생했습니다." });
   }
 });
 
@@ -37,9 +38,9 @@ router.delete("/:userid/delete/:id", async (req, res, next) => {
       where: { [Op.and]: [{ t_todoid: id }, { t_userid: userid }] },
     });
     return next();
-  } catch (error) {
-    console.error(error);
-    return res.json({ error: "DELETE 오류" });
+  } catch (err) {
+    console.log(err);
+    return res.send({ error: "Todo 아이템 삭제 중 오류가 발생했습니다." });
   }
 });
 
@@ -59,13 +60,15 @@ router.patch("/:userid/complete/:id", async (req, res, next) => {
       { where: { [Op.and]: [{ t_todoid: id }, { t_userid: userid }] } }
     );
     return next();
-  } catch (error) {
-    console.error(error);
-    return res.json({ error: "업데이트 오류" });
+  } catch (err) {
+    console.log(err);
+    return res.send({
+      error: "Todo 아이템 완료 업데이트 중 오류가 발생했습니다.",
+    });
   }
 });
 
-router.use("/:userid", async (req, res, next) => {
+router.use("/:userid", async (req, res) => {
   const userid = req.params.userid;
   try {
     const list = await TODO.findAll({
@@ -78,9 +81,9 @@ router.use("/:userid", async (req, res, next) => {
       where: { t_userid: userid },
     });
     return res.json(list);
-  } catch (error) {
-    console.error;
-    return res.json({ error: "Todo SELECT 오류" });
+  } catch (err) {
+    console.log(err);
+    return res.send({ error: "Todo 목록을 불러오는 중 오류가 발생했습니다." });
   }
 });
 

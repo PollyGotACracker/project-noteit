@@ -28,6 +28,7 @@ export default defineConfig(({ mode }) => {
         { find: "@hooks", replacement: "/src/hooks" },
         { find: "@libs", replacement: "/src/libs" },
         { find: "@pages", replacement: "/src/pages" },
+        { find: "@recoils", replacement: "/src/recoils" },
         { find: "@services", replacement: "/src/services" },
         { find: "@styles", replacement: "/src/styles" },
         { find: "@utils", replacement: "/src/utils" },

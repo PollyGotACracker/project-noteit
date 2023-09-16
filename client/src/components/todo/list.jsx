@@ -1,21 +1,19 @@
 import { useEffect } from "react";
-import { useUserContext } from "@contexts/userContext";
-import { useTodoContext } from "@contexts/todoContext";
-import useLoading from "@hooks/useLoading";
+import { useRecoilState } from "recoil";
+import { useQuery } from "react-query";
+import { todosState } from "@recoils/todo";
+import { getTodos } from "@services/todo.service";
 import ItemWrapper from "@components/todo/itemWrapper";
 import Item from "@components/todo/item";
 
 const TodoList = () => {
-  const { userData } = useUserContext();
-  const { getTodoList, todoList } = useTodoContext();
-  const { isLoading, showContent } = useLoading();
+  const userId = "polly@gmail.com";
+  const [todoList, setTodoList] = useRecoilState(todosState);
+  const { data, isLoading } = useQuery(getTodos({ userId }));
 
   useEffect(() => {
-    (async () => {
-      userData?.u_userid && (await getTodoList(userData?.u_userid));
-      todoList && showContent();
-    })();
-  }, [userData?.u_userid]);
+    if (data) setTodoList([...data]);
+  }, [data]);
 
   return (
     <ItemWrapper

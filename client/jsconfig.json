@@ -12,6 +12,7 @@
       "@hooks/*": ["hooks/*"],
       "@libs/*": ["libs/*"],
       "@pages/*": ["pages/*"],
+      "@recoils/*": ["recoils/*"],
       "@services/*": ["services/*"],
       "@styles/*": ["styles/*"],
       "@utils/*": ["utils/*"]

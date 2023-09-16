@@ -1,9 +1,9 @@
-import React, { createRef } from "react";
+import { createRef } from "react";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import Spinner from "@components/spinner";
 
 const TodoItemWrapper = ({ data, isLoading, render }) => {
-  const todoContent = data.map((item, index) => {
+  const todoContent = data?.map((item, index) => {
     const nodeRef = createRef(null);
     return (
       <CSSTransition
@@ -30,4 +30,4 @@ const TodoItemWrapper = ({ data, isLoading, render }) => {
   );
 };
 
-export default React.memo(TodoItemWrapper);
+export default TodoItemWrapper;
