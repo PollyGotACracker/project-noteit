@@ -1,6 +1,7 @@
+import { fetcher } from "@services/core";
+
 export const getSearchResult = async (value) => {
-  const res = await fetch(`/server/search?value=${value}`).then((data) =>
-    data.json()
-  );
+  const endPoint = `/search?value=${value}`;
+  const res = await fetcher({ endPoint });
   return { data: res.result, regexp: res.regexp };
 };

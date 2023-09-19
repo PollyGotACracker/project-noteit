@@ -9,42 +9,36 @@ const getDashboardQueries = (userId) => [
   {
     queryKey: [QueryKeys.DASHBOARD, "todos"],
     queryFn: async () => {
-      try {
-        const endPoint = `/dashboard/${userId}/todos`;
-        const res = await fetcher({ endPoint });
-        return res;
-      } catch (err) {
-        console.error(err);
-        throw err;
-      }
+      const endPoint = `/dashboard/${userId}/todos`;
+      const res = await fetcher({ endPoint });
+      return res;
+    },
+    onError: (error) => {
+      alert(error.message);
     },
     ...queryOptions,
   },
   {
     queryKey: [QueryKeys.DASHBOARD, "wrongs"],
     queryFn: async () => {
-      try {
-        const endPoint = `/dashboard/${userId}/stat/wrongs`;
-        const res = await fetcher({ endPoint });
-        return res;
-      } catch (err) {
-        console.error(err);
-        throw err;
-      }
+      const endPoint = `/dashboard/${userId}/stat/wrongs`;
+      const res = await fetcher({ endPoint });
+      return res;
+    },
+    onError: (error) => {
+      alert(error.message);
     },
     ...queryOptions,
   },
   {
     queryKey: [QueryKeys.DASHBOARD, "scores"],
     queryFn: async () => {
-      try {
-        const endPoint = `/dashboard/${userId}/stat/scores`;
-        const res = await fetcher({ endPoint });
-        return res;
-      } catch (err) {
-        console.error(err);
-        throw err;
-      }
+      const endPoint = `/dashboard/${userId}/stat/scores`;
+      const res = await fetcher({ endPoint });
+      return res;
+    },
+    onError: (error) => {
+      alert(error.message);
     },
     ...queryOptions,
   },

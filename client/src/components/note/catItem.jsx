@@ -1,106 +1,107 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useNoteContext } from "@contexts/noteContext";
-import {
-  getCatHandler,
-  deleteCatHandler,
-  updateCatBookmark,
-} from "@services/note.service.js";
+import { useMutation } from "react-query";
 import { MdDelete } from "react-icons/md";
 import { BsBookmarkFill } from "react-icons/bs";
 import { RiCheckFill, RiBallPenFill } from "react-icons/ri";
-import { updateCat } from "@/services/note.service";
+import { URLS } from "@/router";
+import {
+  updateCategoryBookmark,
+  updateCategory,
+  deleteCategory,
+} from "@services/note.service.js";
+import { getClient } from "@services/core";
 
 const NoteCatItem = ({ item }) => {
-  const nav = useNavigate();
-  const [title, setTitle] = useState(item.c_category);
-  const [bookmark, setBookmark] = useState(item.c_bookmark);
+  const navigate = useNavigate();
+  const queryClient = getClient();
+  const catId = item.c_catid;
+  const isBookmarked = item.c_bookmark !== 0;
+  const mutationParams = { queryClient, catId };
+  const [catTitle, setCatTitle] = useState(item.c_category);
   const [update, setUpdate] = useState("수정");
-  const catRef = useRef();
-  const { setNoteCatList } = useNoteContext();
+  const catInputRef = useRef();
 
-  const onChangeHandler = (e) => {
-    setTitle(e.target.value);
-  };
+  const { mutate: updateMutation } = useMutation(
+    updateCategory(mutationParams)
+  );
+  const { mutate: updateBookmarkMutation } = useMutation(
+    updateCategoryBookmark(mutationParams)
+  );
+  const { mutate: deleteMutation } = useMutation(
+    deleteCategory(mutationParams)
+  );
 
-  const updateHandler = async (e) => {
-    await e.stopPropagation();
-    await e.preventDefault();
-    const input = catRef.current;
-    const catId = input.dataset.id;
+  const ChangeNameHandler = ({ target: { value } }) => setCatTitle(value);
+
+  const updateHandler = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
 
     if (update === "수정") {
       setUpdate("완료");
-      input.readOnly = false;
-      input.focus();
+      catInputRef.current.readOnly = false;
+      catInputRef.current.focus();
     }
     if (update === "완료") {
-      const res = await updateCat({ catId: catId, category: title });
-      if (res?.error) alert(res.error);
-      else {
-        input.readOnly = true;
-        setUpdate("수정");
-      }
+      updateMutation({ catTitle });
+      catInputRef.current.readOnly = true;
+      setUpdate("수정");
     }
   };
 
-  const deleteHandler = async (e) => {
-    await e.stopPropagation();
-    await e.preventDefault();
-    const catid = catRef.current.dataset.id;
+  const updateBookmarkHandler = (e) => {
+    // 이벤트 버블링 방지. 모두 적용해야
+    e.stopPropagation();
+    e.preventDefault();
+    updateBookmarkMutation({
+      bookmark: isBookmarked ? 0 : 1,
+    });
+  };
+
+  const deleteHandler = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
     if (!window.confirm("이 카테고리를 삭제할까요?")) {
       return false;
     } else {
-      await deleteCatHandler(catid);
-      const data = await getCatHandler();
-      setNoteCatList([...data]);
+      deleteMutation();
     }
   };
 
-  const setCatBookmark = async (e) => {
-    // 이벤트 버블링 방지. 모두 적용해야
-    await e.stopPropagation();
-    await e.preventDefault();
-    const body = {
-      catId: catRef.current.dataset.id,
-      bookmark: bookmark,
-    };
-    const res = await updateCatBookmark(body);
-    if (res?.error) alert(res.error);
-    else setBookmark(res.result);
+  const clickItemHandler = () => {
+    if (update === "완료") {
+      return false;
+    } else {
+      navigate(`${URLS.NOTE_LIST}/${catId}`);
+    }
   };
 
   return (
-    <section className="cat-item" key={item.c_catid}>
+    <section className="cat-item">
       <div
         className={`link-box`}
-        onClick={() => {
-          if (update === "완료") {
-            return false;
-          } else {
-            nav(`/note/category/${item.c_catid}`);
-          }
-        }}
+        onClick={clickItemHandler}
         style={{ cursor: update === "완료" ? "default" : "pointer" }}
       >
         <button
-          className={bookmark === 0 ? "bookmark-btn" : "bookmark-btn active"}
+          className={isBookmarked ? "bookmark-btn active" : "bookmark-btn"}
           type="button"
           title="북마크"
-          onClick={setCatBookmark}
+          onClick={updateBookmarkHandler}
         >
           <BsBookmarkFill />
         </button>
         <input
-          className={`title-${item.c_catid}`}
-          data-id={item.c_catid}
-          value={title}
+          className={`title-${catId}`}
+          data-id={catId}
+          value={catTitle}
           maxLength={225}
           spellCheck="false"
           readOnly={true}
-          onChange={onChangeHandler}
+          onChange={ChangeNameHandler}
           style={{ cursor: update === "완료" ? "text" : "pointer" }}
-          ref={catRef}
+          ref={catInputRef}
         />
         <div className="date">{item.c_date}</div>
         <div className="subcount">{item.c_subcount}</div>
@@ -108,10 +109,10 @@ const NoteCatItem = ({ item }) => {
           <button
             className="update-btn"
             type="button"
-            disabled={title.length < 1}
+            disabled={catTitle.length < 1}
             title="수정"
             style={{ color: update === "완료" ? "#e69215" : "" }}
-            onClick={(e) => updateHandler(e)}
+            onClick={updateHandler}
           >
             {update === "완료" ? <RiCheckFill /> : <RiBallPenFill />} {update}
           </button>
@@ -119,7 +120,7 @@ const NoteCatItem = ({ item }) => {
             className="delete-btn"
             type="button"
             title="삭제"
-            onClick={(e) => deleteHandler(e)}
+            onClick={deleteHandler}
           >
             <MdDelete /> 삭제
           </button>

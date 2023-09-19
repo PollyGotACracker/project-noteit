@@ -1,11 +1,12 @@
-@import "./noteContent";
-@import "./notePrint";
+@import "./content";
+@import "./print";
 
 .Detail {
   padding-top: 0;
   display: flex;
   flex-direction: column;
 }
+
 .Detail .title {
   width: 80%;
   padding: 5% 0;
@@ -15,19 +16,23 @@
   align-items: center;
   gap: 0.5em;
 }
+
 .Detail .title a.search {
   display: inline-block;
   color: var(--primary);
 }
+
 .Detail .title a.search:hover {
   color: var(--accent);
 }
+
 .Detail .menu {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   border-bottom: 1px solid var(--primary);
 }
+
 .Detail .menu button,
 .Detail .menu a {
   display: flex;
@@ -47,6 +52,7 @@
 .Detail .menu a svg {
   font-size: 1.2em;
 }
+
 .Detail .menu button:hover,
 .Detail .menu a:hover {
   color: var(--accent);
@@ -56,6 +62,7 @@
 .Detail .bookmark-wrap {
   position: relative;
 }
+
 .Detail .msg {
   position: absolute;
   left: calc(-4em / 2);
@@ -86,12 +93,15 @@
     opacity: 0;
   }
 }
+
 .Detail .bookmark-btn.active {
   color: var(--accent) !important;
 }
+
 .Detail .bookmark-btn.active:hover {
   color: inherit !important;
 }
+
 .Detail .title .subject {
   padding: 10px 0;
   width: 100%;
@@ -99,13 +109,16 @@
   font-size: 2em;
   font-weight: 700;
 }
+
 .Detail .title .category {
   font-size: 1.2em;
   transition: all ease 0.2s;
 }
+
 .Detail .title .category:hover {
   color: var(--accent);
 }
+
 .Detail .keyword-slide {
   width: 100%;
   min-height: 20vh;
@@ -114,6 +127,7 @@
   justify-content: space-between;
   align-items: center;
 }
+
 .Detail .keyword-slide button:not(.copy-btn) {
   width: 5vw;
   height: 100%;
@@ -123,15 +137,18 @@
   align-items: center;
   transition: all 0.2s;
 }
+
 .Detail .keyword-slide button:hover {
   color: var(--accent);
 }
+
 .Detail .keyword-slide .keyword-list-wrap {
   width: calc(100% - 10vw);
   min-height: 20vh;
   position: relative;
   overflow: hidden;
 }
+
 .Detail .keyword-slide .keyword-list {
   position: absolute;
   top: 0;
@@ -141,6 +158,7 @@
   height: 100%;
   transition: all ease-in-out 0.3s;
 }
+
 .Detail .keyword-slide .keyword {
   display: inline-block;
   min-width: 100%;
@@ -150,15 +168,18 @@
   padding: 10px;
   word-break: keep-all;
 }
+
 .Detail .keyword .top-box {
   border-bottom: 1px dotted var(--border);
   padding: 1em;
   text-align: center;
 }
+
 .Detail .keyword .top-box .wrong {
   margin-top: 0.8em;
   font-size: 0.8em;
 }
+
 .Detail .keyword-list-top {
   width: 80%;
   margin: 0 auto;
@@ -166,6 +187,7 @@
   justify-content: space-between;
   padding: 0.5em;
 }
+
 .Detail .keyword-list-top .keyword-count {
   display: flex;
   justify-content: center;
@@ -173,13 +195,16 @@
   gap: 0.2em;
   font-size: 0.9em;
 }
+
 .Detail .keyword-list-top .copy-btn {
   margin: 0 0 0.2em 0.2em;
   font-size: 0.9em;
 }
+
 .Detail .keyword-list-top .copy-btn:hover {
   color: var(--accent);
 }
+
 .Detail .keyword .desc {
   padding: 0.5em;
   word-wrap: break-word;
@@ -187,6 +212,7 @@
   white-space: pre-wrap;
   height: 100%;
 }
+
 .Detail .keyword-list-bottom {
   width: 100%;
   margin: 10px 0;
@@ -194,6 +220,7 @@
   justify-content: center;
   gap: 0.8em;
 }
+
 .Detail .keyword-dot {
   color: var(--subtext);
   font-size: 1em;
@@ -203,12 +230,15 @@
   justify-content: center;
   align-items: center;
 }
+
 .Detail .keyword-dot.active {
   color: var(--accent);
 }
+
 .Detail .keyword-dot:hover {
   color: var(--accent);
 }
+
 .Detail .content {
   flex: 1;
   display: flex;
@@ -217,6 +247,7 @@
   border-radius: 5px;
   padding: 10px;
 }
+
 .Detail .content div {
   flex: 1;
 }

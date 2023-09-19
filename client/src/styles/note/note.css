@@ -1,4 +1,4 @@
-.Note.Cat section.top {
+.Note.Index section.top {
   width: 100%;
   height: 150px;
   display: flex;
@@ -6,32 +6,38 @@
   justify-content: space-around;
   align-items: center;
 }
-.Note.Cat section.top .title {
+
+.Note.Index section.top .title {
   font-size: 25pt;
   font-weight: 900;
 }
-.Note.Cat form {
+
+.Note.Index form {
   width: 50%;
   margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.Note.Cat form input[name="c_category"] {
+
+.Note.Index form input[name="c_category"] {
   color: var(--text);
   width: 100%;
 }
-.Note.Cat #insert-btn {
+
+.Note.Index #insert-btn {
   margin-left: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 1.8em;
 }
-.Note.Cat #insert-btn:not(:disabled) {
+
+.Note.Index #insert-btn:not(:disabled) {
   color: var(--accent);
 }
-.Note.Cat section.cat-list {
+
+.Note.Index section.cat-list {
   width: 90%;
   margin: 8vh auto 0;
   display: grid;
@@ -40,10 +46,12 @@
   column-gap: 1.5em;
   row-gap: 3em;
 }
-.Note.Cat .cat-item {
+
+.Note.Index .cat-item {
   width: 100%;
 }
-.Note.Cat .link-box {
+
+.Note.Index .link-box {
   border: 1px solid var(--border);
   border-radius: 5px;
   padding: 0.4em;
@@ -55,10 +63,12 @@
   height: 25vh;
   text-align: center;
 }
-.Note.Cat .link-box:hover {
+
+.Note.Index .link-box:hover {
   border: 1px solid var(--accent);
 }
-.Note.Cat .link-box input[class*="title"] {
+
+.Note.Index .link-box input[class*="title"] {
   color: var(--text);
   background-color: transparent;
   border: none;
@@ -70,46 +80,56 @@
   cursor: pointer;
   flex: 1;
 }
-.Note.Cat section.cat-list .date {
+
+.Note.Index section.cat-list .date {
   color: var(--subtext);
   font-size: 0.8em;
   flex: 1;
 }
-.Note.Cat section.cat-list .subcount {
+
+.Note.Index section.cat-list .subcount {
   font-size: 1.2em;
   font-weight: 700;
   flex: 1.5;
 }
-.Note.Cat .bookmark-btn {
+
+.Note.Index .bookmark-btn {
   font-size: 2em;
   align-self: flex-start;
   transform: translateY(-0.35em);
   transition: all ease 0.3s;
   flex: 0.5;
 }
-.Note.Cat .bookmark-btn:not(.active) {
+
+.Note.Index .bookmark-btn:not(.active) {
   color: var(--borderlight);
 }
-.Note.Cat .bookmark-btn:not(.active):hover {
+
+.Note.Index .bookmark-btn:not(.active):hover {
   color: var(--accent);
 }
-.Note.Cat .btn-box {
+
+.Note.Index .btn-box {
   width: 100%;
   display: flex;
   justify-content: space-around;
   margin-top: 0.5em;
   flex: 1;
 }
-.Note.Cat .btn-box button {
+
+.Note.Index .btn-box button {
   font-size: 1em;
 }
-.Note.Cat .btn-box .update-btn:hover {
+
+.Note.Index .btn-box .update-btn:hover {
   color: var(--accent);
 }
-.Note.Cat .btn-box .delete-btn:hover {
+
+.Note.Index .btn-box .delete-btn:hover {
   color: var(--red);
 }
-.Note.Cat .info {
+
+.Note.Index .info {
   display: flex;
   align-items: center;
   gap: 0.3em;

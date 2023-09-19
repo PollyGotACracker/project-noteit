@@ -7,11 +7,9 @@ import {
   SignUp,
   Dashboard,
   Note,
-  NoteCat,
-  NoteSub,
+  NoteList,
   NoteDetail,
   NoteWrite,
-  writeLoader,
   Search,
   Quiz,
   QuizCat,
@@ -44,26 +42,20 @@ export const routes = [
         children: [
           { path: "dashboard", element: <Dashboard /> },
           { path: "todo", element: <Todo /> },
+          { path: "note", element: <Note /> },
           {
-            path: "note",
-            element: <Note />,
-            children: [
-              { path: "", element: <NoteCat /> },
-              {
-                path: "category/:catid",
-                element: <NoteSub />,
-              },
-              {
-                path: "subject/:catid/:subid",
-                element: <NoteDetail />,
-              },
-              {
-                path: "write/:catid/:subid?",
-                loader: writeLoader,
-                element: <NoteWrite />,
-              },
-            ],
+            path: "note/list/:catId",
+            element: <NoteList />,
           },
+          {
+            path: "note/detail/:catId/:subId",
+            element: <NoteDetail />,
+          },
+          {
+            path: "note/write/:catId/:subId?",
+            element: <NoteWrite />,
+          },
+
           {
             path: "search",
             element: <Search />,
@@ -86,7 +78,10 @@ export const routes = [
 ];
 
 export const URLS = {
+  UPLOAD_ROUTE: "/server/note/upload",
   UPLOADS: "/server/uploads",
-  CATEGORY: "/note/category",
-  SUBJECT: "/note/subject",
+  NOTE_LIST: "/note/list",
+  NOTE_DETAIL: "/note/detail",
+  NOTE_WRITE: "/note/write",
+  SEARCH: "/search",
 };

@@ -6,15 +6,14 @@ import SignIn from "@pages/signin";
 import SignUp from "@pages/signup";
 import Dashboard from "@pages/dashboard";
 import Todo from "@pages/todo";
-import Note from "@pages/note/layout";
-import NoteCat from "@pages/note";
-import NoteSub from "@pages/note/category/[catid]";
-import NoteDetail from "@pages/note/subject/[catid][subid]";
-import NoteWrite, { writeLoader } from "@pages/note/write/[...id]";
+import Note from "@pages/note";
+import NoteList from "@pages/note/list/[catid]";
+import NoteDetail from "@pages/note/detail/[catid][subid]";
+import NoteWrite from "@pages/note/write/[...id]";
 import Search from "@pages/search";
 import Quiz from "@pages/quiz/layout";
 import QuizCat, { quizCatLoader } from "@pages/quiz";
-import QuizSub, { quizSubLoader } from "@pages/quiz/[catid]";
+import QuizSub, { quizSubLoader } from "@pages/quiz/[catId]";
 import QuizResult from "@pages/quiz/result";
 import Settings from "@pages/settings";
 import Error from "@pages/error";
@@ -28,11 +27,9 @@ export {
   SignUp,
   Dashboard,
   Note,
-  NoteCat,
-  NoteSub,
+  NoteList,
   NoteDetail,
   NoteWrite,
-  writeLoader,
   Search,
   Quiz,
   QuizCat,

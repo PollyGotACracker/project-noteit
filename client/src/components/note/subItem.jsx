@@ -1,55 +1,47 @@
-import { useState, useCallback } from "react";
-import { useParams, Link } from "react-router-dom";
-import {
-  deleteSubHandler,
-  getSubHandler,
-  updateSubBookmark,
-} from "@services/note.service";
-import { useNoteContext } from "@contexts/noteContext";
+import { Link } from "react-router-dom";
+import { useMutation } from "react-query";
 import { RxBookmark, RxBookmarkFilled } from "react-icons/rx";
 import { FaTags } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { URLS } from "@/router";
+import { getClient } from "@services/core";
+import { updateSubjectBookmark, deleteSubject } from "@services/note.service";
 
 const NoteSubItem = ({ item }) => {
-  const { catid } = useParams();
-  const { setNoteSubList } = useNoteContext();
-  const [bookmark, setBookmark] = useState(item.s_bookmark);
+  const queryClient = getClient();
+  const { s_catid: catId, s_subid: subId } = item;
+  const mutationParams = { queryClient, catId, subId };
+  const isBookmarked = item.s_bookmark !== 0;
 
-  const bookmarkHandler = useCallback(
-    async (e) => {
-      const subId = e.target.closest(".item").dataset.id;
-      const res = await updateSubBookmark(subId);
-      if (res?.error) alert(res.error);
-      else setBookmark(res);
-    },
-    [setBookmark]
+  const { mutate: updateBookmarkMutation } = useMutation(
+    updateSubjectBookmark(mutationParams)
   );
+  const { mutate: deleteMutation } = useMutation(deleteSubject(mutationParams));
 
-  const deleteHandler = async (e) => {
-    const subid = e.target.closest(".item").dataset.id;
+  const updateBookmarkHandler = () => {
+    const bookmark = isBookmarked ? 0 : 1;
+    updateBookmarkMutation({ bookmark });
+  };
+
+  const deleteHandler = () => {
     if (!window.confirm("이 주제를 삭제할까요?")) {
       return false;
     } else {
-      const res = await deleteSubHandler(catid, subid);
-      if (res) {
-        alert(res);
-        const { sub } = await getSubHandler(catid);
-        setNoteSubList([...sub]);
-      }
+      deleteMutation();
     }
   };
 
   return (
-    <li className="item" data-id={item.s_subid}>
+    <li className="item" data-id={subId}>
       <button
         className="bookmark-btn"
         title="북마크"
-        value={bookmark}
-        onClick={bookmarkHandler}
+        value={item.s_bookmark}
+        onClick={updateBookmarkHandler}
       >
-        {bookmark === 0 ? <RxBookmark /> : <RxBookmarkFilled />}
+        {isBookmarked ? <RxBookmarkFilled /> : <RxBookmark />}
       </button>
-      <Link className="subject" to={`/note/subject/${catid}/${item.s_subid}`}>
+      <Link className="subject" to={`${URLS.NOTE_DETAIL}/${catId}/${subId}`}>
         {item.s_subject}
       </Link>
       <div className="keycount">

@@ -1,11 +1,10 @@
-@import "./noteContent";
-
 .Write form {
   width: 80%;
   margin: 5vh auto;
   display: flex;
   flex-direction: column;
 }
+
 .Write label {
   display: inline-block;
   width: 100px;
@@ -14,13 +13,16 @@
   user-select: none;
   margin: 50px 10px 10px 10px;
 }
+
 .Write label[for="category"] {
   margin-top: 0;
 }
+
 .Write #add-btn {
   display: inline-block;
   width: 100px;
 }
+
 .Write input,
 .Write textarea {
   background-color: transparent;
@@ -29,6 +31,7 @@
   border-radius: 0;
   border-bottom: 1px solid var(--border);
 }
+
 .Write .keyword-info {
   display: flex;
   align-items: center;
@@ -37,11 +40,13 @@
   word-break: keep-all;
   margin-left: 10px;
 }
+
 .Write .keyword-item {
   display: flex;
   align-items: center;
   height: 20vh;
 }
+
 .Write .keyword-btn-box {
   display: flex;
   padding: 10px;
@@ -51,26 +56,32 @@
   align-items: center;
   font-weight: 700;
 }
+
 .Write .keyword-btn-box .keyword-index {
   font-size: 1.5em;
   color: var(--primary);
   user-select: none;
 }
+
 .Write .keyword-btn-box .keyword-delete {
   font-size: 1.6em;
   color: var(--subtext);
 }
+
 .Write .keyword-btn-box .keyword-delete:hover {
   color: var(--red);
 }
+
 .Write .keyword-btn-box .keyword-up,
 .Write .keyword-btn-box .keyword-down {
   font-size: 1.2em;
 }
+
 .Write .keyword-btn-box .keyword-up:hover,
 .Write .keyword-btn-box .keyword-down:hover {
   color: var(--accent);
 }
+
 .Write .keyword-wrap {
   display: flex;
   flex-direction: column;
@@ -82,12 +93,15 @@
   border-radius: 5px;
   overflow: auto;
 }
+
 .Write .keyword-wrap:focus-within {
   border-color: var(--accent);
 }
+
 .Write .keyword-wrap > * {
   width: 100%;
 }
+
 .Write .keyword-wrap .keyword {
   background-image: url("@assets/images/keyword.png");
   border-bottom: 1px dashed var(--border);
@@ -96,23 +110,28 @@
   background-size: 16px;
   padding: 10px 40px;
 }
+
 .Write .keyword-wrap .desc {
   height: 10vh;
   border: none;
 }
+
 .Write .keyword-controller {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
+
 .Write .keyword-controller #add-keyword {
   margin-left: auto;
   margin-right: 10px;
 }
+
 .Write #keyword-box {
   width: 100%;
   margin: 10px 0;
 }
+
 .Write .keyword-controller #add-keyword {
   border-radius: 5px;
   border: 1px solid var(--border);
@@ -124,13 +143,16 @@
   font-size: 12pt;
   text-align: center;
 }
+
 .Write .keyword-controller #add-keyword {
   width: 120px;
 }
+
 .Write .keyword-controller #add-keyword:hover {
   border-color: var(--accent);
   color: var(--accent);
 }
+
 .Write #content {
   width: 100%;
   height: 20vh;
@@ -139,6 +161,7 @@
   border-radius: 5px;
   overflow: auto;
 }
+
 .Write #back,
 .Write #submit {
   background-color: var(--primary);
@@ -152,26 +175,44 @@
   font-size: 12pt;
   text-align: center;
 }
+
 .Write #back:hover,
 .Write #submit:hover {
   color: inherit !important;
   background-color: var(--accent);
 }
+
 .Write .btn-box {
   width: 100%;
   margin-top: 8vh;
   display: flex;
   justify-content: space-between;
 }
-.Write .ck-editor * {
+
+/* editor style */
+.ck-content {
+  height: 68vh;
+}
+
+.ck.ck-editor__top .ck-toolbar .ck-button svg path,
+.ck.ck-editor__top .ck-toolbar .ck-button svg circle,
+.ck.ck-editor__top .ck-toolbar .ck-button span {
+  color: var(--text) !important;
+  fill: var(--text) !important;
+}
+
+.ck-editor .ck-toolbar,
+.ck-editor .ck-toolbar *,
+.ck-editor .ck-toolbar *:hover,
+.ck-editor .ck-content {
   background-color: var(--background) !important;
 }
-.Write .ck-rounded-corners .ck.ck-editor__top .ck-sticky-panel .ck-toolbar,
-.Write .ck-toolbar__items {
+
+.ck-toolbar,
+.ck-toolbar__items {
   border-radius: 10px 10px 0 0 !important;
-  border-color: var(--border);
 }
-.Write .ck.ck-editor__main > .ck-editor__editable.ck-rounded-corners {
+
+.ck-editor__editable.ck-rounded-corners {
   border-radius: 0 0 10px 10px !important;
-  border-color: var(--border);
 }

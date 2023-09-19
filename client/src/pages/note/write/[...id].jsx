@@ -1,137 +1,62 @@
-import "@styles/noteWrite.css";
-import { useRef, useState } from "react";
-import { useParams, Link, useNavigate, useLoaderData } from "react-router-dom";
-import moment from "moment";
-import { MdDelete } from "react-icons/md";
-import { FaCaretUp, FaCaretDown } from "react-icons/fa";
+import "@styles/note/write.css";
+import { useEffect, useRef, useState } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { useMutation, useQuery } from "react-query";
 import { AiOutlineInfoCircle } from "react-icons/ai";
-import { getSubDetailHandler, getSubWriteData } from "@services/note.service";
-import { initSub, initKey } from "@data/note";
+import { getClient } from "@services/core";
+import {
+  getCategoryData,
+  getSubjectData,
+  upsertSubject,
+} from "@services/note.service";
+import { initKey, initSub } from "@recoils/note";
 import Editor from "@libs/editor";
-
-export const writeLoader = async ({ params }) => {
-  const catid = params?.catid;
-  const subid = params?.subid;
-  let subData = {};
-  let keyData = [];
-
-  // category 이름 select
-  let res = await getSubWriteData(catid);
-  if (res?.error) return alert(res.error);
-  else {
-    subData = { s_category: res[0].c_category };
-    keyData = [];
-  }
-
-  // path 에 subid 가 있을 경우(UPDATE)
-  if (subid) {
-    const res = await getSubDetailHandler(subid);
-    if (res) {
-      subData = {
-        ...res.data,
-        s_date: moment().format("YYYY[-]MM[-]DD"),
-      };
-      keyData = res.keys;
-    }
-  }
-  return { subData, keyData };
-};
+import { URLS } from "@/router";
+import WriteKeywords from "@components/note/writeKeywords";
 
 const NoteWritePage = () => {
-  const { subData, keyData } = useLoaderData();
+  const queryClient = getClient();
+  const { catId, subId = undefined } = useParams();
+  const { data: category } = useQuery(getCategoryData({ catId }));
+  const { data: { subject, keywords } = {} } = subId
+    ? useQuery(getSubjectData({ subId }))
+    : {};
+  const { data: { subId: upsertSubId } = {}, mutate: upsertMutation } =
+    useMutation(upsertSubject({ queryClient, catId, subId }));
+
+  const navigate = useNavigate();
+  const [noteSub, setNoteSub] = useState(initSub(subId));
+  const [keywordList, setKeywordList] = useState([]);
   const keyboxRef = useRef(null);
-  const { catid, subid } = useParams();
-  const nav = useNavigate();
-  const [noteSub, setNoteSub] = useState({ ...initSub(), ...subData });
-  const [keywordList, setKeywordList] = useState([...keyData]);
 
-  const KeywordItem = keywordList.map((item, idx) => {
-    // key 가 고유값이 아니면 input 동작에 영향을 줌
-    return (
-      <div className="keyword-item" key={item.k_keyid}>
-        <div className="keyword-btn-box">
-          <div className="keyword-index">{idx + 1}</div>
-          <button
-            className="keyword-delete"
-            onClick={() => onDeleteKeyHandler(idx)}
-          >
-            <MdDelete />
-          </button>
-        </div>
-        <div className="keyword-wrap">
-          <input
-            className="keyword"
-            name="k_keyword"
-            required={true}
-            defaultValue={item.k_keyword}
-            type="text"
-            placeholder="키워드 제목"
-            autoFocus
-            maxLength={225}
-            autoComplete="false"
-            spellCheck="false"
-            onChange={(e) => onChangeKeyHandler(e, idx)}
-          />
-          <textarea
-            className="desc"
-            name="k_desc"
-            required={true}
-            placeholder="키워드 내용"
-            defaultValue={item.k_desc}
-            autoComplete="false"
-            spellCheck="false"
-            onChange={(e) => onChangeKeyHandler(e, idx)}
-          />
-        </div>
-        <div className="keyword-btn-box">
-          <button
-            className="keyword-up"
-            name="up"
-            type="button"
-            onClick={(e) => moveKeyword(e, idx)}
-          >
-            <FaCaretUp />
-          </button>
-          <button
-            className="keyword-down"
-            name="down"
-            type="button"
-            onClick={(e) => moveKeyword(e, idx)}
-          >
-            <FaCaretDown />
-          </button>
-        </div>
-      </div>
-    );
-  });
+  useEffect(() => {
+    if (category) {
+      setNoteSub({
+        ...noteSub,
+        ...(subject && subject),
+        s_catid: category?.c_catid,
+        s_category: category?.c_category,
+      });
+    }
+  }, [subject, category]);
 
-  // keywordItem 추가
-  const addKeyword = () => {
+  useEffect(() => {
+    if (keywords) setKeywordList([...keywords]);
+  }, [keywords]);
+
+  useEffect(() => {
+    if (upsertSubId) {
+      navigate(`${URLS.NOTE_DETAIL}/${catId}/${upsertSubId}`, {
+        replace: true,
+      });
+    }
+  }, [upsertSubId]);
+
+  const addKeywordItemHandler = () =>
     setKeywordList([...keywordList, initKey()]);
-  };
 
-  /**
-   * destructuring 을 이용한 배열 요소 순서 변경
-   * 변수의 값을 재할당하는 방식
-   * 단, 객체 리터럴일 경우 코드 전체를 소괄호로 묶어야
-   * 중괄호를 코드 블록이 아닌 표현식으로 인식
-   */
-  const moveKeyword = (e, idx) => {
-    const value = e.currentTarget.name;
-    const _list = [...keywordList];
-    if (value === "up") {
-      if (idx === 0) return false;
-      [_list[idx], _list[idx - 1]] = [_list[idx - 1], _list[idx]];
-    }
-    if (value === "down") {
-      if (idx === _list.length - 1) return false;
-      [_list[idx + 1], _list[idx]] = [_list[idx], _list[idx + 1]];
-    }
-    setKeywordList([..._list]);
-  };
-
-  const onChangeSubHandler = (e) => {
-    setNoteSub({ ...noteSub, [e.target.name]: e.target.value });
+  const onChangeSubHandler = ({ target: { name, value } }) => {
+    setNoteSub({ ...noteSub, [name]: value });
   };
 
   const onChangeContentHandler = (e, editor) => {
@@ -139,24 +64,9 @@ const NoteWritePage = () => {
     setNoteSub({ ...noteSub, s_content: data });
   };
 
-  const onChangeKeyHandler = (e, idx) => {
-    const _list = [...keywordList];
-    _list[idx][e.target.name] = e.target.value;
-    setKeywordList([..._list]);
-  };
-
-  const onDeleteKeyHandler = (idx) => {
-    const _list = [...keywordList];
-    _list.splice(idx, 1);
-    setKeywordList([..._list]);
-  };
-
   const submitHandler = async () => {
-    const keywords = keywordList.map((key, idx) => {
-      key.k_subid = noteSub.s_subid;
-      key.k_index = idx + 1;
-      return key;
-    });
+    let subjects = { ...noteSub, s_catid: catId, s_subid: subId ? subId : "" };
+
     const images = document?.querySelectorAll(".ck-content img");
     if (images) {
       const imageArr = Array?.from(images).map((item) => {
@@ -171,19 +81,10 @@ const NoteWritePage = () => {
       };
     }
 
-    let request = "insert";
-    let subjects = { ...noteSub, s_catid: catid };
-    if (subid) {
-      request = "update";
-      subjects = { ...subjects, s_subid: subid };
-    }
-    const res = updateNote({
-      request,
+    upsertMutation({
       subjects,
-      keywords,
+      keywords: keywordList,
     });
-    alert(res);
-    nav(`/note/subject/${catid}/${noteSub.s_subid}`, { replace: true });
   };
 
   return (
@@ -193,14 +94,14 @@ const NoteWritePage = () => {
         <input
           id="category"
           name="s_category"
-          value={noteSub.s_category}
+          value={noteSub?.s_category}
           readOnly={true}
           onChange={onChangeSubHandler}
         />
         <label htmlFor="subject">주제</label>
         <input
           id="subject"
-          value={noteSub.s_subject || ""}
+          value={noteSub?.s_subject || ""}
           required={true}
           name="s_subject"
           onChange={onChangeSubHandler}
@@ -216,28 +117,34 @@ const NoteWritePage = () => {
             </span>
           </div>
           <div id="keyword-box" ref={keyboxRef}>
-            {KeywordItem}
+            <WriteKeywords
+              keywordList={keywordList}
+              setKeywordList={setKeywordList}
+            />
           </div>
-          <button id="add-keyword" type="button" onClick={addKeyword}>
+          <button
+            id="add-keyword"
+            type="button"
+            onClick={addKeywordItemHandler}
+          >
             키워드 추가
           </button>
         </section>
         <section>
           <label htmlFor="content">메모</label>
           <Editor
-            data={noteSub.s_content}
+            data={noteSub?.s_content}
             handler={onChangeContentHandler}
-            subid={noteSub.s_subid}
+            subId={noteSub?.s_subid}
           />
         </section>
-
         <section className="btn-box">
           <Link
             id="back"
             to={
-              subid
-                ? `/note/subject/${catid}/${subid}`
-                : `/note/category/${catid}`
+              subId
+                ? `${URLS.NOTE_DETAIL}/${catId}/${subId}`
+                : `${URLS.NOTE_LIST}/${catId}`
             }
           >
             뒤로

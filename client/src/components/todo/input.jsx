@@ -1,36 +1,31 @@
-import { useState } from "react";
-import { useRecoilState, useResetRecoilState, useSetRecoilState } from "recoil";
+import { useEffect, useState } from "react";
+import { useRecoilState, useResetRecoilState } from "recoil";
 import { useMutation } from "react-query";
-import { editState, todoState, todosState } from "@recoils/todo";
-import { QueryKeys, getClient } from "@services/core";
+import { editState, todoState } from "@recoils/todo";
+import { getClient } from "@services/core";
 import { upsertTodo } from "@services/todo.service";
 
 const TodoInput = () => {
   const userId = "polly@gmail.com";
   const queryClient = getClient();
-  const setTodoList = useSetRecoilState(todosState);
   const [todoItem, setTodoItem] = useRecoilState(todoState);
   const resetTodoItem = useResetRecoilState(todoState);
   const [isEdit, setIsEdit] = useRecoilState(editState);
   const [showPrior, setShowPrior] = useState(false);
 
-  const { mutate: upsertMutation } = useMutation(upsertTodo, {
-    onSuccess: (data) => {
-      if (data?.error) alert(data.error);
-      else {
-        queryClient.invalidateQueries(QueryKeys.TODO);
-        setTodoList([...data]);
-        resetTodoItem();
-      }
-    },
-  });
+  const { mutate: upsertMutation, data: upsertedData } = useMutation(
+    upsertTodo({ queryClient, userId })
+  );
+
+  useEffect(() => {
+    if (upsertedData) resetTodoItem();
+  }, [upsertedData]);
 
   const changeValueHandler = ({ target }) => {
     const { name, value } = target;
     setTodoItem({
       ...todoItem,
       [`${name}`]: value,
-      t_userid: userId,
     });
   };
 
@@ -39,7 +34,9 @@ const TodoInput = () => {
   };
 
   const todoUpsertHandler = () => {
-    upsertMutation({ userId, todo: todoItem });
+    const todo = { ...todoItem };
+    todo.t_userid = userId;
+    upsertMutation({ todo });
     if (isEdit) setIsEdit(false);
   };
 

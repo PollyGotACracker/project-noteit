@@ -3,20 +3,18 @@ import { QueryKeys, fetcher } from "@services/core";
 export const getTodos = ({ userId }) => ({
   queryKey: QueryKeys.TODO,
   queryFn: async () => {
-    try {
-      const endPoint = `/todo/${userId}`;
-      const res = await fetcher({ endPoint });
-      return res;
-    } catch (err) {
-      console.error(err);
-      alert("Todo 목록을 불러오는 중 오류가 발생했습니다.");
-      throw err;
-    }
+    const endPoint = `/todo/${userId}`;
+    const res = await fetcher({ endPoint });
+    return res;
+  },
+  onError: (error) => {
+    alert(error.message);
   },
 });
 
-export const upsertTodo = async ({ userId, todo }) => {
-  try {
+export const upsertTodo = ({ queryClient, userId }) => ({
+  mutationKey: [...QueryKeys.TODO, "upsert"],
+  mutationFn: async ({ todo }) => {
     const isNew = Number(todo.t_todoid) === 0;
     const endPoint = `/todo/${userId}/${isNew ? "insert" : "update"}`;
     const options = {
@@ -25,39 +23,47 @@ export const upsertTodo = async ({ userId, todo }) => {
     };
     const res = await fetcher({ endPoint, options });
     return res;
-  } catch (err) {
-    console.error(err);
-    alert("Todo 아이템 추가 또는 수정 중 오류가 발생했습니다.");
-    throw err;
-  }
-};
+  },
+  onSuccess: () => {
+    queryClient.invalidateQueries(QueryKeys.TODO);
+  },
+  onError: (error) => {
+    alert(error.message);
+  },
+});
 
-export const deleteTodo = async ({ userId, uid }) => {
-  try {
-    const endPoint = `/todo/${userId}/delete/${uid}`;
+export const deleteTodo = ({ queryClient, userId }) => ({
+  mutationKey: [...QueryKeys.TODO, "delete"],
+  mutationFn: async ({ todoId }) => {
+    const endPoint = `/todo/${userId}/delete/${todoId}`;
     const options = {
       method: "DELETE",
     };
     const res = await fetcher({ endPoint, options });
     return res;
-  } catch (err) {
-    console.error(err);
-    alert("Todo 아이템 삭제 중 오류가 발생했습니다.");
-    throw err;
-  }
-};
+  },
+  onSuccess: () => {
+    queryClient.invalidateQueries(QueryKeys.TODO);
+  },
+  onError: (error) => {
+    alert(error.message);
+  },
+});
 
-export const updateTodoComplete = async ({ userId, uid }) => {
-  try {
-    const endPoint = `/todo/${userId}/complete/${uid}`;
+export const updateTodoComplete = ({ queryClient, userId }) => ({
+  mutationKey: [...QueryKeys.TODO, "complete"],
+  mutationFn: async ({ todoId }) => {
+    const endPoint = `/todo/${userId}/complete/${todoId}`;
     const options = {
       method: "PATCH",
     };
     const res = await fetcher({ endPoint, options });
     return res;
-  } catch (err) {
-    console.error(err);
-    alert("Todo 아이템 완료 업데이트 중 오류가 발생했습니다.");
-    throw err;
-  }
-};
+  },
+  onSuccess: () => {
+    queryClient.invalidateQueries(QueryKeys.TODO);
+  },
+  onError: (error) => {
+    alert(error.message);
+  },
+});

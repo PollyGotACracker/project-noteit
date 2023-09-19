@@ -1,167 +1,197 @@
-// 모든 cat select
-export const getCatHandler = async () => {
-  try {
-    const res = await fetch("/server/note/cat").then((data) => data.json());
-    if (res?.error) return alert(res.error);
-    if (res?.result) return res.result;
-  } catch (error) {
-    console.log(error);
-    alert("서버 연결에 문제가 발생했습니다.");
-  }
+import { QueryKeys, fetcher } from "@services/core";
+
+const QueryCat = [QueryKeys.NOTE, "category"];
+const QuerySub = [QueryKeys.NOTE, "subject"];
+const refetchOptions = {
+  exact: false,
+  refetchInactive: true,
 };
 
-export const insertCat = async (catName) => {
-  try {
-    const fetchOption = {
+export const getCategories = ({ userId }) => ({
+  queryKey: QueryCat,
+  queryFn: async () => {
+    const endPoint = `/note/cats/${userId}`;
+    const res = await fetcher({ endPoint });
+    return res;
+  },
+  onError: (error) => {
+    alert(error.message);
+  },
+});
+
+export const getCategoryData = ({ catId }) => ({
+  queryKey: [...QueryCat, catId],
+  queryFn: async () => {
+    const endPoint = `/note/cat/detail/${catId}`;
+    const res = await fetcher({ endPoint });
+    return res;
+  },
+  onError: (error) => {
+    alert(error.message);
+  },
+});
+
+export const insertCategory = ({ queryClient }) => ({
+  mutationKey: [...QueryCat, "insert"],
+  mutationFn: async ({ category }) => {
+    const endPoint = `/note/cat/insert`;
+    const options = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(catName),
+      body: JSON.stringify(category),
     };
-    let res = await fetch("/server/note/cat/insert", fetchOption);
-    res = await res.json();
+    const res = await fetcher({ endPoint, options });
     return res;
-  } catch (error) {
-    console.log(error);
-    alert("서버 연결에 문제가 발생했습니다.");
-  }
-};
+  },
+  onSuccess: (data) => {
+    queryClient.invalidateQueries(QueryCat);
+    alert(data.message);
+  },
+  onError: (error) => {
+    alert(error.message);
+  },
+});
 
-export const updateCat = async ({ catId, category }) => {
-  const fetchOption = {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ c_catid: catId, c_category: category }),
-  };
-  const res = await fetch(`/server/note/cat/update`, fetchOption).then((data) =>
-    data.json()
-  );
-  return res;
-};
-
-export const updateCatBookmark = async (catId, bookmark) => {
-  const fetchOption = {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      // router 에서 catId로 수정 필요?
-      catid: catId,
-      bookmark: bookmark,
-    }),
-  };
-  const res = await fetch(`/server/note/cat/bookmark`, fetchOption).then(
-    (data) => data.json()
-  );
-  return res;
-};
-
-// cat delete
-export const deleteCatHandler = async (catid) => {
-  try {
-    const res = await fetch(`/server/note/cat/${catid}/delete`, {
-      method: "DELETE",
-    }).then((data) => data.json());
-    if (res?.error) return alert(res.error);
-    if (res?.result) return alert(res.result);
-  } catch (error) {
-    console.log(error);
-    alert("서버 연결에 문제가 발생했습니다.");
-  }
-};
-
-// 모든 sub select
-export const getSubHandler = async (catid) => {
-  try {
-    const res = await fetch(`/server/note/cat/${catid}`).then((data) =>
-      data.json()
-    );
-    if (res?.error) {
-      return alert(res.error);
-    } else {
-      const cat = res.category[0];
-      const sub = res.subList;
-      return { cat, sub };
-    }
-  } catch (error) {
-    console.log(error);
-    alert("서버 연결에 문제가 발생했습니다.");
-  }
-};
-
-// sub delete
-export const deleteSubHandler = async (catid, subid) => {
-  try {
-    const res = await fetch(`/server/note/sub/${catid}/${subid}/delete`, {
-      method: "DELETE",
-    }).then((data) => data.json());
-    if (res?.error) return alert(res.error);
-    if (res?.result) return res.result;
-  } catch (error) {
-    console.log(error);
-    alert("서버 연결에 문제가 발생했습니다.");
-  }
-};
-
-export const getSubWriteData = async (catId) => {
-  try {
-    let res = await fetch(`/server/note/cat/write/${catId}`).then((data) =>
-      data.json()
-    );
+export const updateCategoryBookmark = ({ queryClient, catId }) => ({
+  mutationKey: [...QueryCat, "bookmark", catId],
+  mutationFn: async ({ bookmark }) => {
+    const endPoint = `/note/cat/bookmark`;
+    const options = {
+      method: "PATCH",
+      body: JSON.stringify({
+        c_catid: catId,
+        c_bookmark: bookmark,
+      }),
+    };
+    const res = await fetcher({ endPoint, options });
     return res;
-  } catch (error) {
-    console.log(error);
-    alert("서버 연결에 문제가 발생했습니다.");
-  }
-};
+  },
+  onSuccess: (data) => {
+    queryClient.invalidateQueries(QueryCat);
+    alert(data.message);
+  },
+  onError: (error) => {
+    alert(error.message);
+  },
+});
 
-// detail select
-export const getSubDetailHandler = async (subid) => {
-  try {
-    const res = await fetch(`/server/note/sub/${subid}`).then((data) =>
-      data.json()
-    );
+export const updateCategory = ({ queryClient, catId }) => ({
+  mutationKey: [...QueryCat, "update", catId],
+  mutationFn: async ({ catTitle }) => {
+    const endPoint = `/note/cat/update`;
+    const options = {
+      method: "PATCH",
+      body: JSON.stringify({ c_catid: catId, c_category: catTitle }),
+    };
+    const res = await fetcher({ endPoint, options });
+    return res;
+  },
+  onSuccess: (data) => {
+    queryClient.invalidateQueries(QueryCat);
+    alert(data.message);
+  },
+  onError: (error) => {
+    alert(error.message);
+  },
+});
 
-    if (res?.error) return alert(res.error);
-    else return { data: res.subject[0], keys: res.keywords };
-  } catch (error) {
-    console.log(error);
-    alert("서버 연결에 문제가 발생했습니다.");
-  }
-};
+export const deleteCategory = ({ queryClient, catId }) => ({
+  mutationKey: [...QueryCat, "delete", catId],
+  mutationFn: async () => {
+    const endPoint = `/note/cat/${catId}/delete`;
+    const options = { method: "DELETE" };
+    const res = await fetcher({ endPoint, options });
+    return res;
+  },
+  onSuccess: (data) => {
+    queryClient.invalidateQueries(QueryCat);
+    alert(data.message);
+  },
+  onError: (error) => {
+    alert(error.message);
+  },
+});
 
-export const updateNote = async ({ request, subjects, keywords }) => {
-  try {
-    let method = "POST";
-    let url = `/server/note/sub/insert`;
+export const getSubjects = ({ catId }) => ({
+  queryKey: [...QuerySub, catId],
+  queryFn: async () => {
+    const endPoint = `/note/subs/${catId}`;
+    const { category, subjects } = await fetcher({ endPoint });
+    return { category, subjects };
+  },
+  onError: (error) => {
+    alert(error.message);
+  },
+});
 
-    if (request === "update") {
-      method = "PATCH";
-      url = `/server/note/sub/update`;
-    }
+export const getSubjectData = ({ subId }) => ({
+  queryKey: [...QuerySub, subId],
+  queryFn: async () => {
+    const endPoint = `/note/sub/detail/${subId}`;
+    const { subject, keywords } = await fetcher({ endPoint });
+    return { subject, keywords };
+  },
+  onError: (error) => {
+    alert(error.message);
+  },
+});
 
-    const fetchOption = {
-      method: method,
-      headers: { "Content-Type": "application/json" },
+export const updateSubjectBookmark = ({ queryClient, catId, subId }) => ({
+  mutationKey: [...QuerySub, "bookmark", subId],
+  mutationFn: async ({ bookmark }) => {
+    const endPoint = `/note/sub/bookmark`;
+    const options = {
+      method: "PATCH",
+      body: JSON.stringify({ s_subid: subId, s_bookmark: bookmark }),
+    };
+    const res = await fetcher({ endPoint, options });
+    return res;
+  },
+  onSuccess: () => {
+    queryClient.invalidateQueries(QueryCat, refetchOptions);
+    queryClient.invalidateQueries(QuerySub, refetchOptions);
+  },
+  onError: (error) => {
+    alert(error.message);
+  },
+});
+
+export const upsertSubject = ({ queryClient, catId, subId }) => ({
+  mutationKey: [...QuerySub, "upsert", subId],
+  mutationFn: async ({ subjects, keywords }) => {
+    const endPoint = !subId ? `/note/sub/insert` : `/note/sub/update`;
+    const options = {
+      method: !subId ? "POST" : "PATCH",
       body: JSON.stringify({ subjects, keywords }),
     };
+    const res = await fetcher({ endPoint, options });
+    return res;
+  },
+  onSuccess: (data) => {
+    queryClient.invalidateQueries(QueryCat, refetchOptions);
+    queryClient.invalidateQueries(QuerySub, refetchOptions);
+    alert(data.message);
+  },
+  onError: (error) => {
+    alert(error.message);
+  },
+});
 
-    let res = await fetch(url, fetchOption).then((data) => data.json());
-    return res.result;
-  } catch (error) {
-    console.log(error);
-    alert("서버에 문제가 발생했습니다.\n다시 시도해주세요.");
-  }
-};
-
-export const updateSubBookmark = async (subId) => {
-  try {
-    let res = await fetch(`/server/note/sub/bookmark/${subId}`, {
-      method: "PATCH",
-    });
-    res = await res.json();
-    if (res?.error) return res;
-    else return res.result;
-  } catch (error) {
-    console.log(error);
-    alert("서버 접속 중 오류가 발생했습니다.");
-  }
-};
+export const deleteSubject = ({ queryClient, catId, subId }) => ({
+  mutationKey: [...QuerySub, "delete", subId],
+  mutationFn: async () => {
+    const endPoint = `/note/sub/${catId}/${subId}/delete`;
+    const options = {
+      method: "DELETE",
+    };
+    const res = await fetcher({ endPoint, options });
+    return res;
+  },
+  onSuccess: (data) => {
+    queryClient.invalidateQueries(QueryCat, refetchOptions);
+    queryClient.invalidateQueries(QuerySub, refetchOptions);
+    alert(data.message);
+  },
+  onError: (error) => {
+    alert(error.message);
+  },
+});

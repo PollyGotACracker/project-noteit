@@ -10,45 +10,48 @@ import Scores from "@components/dashboard/scores";
 
 const DashboardPage = () => {
   const userId = "polly@gmail.com";
-  const [{ data: todos }, { data: wrongs }, { data: scores }] = useQueries(
-    getDashboardQueries(userId)
-  );
+  const [
+    { isLoading: todosIsLoading, data: todos },
+    { isLoading: wrongsIsLoading, data: wrongs },
+    { isLoading: scoresIsLoading, data: scores },
+  ] = useQueries(getDashboardQueries(userId));
 
   setChartDefaultStyle();
 
-  return (
-    <article className="Dashboard">
-      <div className="dashboard">DASHBOARD</div>
-      <section className="content">
-        <section className="top-box">
-          <TypeText />
-          <div className="subject">
-            최근 공부한 노트: {wrongs?.category || "없음"}
-          </div>
-        </section>
-        <Todos todos={todos} />
-        {!wrongs?.error && (
-          <section className="center-box">
-            <Wrongs
-              subject={wrongs?.subject}
-              wrong={wrongs?.wrong}
-              error={wrongs?.error}
-            />
-            <Article data={wrongs?.article} error={wrongs?.error} />
+  if (!todosIsLoading && !wrongsIsLoading && !scoresIsLoading)
+    return (
+      <article className="Dashboard">
+        <div className="dashboard">DASHBOARD</div>
+        <section className="content">
+          <section className="top-box">
+            <TypeText />
+            <div className="subject">
+              최근 공부한 노트: {wrongs?.category || "없음"}
+            </div>
           </section>
-        )}
-        <section className="botton-box">
-          <Scores
-            dates={scores?.date}
-            scores={scores?.score}
-            totalscores={scores?.totalscore}
-            percent={scores?.percent}
-            error={scores?.error}
-          />
+          <Todos todos={todos} />
+          {!wrongs?.error && (
+            <section className="center-box">
+              <Wrongs
+                subject={wrongs?.subject}
+                wrong={wrongs?.wrong}
+                error={wrongs?.error}
+              />
+              <Article data={wrongs?.article} error={wrongs?.error} />
+            </section>
+          )}
+          <section className="botton-box">
+            <Scores
+              dates={scores?.date}
+              scores={scores?.score}
+              totalscores={scores?.totalscore}
+              percent={scores?.percent}
+              error={scores?.error}
+            />
+          </section>
         </section>
-      </section>
-    </article>
-  );
+      </article>
+    );
 };
 
 export default DashboardPage;

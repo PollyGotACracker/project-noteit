@@ -1,54 +1,40 @@
-import "@styles/noteCategory.css";
-import { useEffect, useCallback } from "react";
+import "@styles/note/note.css";
+import { useMutation, useQuery } from "react-query";
+import { useRecoilState, useResetRecoilState } from "recoil";
 import { HiFolderPlus } from "react-icons/hi2";
 import { AiOutlineInfoCircle } from "react-icons/ai";
-import { useNoteContext } from "@contexts/noteContext";
-import { getCatHandler } from "@services/note.service";
-import { initCat } from "@data/note";
+import { getClient } from "@services/core";
+import { getCategories, insertCategory } from "@services/note.service";
+import { cat } from "@recoils/note";
 import CatItem from "@components/note/catItem";
 
-const NoteCatPage = () => {
-  const { noteCatList, setNoteCatList, noteCat, setNoteCat } = useNoteContext();
+const NoteIndexPage = () => {
+  const userId = "polly@gmail.com";
+  const queryClient = getClient();
+  const [newCat, setNewCat] = useRecoilState(cat);
+  const resetNewCat = useResetRecoilState(cat);
+  const { data: catList = [] } = useQuery(getCategories({ userId }));
+  const { mutate: insertMutation } = useMutation(
+    insertCategory({ queryClient })
+  );
 
-  useEffect(() => {
-    (async () => {
-      const data = await getCatHandler();
-      setNoteCatList([...data]);
-    })();
-  }, []);
-
-  const list = noteCatList.map((item) => {
-    return <CatItem key={item.c_catid} className="Item" item={item} />;
-  });
-
-  const onChangeHandler = (e) => {
-    setNoteCat({ ...noteCat, [e.target.name]: e.target.value });
+  const changeNewCatTitleHandler = ({ target }) => {
+    setNewCat({ ...newCat, [target.name]: target.value });
   };
 
-  const insertCat = useCallback(async () => {
-    const res = await insertCat(noteCat);
-    if (res?.error) alert(res.error);
-    else alert(res.result);
-
-    setNoteCat({ ...initCat() });
-    const data = await getCatHandler();
-    setNoteCatList([...data]);
-    document.querySelector("input[name='c_category']").value = "";
-  }, [setNoteCat, noteCat, initCat]);
-
-  const onKeyDownHandler = (e) => {
+  const insertCatHandler = (e) => {
+    const eventType = e.type;
     const keyCode = e.keyCode;
-    if (keyCode === 13) {
+    if (keyCode === 13 || eventType === "click") {
       e.preventDefault();
-      insertCat();
+      const category = { ...newCat, c_userid: userId };
+      insertMutation({ category });
+      resetNewCat();
     }
-  };
-  const onClickHandler = () => {
-    insertCat();
   };
 
   return (
-    <article className="Note Cat">
+    <article className="Note Index">
       <section className="top">
         <div className="title">노트 목록</div>
         <div className="info">
@@ -59,23 +45,28 @@ const NoteCatPage = () => {
           <input
             name="c_category"
             maxLength={225}
-            onChange={onChangeHandler}
-            onKeyDown={onKeyDownHandler}
+            onChange={changeNewCatTitleHandler}
+            onKeyDown={insertCatHandler}
+            value={newCat.c_category}
             placeholder="카테고리 추가"
           />
           <button
             type="button"
             id="insert-btn"
-            onClick={onClickHandler}
-            disabled={noteCat.c_category.length < 1}
+            onClick={insertCatHandler}
+            disabled={newCat.c_category.length < 1}
           >
             <HiFolderPlus />
           </button>
         </form>
       </section>
-      <section className="cat-list">{list}</section>
+      <section className="cat-list">
+        {catList?.map((item) => (
+          <CatItem key={item.c_catid} className="Item" item={item} />
+        ))}
+      </section>
     </article>
   );
 };
 
-export default NoteCatPage;
+export default NoteIndexPage;

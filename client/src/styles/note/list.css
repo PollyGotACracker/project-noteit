@@ -1,4 +1,4 @@
-.Note.Sub {
+.Note.List {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -6,7 +6,8 @@
   padding-top: 0 !important;
   position: relative;
 }
-.Note.Sub .title {
+
+.Note.List .title {
   width: 90%;
   height: 100px;
   display: flex;
@@ -15,7 +16,8 @@
   padding: 3em 4em 2em;
   border-bottom: 2px solid var(--primary);
 }
-.Note.Sub .title .category {
+
+.Note.List .title .category {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,7 +27,8 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.Note.Sub .title .subcount {
+
+.Note.List .title .subcount {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,10 +36,12 @@
   margin: 0 2em 0 1em;
   font-size: 1.2em;
 }
-.Note.Sub .title .subcount svg {
+
+.Note.List .title .subcount svg {
   font-size: 1.2em;
 }
-.Note.Sub .title .insert-btn {
+
+.Note.List .title .insert-btn {
   color: var(--subtext);
   display: flex;
   justify-content: center;
@@ -46,18 +51,45 @@
   border-radius: 5px;
   padding: 0.4em;
 }
-.Note.Sub .title .insert-btn:hover {
+
+.Note.List .title .insert-btn:hover {
   color: var(--accent);
 }
-.Note.Sub .content {
+
+.Note.List .content {
+  display: flex;
   width: 80%;
+  height: calc(100% - 260px);
   margin: 2em auto 0;
   overflow-y: auto;
 }
-.Note.Sub .content ul {
+
+.Note.List .no-data {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.Note.List .no-data-img {
+  opacity: 0.5;
+  width: 60%;
+  height: 60%;
+}
+
+.Note.List .no-data-msg {
+  bottom: 10vw;
+  width: 100%;
+  text-align: center;
+}
+
+.Note.List .content ul {
   width: 100%;
 }
-.Note.Sub .content ul li {
+
+.Note.List .content ul li {
   display: grid;
   grid-template-columns: 1.5fr 10fr 1fr 1.5fr;
   gap: 10px;
@@ -65,20 +97,24 @@
   padding: 10px;
   border-bottom: 1px dashed var(--border);
 }
-.Note.Sub .content ul li:last-child {
+
+.Note.List .content ul li:last-child {
   border-bottom: none;
 }
-.Note.Sub .item .subject {
+
+.Note.List .item .subject {
   display: flex;
   white-space: nowrap;
   align-items: center;
   cursor: pointer;
   transition: all ease 0.2s;
 }
-.Note.Sub .item .subject:hover {
+
+.Note.List .item .subject:hover {
   color: var(--accent);
 }
-.Note.Sub .item .keycount {
+
+.Note.List .item .keycount {
   color: var(--subtext);
   user-select: none;
   display: flex;
@@ -86,7 +122,8 @@
   align-items: center;
   gap: 0.3em;
 }
-.Note.Sub .item button {
+
+.Note.List .item button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -94,29 +131,12 @@
   color: var(--subtext);
   font-size: 1.4em;
 }
-.Note.Sub .item .bookmark-btn:hover,
-.Note.Sub .item .bookmark-btn[value="1"] {
+
+.Note.List .item .bookmark-btn:hover,
+.Note.List .item .bookmark-btn[value="1"] {
   color: var(--accent);
 }
-.Note.Sub .item .delete-btn:hover {
+
+.Note.List .item .delete-btn:hover {
   color: var(--red);
-}
-.Note.Sub .no-data {
-  width: 100%;
-  height: calc(100% - 260px);
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.Note.Sub .no-data-img {
-  opacity: 0.5;
-  width: 60%;
-  height: 60%;
-}
-.Note.Sub .no-data-msg {
-  bottom: 10vw;
-  width: 100%;
-  text-align: center;
 }

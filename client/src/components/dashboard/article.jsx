@@ -36,7 +36,7 @@ const DashBoardArticle = ({ data, error }) => {
               <FaTags />
               {data?.s_keycount}
             </span>
-            <Link to={`${URLS.SUBJECT}/${data?.s_catid}/${data?.s_subid}`}>
+            <Link to={`${URLS.NOTE_DETAIL}/${data?.s_catid}/${data?.s_subid}`}>
               노트 보기
             </Link>
           </div>

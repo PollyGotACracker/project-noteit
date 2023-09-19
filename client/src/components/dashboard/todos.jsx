@@ -2,8 +2,6 @@ import moment from "moment";
 import { MdChecklist } from "react-icons/md";
 
 const DashboardTodos = ({ todos }) => {
-  if (!todos) return null;
-
   return (
     <div className="todos">
       <div className="title">

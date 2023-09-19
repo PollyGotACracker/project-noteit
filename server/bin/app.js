@@ -22,6 +22,7 @@ import DB from "../models/index.js";
 import dashboardRouter from "../routes/dashboard.js";
 import noteRouter from "../routes/note.js";
 import quizRouter from "../routes/quiz.js";
+import searchRouter from "../routes/search.js";
 import todoRouter from "../routes/todo.js";
 import userRouter from "../routes/user.js";
 
@@ -53,6 +54,7 @@ app.use("/uploads", express.static(path.join("public/uploads")));
 app.use("/dashboard", dashboardRouter);
 app.use("/note", noteRouter);
 app.use("/quiz", quizRouter);
+app.use("/search", searchRouter);
 app.use("/todo", todoRouter);
 app.use("/user", userRouter);
 

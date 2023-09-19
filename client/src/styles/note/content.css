@@ -102,16 +102,3 @@
   max-width: 100%;
   min-width: 100%;
 }
-
-/* editor height */
-.ck-content {
-  height: 68vh;
-}
-
-/* editor style */
-.ck-toolbar .ck-button svg path,
-.ck-toolbar .ck-button svg circle,
-.ck-toolbar .ck-button span {
-  color: var(--text) !important;
-  fill: var(--text) !important;
-}

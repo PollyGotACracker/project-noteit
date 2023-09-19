@@ -3,15 +3,16 @@
 
 import CustomEditor from "ckeditor5-custom-build/build/ckeditor";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
+import { URLS } from "@/router";
 
-export const Editor = ({ data, handler, subid }) => {
+export const Editor = ({ data, handler, subId }) => {
   // UploadAdapter Interface 를 implement 하여 CustomAdapter 구현
   class imageUploadAdapter {
     constructor(loader) {
       // 업로드 시 사용될 file loader 객체 인스턴스 생성
       this.loader = loader;
-      this.path = "/server/note/upload";
-      this.url = "/server/uploads/";
+      this.path = URLS.UPLOAD_ROUTE;
+      this.url = URLS.UPLOADS;
     }
 
     // 업로드 method
@@ -67,8 +68,7 @@ export const Editor = ({ data, handler, subid }) => {
         // 위의 if 문에 걸리지 않으면 Promise.resolve 실행(fulfilled;업로드 성공)
         // response 가 보낸 url 을 img tag 의 src 에 삽입
         resolve({
-          // default: `${process.env.PUBLIC_URL}/uploads/${response.url}`,
-          default: `${this.url}${response.url}`,
+          default: `${this.url}/${response.url}`,
         });
       });
 
@@ -86,17 +86,21 @@ export const Editor = ({ data, handler, subid }) => {
     _sendRequest(file) {
       const data = new FormData();
       data.append("upload", file);
-      data.append("subid", subid);
+      data.append("subid", subId);
 
       this.xhr.send(data);
     }
   }
 
-  // mediaEmbed: 미디어(영상) 링크 embed 하여 게시글 저장 시 oembed 대신 iframe tag 로 저장
+  // for editor issue when refresh page
+  if (data === undefined) return null;
+
   return (
     <CKEditor
       editor={CustomEditor}
       config={{
+        // mediaEmbed: 미디어(영상) 링크 embed 하여
+        // 게시글 저장 시 oembed 대신 iframe tag 로 저장
         mediaEmbed: {
           previewsInData: true,
         },
@@ -106,13 +110,11 @@ export const Editor = ({ data, handler, subid }) => {
         // adapter plugin
         editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
           loader.on("change:uploadResponse", (evt, name, val, oldval) => {
-            if (val) {
-              console.log(val); // { default: "image link" }
-            }
+            if (val) console.log(val); // { default: "image link" }
           });
           return new imageUploadAdapter(loader);
         };
-        // 게시글 수정 시 editor 에 게시글 data setting
+        // setting data
         editor.setData(data);
       }}
       onChange={handler}

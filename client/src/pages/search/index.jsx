@@ -2,6 +2,7 @@ import "@styles/search.css";
 import { Link, useLocation } from "react-router-dom";
 import { MdOutlineSubdirectoryArrowRight } from "react-icons/md";
 import Highlighter from "react-highlight-words";
+import { URLS } from "@/router";
 
 const SearchPage = () => {
   const location = useLocation();
@@ -25,7 +26,7 @@ const SearchPage = () => {
               <div className="subject-box" key={item.s_subid}>
                 <Link
                   className="subject"
-                  to={`/note/subject/${item?.s_catid}/${item?.s_subid}`}
+                  to={`${URLS.NOTE_DETAIL}/${item?.s_catid}/${item?.s_subid}`}
                 >
                   <Highlighter
                     highlightClassName="content"

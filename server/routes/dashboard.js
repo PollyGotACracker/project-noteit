@@ -14,7 +14,6 @@ router.get("/:userid/todos", async (req, res) => {
   try {
     const userid = req.params.userid;
     const today = moment().format("YYYY-MM-DD");
-
     const todos = await TODO.findAll({
       order: [
         ["t_deadline", "ASC"],
@@ -33,11 +32,11 @@ router.get("/:userid/todos", async (req, res) => {
       limit: 5,
     });
 
-    return res.send(todos);
+    return res.json(todos);
   } catch (err) {
     console.log(err);
-    return res.send({
-      error: "목표 리스트를 가져오는 중 문제가 발생했습니다.",
+    return res.status(500).json({
+      message: "목표 리스트를 가져오는 중 문제가 발생했습니다.",
     });
   }
 });
@@ -45,7 +44,6 @@ router.get("/:userid/todos", async (req, res) => {
 router.get("/:userid/stat/wrongs", async (req, res) => {
   try {
     const userid = req.params.userid;
-
     let _cat = await CAT.findOne({
       raw: true,
       attributes: ["c_catid", "c_category"],
@@ -82,11 +80,11 @@ router.get("/:userid/stat/wrongs", async (req, res) => {
     const subject = await _data.map((item) => item.s_subject);
     const wrong = await _data.map((item) => item.wrongcount);
 
-    return res.send({ category, subject, wrong, article });
+    return res.json({ category, subject, wrong, article });
   } catch (err) {
     console.log(err);
-    return res.send({
-      error: "노트를 북마크에 추가하고 퀴즈를 풀어보세요!",
+    return res.status(500).json({
+      message: "노트를 북마크에 추가하고 퀴즈를 풀어보세요!",
     });
   }
 });
@@ -94,7 +92,6 @@ router.get("/:userid/stat/wrongs", async (req, res) => {
 router.get("/:userid/stat/scores", async (req, res) => {
   try {
     const userid = req.params.userid;
-
     let _cat = await CAT.findOne({
       raw: true,
       attributes: ["c_catid", "c_category"],
@@ -102,7 +99,6 @@ router.get("/:userid/stat/scores", async (req, res) => {
       order: [["c_quizdate", "DESC"]],
       limit: 1,
     });
-
     let _data = await SCO.findAll({
       raw: true,
       attributes: [
@@ -126,11 +122,11 @@ router.get("/:userid/stat/scores", async (req, res) => {
     const totalscore = await _data.map((item) => item.sc_totalscore);
     const percent = await _data.map((item) => Math.round(item.calc));
 
-    return res.send({ date, score, totalscore, percent });
+    return res.json({ date, score, totalscore, percent });
   } catch (err) {
     console.log(err);
-    return res.send({
-      error: "통계 데이터를 가져오는 중 문제가 발생했습니다.",
+    return res.status(500).json({
+      message: "통계 데이터를 가져오는 중 문제가 발생했습니다.",
     });
   }
 });

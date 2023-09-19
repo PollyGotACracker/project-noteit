@@ -1,63 +1,47 @@
-import React from "react";
-import { useRecoilState, useSetRecoilState, useResetRecoilState } from "recoil";
+import { useEffect } from "react";
+import { useSetRecoilState } from "recoil";
 import { useMutation } from "react-query";
 import moment from "moment";
 import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
 import { editState, todoState, todosState } from "@recoils/todo";
 import { deleteTodo, updateTodoComplete } from "@services/todo.service";
-import { QueryKeys, getClient } from "@services/core";
+import { getClient } from "@services/core";
 
 const TodoItem = ({ item }) => {
   const userId = "polly@gmail.com";
+  const todoId = item.t_todoid;
   const queryClient = getClient();
-  const [todoList, setTodoList] = useRecoilState(todosState);
+  const setTodoList = useSetRecoilState(todosState);
   const setTodoItem = useSetRecoilState(todoState);
-  const resetTodoItem = useResetRecoilState(todoState);
   const setIsEdit = useSetRecoilState(editState);
 
-  const { mutate: deleteMutation } = useMutation(deleteTodo, {
-    onSuccess: (data) => {
-      if (data?.error) alert(data.error);
-      else {
-        queryClient.invalidateQueries(QueryKeys.TODO);
-        setTodoList([...data]);
-      }
-    },
-  });
+  const { mutate: deleteMutation, data: deletedData } = useMutation(
+    deleteTodo({ queryClient, userId })
+  );
+  const { mutate: updateCompleteMutation, data: completedData } = useMutation(
+    updateTodoComplete({ queryClient, userId })
+  );
 
-  const { mutate: updateCompleteMutation } = useMutation(updateTodoComplete, {
-    onSuccess: (data) => {
-      if (data?.error) alert(data.error);
-      else {
-        queryClient.invalidateQueries(QueryKeys.TODO);
-        setTodoList([...data]);
-        resetTodoItem();
-      }
-    },
-  });
+  useEffect(() => {
+    if (deletedData) setTodoList([...deletedData]);
+  }, [deletedData]);
 
-  const completeHandler = ({ target }) => {
-    const uid = target.closest("DIV.item").dataset.id;
-    updateCompleteMutation({ userId, uid });
+  useEffect(() => {
+    if (completedData) setTodoList([...completedData]);
+  }, [completedData]);
+
+  const completeHandler = () => {
+    updateCompleteMutation({ todoId });
   };
 
-  const editHandler = ({ target }) => {
-    const parent = target.closest("DIV.item");
-    const uid = parent.dataset.id;
-    const editList = todoList.filter(
-      (item) => Number(item.t_todoid) === Number(uid)
-    )[0];
-    setTodoItem({ ...editList });
+  const editHandler = () => {
+    setTodoItem({ ...item });
     setIsEdit(true);
   };
 
-  const deleteHandler = ({ target }) => {
-    const parent = target.closest("DIV.item");
-    const uid = parent.dataset.id;
-    const childDiv = parent.childNodes;
-    const content = childDiv[2].textContent;
-    if (window.confirm(`"${content}"\n할 일 아이템을 삭제합니다.`)) {
-      deleteMutation({ userId, uid });
+  const deleteHandler = () => {
+    if (window.confirm(`"${item.t_content}"\n할 일 아이템을 삭제합니다.`)) {
+      deleteMutation({ todoId });
     }
   };
 
@@ -67,7 +51,7 @@ const TodoItem = ({ item }) => {
     (new Date(today) - new Date(item.t_deadline)) / (1000 * 60 * 60 * 24);
 
   return (
-    <div className="item" data-id={item.t_todoid}>
+    <div className="item" data-id={todoId}>
       <div className="complete" onClick={completeHandler}>
         <AiOutlineCheck />
       </div>
@@ -100,4 +84,4 @@ const TodoItem = ({ item }) => {
   );
 };
 
-export default React.memo(TodoItem);
+export default TodoItem;
