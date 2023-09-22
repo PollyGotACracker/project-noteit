@@ -8,9 +8,10 @@ const KEY = DB.models.tbl_keywords;
 const SCO = DB.models.tbl_scores;
 const router = express.Router();
 
-router.get("/cat/get", async (req, res) => {
+router.get("/cats/:userId/get", async (req, res) => {
   try {
-    const data = await CAT.findAll({
+    const userId = req.params.userId;
+    const cats = await CAT.findAll({
       attributes: [
         "c_catid",
         "c_category",
@@ -25,7 +26,13 @@ router.get("/cat/get", async (req, res) => {
           "s_keycount",
         ],
       ],
-      where: { [Op.and]: [{ c_bookmark: 1 }, { c_subcount: { [Op.gt]: 0 } }] },
+      where: {
+        [Op.and]: [
+          { c_userid: userId },
+          { c_bookmark: 1 },
+          { c_subcount: { [Op.gt]: 0 } },
+        ],
+      },
       include: {
         model: SUB,
         as: "tbl_subjects",
@@ -36,16 +43,17 @@ router.get("/cat/get", async (req, res) => {
       },
       group: ["c_catid"],
     });
-    console.log(data);
-    return res.json({ data: data });
-  } catch (error) {
-    console.log(error);
-    return res.send({ error: "카테고리를 가져오는 중 문제가 발생했습니다." });
+    return res.json(cats);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      message: "노트 목록을 가져오는 중 문제가 발생했습니다.",
+    });
   }
 });
 
-router.get("/:catid/rndsub/get", async (req, res) => {
-  const catid = req.params.catid;
+router.get("/random/:catId/get", async (req, res) => {
+  const catId = req.params.catId;
   try {
     // order: [Sequelize.fn("RAND")], order: [sequelize.random()] 다 안되는 이유??
     const data = await SUB.findAll({
@@ -59,7 +67,7 @@ router.get("/:catid/rndsub/get", async (req, res) => {
       where: {
         [Op.and]: [
           { s_bookmark: 1 },
-          { s_catid: catid },
+          { s_catid: catId },
           { s_keycount: { [Op.gt]: 0 } },
         ],
       },
@@ -69,65 +77,67 @@ router.get("/:catid/rndsub/get", async (req, res) => {
         as: "tbl_keywords",
       },
     });
-    console.log(data);
-    return res.json({ data: data });
-  } catch (error) {
-    console.log(error);
-    return res.send({ error: "데이터를 가져오는 중 문제가 발생했습니다." });
+
+    const rndData = [...data];
+    const length = rndData.length;
+    const iteration = (length - 1) * 5; // 배열 크기의 4 ~ 5배
+    let i = 0;
+    while (i < iteration) {
+      const _i = Math.floor(Math.random() * length);
+      const _j = Math.floor(Math.random() * length);
+      [rndData[_j], rndData[_i]] = [rndData[_i], rndData[_j]];
+      i++;
+    }
+
+    return res.json(rndData);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      message: "노트 데이터를 가져오는 중 문제가 발생했습니다.",
+    });
   }
 });
 
-router.post("/score/insert", async (req, res, next) => {
+router.post("/score/insert", async (req, res) => {
   try {
     const data = req.body;
     await SCO.create(data);
-    return res.send({ result: "퀴즈 기록이 저장되었습니다." });
-  } catch (error) {
-    console.error(error);
-    return res.send({ error: "이미 저장된 기록입니다." });
+    return res.json({ message: "퀴즈 기록이 저장되었습니다." });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "이미 저장된 기록입니다." });
   }
 });
 
-router.patch("/cat/update", async (req, res, next) => {
+router.patch("/score/update", async (req, res) => {
   try {
-    const catid = req.body.catid;
-    const date = req.body.date;
-    await CAT.update({ c_quizdate: date }, { where: { c_catid: catid } });
-    return res.send({ result: "퀴즈 기록이 저장되었습니다." });
-  } catch (error) {
-    console.error(error);
-    return res.send({ error: "노트 정보 기록 중 문제가 발생했습니다." });
-  }
-});
+    await DB.sequelize.transaction(async () => {
+      const { catid, date } = req.body;
+      await CAT.update({ c_quizdate: date }, { where: { c_catid: catid } });
 
-router.patch("/key/update", async (req, res, next) => {
-  try {
-    const keyids = req.body;
-    for (let key of keyids) {
-      await KEY.increment("k_wrongcount", { by: 1, where: { k_keyid: key } });
-    }
-    return res.send({ result: "퀴즈 기록이 저장되었습니다." });
-  } catch (error) {
-    console.error(error);
-    return res.send({ error: "키워드 정보 기록 중 문제가 발생했습니다." });
-  }
-});
+      const { keyids } = req.body;
+      for (let key of keyids) {
+        await KEY.increment("k_wrongcount", { by: 1, where: { k_keyid: key } });
+      }
 
-router.patch("/user/update", async (req, res, next) => {
-  try {
-    const userid = req.body.userid;
-    const score = req.body.userscore;
-    let userscore = await USER.findOne({
-      raw: true,
-      attributes: ["u_score"],
-      where: { u_userid: userid },
+      const { userid, quizscore } = req.body;
+      const _userscore = await USER.findOne({
+        raw: true,
+        attributes: ["u_score"],
+        where: { u_userid: userid },
+      });
+      const newQuizscore = Number(_userscore.u_score) + Number(quizscore);
+      await USER.update(
+        { u_score: newQuizscore },
+        { where: { u_userid: userid } }
+      );
     });
-    userscore = Number(userscore.u_score) + Number(score);
-    await USER.update({ u_score: userscore }, { where: { u_userid: userid } });
-    return res.send({ result: "퀴즈 기록이 저장되었습니다." });
-  } catch (error) {
-    console.error(error);
-    return res.send({ error: "사용자 점수 기록 중 문제가 발생했습니다." });
+    return res.json({ message: "퀴즈 기록이 저장되었습니다." });
+  } catch (err) {
+    console.log(err);
+    return res
+      .status(500)
+      .json({ message: "퀴즈 기록 저장 중 문제가 발생했습니다." });
   }
 });
 

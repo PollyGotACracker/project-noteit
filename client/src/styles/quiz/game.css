@@ -1,0 +1,211 @@
+.Quiz {
+  /* .loading 의 position 맞춤 */
+  position: relative;
+}
+
+.Quiz .Game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  gap: 1%;
+}
+
+.Quiz .Game .subject-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+}
+
+.Quiz .Game .subject-box > *:not(button) {
+  font-size: 1.2em;
+}
+
+.Quiz .Game .subject-box .subject {
+  width: 60%;
+  padding: 1em;
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: 700;
+  word-break: keep-all;
+}
+
+.Quiz .Game .keyword-box {
+  width: 70%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1em;
+}
+
+.Quiz .Game .keyword-desc {
+  white-space: pre-wrap;
+  padding: 1em;
+  border-top: 5px solid var(--primary);
+  margin: 0 auto;
+  min-width: 100%;
+  min-height: 25vh;
+  word-break: keep-all;
+  line-height: 1.4em;
+}
+
+.Quiz .Game button {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.5em;
+  font-size: 0.9em;
+}
+
+.Quiz .Game .keycount {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.3em;
+}
+
+.Quiz .Game .answer-box {
+  width: 70%;
+  display: flex;
+  justify-content: center;
+}
+
+.Quiz .Game .answer-box .msg-box {
+  width: 100%;
+  padding: 30px 20px;
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  user-select: none;
+  position: relative;
+  caret-color: var(--accent);
+}
+
+.Quiz .Game .answer-box .msg-box:after {
+  position: absolute;
+  left: calc(50% - 15px);
+  top: -16px;
+  content: "";
+  width: 30px;
+  height: 30px;
+  background-color: var(--background);
+  border-bottom: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+  transform: rotateZ(135deg);
+}
+
+.Quiz .Game .answer-box .msg {
+  border: none;
+  font-size: 1.2em;
+  width: 100%;
+}
+
+.Quiz .Game .feedback-msg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0.5;
+  gap: 0.5em;
+  font-size: 1.5em;
+  font-weight: 700;
+  animation-duration: 0.6s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  animation-iteration-count: infinite;
+  transition: opacity ease 0.3s;
+}
+.Quiz .Game .feedback-msg svg {
+  color: var(--secondary);
+  font-size: 2em;
+  font-weight: 900;
+}
+
+@keyframes jumpMsg {
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes shakeMsg {
+  20% {
+    transform: translateX(-5px);
+  }
+  60% {
+    transform: translateX(5px);
+  }
+  80% {
+    transform: translateX(-2px);
+  }
+  100% {
+    transform: translateX(2px);
+  }
+}
+
+.Quiz .Game .total-score {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  font-size: 1.2em;
+}
+
+.Quiz .Game .total-score div:first-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5em;
+  font-weight: 700;
+  transition: all ease-in-out 1s;
+  transform-origin: center;
+  animation-name: spinScore;
+  animation-duration: 2s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  animation-iteration-count: infinite;
+  animation-play-state: paused;
+}
+
+@keyframes spinScore {
+  50% {
+    color: var(--accent);
+  }
+  100% {
+    transform: rotate(360deg);
+    color: inherit;
+  }
+}
+
+.Quiz .loading {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: opacity ease 0.3s;
+}
+
+.Quiz .loading svg {
+  /* cf) 여러 애니메이션을 지정할 경우 순차적으로 실행되며 동시에 실행되지 않는다. */
+  animation: infinite ease-out 1.6s hourglassRotateZ,
+    infinite steps(1) 0.4s hourglassRotateX;
+  font-size: 12em;
+  color: var(--secondary);
+}
+
+@keyframes hourglassRotateZ {
+  100% {
+    transform: rotateZ(180deg);
+  }
+}
+@keyframes hourglassRotateX {
+  100% {
+    transform: scaleY(-1);
+  }
+}
+
+.Quiz .loading span {
+  margin-top: 2em;
+  user-select: none;
+  -webkit-user-select: none;
+}

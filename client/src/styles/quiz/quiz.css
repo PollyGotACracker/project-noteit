@@ -1,0 +1,63 @@
+.Quiz .Index {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.Quiz .Index .head {
+  width: 80%;
+  border-bottom: 1px solid var(--border);
+  margin: 2em 0 1em;
+  padding: 0.6em;
+  display: grid;
+  grid-template-columns: 5fr 2fr 1fr 1fr;
+  gap: 10px;
+  text-align: center;
+  user-select: none;
+}
+
+.Quiz .Index .title {
+  font-size: 1.2em;
+  font-weight: 700;
+  padding: 1em;
+  letter-spacing: 0.2em;
+  user-select: none;
+}
+
+.Quiz .cat-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+}
+
+.Quiz .cat-list .cat-item {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 5fr 2fr 1fr 1fr;
+  gap: 0.5em;
+  padding: 0.5em 1.5em;
+  border-bottom: 1px dashed var(--border);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all ease 0.2s;
+}
+
+.Quiz .cat-list .cat-item > *:not(:first-of-type) {
+  display: flex;
+  justify-content: center;
+}
+
+.Quiz .cat-list .cat-item:last-child {
+  border-bottom: none;
+}
+
+.Quiz .cat-list .cat-item:hover {
+  color: var(--accent);
+}
+
+.Quiz .cat-list .cat-item span:not(:first-child) {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+}

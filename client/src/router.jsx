@@ -12,10 +12,7 @@ import {
   NoteWrite,
   Search,
   Quiz,
-  QuizCat,
-  quizCatLoader,
-  QuizSub,
-  quizSubLoader,
+  QuizGame,
   QuizResult,
   Todo,
   Settings,
@@ -55,20 +52,13 @@ export const routes = [
             path: "note/write/:catId/:subId?",
             element: <NoteWrite />,
           },
-
           {
             path: "search",
             element: <Search />,
           },
-          {
-            path: "quiz",
-            element: <Quiz />,
-            children: [
-              { path: "", loader: quizCatLoader, element: <QuizCat /> },
-              { path: ":catid", loader: quizSubLoader, element: <QuizSub /> },
-              { path: "result", element: <QuizResult /> },
-            ],
-          },
+          { path: "quiz", element: <Quiz /> },
+          { path: "quiz/game/:catid", element: <QuizGame /> },
+          { path: "quiz/result", element: <QuizResult /> },
           { path: "settings", element: <Settings /> },
         ],
       },
@@ -83,5 +73,7 @@ export const URLS = {
   NOTE_LIST: "/note/list",
   NOTE_DETAIL: "/note/detail",
   NOTE_WRITE: "/note/write",
+  QUIZ_GAME: "/quiz/game",
+  QUIZ_RESULT: "/quiz/result",
   SEARCH: "/search",
 };

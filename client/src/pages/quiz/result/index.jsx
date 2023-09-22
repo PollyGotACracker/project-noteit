@@ -1,113 +1,92 @@
-import { useState } from "react";
+import "@styles/quiz/result.css";
+import { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { transferToday } from "@data/quiz";
-import { useUserContext } from "@contexts/userContext";
-import { getUserData } from "@services/user.service";
-import { insertQuizScore } from "@services/quiz.service";
+import { useMutation } from "react-query";
 import { BsArrowRepeat } from "react-icons/bs";
-import { BsJournalText } from "react-icons/bs";
-import { RiGoogleLine } from "react-icons/ri";
-import { FaRegSave, FaTag } from "react-icons/fa";
+import { FaRegSave } from "react-icons/fa";
+import { getClient } from "@services/core";
+import getTodayFormat from "@utils/getTodayFormat";
+import { insertScore, updateUserNote } from "@services/quiz.service";
+import { URLS } from "@/router";
+import ResultWrongs from "@components/quiz/resultWrongs";
 
 const QuizResultPage = () => {
   const location = useLocation();
-  const { setUserData } = useUserContext();
-  const { wrongAnswer, userScore } = location.state;
-  const { dateStr, timeStr } = transferToday(
-    userScore.sc_date,
-    userScore.sc_time
-  );
+  const queryClient = getClient();
   const [saveMsg, setSaveMsg] = useState("");
-  const ratio = userScore.sc_score / userScore.sc_totalscore;
+  const { wrongs, score } = location.state;
+  const { dateStr, timeStr } = getTodayFormat(score.sc_date, score.sc_time);
+  const ratio = score.sc_score / score.sc_totalscore;
 
-  const saveScore = async () => {
-    const keyids = wrongAnswer
-      .map((sub) => sub.wrong.map((key) => key.k_keyid))
-      .flat(2);
-    const res = await insertQuizScore(userScore, keyids);
-    if (res.error) {
-      setSaveMsg(res.error);
-      return false;
-    }
-    if (res.result) {
-      const userData = await getUserData();
-      setUserData({ ...userData });
-      setSaveMsg(res.result);
-    }
-  };
+  const {
+    mutate: saveMutation,
+    isSuccess,
+    error: insertScoreError,
+  } = useMutation(insertScore({ score }));
+  const {
+    mutate: saveUserMutation,
+    data: updateScoreSuccess,
+    error: updatScoreError,
+  } = useMutation(updateUserNote({ queryClient, score }));
 
-  const hello = () => {
+  useEffect(() => {
+    if (isSuccess) {
+      const keyids = wrongs
+        .map((sub) => sub.wrong.map((key) => key.k_keyid))
+        .flat(2);
+      saveUserMutation({ keyids });
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (insertScoreError) setSaveMsg(insertScoreError.message);
+  }, [insertScoreError]);
+
+  useEffect(() => {
+    if (updateScoreSuccess) setSaveMsg(updateScoreSuccess.message);
+  }, [updateScoreSuccess]);
+
+  useEffect(() => {
+    if (updatScoreError) setSaveMsg(updatScoreError.message);
+  }, [updatScoreError]);
+
+  const saveQuizResult = () => {
     setSaveMsg("기록을 저장 중입니다...");
+    saveMutation();
   };
 
   return (
-    <section className="result">
-      <div className="score">
-        {userScore.sc_score} / {userScore.sc_totalscore}
-      </div>
-      <div className="duration">{userScore.sc_duration}</div>
-      <div className="feedback">
-        {ratio === 1
-          ? "정말 최고예요!"
-          : ratio >= 0.6
-          ? "잘했어요!"
-          : ratio >= 0.4
-          ? "괜찮아요!"
-          : "다시 공부해보세요!"}
-      </div>
-      <div className="date">{dateStr}</div>
-      <div className="time">{timeStr}</div>
-      <div className="btn-box">
-        <div className="save-msg">{saveMsg}</div>
-        <button
-          className="save"
-          type="button"
-          onClick={() => {
-            hello();
-            saveScore();
-          }}
-        >
-          <FaRegSave />
-          기록 저장
-        </button>
-        <Link className="restart" to={`/quiz/${userScore.sc_catid}`}>
-          <BsArrowRepeat />
-          다시 풀기
-        </Link>
-      </div>
-      <div className="wrong-list">
-        <div className="title">틀린 문제 목록</div>
-        {wrongAnswer.map((item) => (
-          <div className="wrong-item" key={item?.s_subid}>
-            <div className="subject">
-              <Link to={`/note/subject/${item?.s_catid}/${item?.s_subid}`}>
-                <BsJournalText />
-                {item?.s_subject}
-              </Link>
-              <div>· 키워드 수: {item?.s_keycount}</div>
-              <div>· 오답 수: {item?.wrong.length}</div>
-            </div>
-            {item?.wrong.map((keyword) => (
-              <div className="wrong-keyword" key={keyword?.k_keyid}>
-                <span className="keyword">
-                  <FaTag /> {keyword?.k_keyword}
-                </span>
-                <a
-                  href={`https://www.google.com/search?q=${item?.s_subject} ${keyword.k_keyword}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <RiGoogleLine />
-                  검색
-                </a>
-                <div className="desc">{keyword?.k_desc}</div>
-                <div className="answer">제출: {keyword?.answer}</div>
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-    </section>
+    <article className="Quiz">
+      <section className="Result">
+        <div className="score">
+          {score.sc_score} / {score.sc_totalscore}
+        </div>
+        <div className="duration">{score.sc_duration}</div>
+        <div className="feedback">
+          {ratio === 1
+            ? "정말 최고예요!"
+            : ratio >= 0.6
+            ? "잘했어요!"
+            : ratio >= 0.4
+            ? "괜찮아요!"
+            : "다시 공부해보세요!"}
+        </div>
+        <div className="date">{dateStr}</div>
+        <div className="time">{timeStr}</div>
+        <div className="btn-box">
+          <div className="save-msg">{saveMsg}</div>
+          <button className="save" type="button" onClick={saveQuizResult}>
+            <FaRegSave />
+            기록 저장
+          </button>
+          <Link className="restart" to={`${URLS.QUIZ_GAME}/${score.sc_catid}`}>
+            <BsArrowRepeat />
+            다시 풀기
+          </Link>
+        </div>
+        <ResultWrongs wrongs={wrongs} />
+      </section>
+    </article>
   );
 };
 

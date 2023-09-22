@@ -5,14 +5,14 @@ import { HiFolderPlus } from "react-icons/hi2";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { getClient } from "@services/core";
 import { getCategories, insertCategory } from "@services/note.service";
-import { cat } from "@recoils/note";
+import { catState } from "@recoils/note";
 import CatItem from "@components/note/catItem";
 
 const NoteIndexPage = () => {
   const userId = "polly@gmail.com";
   const queryClient = getClient();
-  const [newCat, setNewCat] = useRecoilState(cat);
-  const resetNewCat = useResetRecoilState(cat);
+  const [newCat, setNewCat] = useRecoilState(catState);
+  const resetNewCat = useResetRecoilState(catState);
   const { data: catList = [] } = useQuery(getCategories({ userId }));
   const { mutate: insertMutation } = useMutation(
     insertCategory({ queryClient })

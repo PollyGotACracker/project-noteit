@@ -29,7 +29,15 @@ export const fetcher = async ({ endPoint, options }) => {
       "Access-Control-Allow-Origin": BASE_URL,
       ...options?.headers,
     },
-  }).then((data) => data.json());
+  }).then(async (data) => {
+    if (!data.ok) {
+      return data.json().then((error) => {
+        throw new Error(error?.message);
+      });
+    }
+    return data.json();
+  });
+
   return result;
 };
 

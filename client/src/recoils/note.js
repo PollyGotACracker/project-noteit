@@ -27,7 +27,7 @@ export const initKey = () => ({
   k_desc: "",
 });
 
-export const cat = atom({
+export const catState = atom({
   key: "catState",
   default: initCat(),
 });

@@ -11,9 +11,8 @@ import NoteList from "@pages/note/list/[catid]";
 import NoteDetail from "@pages/note/detail/[catid][subid]";
 import NoteWrite from "@pages/note/write/[...id]";
 import Search from "@pages/search";
-import Quiz from "@pages/quiz/layout";
-import QuizCat, { quizCatLoader } from "@pages/quiz";
-import QuizSub, { quizSubLoader } from "@pages/quiz/[catId]";
+import Quiz from "@pages/quiz";
+import QuizGame from "@pages/quiz/game/[catId]";
 import QuizResult from "@pages/quiz/result";
 import Settings from "@pages/settings";
 import Error from "@pages/error";
@@ -32,10 +31,7 @@ export {
   NoteWrite,
   Search,
   Quiz,
-  QuizCat,
-  quizCatLoader,
-  QuizSub,
-  quizSubLoader,
+  QuizGame,
   QuizResult,
   Todo,
   Settings,
