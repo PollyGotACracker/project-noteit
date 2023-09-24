@@ -21,21 +21,19 @@
 
 ## DEVELOPMENT TOOLS
 
-- React
-- Node.js
-- MySQL
-- Express
-- Sequelize
-
-## PACKAGES
-
+- node.js
+- mySQL
+- express
+- sequelize
 - ckeditor5
 - sanitize-html
 - node-schedule
-- moment
-- react-uuid, uuid
-- react-router-dom
+- react
+- react-query
+- recoil
+- framer-motion
 - chart.js, react-chartjs-2
+- uuid
+- moment
 - react-spinners
-- react-transition-group
 - react-icons
