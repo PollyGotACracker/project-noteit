@@ -1,4 +1,5 @@
 import PuffLoader from "react-spinners/PuffLoader";
+import { getStyle } from "@utils/manageStyle";
 
 const Spinner = ({ loading, size, color }) => {
   return (
@@ -17,7 +18,5 @@ export default Spinner;
 
 Spinner.defaultProps = {
   size: 150,
-  color: getComputedStyle(document.documentElement).getPropertyValue(
-    "--primary"
-  ),
+  color: getStyle("--primary"),
 };

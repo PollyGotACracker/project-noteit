@@ -1,32 +1,51 @@
-import { createRef } from "react";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
-import Spinner from "@components/spinner";
+import { motion, AnimatePresence } from "framer-motion";
+import Item from "@components/todo/item";
 
-const TodoItemWrapper = ({ data, isLoading, render }) => {
-  const todoContent = data?.map((item, index) => {
-    const nodeRef = createRef(null);
+const TodoItemWrapper = ({ data }) => {
+  const container = {
+    hidden: { opacity: 1 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+  const item = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+    },
+  };
+
+  const todoContent = data?.map((todo) => {
     return (
-      <CSSTransition
-        key={`${index}"-item"`}
-        nodeRef={nodeRef}
-        timeout={300}
-        classNames="list-item"
+      <motion.li
+        variants={item}
+        layout
+        key={todo.t_todoid}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{
+          opacity: { ease: "linear" },
+          layout: { duration: 0.3 },
+        }}
       >
-        <div className="list-item" ref={nodeRef}>
-          {render(item)}
-        </div>
-      </CSSTransition>
+        <Item item={todo} />
+      </motion.li>
     );
   });
 
   return (
-    <section className="list">
-      {!isLoading ? (
-        <TransitionGroup>{todoContent}</TransitionGroup>
-      ) : (
-        <Spinner loading={isLoading} />
-      )}
-    </section>
+    <motion.ul
+      className="list"
+      variants={container}
+      initial="hidden"
+      animate="visible"
+    >
+      <AnimatePresence mode="sync">{todoContent}</AnimatePresence>
+    </motion.ul>
   );
 };
 

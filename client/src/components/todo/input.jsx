@@ -18,8 +18,26 @@ const TodoInput = () => {
   );
 
   useEffect(() => {
+    const closePriorBox = () => setShowPrior(false);
+    document.body.addEventListener("click", closePriorBox);
+    return () => {
+      document.body.removeEventListener("click", closePriorBox);
+    };
+  }, []);
+
+  useEffect(() => {
     if (upsertedData) resetTodoItem();
   }, [upsertedData]);
+
+  const changePriorBoxState = (e) => {
+    e.stopPropagation();
+    setShowPrior(!showPrior);
+  };
+
+  const changePriorValue = (num) => {
+    changePriorHandler(num);
+    setShowPrior(false);
+  };
 
   const changeValueHandler = ({ target }) => {
     const { name, value } = target;
@@ -59,7 +77,7 @@ const TodoInput = () => {
         value={todoItem?.t_deadline}
         data-placeholder="마감일"
       />
-      <div className="prior-wrap" onClick={() => setShowPrior(!showPrior)}>
+      <div className="prior-wrap" onClick={changePriorBoxState}>
         <div className="prior-value" data-prior={todoItem.t_prior}>
           중요도
         </div>
@@ -71,10 +89,7 @@ const TodoInput = () => {
             <button
               key={ele}
               data-prior={ele}
-              onClick={() => {
-                changePriorHandler(ele);
-                setShowPrior(false);
-              }}
+              onClick={() => changePriorValue(ele)}
             >
               <span>{ele}</span>
             </button>

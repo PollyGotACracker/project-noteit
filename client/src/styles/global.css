@@ -5,6 +5,7 @@
   font-weight: normal;
   font-style: normal;
 }
+
 :root {
   --font-family: "NanumSquareNeo-Variable";
   --sidebarwidth: 260px;
@@ -27,7 +28,9 @@
   --semialpha: rgba(0, 0, 0, 0.04);
   --darkalpha: rgba(0, 0, 0, 0.5);
 }
+
 :root[color-theme="light"] {
+  color-scheme: light;
   --background: var(--light);
   --text: var(--dark);
   --subtext: var(--darkgray);
@@ -43,7 +46,9 @@
   --subborder: var(--lightgray);
   --sidebar: var(--semialpha);
 }
+
 :root[color-theme="dark"] {
+  color-scheme: dark;
   --background: var(--dark);
   --text: var(--light);
   --subtext: var(--gray);
@@ -59,17 +64,20 @@
   --subborder: var(--darkgray);
   --sidebar: var(--darkalpha);
 }
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   font-family: var(--font-family);
 }
+
 html {
   height: 100%;
   overflow-x: hidden;
   background-color: var(--background);
 }
+
 body {
   width: 100%;
   height: 100%;
@@ -81,20 +89,38 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 *::-webkit-scrollbar {
   width: 5px;
   height: 5px;
   background-color: var(--borderdark);
 }
+
 *::-webkit-scrollbar-thumb {
   background: var(--accent);
   border-radius: 10px;
 }
+
 #root {
   width: 100%;
   height: 100%;
 }
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+/* 자동완성 시 스타일 변경 방지 */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--text);
+  -webkit-box-shadow: 0 0 0px 1000px var(--background) inset;
 }
