@@ -1,15 +1,8 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import typewriteList from "@data/typewriteList";
 
-export const textList = [
-  "만나서 정말 반가워요!",
-  "힘들면 30분만 쉬기!",
-  "오늘도 화이팅!",
-  "잘 안되더라도 좌절하지 않기!",
-  "조금씩 꾸준히 공부하기!",
-  "작은 목표부터 도전하기!",
-];
-
-const DashboardTypeText = () => {
+const DashboardTypewriter = () => {
+  const [textValue, setTextValue] = useState("");
   const textNode = useRef(null);
   const timeoutRef = useRef(null);
 
@@ -18,7 +11,7 @@ const DashboardTypeText = () => {
     let speed = 0;
 
     const setNextChar = (char) => {
-      textNode.current.insertAdjacentHTML("beforeend", char);
+      setTextValue((prev) => `${prev}${char}`);
     };
     const setSpeed = (num = 160) => (speed = num);
     const setBlink = (bool) => {
@@ -55,20 +48,22 @@ const DashboardTypeText = () => {
   };
 
   useEffect(() => {
-    const index = Math.floor(Math.random() * textList.length + 1);
-    const msg = textList[index - 1];
+    const index = Math.floor(Math.random() * typewriteList.length + 1);
+    const msg = typewriteList[index - 1];
     typeWriter(msg);
     return () => {
-      textNode.current = "";
+      setTextValue("");
       clearTimeout(timeoutRef.current);
     };
   }, []);
 
   return (
     <div className="text-box">
-      <span className="text" ref={textNode}></span>
+      <span className="text" ref={textNode}>
+        {textValue}
+      </span>
     </div>
   );
 };
 
-export default DashboardTypeText;
+export default DashboardTypewriter;

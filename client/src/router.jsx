@@ -2,7 +2,7 @@ import {
   GlobalLayout,
   SignInGnb,
   SignOutGnb,
-  Main,
+  Landing,
   SignIn,
   SignUp,
   Dashboard,
@@ -28,7 +28,7 @@ export const routes = [
         path: "",
         element: <SignOutGnb />,
         children: [
-          { path: "", element: <Main /> },
+          { path: "", element: <Landing /> },
           { path: "signin", element: <SignIn /> },
           { path: "signup", element: <SignUp /> },
         ],

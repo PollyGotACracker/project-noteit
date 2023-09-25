@@ -3,10 +3,12 @@ import { RiMarkPenLine } from "react-icons/ri";
 import { FaTags } from "react-icons/fa";
 import { URLS } from "@/router";
 import { ReactComponent as NoThumbSvg } from "@assets/images/no_thumb.svg";
-import { getStyle } from "@utils/manageStyle";
+import useThemeStyle from "@hooks/useThemeStyle";
 import NoStat from "@components/dashboard/noStat";
 
 const DashBoardArticle = ({ data, error }) => {
+  const primary = useThemeStyle("--primary");
+
   return (
     <div className="article">
       <div className="title">
@@ -24,10 +26,7 @@ const DashBoardArticle = ({ data, error }) => {
                 src={data?.s_thumb ? `${URLS.UPLOADS}/${data?.s_thumb}` : ""}
               />
             ) : (
-              <NoThumbSvg
-                className="no-thumb-img"
-                stroke={getStyle("--primary")}
-              />
+              <NoThumbSvg className="no-thumb-img" stroke={primary} />
             )}
           </div>
           <div className="content">

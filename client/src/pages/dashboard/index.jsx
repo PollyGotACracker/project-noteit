@@ -2,7 +2,7 @@ import "@styles/dashboard/dashboard.css";
 import { useQueries } from "react-query";
 import getDashboardQueries from "@services/dashboard.service";
 import setChartDefaultStyle from "@libs/chart";
-import TypeText from "@components/dashboard/typeText";
+import TypeWriter from "@components/dashboard/typewriter";
 import Todos from "@components/dashboard/todos";
 import Article from "@components/dashboard/article";
 import Wrongs from "@components/dashboard/wrongs";
@@ -24,7 +24,7 @@ const DashboardPage = () => {
         <div className="dashboard">DASHBOARD</div>
         <section className="content">
           <section className="top-box">
-            <TypeText />
+            <TypeWriter />
             <div className="subject">
               최근 공부한 노트: {wrongs?.category || "없음"}
             </div>

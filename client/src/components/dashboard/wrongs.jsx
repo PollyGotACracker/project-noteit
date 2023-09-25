@@ -2,17 +2,18 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { RiDonutChartFill } from "react-icons/ri";
 import genColor from "@utils/genColor";
-import { getStyle } from "@utils/manageStyle";
+import useThemeStyle from "@hooks/useThemeStyle";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const DashboardWrongs = ({ subject, wrong, error }) => {
   const bgList = genColor({ count: subject?.length, alpha: 1 });
+  const background = useThemeStyle("--background");
 
   const options = {
     responsive: true,
     maintainAspectRatio: true,
-    cutout: "50%",
+    cutout: "70%",
     plugins: {
       legend: {
         position: "left",
@@ -52,12 +53,13 @@ const DashboardWrongs = ({ subject, wrong, error }) => {
     labels: subject,
     datasets: [
       {
-        label: "누적 오답 수",
+        label: "누적 오답 횟수",
         data: wrong,
         backgroundColor: bgList,
-        borderColor: getStyle("--background"),
+        borderColor: background,
         borderWidth: 8,
-        hoverOffset: 25,
+        hoverOffset: 15,
+        hoverBorderWidth: 8,
       },
     ],
   };

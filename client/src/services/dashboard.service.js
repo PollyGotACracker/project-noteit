@@ -1,8 +1,8 @@
 import { QueryKeys, fetcher } from "@services/core";
 
 const queryOptions = {
-  staleTime: 0,
-  cacheTime: 1000,
+  cacheTime: 0,
+  refetchOnMount: true,
 };
 
 const getDashboardQueries = (userId) => [

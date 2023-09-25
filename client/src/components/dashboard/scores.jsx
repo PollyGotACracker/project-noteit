@@ -14,8 +14,8 @@ import {
 import { Chart } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { RiLineChartLine } from "react-icons/ri";
-import { getStyle } from "@utils/manageStyle";
 import NoStat from "@components/dashboard/noStat";
+import useThemeStyle from "@hooks/useThemeStyle";
 
 ChartJS.register(
   LinearScale,
@@ -31,6 +31,16 @@ ChartJS.register(
 );
 
 const DashboardScores = ({ dates, scores, totalscores, percent, error }) => {
+  const [accent, accentAlpha, primary, primaryAlpha, secondary, lightAlpha] =
+    useThemeStyle([
+      "--accent",
+      "--accentalpha",
+      "--primary",
+      "--primaryalpha",
+      "--secondary",
+      "--lightalpha",
+    ]);
+
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -58,7 +68,7 @@ const DashboardScores = ({ dates, scores, totalscores, percent, error }) => {
         display: true,
         position: "right",
         grid: {
-          color: getStyle("--lightalpha"),
+          color: lightAlpha,
         },
       },
     },
@@ -107,8 +117,8 @@ const DashboardScores = ({ dates, scores, totalscores, percent, error }) => {
         pointHoverRadius: 10,
         borderWidth: 1,
         yAxisID: "y1",
-        borderColor: getStyle("--accent"),
-        backgroundColor: getStyle("--accentalpha"),
+        borderColor: accent,
+        backgroundColor: accentAlpha,
       },
       {
         label: "득점",
@@ -119,7 +129,7 @@ const DashboardScores = ({ dates, scores, totalscores, percent, error }) => {
         pointHoverRadius: 10,
         borderWidth: 0,
         yAxisID: "y",
-        backgroundColor: getStyle("--secondary"),
+        backgroundColor: secondary,
       },
       {
         label: "총점",
@@ -130,8 +140,8 @@ const DashboardScores = ({ dates, scores, totalscores, percent, error }) => {
         borderWidth: 1,
         borderRadius: 10,
         yAxisID: "y",
-        borderColor: getStyle("--primary"),
-        backgroundColor: getStyle("--primaryalpha"),
+        borderColor: primary,
+        backgroundColor: primaryAlpha,
       },
     ],
   };

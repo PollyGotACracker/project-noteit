@@ -1,7 +1,7 @@
 import GlobalLayout from "@pages/_layout";
 import SignInGnb from "@pages/signInGnb";
 import SignOutGnb from "@pages/signOutGnb";
-import Main from "@pages";
+import Landing from "@pages";
 import SignIn from "@pages/signin";
 import SignUp from "@pages/signup";
 import Dashboard from "@pages/dashboard";
@@ -21,7 +21,7 @@ export {
   GlobalLayout,
   SignInGnb,
   SignOutGnb,
-  Main,
+  Landing,
   SignIn,
   SignUp,
   Dashboard,

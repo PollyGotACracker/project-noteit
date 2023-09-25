@@ -7,13 +7,13 @@ import { UserContextProvider } from "@contexts/userContext";
 import App from "./app";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  // <React.StrictMode>
-  <UserContextProvider>
-    <RecoilRoot>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </RecoilRoot>
-  </UserContextProvider>
-  // </React.StrictMode>
+  <React.StrictMode>
+    <UserContextProvider>
+      <RecoilRoot>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </RecoilRoot>
+    </UserContextProvider>
+  </React.StrictMode>
 );
