@@ -1,7 +1,8 @@
-import { themeState } from "@/recoils/theme";
-import { setThemeStorage } from "@utils/manageThemeStorage";
-import { RiSunLine, RiMoonLine } from "react-icons/ri";
+import "@styles/components/themeToggle.css";
 import { useRecoilState } from "recoil";
+import { RiSunLine, RiMoonLine } from "react-icons/ri";
+import { themeState } from "@recoils/theme";
+import { setThemeStorage } from "@utils/manageThemeStorage";
 
 const ThemeToggle = () => {
   const [userTheme, setUserTheme] = useRecoilState(themeState);
@@ -13,22 +14,22 @@ const ThemeToggle = () => {
 
   return (
     <section className="theme-box">
-      <span className="light">
-        <RiSunLine />
-      </span>
-      <input
-        type="checkbox"
-        id="darkmode"
-        hidden
-        checked={userTheme}
-        onChange={changeThemeHandler}
-      />
       <label htmlFor="darkmode" className="darkmode-toggle">
+        <span className="dark" style={{ visibility: !userTheme && "hidden" }}>
+          <RiMoonLine />
+        </span>
+        <input
+          type="checkbox"
+          id="darkmode"
+          hidden
+          checked={userTheme}
+          onChange={changeThemeHandler}
+        />
         <span className="darkmode-btn"></span>
+        <span className="light" style={{ visibility: userTheme && "hidden" }}>
+          <RiSunLine />
+        </span>
       </label>
-      <span className="dark">
-        <RiMoonLine />
-      </span>
     </section>
   );
 };

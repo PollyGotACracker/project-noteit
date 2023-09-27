@@ -1,4 +1,4 @@
-import "@styles/search.css";
+import "@styles/search/search.css";
 import { Link, useLocation } from "react-router-dom";
 import { MdOutlineSubdirectoryArrowRight } from "react-icons/md";
 import Highlighter from "react-highlight-words";
@@ -10,7 +10,7 @@ const SearchPage = () => {
   const valArr = value?.split(" ")?.filter((item) => item !== "");
 
   return (
-    <article className="Search">
+    <main className="Search">
       <div className="search-value">
         '<span>{value}</span>' 검색 결과
       </div>
@@ -61,7 +61,7 @@ const SearchPage = () => {
       ) : (
         <div>검색 결과가 없습니다.</div>
       )}
-    </article>
+    </main>
   );
 };
 

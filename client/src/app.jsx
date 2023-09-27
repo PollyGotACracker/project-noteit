@@ -1,4 +1,3 @@
-import "@styles/app.css";
 import { useRoutes } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { QueryClientProvider } from "react-query";

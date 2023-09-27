@@ -1,15 +1,17 @@
+import "@styles/signup/signUp.css";
 import { ReactComponent as JoinSvg } from "@assets/images/join.svg";
+import { getStyle } from "@utils/manageStyle";
 
 const SignUpPage = () => {
   return (
-    <article className="Join">
-      <div className="form">
+    <main className="Signup">
+      <form className="form-signup">
         <div className="greeting-msg">반갑습니다!</div>
         <input
           id="u_userid"
           name="u_userid"
           type="text"
-          placeholder="user@email.com"
+          placeholder="이메일"
           autoComplete="true"
         />
         <input
@@ -26,15 +28,10 @@ const SignUpPage = () => {
           placeholder="비밀번호 확인"
           autoComplete="false"
         />
-        <button type="button">완료</button>
-      </div>
-      <JoinSvg
-        className="join-img"
-        fill={getComputedStyle(document.documentElement).getPropertyValue(
-          "--accentalpha"
-        )}
-      />
-    </article>
+        <button type="submit">회원가입</button>
+      </form>
+      <JoinSvg className="img-signup" fill={getStyle("--accentalpha")} />
+    </main>
   );
 };
 

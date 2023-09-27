@@ -17,7 +17,7 @@ const NoteDetailPage = () => {
   );
 
   return (
-    <article className="Detail">
+    <main className="Detail">
       <DetailMenu subject={subject} mutationParams={mutationParams} />
       <section className="title">
         <div className="subject">{subject?.s_subject}</div>
@@ -29,7 +29,7 @@ const NoteDetailPage = () => {
       <section className="content">
         <div dangerouslySetInnerHTML={{ __html: subject?.s_content }}></div>
       </section>
-    </article>
+    </main>
   );
 };
 

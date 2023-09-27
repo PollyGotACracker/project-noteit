@@ -1,3 +1,4 @@
+import "@styles/components/audioPlayer.css";
 import { useLayoutEffect, useRef } from "react";
 import { IoPlaySkipBack, IoPlaySkipForward } from "react-icons/io5";
 import { FaPlay, FaPause } from "react-icons/fa";
@@ -7,7 +8,7 @@ import playList from "@data/playList";
 const AudioPlayer = () => {
   const { setPlayState, setPrevAudio, setNextAudio, togglePlay, playIndex } =
     useAudioPlayer({ playList });
-  const playIconRef = useRef(null);
+  const playImgRef = useRef(null);
   const playerRef = useRef(null);
 
   useLayoutEffect(() => {
@@ -17,17 +18,17 @@ const AudioPlayer = () => {
 
   const setPlayAnimation = (bool) => {
     if (bool) {
-      playIconRef.current.style.animationName = "play";
-      playIconRef.current.style.animationPlayState = "running";
+      playImgRef.current.style.animationName = "play";
+      playImgRef.current.style.animationPlayState = "running";
     } else {
-      playIconRef.current.style.animationPlayState = "paused";
+      playImgRef.current.style.animationPlayState = "paused";
     }
   };
 
   return (
-    <section className="player">
-      <div className="play-icon-wrap">
-        <div className="play-icon" ref={playIconRef}></div>
+    <section className="player-box">
+      <div className="play-img-wrap">
+        <div className="play-img" ref={playImgRef}></div>
       </div>
       <div className="play-name">{playList[playIndex].name}</div>
       <div className="play-btn-box">

@@ -1,0 +1,50 @@
+@import "./input.css";
+@import "./item.css";
+
+.Todo {
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+}
+
+.Todo .progress-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 15px;
+  padding-bottom: 30px;
+}
+
+.Todo .progress-ratio {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.Todo .progress-ratio svg {
+  font-size: 1.8rem;
+}
+
+.Todo .progress-bar {
+  height: 10px;
+  border-radius: 50px;
+  background: linear-gradient(90deg, var(--primary), 90%, var(--accent));
+}
+
+.Todo .list {
+  margin: 32px 16px 0;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.Todo .list::-webkit-scrollbar {
+  background-color: transparent;
+}
+
+/*
+cf) 
+자식 요소만 스크롤
+부모요소는 display:flex, overflow-y:hidden
+자식요소는 overflow-y:auto
+(input 박스를 absolute 하지 않고 고정되었음)
+*/

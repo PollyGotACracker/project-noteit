@@ -56,7 +56,7 @@ const QuizResultPage = () => {
   };
 
   return (
-    <article className="Quiz">
+    <main className="Quiz">
       <section className="Result">
         <div className="score">
           {score.sc_score} / {score.sc_totalscore}
@@ -86,7 +86,7 @@ const QuizResultPage = () => {
         </div>
         <ResultWrongs wrongs={wrongs} />
       </section>
-    </article>
+    </main>
   );
 };
 

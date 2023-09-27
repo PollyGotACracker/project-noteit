@@ -20,7 +20,7 @@ const DashboardPage = () => {
 
   if (!todosIsLoading && !wrongsIsLoading && !scoresIsLoading)
     return (
-      <article className="Dashboard">
+      <main className="Dashboard">
         <div className="dashboard">DASHBOARD</div>
         <section className="content">
           <section className="top-box">
@@ -50,7 +50,7 @@ const DashboardPage = () => {
             />
           </section>
         </section>
-      </article>
+      </main>
     );
 };
 

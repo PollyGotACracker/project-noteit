@@ -1,7 +1,7 @@
 import {
   GlobalLayout,
-  SignInGnb,
-  SignOutGnb,
+  SignOutLayout,
+  SignInLayout,
   Landing,
   SignIn,
   SignUp,
@@ -19,6 +19,26 @@ import {
   Error,
 } from "@/routeList.js";
 
+export const URLS = {
+  UPLOAD_ROUTE: "/server/note/upload",
+  UPLOADS: "/server/uploads",
+  DASHBOARD: "/dashboard",
+  TODO: "/todo",
+  NOTE: "/note",
+  NOTE_LIST: "/note/list",
+  NOTE_DETAIL: "/note/detail",
+  NOTE_WRITE: "/note/write",
+  QUIZ: "/quiz",
+  QUIZ_GAME: "/quiz/game",
+  QUIZ_RESULT: "/quiz/result",
+  SEARCH: "/search",
+  SETTINGS: "/settings",
+  SIGN_UP: "/signup",
+  SIGN_IN: "/signin",
+  SIGN_OUT: "/signout",
+  FIND_PASSWORD: "/password/find",
+};
+
 export const routes = [
   {
     path: "/",
@@ -26,54 +46,43 @@ export const routes = [
     children: [
       {
         path: "",
-        element: <SignOutGnb />,
+        element: <SignOutLayout />,
         children: [
-          { path: "", element: <Landing /> },
-          { path: "signin", element: <SignIn /> },
-          { path: "signup", element: <SignUp /> },
+          { path: "", exact: true, element: <Landing /> },
+          { path: URLS.SIGN_IN, element: <SignIn /> },
+          { path: URLS.SIGN_UP, element: <SignUp /> },
         ],
       },
       {
         path: "",
-        element: <SignInGnb />,
+        element: <SignInLayout />,
         children: [
-          { path: "dashboard", element: <Dashboard /> },
-          { path: "todo", element: <Todo /> },
-          { path: "note", element: <Note /> },
+          { path: URLS.DASHBOARD, element: <Dashboard /> },
+          { path: URLS.TODO, element: <Todo /> },
+          { path: URLS.NOTE, element: <Note /> },
           {
-            path: "note/list/:catId",
+            path: `${URLS.NOTE_LIST}/:catId`,
             element: <NoteList />,
           },
           {
-            path: "note/detail/:catId/:subId",
+            path: `${URLS.NOTE_DETAIL}/:catId/:subId`,
             element: <NoteDetail />,
           },
           {
-            path: "note/write/:catId/:subId?",
+            path: `${URLS.NOTE_WRITE}/:catId/:subId?`,
             element: <NoteWrite />,
           },
           {
-            path: "search",
+            path: URLS.SEARCH,
             element: <Search />,
           },
-          { path: "quiz", element: <Quiz /> },
-          { path: "quiz/game/:catid", element: <QuizGame /> },
-          { path: "quiz/result", element: <QuizResult /> },
-          { path: "settings", element: <Settings /> },
+          { path: URLS.QUIZ, element: <Quiz /> },
+          { path: `${URLS.QUIZ_GAME}/:catid`, element: <QuizGame /> },
+          { path: URLS.QUIZ_RESULT, element: <QuizResult /> },
+          { path: URLS.SETTINGS, element: <Settings /> },
         ],
       },
       { path: "*", element: <Error /> },
     ],
   },
 ];
-
-export const URLS = {
-  UPLOAD_ROUTE: "/server/note/upload",
-  UPLOADS: "/server/uploads",
-  NOTE_LIST: "/note/list",
-  NOTE_DETAIL: "/note/detail",
-  NOTE_WRITE: "/note/write",
-  QUIZ_GAME: "/quiz/game",
-  QUIZ_RESULT: "/quiz/result",
-  SEARCH: "/search",
-};

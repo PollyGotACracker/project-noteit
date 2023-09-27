@@ -1,39 +1,41 @@
+import "@styles/components/signInNav.css";
 import { NavLink } from "react-router-dom";
-import "@styles/nav.css";
 import {
   RiHome4Fill,
   RiQuestionnaireFill,
-  RiSettings5Fill,
   RiLogoutBoxLine,
+  RiSettings5Fill,
 } from "react-icons/ri";
 import { BsFillJournalBookmarkFill } from "react-icons/bs";
 import { TbListCheck } from "react-icons/tb";
+import { URLS } from "@/router";
 
-const Nav = () => {
+const signInNav = () => {
   return (
-    <nav className="Nav">
-      <NavLink className="home" to={`/dashboard`}>
-        <RiHome4Fill />홈
+    <nav className="nav-signin">
+      <NavLink className="link home" to={URLS.DASHBOARD}>
+        <RiHome4Fill />
+        대시보드
       </NavLink>
-      <NavLink className="todo" to={`/todo`}>
+      <NavLink className="link todo" to={URLS.TODO}>
         <div>
           <TbListCheck />
         </div>
         목표
       </NavLink>
-      <NavLink className="note" to={`/note`}>
+      <NavLink className="link note" to={URLS.NOTE}>
         <BsFillJournalBookmarkFill />
         노트
       </NavLink>
-      <NavLink className="quiz" to={`/quiz`}>
+      <NavLink className="link quiz" to={URLS.QUIZ}>
         <RiQuestionnaireFill />
         퀴즈
       </NavLink>
-      <NavLink className="setting" to={`/settings`}>
+      <NavLink className="link settings" to={URLS.SETTINGS}>
         <RiSettings5Fill />
         설정
       </NavLink>
-      <NavLink className="logout" to={`/signout`}>
+      <NavLink className="link signout" to={URLS.SIGN_OUT}>
         <RiLogoutBoxLine />
         로그아웃
       </NavLink>
@@ -41,4 +43,4 @@ const Nav = () => {
   );
 };
 
-export default Nav;
+export default signInNav;

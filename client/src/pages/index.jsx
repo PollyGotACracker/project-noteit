@@ -1,4 +1,4 @@
-import "@styles/landing.css";
+import "@styles/landing/landing.css";
 import { ReactComponent as Intro } from "@assets/images/intro.svg";
 import useThemeStyle from "@hooks/useThemeStyle";
 
@@ -30,13 +30,13 @@ const LandingPage = () => {
   };
 
   return (
-    <article className="Main">
+    <main className="Landing">
       <Intro className="cover-img" fill={secondary} />
       <div className="title">
         <TitleContent />
       </div>
       <div className="subtitle">머리에 들어오는 그 날까지!</div>
-    </article>
+    </main>
   );
 };
 

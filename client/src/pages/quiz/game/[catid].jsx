@@ -167,7 +167,7 @@ const QuizGamePage = () => {
 
   if (isLoading) return null;
   return (
-    <article className="Quiz">
+    <main className="Quiz">
       {!isCountStart ? (
         <div className="Game" ref={gameRef}>
           <Score score={score} perfectScore={perfectScore} />
@@ -212,7 +212,7 @@ const QuizGamePage = () => {
           <span>점수 계산 중...</span>
         </section>
       )}
-    </article>
+    </main>
   );
 };
 

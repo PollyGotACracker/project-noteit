@@ -34,7 +34,7 @@ const NoteIndexPage = () => {
   };
 
   return (
-    <article className="Note Index">
+    <main className="Note Index">
       <section className="top">
         <div className="title">노트 목록</div>
         <div className="info">
@@ -65,7 +65,7 @@ const NoteIndexPage = () => {
           <CatItem key={item.c_catid} className="Item" item={item} />
         ))}
       </section>
-    </article>
+    </main>
   );
 };
 

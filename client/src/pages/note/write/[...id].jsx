@@ -88,7 +88,7 @@ const NoteWritePage = () => {
   };
 
   return (
-    <article className="Write">
+    <main className="Write">
       <form>
         <label htmlFor="category">카테고리</label>
         <input
@@ -154,7 +154,7 @@ const NoteWritePage = () => {
           </button>
         </section>
       </form>
-    </article>
+    </main>
   );
 };
 

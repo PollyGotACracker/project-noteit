@@ -10,7 +10,7 @@ const QuizIndexPage = () => {
   const { data: quizCatList } = useQuery(getQuizCategories({ userId }));
 
   return (
-    <article className="Quiz">
+    <main className="Quiz">
       <section className="Index">
         <div className="title">공부할 노트를 선택하세요</div>
         <div className="head">
@@ -40,7 +40,7 @@ const QuizIndexPage = () => {
           ))}
         </div>
       </section>
-    </article>
+    </main>
   );
 };
 

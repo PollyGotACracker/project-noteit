@@ -1,0 +1,56 @@
+main {
+  margin: 60px 10px 10px 0px;
+  background-color: var(--background);
+  border-radius: 15px;
+}
+
+.header-signin {
+  width: 100%;
+  padding: 8px 32px;
+  height: 60px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: transparent;
+  z-index: 99;
+  color: var(--light);
+}
+
+.header-signin .title {
+  width: 100px;
+  font-size: 2rem;
+  font-weight: 900;
+  user-select: none;
+}
+
+.header-signin .sidebar-btn {
+  display: none;
+}
+
+@media only screen and (max-width: 1023px) {
+  #root {
+    background: var(--background);
+  }
+
+  main {
+    margin: 60px 0px 0px 0px;
+    background-color: var(--background);
+    border-radius: 0;
+  }
+
+  .header-signin {
+    width: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--gradient));
+    box-shadow: 5px 0 5px rgba(0, 0, 0, 0.2);
+  }
+
+  .header-signin .sidebar-btn {
+    color: var(--light);
+    display: flex;
+    align-items: center;
+    font-size: 2rem;
+  }
+}

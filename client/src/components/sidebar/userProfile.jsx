@@ -1,3 +1,5 @@
+import "@styles/components/userProfile.css";
+import { useNavigate } from "react-router";
 import { GiStarsStack } from "react-icons/gi";
 import profile from "@assets/images/profile.png";
 import { URLS } from "@/router";
@@ -6,10 +8,11 @@ import UserAvatar from "@components/userAvatar";
 
 const UserProfile = () => {
   const { userData } = useUserContext();
+  const navigate = useNavigate();
 
   return (
-    <section className="profile">
-      <div className="profile-img">
+    <section className="profile-box">
+      <button className="profile-img" onClick={() => navigate(URLS.SETTINGS)}>
         <UserAvatar
           src={
             userData?.u_profileimg
@@ -17,11 +20,8 @@ const UserProfile = () => {
               : profile
           }
         />
-      </div>
+      </button>
       <div className="nickname">{userData?.u_nickname}</div>
-      <div className="profile-str">
-        <span>{userData?.u_profilestr}</span>
-      </div>
       <div title="점수" className="score">
         <GiStarsStack /> {userData?.u_score}
       </div>

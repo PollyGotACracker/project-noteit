@@ -7,7 +7,7 @@
   transform: translateY(-8%);
 }
 
-@media only screen and (max-width: 1080px) {
+@media only screen and (max-width: 1023px) {
   .Dashboard .chart-scores {
     height: 60vw;
   }

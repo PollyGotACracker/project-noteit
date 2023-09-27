@@ -1,0 +1,33 @@
+.nav-signout {
+  width: 100%;
+  height: 80px;
+  z-index: 100;
+  padding: 32px 50px;
+  position: fixed;
+  top: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 80px;
+  background-color: var(--darkalpha);
+}
+
+.nav-signout > * {
+  display: inline-block;
+  color: var(--light);
+}
+
+.nav-signout a {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-signout a:hover {
+  color: var(--accent);
+}
+
+.nav-signout a.active {
+  color: var(--accent);
+}

@@ -1,0 +1,91 @@
+.Landing,
+.Signup,
+.Signin {
+  background: transparent;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0;
+  padding-top: 150px;
+}
+
+.stars-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.stars-container .star {
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 40px #fff, 0 0 80px #fff;
+  animation: twinkle linear infinite;
+  opacity: 0.8;
+}
+
+.Signup .form-signup,
+.Signin .form-signin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 48px;
+  width: 60vh;
+  height: 60vh;
+  padding: 80px;
+  border-radius: 10px;
+  background-color: var(--lightalpha);
+  z-index: 50;
+}
+
+.Signup input,
+.Signin input {
+  width: 100%;
+  margin: 5px;
+  border: 0;
+  border-bottom: 1px dashed var(--light);
+  border-radius: 0;
+  color: var(--light);
+  caret-color: var(--accent);
+  background-repeat: no-repeat;
+  background-position: left 10px bottom 50%;
+  background-size: 16px;
+  padding: 10px 40px;
+}
+
+.Signup input:focus,
+.Signin input:focus {
+  border-bottom: 1px dashed var(--accent);
+}
+
+.Signup input[type="text"],
+.Signin input[type="text"] {
+  background-image: url("@assets/images/user.png");
+}
+
+.Signup input[type="password"],
+.Signin input[type="password"] {
+  background-image: url("@assets/images/pwd.png");
+}
+
+.Signup input::placeholder,
+.Signin input::placeholder {
+  color: var(--lightgray);
+}
+
+@keyframes twinkle {
+  0% {
+    opacity: 0.8;
+  }
+  10% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}

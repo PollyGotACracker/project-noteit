@@ -1,0 +1,17 @@
+section.clock-box {
+  width: 210px;
+  flex-shrink: 0;
+  display: grid;
+  grid-template-columns: 1fr 0.5fr 0.2fr;
+}
+
+.clock-box > .today {
+  font-size: 1.2rem;
+  white-space: nowrap;
+}
+
+@media only screen and (max-width: 1023px) {
+  section.clock-box {
+    width: 100%;
+  }
+}

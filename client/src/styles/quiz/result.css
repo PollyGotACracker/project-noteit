@@ -2,11 +2,11 @@
 .Quiz .Result .duration,
 .Quiz .Result .feedback {
   text-align: center;
-  margin-bottom: 0.5em;
+  margin-bottom: 8px;
 }
 
 .Quiz .Result .score {
-  font-size: 2.5em;
+  font-size: 5rem;
   font-weight: 900;
   margin-top: 5vh;
 }
@@ -14,19 +14,19 @@
 .Quiz .Result .date,
 .Quiz .Result .time {
   text-align: right;
-  font-size: 0.8em;
+  font-size: 1.4rem;
 }
 
 .Quiz .Result a {
   display: flex;
   align-items: center;
-  padding: 0.2em;
+  padding: 10px;
 }
 
 .Quiz .Result .btn-box {
   display: flex;
   width: 60%;
-  margin: 2em auto;
+  margin: 20px auto;
   flex-wrap: wrap;
 }
 
@@ -35,15 +35,15 @@
   margin: 0 auto;
   justify-content: center;
   width: 120px;
-  padding: 0.5em;
+  padding: 8px;
   border: 1px solid var(--border);
   border-radius: 10px;
 }
 
 .Quiz .Result .save-msg {
   width: 100%;
-  padding-bottom: 2em;
-  height: 2em;
+  padding-bottom: 50px;
+  height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -55,15 +55,19 @@
 
 .Quiz .Result .wrong-list .title {
   font-weight: 700;
-  padding-bottom: 2em;
+  padding-bottom: 20px;
+}
+.Quiz .Result .wrong-list .title:before {
+  content: "・ ";
+  color: var(--accent);
 }
 
 .Quiz .Result .wrong-list .subject > a {
-  font-size: 1.2em;
-  padding: 0.8em 0;
+  font-size: 2rem;
+  padding: 12px 0;
   font-weight: 700;
-  gap: 0.4em;
-  margin-bottom: 1em;
+  gap: 8px;
+  margin-bottom: 16px;
 }
 
 .Quiz .Result .wrong-list .subject > a:after {
@@ -74,16 +78,16 @@
 }
 
 .Quiz .Result .wrong-list .subject > div {
-  padding: 0.2em 0 0.2em 2em;
+  padding: 4px 0 4px 32px;
 }
 
 .Quiz .Result .wrong-list .wrong-keyword {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.2em;
+  gap: 4px;
   justify-content: space-between;
-  padding: 1em;
-  margin: 2em;
+  padding: 16px;
+  margin: 32px;
   border: 1px solid var(--subborder);
   border-radius: 5px;
 }
@@ -91,8 +95,8 @@
 .Quiz .Result .wrong-list .wrong-keyword .keyword {
   display: flex;
   align-items: center;
-  gap: 0.4em;
-  margin-bottom: 1em;
+  gap: 8px;
+  margin-bottom: 16px;
 }
 
 .Quiz .Result .wrong-list .wrong-keyword .keyword svg {
@@ -103,5 +107,5 @@
   width: 100%;
   white-space: pre-wrap;
   word-break: keep-all;
-  margin-bottom: 1em;
+  margin-bottom: 16px;
 }

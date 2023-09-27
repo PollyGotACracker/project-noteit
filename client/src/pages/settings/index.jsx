@@ -1,7 +1,9 @@
-import "@styles/settings.css";
+import "@styles/settings/settings.css";
 import { useRef } from "react";
+import { GiStarsStack } from "react-icons/gi";
 import { FaUserEdit, FaBell, FaDatabase, FaUserTimes } from "react-icons/fa";
 import profile from "@assets/images/profile.png";
+import { URLS } from "@/router";
 import { getUserData } from "@services/user.service";
 import { useUserContext } from "@contexts/userContext";
 import SettingBox from "@components/settings/wrapper";
@@ -38,18 +40,23 @@ const SettingsPage = () => {
   };
 
   return (
-    <article className="Set">
-      <SettingBox icon={<FaUserEdit />} title={"프로필 설정"}>
+    <main className="Settings">
+      <SettingBox icon={<FaUserEdit />} title={"나의 프로필"}>
         <div className="upload-img-wrap">
           <UserAvatar
             src={
               profileData.src
                 ? profileData.src
                 : userData.u_profileimg
-                ? `/server/uploads/${userData.u_profileimg}`
+                ? `${URLS.UPLOADS}/${userData.u_profileimg}`
                 : profile
             }
           />
+        </div>
+        <div className="nickname">{userData?.u_nickname}</div>
+        <div className="profile-str">{userData?.u_profilestr}</div>
+        <div title="점수" className="score">
+          <GiStarsStack /> {userData?.u_score}
         </div>
         <div className="profile-box">
           <input
@@ -59,7 +66,7 @@ const SettingsPage = () => {
             accept="image/*"
             // multiple
             ref={imgInput}
-            onChange={(e) => onChangeImgHandler(e)}
+            onChange={onChangeImgHandler}
           />
           <label htmlFor="img-input">업로드</label>
         </div>
@@ -68,7 +75,7 @@ const SettingsPage = () => {
             id="str-input"
             value={profileData?.str}
             placeholder="프로필 문구"
-            onChange={(e) => onChangeStrHandler(e)}
+            onChange={onChangeStrHandler}
           />
         </div>
         <button
@@ -99,15 +106,13 @@ const SettingsPage = () => {
               type="password"
               autoComplete="false"
               placeholder="비밀번호 입력"
-              onPaste={(e) => {
-                e.preventDefault();
-              }}
+              onPaste={(e) => e.preventDefault()}
             />
             <button type="button">삭제</button>
           </form>
         </div>
       </SettingBox>
-    </article>
+    </main>
   );
 };
 

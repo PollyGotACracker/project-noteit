@@ -4,13 +4,16 @@
   align-items: center;
   justify-content: center;
 }
+
 .NotFound .not-found-img {
   opacity: 0.8;
 }
+
 .NotFound > * {
   user-select: none;
   color: var(--text);
 }
+
 .NotFound p {
   margin-top: 10px;
   margin-bottom: 5%;

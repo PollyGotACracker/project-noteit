@@ -1,0 +1,68 @@
+.theme-box .darkmode-toggle {
+  width: 75px;
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 5px;
+  align-items: center;
+  position: relative;
+  border: 1px solid var(--lightalpha);
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+.theme-box .darkmode-toggle,
+.theme-box .darkmode-btn {
+  transition: left ease-in 0.2s;
+}
+
+.theme-box .darkmode-btn {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  transform: translateY(-50%);
+}
+
+.theme-box #darkmode:checked ~ .darkmode-btn {
+  left: calc(100% - 20px - 5px);
+}
+
+.theme-box .theme-box span {
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+}
+
+@media only screen and (max-width: 1023px) {
+  section.theme-box {
+    order: 6;
+  }
+
+  .theme-box .darkmode-toggle:before {
+    content: "light";
+    position: absolute;
+    left: -50px;
+  }
+
+  .theme-box .darkmode-toggle:after {
+    content: "dark";
+    position: absolute;
+    right: -50px;
+  }
+
+  .theme-box .darkmode-toggle:before,
+  .theme-box .darkmode-toggle:after {
+    font-size: 1.2rem;
+    cursor: auto;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  :root[color-theme="light"] .theme-box .darkmode-toggle {
+    border-color: var(--darkalpha) !important;
+  }
+}

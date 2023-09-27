@@ -8,8 +8,9 @@
 }
 
 .Note.Index section.top .title {
-  font-size: 25pt;
+  font-size: 3.5rem;
   font-weight: 900;
+  margin-bottom: 20px;
 }
 
 .Note.Index form {
@@ -30,7 +31,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.8em;
+  font-size: 2.5rem;
 }
 
 .Note.Index #insert-btn:not(:disabled) {
@@ -43,8 +44,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(40%, auto));
   justify-items: center;
-  column-gap: 1.5em;
-  row-gap: 3em;
+  column-gap: 24px;
+  row-gap: 48px;
 }
 
 .Note.Index .cat-item {
@@ -54,7 +55,7 @@
 .Note.Index .link-box {
   border: 1px solid var(--border);
   border-radius: 5px;
-  padding: 0.4em;
+  padding: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -74,8 +75,7 @@
   border: none;
   width: 100%;
   text-align: center;
-  font-size: 1.8em;
-  font-weight: 700;
+  font-size: 2.5rem;
   transition: all 0.2s ease-out;
   cursor: pointer;
   flex: 1;
@@ -83,20 +83,20 @@
 
 .Note.Index section.cat-list .date {
   color: var(--subtext);
-  font-size: 0.8em;
+  font-size: 1.4rem;
   flex: 1;
 }
 
 .Note.Index section.cat-list .subcount {
-  font-size: 1.2em;
+  font-size: 2rem;
   font-weight: 700;
   flex: 1.5;
 }
 
 .Note.Index .bookmark-btn {
-  font-size: 2em;
+  font-size: 3rem;
   align-self: flex-start;
-  transform: translateY(-0.35em);
+  transform: translateY(-12px);
   transition: all ease 0.3s;
   flex: 0.5;
 }
@@ -113,12 +113,12 @@
   width: 100%;
   display: flex;
   justify-content: space-around;
-  margin-top: 0.5em;
+  margin-top: 8px;
   flex: 1;
 }
 
 .Note.Index .btn-box button {
-  font-size: 1em;
+  font-size: 1.8rem;
 }
 
 .Note.Index .btn-box .update-btn:hover {
@@ -132,5 +132,6 @@
 .Note.Index .info {
   display: flex;
   align-items: center;
-  gap: 0.3em;
+  gap: 10px;
+  margin-bottom: 10px;
 }

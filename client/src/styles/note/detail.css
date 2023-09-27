@@ -14,7 +14,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5em;
+  gap: 8px;
 }
 
 .Detail .title a.search {
@@ -28,29 +28,29 @@
 
 .Detail .menu {
   width: 100%;
+  margin-top: 20px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  border-bottom: 1px solid var(--primary);
+  border-bottom: 2px solid var(--primary);
 }
 
 .Detail .menu button,
 .Detail .menu a {
   display: flex;
   color: inherit;
-  padding: 0.5em 1em;
+  padding: 10px 15px;
   transition: all ease 0.3s;
-  font-size: 1em;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.5em;
+  gap: 8px;
   border-bottom: 5px solid transparent;
 }
 
 .Detail .menu button svg,
 .Detail .menu a svg {
-  font-size: 1.2em;
+  font-size: 1.8rem;
 }
 
 .Detail .menu button:hover,
@@ -65,33 +65,17 @@
 
 .Detail .msg {
   position: absolute;
-  left: calc(-4em / 2);
-  width: 14em;
+  top: 60px;
+  width: 100%;
   text-align: center;
-  background-color: var(--background);
-  border: 1px solid #aaa;
   border-radius: 10px;
   padding: 5px;
-  white-space: nowrap;
+  text-wrap: wrap;
+  word-break: keep-all;
   opacity: 0;
   transition: all 0.1s;
   user-select: none;
   animation-timing-function: ease;
-}
-
-@keyframes popUp {
-  0% {
-    opacity: 0;
-  }
-  20% {
-    opacity: 100;
-  }
-  80% {
-    opacity: 100;
-  }
-  100% {
-    opacity: 0;
-  }
 }
 
 .Detail .bookmark-btn.active {
@@ -106,12 +90,12 @@
   padding: 10px 0;
   width: 100%;
   text-align: center;
-  font-size: 2em;
+  font-size: 4rem;
   font-weight: 700;
 }
 
 .Detail .title .category {
-  font-size: 1.2em;
+  font-size: 2rem;
   transition: all ease 0.2s;
 }
 
@@ -131,7 +115,7 @@
 .Detail .keyword-slide button:not(.copy-btn) {
   width: 5vw;
   height: 100%;
-  font-size: 2em;
+  font-size: 3rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -144,7 +128,7 @@
 
 .Detail .keyword-slide .keyword-list-wrap {
   width: calc(100% - 10vw);
-  min-height: 20vh;
+  min-height: 30vh;
   position: relative;
   overflow: hidden;
 }
@@ -162,22 +146,27 @@
 .Detail .keyword-slide .keyword {
   display: inline-block;
   min-width: 100%;
-  min-height: 20vh;
-  border: 1px solid #aaa;
+  min-height: 30vh;
   border-radius: 5px;
   padding: 10px;
   word-break: keep-all;
 }
 
 .Detail .keyword .top-box {
-  border-bottom: 1px dotted var(--border);
-  padding: 1em;
+  padding: 16px;
   text-align: center;
+  background-color: var(--primary);
+  color: var(--light);
+  border-radius: 10px;
+}
+
+.Detail .keyword .top-box .key {
+  font-size: 2rem;
 }
 
 .Detail .keyword .top-box .wrong {
-  margin-top: 0.8em;
-  font-size: 0.8em;
+  margin-top: 20px;
+  font-size: 1.4rem;
 }
 
 .Detail .keyword-list-top {
@@ -185,20 +174,19 @@
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
-  padding: 0.5em;
+  padding: 20px;
 }
 
 .Detail .keyword-list-top .keyword-count {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.2em;
-  font-size: 0.9em;
+  gap: 10px;
+  font-size: 1.4rem;
 }
 
 .Detail .keyword-list-top .copy-btn {
-  margin: 0 0 0.2em 0.2em;
-  font-size: 0.9em;
+  font-size: 1.4rem;
 }
 
 .Detail .keyword-list-top .copy-btn:hover {
@@ -206,11 +194,10 @@
 }
 
 .Detail .keyword .desc {
-  padding: 0.5em;
+  padding: 20px;
   word-wrap: break-word;
   word-break: keep-all;
   white-space: pre-wrap;
-  height: 100%;
 }
 
 .Detail .keyword-list-bottom {
@@ -218,14 +205,13 @@
   margin: 10px 0;
   display: flex;
   justify-content: center;
-  gap: 0.8em;
+  gap: 20px;
 }
 
 .Detail .keyword-dot {
   color: var(--subtext);
-  font-size: 1em;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: color 0.2s ease;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -250,4 +236,19 @@
 
 .Detail .content div {
   flex: 1;
+}
+
+@keyframes popUp {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 100;
+  }
+  80% {
+    opacity: 100;
+  }
+  100% {
+    opacity: 0;
+  }
 }

@@ -3,7 +3,6 @@ import { useParams, Link } from "react-router-dom";
 import { useQuery } from "react-query";
 import { URLS } from "@/router";
 import { BsFillFileEarmarkPlusFill } from "react-icons/bs";
-import { IoFileTrayFull } from "react-icons/io5";
 import { getSubjects } from "@services/note.service";
 import SubItem from "@components/note/subItem";
 import SubNoData from "@components/note/subNoData";
@@ -16,13 +15,10 @@ const NoteSubPage = () => {
   const isNoData = !isLoading && subjects.length === 0;
 
   return (
-    <article className="Note List">
+    <main className="Note List">
       <section className="title">
         <div className="category">{category?.c_category}</div>
-        <div className="subcount">
-          <IoFileTrayFull />
-          {category?.c_subcount}
-        </div>
+        <div className="subcount">{`[ ${category?.c_subcount} ]`}</div>
         <Link
           className="insert-btn"
           to={`${URLS.NOTE_WRITE}/${catId}`}
@@ -43,7 +39,7 @@ const NoteSubPage = () => {
           </ul>
         )}
       </section>
-    </article>
+    </main>
   );
 };
 export default NoteSubPage;

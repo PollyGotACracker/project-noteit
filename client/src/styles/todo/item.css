@@ -1,0 +1,108 @@
+.Todo .item {
+  display: grid;
+  grid-template-columns: 0.5fr 1.5fr 5fr 1.5fr 1fr 1fr 0.5fr;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px dashed var(--border);
+  margin: 10px;
+}
+
+.Todo .item > *:not(:nth-child(3)) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.Todo .item:first-child {
+  border-top: 0;
+}
+
+.Todo .item:hover .delete,
+.Todo .item:hover .complete {
+  opacity: 1;
+}
+
+.Todo .item .delete:hover,
+.Todo .item .complete:hover {
+  cursor: pointer;
+  background-color: var(--primary);
+  border-radius: 50%;
+  transition: all ease 0.2s;
+}
+
+.Todo .item .delete:hover {
+  color: var(--red);
+}
+
+.Todo .item .complete:hover {
+  color: var(--accent);
+}
+
+.Todo .item div {
+  padding: 8px;
+}
+
+.Todo .delete,
+.Todo .complete {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 800;
+  color: var(--subtext);
+  opacity: 0;
+  transition: opacity ease 0.5s;
+  user-select: none;
+}
+
+.Todo .item .date {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--subtext);
+  font-size: 1.2rem;
+  text-align: center;
+  gap: 8px;
+}
+
+.Todo .item .content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  cursor: pointer;
+  transition: all ease 0.2s;
+  word-break: keep-all;
+}
+
+.Todo .item .content.line {
+  text-decoration: line-through;
+  color: var(--subtext);
+}
+
+.Todo .item .content:hover {
+  color: var(--accent);
+}
+
+.Todo .item .date div {
+  margin: 0;
+  padding: 0;
+}
+
+.Todo .deadline {
+  color: var(--subtext);
+  font-size: 1.2rem;
+}
+
+.Todo .deadline.active {
+  color: var(--red);
+  font-weight: bold;
+}
+
+/* 
+  cf) 
+  다른 요소 hover 시 동작을 설정하려면
+  해당 요소 선택자는 부모 요소를 포함시키지 말 것
+  */

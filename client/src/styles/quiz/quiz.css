@@ -3,11 +3,12 @@
   flex-direction: column;
   align-items: center;
 }
+
 .Quiz .Index .head {
-  width: 80%;
-  border-bottom: 1px solid var(--border);
-  margin: 2em 0 1em;
-  padding: 0.6em;
+  width: 100%;
+  border-bottom: 2px solid var(--primary);
+  margin: 32px 0 16px;
+  padding: 10px;
   display: grid;
   grid-template-columns: 5fr 2fr 1fr 1fr;
   gap: 10px;
@@ -16,27 +17,27 @@
 }
 
 .Quiz .Index .title {
-  font-size: 1.2em;
+  font-size: 2rem;
   font-weight: 700;
-  padding: 1em;
-  letter-spacing: 0.2em;
+  padding: 20px;
+  letter-spacing: 2px;
   user-select: none;
 }
 
 .Quiz .cat-list {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 80%;
 }
 
 .Quiz .cat-list .cat-item {
   width: 100%;
   display: grid;
   grid-template-columns: 5fr 2fr 1fr 1fr;
-  gap: 0.5em;
-  padding: 0.5em 1.5em;
-  border-bottom: 1px dashed var(--border);
+  gap: 8px;
+  padding: 20px;
+  border-bottom: 1px solid var(--subborder);
   white-space: nowrap;
   cursor: pointer;
   transition: all ease 0.2s;
@@ -59,5 +60,5 @@
   text-align: center;
   display: flex;
   align-items: center;
-  gap: 0.4em;
+  gap: 8px;
 }

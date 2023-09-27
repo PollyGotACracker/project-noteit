@@ -1,6 +1,6 @@
 import GlobalLayout from "@pages/_layout";
-import SignInGnb from "@pages/signInGnb";
-import SignOutGnb from "@pages/signOutGnb";
+import SignOutLayout from "@pages/signOutLayout";
+import SignInLayout from "@pages/signInLayout";
 import Landing from "@pages";
 import SignIn from "@pages/signin";
 import SignUp from "@pages/signup";
@@ -19,8 +19,8 @@ import Error from "@pages/error";
 
 export {
   GlobalLayout,
-  SignInGnb,
-  SignOutGnb,
+  SignOutLayout,
+  SignInLayout,
   Landing,
   SignIn,
   SignUp,

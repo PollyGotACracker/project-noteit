@@ -24,9 +24,9 @@
   --lightgray: #ccc;
   --gray: #aaa;
   --darkgray: #555;
-  --lightalpha: rgba(255, 255, 255, 0.3);
-  --semialpha: rgba(0, 0, 0, 0.04);
-  --darkalpha: rgba(0, 0, 0, 0.5);
+  --lightalpha: rgba(255, 255, 255, 0.2);
+  --semialpha: rgba(0, 0, 0, 0.05);
+  --darkalpha: rgba(0, 0, 0, 0.4);
 }
 
 :root[color-theme="light"] {
@@ -48,6 +48,7 @@
 }
 
 :root[color-theme="dark"] {
+  /* 요소에 브라우저 지정색상 적용 */
   color-scheme: dark;
   --background: var(--dark);
   --text: var(--light);
@@ -75,35 +76,37 @@
 html {
   height: 100%;
   overflow-x: hidden;
-  background-color: var(--background);
+  background: linear-gradient(var(--primary) 20%, var(--gradient));
+  font-size: 62.5%;
 }
 
 body {
   width: 100%;
   height: 100%;
-  background-color: var(--background);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 1.6rem;
 }
 
 *::-webkit-scrollbar {
   width: 5px;
   height: 5px;
-  background-color: var(--borderdark);
+  background-color: transparent;
 }
 
 *::-webkit-scrollbar-thumb {
   background: var(--accent);
-  border-radius: 10px;
+  border-radius: 15px;
 }
 
 #root {
   width: 100%;
   height: 100%;
+  display: flex;
 }
 
 code {
@@ -123,4 +126,114 @@ select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
   -webkit-text-fill-color: var(--text);
   -webkit-box-shadow: 0 0 0px 1000px var(--background) inset;
+}
+
+main {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 5vw;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease, border ease 0.2s;
+  white-space: nowrap;
+  gap: 4px;
+}
+
+input,
+textarea,
+a,
+button {
+  border: none;
+  outline: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  user-select: none;
+}
+
+button {
+  background-color: transparent;
+  color: var(--text);
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  font-size: 1.6rem;
+  white-space: nowrap;
+  transition: all ease 0.2s;
+}
+
+input {
+  background-color: transparent;
+  color: var(--text);
+  transition: all ease 0.2s;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 8px;
+  min-width: 0;
+  min-height: 16px;
+  font-size: 1.6rem;
+}
+
+textarea {
+  background-color: transparent;
+  padding: 10px;
+  font-size: 1.6rem;
+}
+
+button:disabled,
+button:disabled:hover {
+  border-color: var(--lightgray);
+  color: var(--lightgray);
+  cursor: auto;
+}
+
+input:read-only,
+input:read-only:hover,
+input:read-only:focus {
+  border-color: var(--border);
+}
+
+button.active,
+a:hover,
+button:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+input:hover,
+input:focus {
+  border-color: var(--accent);
+}
+
+label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
+svg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media only screen and (max-width: 1023px) {
+  main {
+    width: 100%;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
 }

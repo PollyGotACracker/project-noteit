@@ -6,7 +6,7 @@
 .Dashboard .article a {
   margin-left: auto;
   border: 1px solid var(--border);
-  padding: 0.5em;
+  padding: 8px;
   border-radius: 5px;
 }
 
@@ -37,28 +37,28 @@
 }
 
 .Dashboard .article .content {
-  padding: 2em 1em;
+  padding: 32px 16px;
   width: 80%;
   margin: 0 auto;
   display: flex;
   align-items: center;
-  gap: 1em;
+  gap: 16px;
 }
 
 .Dashboard .article .content .subject {
-  font-size: 1.2em;
+  font-size: 2rem;
   word-break: keep-all;
 }
 
 .Dashboard .article .content .keycount {
   display: flex;
   align-items: center;
-  gap: 0.3em;
-  font-size: 0.9em;
+  gap: 6px;
+  font-size: 1.6rem;
   color: var(--subtext);
 }
 
-@media only screen and (max-width: 1080px) {
+@media only screen and (max-width: 1023px) {
   .Dashboard .article {
     flex: 1;
     flex-basis: 100%;

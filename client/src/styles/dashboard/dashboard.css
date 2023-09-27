@@ -18,7 +18,7 @@
 .Dashboard > .dashboard {
   user-select: none;
   -webkit-user-select: none;
-  margin-bottom: 1em;
+  margin-bottom: 16px;
 }
 
 .Dashboard > .content {
@@ -45,11 +45,11 @@
 }
 
 .Dashboard .text-box {
-  font-size: 2em;
+  font-size: 4rem;
   font-weight: 700;
   width: 100%;
   text-align: center;
-  padding-bottom: 1em;
+  padding-bottom: 16px;
   user-select: none;
 }
 
@@ -69,13 +69,13 @@
 
 .Dashboard .title {
   width: 100%;
-  font-size: 1.2em;
-  margin-bottom: 1em;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
-  gap: 0.5em;
+  gap: 10px;
   user-select: none;
-  padding: 0.5em;
+  padding: 10px;
   white-space: nowrap;
 }
 
@@ -86,7 +86,7 @@
 }
 
 .Dashboard .title svg {
-  font-size: 1.5em;
+  font-size: 2.5rem;
   color: var(--secondary);
 }
 
@@ -97,7 +97,7 @@
   width: 100%;
 }
 
-@media only screen and (max-width: 1080px) {
+@media only screen and (max-width: 1023px) {
   .Dashboard .no-stat-img {
     width: 100%;
     height: 30vw;

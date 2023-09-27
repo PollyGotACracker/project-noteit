@@ -1,123 +1,141 @@
-.Set {
+.Settings {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.Set .setting-box * {
+
+.Settings .setting-box * {
   user-select: none;
   white-space: nowrap;
 }
-.Set .setting-box {
+
+.Settings .setting-box {
   width: 100%;
-  padding: 2em 3em;
+  padding: 32px 48px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 2em;
+  gap: 32px;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px dashed var(--border);
+  border-bottom: 1px solid var(--border);
 }
-.Set .setting-box:nth-child(1) {
+
+.Settings .setting-box:nth-child(1) {
   flex-direction: column;
-  gap: 0.5em;
+  gap: 8px;
 }
-.Set .setting-box .title {
+
+.Settings .setting-box .title {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.5em;
-  font-size: 1.2em;
+  gap: 8px;
+  font-size: 1.8rem;
   font-weight: 700;
   white-space: nowrap;
 }
-.Set .setting-box:nth-last-child(1) .title,
-.Set .setting-box:nth-last-child(2) .title {
+
+.Settings .setting-box:nth-last-child(1) .title,
+.Settings .setting-box:nth-last-child(2) .title {
   color: var(--red);
 }
-.Set .data-box,
-.Set .account-box {
+
+.Settings .data-box,
+.Settings .account-box {
   flex: 1;
   display: flex;
   justify-content: flex-end;
   gap: 2vw;
 }
-.Set .setting-box:last-child {
+
+.Settings .setting-box:last-child {
   border-bottom: 0;
 }
-.Set .profile-box {
-  width: 500px;
+
+.Settings .profile-box {
+  max-width: 500px;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.Set .upload-img-wrap {
+
+.Settings .upload-img-wrap {
   width: 200px;
   height: 200px;
-  margin: 2em auto;
+  margin: 32px auto;
   border-radius: 50%;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.Set .upload {
+
+.Settings .upload {
   height: 100%;
   display: inline-block;
 }
-.Set #img-input {
+
+.Settings #img-input {
   pointer-events: none;
+  border: none;
+  width: 100%;
+  text-overflow: ellipsis;
 }
-.Set label[for="img-input"] {
+
+.Settings #img-input::file-selector-button {
+  display: none;
+}
+
+.Settings label[for="img-input"] {
   display: inline-block;
   user-select: none;
   border-radius: 5px;
   border: 1px solid var(--border);
-  padding: 0.5em;
+  padding: 8px;
   transition: all ease 0.2s;
   white-space: nowrap;
   cursor: pointer;
   text-align: center;
 }
-.Set label[for="img-input"]:hover {
+
+.Settings label[for="img-input"]:hover {
   border-color: var(--accent);
   color: var(--accent);
 }
-.Set input[type="file"] {
-  min-height: 1.2em;
-  font-size: 1em;
-  border: none;
-  flex: 1;
-  text-overflow: ellipsis;
-}
-.Set input[type="file"]::file-selector-button {
-  display: none;
-}
-.Set #str-input {
-  margin: 1em 0;
+
+.Settings #str-input {
+  margin: 16px 0;
   width: 100%;
 }
-.Set #profile-update-btn {
+
+.Settings #profile-update-btn {
   align-self: flex-end;
 }
-.Set .setting-box #push {
+
+.Settings .setting-box #push {
   display: none;
 }
-.Set label[for="push"] {
+
+.Settings label[for="push"] {
   cursor: pointer;
-  font-size: 2em;
+  font-size: 32px;
   font-weight: 400;
   transition: all ease 0.2s;
 }
-.Set label[for="push"]:hover {
+
+.Settings label[for="push"]:hover {
   color: var(--accent);
 }
-.Set .account-box form {
+
+.Settings .account-box form {
   display: flex;
   justify-content: space-between;
-  gap: 2em;
+  gap: 32px;
 }
-@media only screen and (max-width: 1080px) {
+
+@media only screen and (max-width: 1023px) {
   .Set .profile-box {
     width: 70vw;
   }
