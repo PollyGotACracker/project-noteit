@@ -14,6 +14,14 @@ const QuizResultPage = () => {
   const location = useLocation();
   const queryClient = getClient();
   const [saveMsg, setSaveMsg] = useState("");
+
+  if (!location?.state)
+    return (
+      <main className="Quiz">
+        <p style={{ textAlign: "center" }}>잘못된 접근입니다.</p>
+      </main>
+    );
+
   const { wrongs, score } = location.state;
   const { dateStr, timeStr } = getTodayFormat(score.sc_date, score.sc_time);
   const ratio = score.sc_score / score.sc_totalscore;
