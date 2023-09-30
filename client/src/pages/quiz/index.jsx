@@ -1,13 +1,17 @@
 import "@styles/quiz/quiz.css";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import { useQuery } from "react-query";
 import { FaFileAlt, FaTags } from "react-icons/fa";
+import { userState } from "@recoils/user";
 import { getQuizCategories } from "@services/quiz.service";
 import { URLS } from "@/router";
 
 const QuizIndexPage = () => {
-  const userId = "polly@gmail.com";
-  const { data: quizCatList } = useQuery(getQuizCategories({ userId }));
+  const userData = useRecoilValue(userState);
+  const { data: quizCatList } = useQuery(
+    getQuizCategories({ userId: userData.u_userid })
+  );
 
   return (
     <main className="Quiz">

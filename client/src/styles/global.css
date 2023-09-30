@@ -8,11 +8,10 @@
 
 :root {
   --font-family: "NanumSquareNeo-Variable";
-  --sidebarwidth: 260px;
   --red: #c73935;
   --yellow: #e69215;
   --lightyellow: rgba(249, 162, 2, 1);
-  --yellowalpha: rgba(249, 162, 2, 0.8);
+  --yellowalpha: rgba(249, 162, 2, 0.4);
   --blue: #1d415b;
   --bluealpha: rgba(29, 65, 91, 0.6);
   --grayblue: #60798c;
@@ -24,7 +23,7 @@
   --lightgray: #ccc;
   --gray: #aaa;
   --darkgray: #555;
-  --lightalpha: rgba(255, 255, 255, 0.2);
+  --lightalpha: rgba(255, 255, 255, 0.1);
   --semialpha: rgba(0, 0, 0, 0.05);
   --darkalpha: rgba(0, 0, 0, 0.4);
 }
@@ -44,7 +43,7 @@
   --border: var(--gray);
   --borderdark: var(--darkgray);
   --subborder: var(--lightgray);
-  --sidebar: var(--semialpha);
+  --borderalpha: var(--semialpha);
 }
 
 :root[color-theme="dark"] {
@@ -63,7 +62,7 @@
   --border: var(--gray);
   --borderdark: var(--darkgray);
   --subborder: var(--darkgray);
-  --sidebar: var(--darkalpha);
+  --borderalpha: var(--lightalpha);
 }
 
 * {

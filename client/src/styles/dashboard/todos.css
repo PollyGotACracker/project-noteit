@@ -1,16 +1,14 @@
-.Dashboard .todos {
-  padding-bottom: 5vh;
-}
-
 .Dashboard .todos .todos-msg {
   text-align: center;
 }
 
 .Dashboard .todos .todos-item {
-  padding: 4px 5vw;
+  padding: 0 20px;
+  height: 50px;
   display: grid;
   grid-template-columns: 6fr 2fr 1.5fr 1fr;
   gap: 8px;
+  align-items: center;
 }
 
 .Dashboard .todos .todo-item > * {
@@ -26,5 +24,5 @@
 .Dashboard .todos .todos-item > *:not(:first-child) {
   font-size: 1.2rem;
   color: var(--subtext);
-  justify-content: center;
+  margin: 0 auto;
 }

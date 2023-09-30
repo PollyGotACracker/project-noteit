@@ -1,33 +1,36 @@
 import "@styles/signInLayout.css";
-import { useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { useQuery } from "react-query";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { useUserContext } from "@contexts/userContext";
-import { getUserData } from "@services/user.service";
+import { queryEnabledState, userState } from "@recoils/user";
+import { getUserInfo } from "@services/user.service";
 import SignInNav from "@components/signInNav";
 import Sidebar from "@components/sidebar";
+import Fallback from "@components/fallback";
 
 const SignInLayout = () => {
-  const { userData, setUserData, profileData, setProfileData } =
-    useUserContext();
   const location = useLocation();
   const sideRef = useRef(null);
   const blockRef = useRef(null);
 
+  const setUserData = useSetRecoilState(userState);
+  const [queryEnabled, setQueryEnabled] = useRecoilState(queryEnabledState);
+  useQuery(
+    getUserInfo({
+      enabled: queryEnabled,
+      onSuccess: (data) => {
+        setUserData({ ...data });
+      },
+    })
+  );
+
   useEffect(() => {
-    (async () => {
-      const result = await getUserData();
-      setUserData({
-        ...userData,
-        ...result,
-      });
-      setProfileData({
-        ...profileData,
-        // src(u_profileimg) 의 초기값은 "" 로 둘 것
-        str: result.u_profilestr,
-      });
-    })();
-  }, []);
+    if (queryEnabled) {
+      setQueryEnabled(false);
+    }
+  }, [queryEnabled]);
 
   const toggleSidebar = () => {
     sideRef.current.classList.toggle("active");
@@ -55,8 +58,11 @@ const SignInLayout = () => {
         </button>
       </header>
       <SignInNav />
+
       <Sidebar ref={sideRef} />
-      <Outlet />
+      <Suspense fallback={<Fallback />}>
+        <Outlet />
+      </Suspense>
       <div className="blocker" ref={blockRef} onClick={toggleSidebar}></div>
     </>
   );

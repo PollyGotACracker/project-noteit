@@ -1,10 +1,12 @@
 import "@styles/quiz/result.css";
 import { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 import { useMutation } from "react-query";
 import { BsArrowRepeat } from "react-icons/bs";
 import { FaRegSave } from "react-icons/fa";
 import { getClient } from "@services/core";
+import { queryEnabledState } from "@recoils/user";
 import getTodayFormat from "@utils/getTodayFormat";
 import { insertScore, updateUserNote } from "@services/quiz.service";
 import { URLS } from "@/router";
@@ -14,6 +16,7 @@ const QuizResultPage = () => {
   const location = useLocation();
   const queryClient = getClient();
   const [saveMsg, setSaveMsg] = useState("");
+  const setQueryEnabled = useSetRecoilState(queryEnabledState);
 
   if (!location?.state)
     return (
@@ -51,7 +54,10 @@ const QuizResultPage = () => {
   }, [insertScoreError]);
 
   useEffect(() => {
-    if (updateScoreSuccess) setSaveMsg(updateScoreSuccess.message);
+    if (updateScoreSuccess) {
+      setSaveMsg(updateScoreSuccess.message);
+      setQueryEnabled(true);
+    }
   }, [updateScoreSuccess]);
 
   useEffect(() => {

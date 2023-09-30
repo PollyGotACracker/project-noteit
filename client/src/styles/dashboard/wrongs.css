@@ -1,24 +1,11 @@
-.Dashboard .chart-wrongs {
-  height: 35vw;
-  flex-basis: 50%;
+.Dashboard .chart-wrongs .chart-container {
+  width: 100%;
+  height: 25vw;
+  min-height: 300px;
+  padding: 0 10vw;
 }
 
-.Dashboard .chart-wrongs canvas {
-  transform: translateY(-12%);
-  align-self: center;
-}
-
-.Dashboard .chart-wrongs {
-  padding: 5vh 0;
-}
-
-@media only screen and (max-width: 1023px) {
-  .Dashboard .chart-wrongs {
-    flex: 1;
-    flex-basis: 100%;
-  }
-
-  .Dashboard .chart-wrongs {
-    height: 80vw;
-  }
+.Dashboard .chart-wrongs .chart-container canvas {
+  width: 100%;
+  padding: 0;
 }

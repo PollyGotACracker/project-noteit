@@ -7,6 +7,18 @@ const queryOptions = {
 
 const getDashboardQueries = (userId) => [
   {
+    queryKey: [QueryKeys.DASHBOARD, "today"],
+    queryFn: async () => {
+      const endPoint = `/dashboard/${userId}/today`;
+      const res = await fetcher({ endPoint });
+      return res;
+    },
+    onError: (error) => {
+      alert(error.message);
+    },
+    ...queryOptions,
+  },
+  {
     queryKey: [QueryKeys.DASHBOARD, "todos"],
     queryFn: async () => {
       const endPoint = `/dashboard/${userId}/todos`;

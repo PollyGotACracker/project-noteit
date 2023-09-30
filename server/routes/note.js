@@ -26,7 +26,7 @@ router.get("/cats/:userId", async (req, res) => {
     });
     return res.json(catList);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res.status(500).json({
       message: "노트 목록을 불러오는 중 문제가 발생했습니다.",
     });
@@ -43,7 +43,7 @@ router.get("/cat/detail/:catid", async (req, res) => {
     });
     return res.json(category[0]);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res.status(500).json({
       message: "노트 데이터를 불러오는 중 오류가 발생했습니다.",
     });
@@ -62,7 +62,7 @@ router.post("/cat/insert", async (req, res) => {
     await CAT.create(data);
     return res.json({ message: "노트가 정상적으로 등록되었습니다." });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res.status(500).json({
       message: "중복되는 노트 이름이 있는지 다시 확인해주세요.",
     });
@@ -81,7 +81,7 @@ router.patch("/cat/update", async (req, res) => {
     );
     return res.json({ message: "노트가 정상적으로 수정되었습니다." });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res.status(500).json({
       message: "노트를 수정하는 중 문제가 발생했습니다.",
     });
@@ -97,7 +97,7 @@ router.patch("/cat/bookmark", async (req, res) => {
       c_bookmark === 1 ? "북마크 되었습니다." : "북마크가 해제되었습니다.";
     return res.json({ message: message, result: c_bookmark });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res.status(500).json({
       message: "노트 북마크 업데이트 중 오류가 발생했습니다.",
     });
@@ -105,7 +105,7 @@ router.patch("/cat/bookmark", async (req, res) => {
 });
 
 // DELETE category
-router.delete("/cat/:catid/delete", async (req, res, next) => {
+router.delete("/cat/:catid/delete", async (req, res) => {
   try {
     const catid = req.params.catid;
     const _sub = await SUB.findAll({
@@ -119,7 +119,7 @@ router.delete("/cat/:catid/delete", async (req, res, next) => {
     await CAT.destroy({ where: { c_catid: catid } });
     return res.json({ message: "노트가 정상적으로 삭제되었습니다." });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res.status(500).json({
       message: "노트 삭제 중 오류가 발생했습니다.",
     });
@@ -144,7 +144,7 @@ router.get("/subs/:catid", async (req, res) => {
     });
     return res.json({ category: category[0], subjects });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res
       .status(500)
       .json({ error: "주제 목록을 불러오는 중 오류가 발생했습니다." });
@@ -164,7 +164,7 @@ router.get("/sub/detail/:subid", async (req, res) => {
     });
     return res.json({ subject: subject[0], keywords });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res.status(500).json({
       message: "주제 상세 내용을 표시하는 중 오류가 발생했습니다.",
     });
@@ -180,7 +180,7 @@ router.patch("/sub/bookmark", async (req, res) => {
       s_bookmark === 1 ? "북마크 추가되었습니다." : "북마크 해제되었습니다.";
     return res.json({ message, result: s_bookmark });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res.status(500).json({
       message: "주제 북마크 업데이트 중 오류가 발생했습니다.",
     });
@@ -188,7 +188,7 @@ router.patch("/sub/bookmark", async (req, res) => {
 });
 
 // INSERT attach
-router.post("/upload", fileUp.single("upload"), async (req, res, next) => {
+router.post("/upload", fileUp.single("upload"), async (req, res) => {
   try {
     const file = req.file;
     const uploadFileInfo = {
@@ -206,7 +206,7 @@ router.post("/upload", fileUp.single("upload"), async (req, res, next) => {
       url: uploadFileInfo.a_savename,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res
       .status(500)
       .json({ message: "이미지 업로드 중 예기치 않은 오류가 발생했습니다." });
@@ -214,7 +214,7 @@ router.post("/upload", fileUp.single("upload"), async (req, res, next) => {
 });
 
 // INSERT subject
-router.post("/sub/insert", sanitizer, async (req, res, next) => {
+router.post("/sub/insert", sanitizer, async (req, res) => {
   try {
     const subid = uuid().substring(0, 8);
     const keywords = req.body?.keywords;
@@ -241,7 +241,7 @@ router.post("/sub/insert", sanitizer, async (req, res, next) => {
       subId: subid,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res
       .status(500)
       .json({ message: "주제 추가 중 문제가 발생했습니다." });
@@ -249,7 +249,7 @@ router.post("/sub/insert", sanitizer, async (req, res, next) => {
 });
 
 // UPDATE subject
-router.patch("/sub/update", sanitizer, async (req, res, next) => {
+router.patch("/sub/update", sanitizer, async (req, res) => {
   try {
     const subid = req.body.subjects.s_subid;
     const keywords = req.body?.keywords;
@@ -270,7 +270,7 @@ router.patch("/sub/update", sanitizer, async (req, res, next) => {
       subId: subid,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res
       .status(500)
       .json({ message: "주제 수정 중 문제가 발생했습니다." });
@@ -278,7 +278,7 @@ router.patch("/sub/update", sanitizer, async (req, res, next) => {
 });
 
 // DELETE subject
-router.delete("/sub/:catid/:subid/delete", async (req, res, next) => {
+router.delete("/sub/:catid/:subid/delete", async (req, res) => {
   try {
     const catid = req.params.catid;
     const subid = req.params.subid;
@@ -290,7 +290,7 @@ router.delete("/sub/:catid/:subid/delete", async (req, res, next) => {
     });
     return res.json({ message: "주제가 정상적으로 삭제되었습니다." });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res
       .status(500)
       .json({ message: "주제 삭제 중 오류가 발생했습니다." });

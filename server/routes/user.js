@@ -7,48 +7,40 @@ const router = express.Router();
 router.get("/get", async (req, res) => {
   try {
     const _temp = "polly@gmail.com";
-    const user = await USER.findOne({ where: { u_userid: _temp } });
-    return res.send({ data: user });
-  } catch (error) {
-    console.error;
-    return res.send({ error: "유저 정보를 불러오지 못했습니다." });
+    const user = await USER.findOne({
+      attributes: { exclude: ["u_pwd"] },
+      where: { u_userid: _temp },
+    });
+    return res.json(user);
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(500)
+      .json({ message: "유저 정보를 불러오지 못했습니다." });
   }
 });
 
-router.post(
-  "/:userid/profile",
-  fileUp.single("upload"),
-  async (req, res, next) => {
+router.post("/:userid/profile", fileUp.single("upload"), async (req, res) => {
+  try {
     const userid = req.params.userid;
-    try {
-      const file = req?.file;
-      // const uploadFileInfo = {
-      //   a_attid: v4().substring(0, 8),
-      //   a_subid: req.body.subid,
-      //   a_date: moment().format("YYYY[-]MM[-]DD"),
-      //   a_time: moment().format("HH:mm:ss"),
-      //   a_originalname: file.originalname,
-      //   a_savename: file.filename,
-      //   a_ext: file.mimetype,
-      // };
-      const data = {
-        u_profileimg: file?.filename,
-        u_profilestr: req?.body?.str,
-      };
-      // await ATT.insert(uploadFileInfo);
-      const result = await USER.update(data, { where: { u_userid: userid } });
+    const image = req?.file?.filename;
+    const str = req?.body?.str;
 
-      console.log(result);
-      return res.send({
-        result: "프로필이 변경되었습니다.",
-      });
-    } catch (err) {
-      console.error(err);
-      return res.send({
-        error: "프로필 변경 중 문제가 발생했습니다.",
-      });
-    }
+    const data = {
+      ...(image && { u_profileimg: image }),
+      ...(str && { u_profilestr: str }),
+    };
+
+    await USER.update(data, { where: { u_userid: userid } });
+    return res.json({
+      message: "프로필이 변경되었습니다.",
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      message: "프로필 변경 중 문제가 발생했습니다.",
+    });
   }
-);
+});
 
 export default router;

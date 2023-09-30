@@ -1,15 +1,31 @@
 import "@styles/signin/signIn.css";
-import { URLS } from "@/router";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useQuery } from "react-query";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { isSignedInState, queryEnabledState, userState } from "@recoils/user";
+import { getUserInfo } from "@services/user.service";
+import { URLS } from "@/router";
 
 const SignInPage = () => {
   const navigate = useNavigate();
+  const setUserData = useSetRecoilState(userState);
+  const setIsSignedIn = useSetRecoilState(isSignedInState);
+  const [queryEnabled, setQueryEnabled] = useRecoilState(queryEnabledState);
+  useQuery(
+    getUserInfo({
+      enabled: queryEnabled,
+      onSuccess: (data) => {
+        setUserData({ ...data });
+        setIsSignedIn(true);
+        navigate(URLS.DASHBOARD, { replace: true });
+      },
+    })
+  );
 
   const loginHandler = (e) => {
     e.preventDefault();
-    // 유효성 검사 및 fetch
-    // 아래는 임시 코드
-    navigate(URLS.DASHBOARD, { replace: true });
+    // 유효성 검사 및 fetch 추가할 것
+    setQueryEnabled(true);
   };
 
   return (

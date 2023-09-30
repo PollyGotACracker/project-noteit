@@ -1,22 +1,6 @@
 .Dashboard .article {
-  padding: 5vh 0;
-  flex: 1;
-}
-
-.Dashboard .article a {
-  margin-left: auto;
-  border: 1px solid var(--border);
-  padding: 8px;
-  border-radius: 5px;
-}
-
-.Dashboard .article img {
-  width: 100%;
-  height: 100%;
-}
-
-.Dashboard .article .title {
-  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
 }
 
 .Dashboard .article .thumb {
@@ -30,19 +14,25 @@
   align-items: center;
 }
 
+.Dashboard .article img {
+  width: 100%;
+  height: 100%;
+}
+
 .Dashboard .article .no-thumb-img {
-  max-width: 80%;
-  max-height: calc(16vw + 1vh);
+  width: 100%;
+  height: 100%;
   opacity: 0.8;
 }
 
 .Dashboard .article .content {
-  padding: 32px 16px;
-  width: 80%;
-  margin: 0 auto;
+  margin-top: auto;
+  padding: 20px 16px 0px 16px;
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 16px;
+  flex-wrap: wrap;
 }
 
 .Dashboard .article .content .subject {
@@ -56,6 +46,13 @@
   gap: 6px;
   font-size: 1.6rem;
   color: var(--subtext);
+}
+
+.Dashboard .article .content a {
+  margin-left: auto;
+  border: 1px solid var(--border);
+  padding: 8px;
+  border-radius: 5px;
 }
 
 @media only screen and (max-width: 1023px) {

@@ -1,14 +1,9 @@
-.Dashboard .chart-scores {
-  padding: 5vh 0;
-}
-
-.Dashboard .chart-scores {
+.Dashboard .chart-scores .chart-container {
+  width: 100%;
   height: 30vw;
-  transform: translateY(-8%);
+  min-height: 300px;
 }
 
-@media only screen and (max-width: 1023px) {
-  .Dashboard .chart-scores {
-    height: 60vw;
-  }
+.Dashboard .chart-scores .chart-container canvas {
+  width: 100%;
 }

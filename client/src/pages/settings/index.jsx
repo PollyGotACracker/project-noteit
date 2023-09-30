@@ -1,17 +1,39 @@
 import "@styles/settings/settings.css";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useMutation } from "react-query";
 import { GiStarsStack } from "react-icons/gi";
 import { FaUserEdit, FaBell, FaDatabase, FaUserTimes } from "react-icons/fa";
 import profile from "@assets/images/profile.png";
 import { URLS } from "@/router";
-import { getUserData } from "@services/user.service";
-import { useUserContext } from "@contexts/userContext";
+import { setUserInfo } from "@services/user.service";
 import SettingBox from "@components/settings/wrapper";
 import UserAvatar from "@components/userAvatar";
+import { queryEnabledState, userState } from "@recoils/user";
+import { QueryKeys, getClient } from "@services/core";
 
 const SettingsPage = () => {
-  const { userData, setUserData, profileData, setProfileData } =
-    useUserContext();
+  const queryClient = getClient();
+  const userData = useRecoilValue(userState);
+  const setQueryEnabled = useSetRecoilState(queryEnabledState);
+  const { mutate } = useMutation(
+    setUserInfo({
+      onSuccess: (data) => {
+        alert(data.message);
+        queryClient.invalidateQueries(QueryKeys.USER);
+        setQueryEnabled(true);
+      },
+      onError: (error) => {
+        alert(error.message);
+      },
+    })
+  );
+
+  const [profileData, setProfileData] = useState({
+    src: "",
+    name: "",
+    str: userData.u_profilestr,
+  });
   const imgInput = useRef(null);
 
   const onChangeStrHandler = (e) => {
@@ -27,16 +49,12 @@ const SettingsPage = () => {
     });
   };
 
-  const onClickSubmitProfile = async () => {
+  const onClickSubmitProfile = () => {
     const formData = new FormData();
     formData.append("upload", imgInput.current.files[0]);
     formData.append("str", profileData.str);
-    await setUserData({ userId: userData.u_userid, data: formData });
-    const result = await getUserData();
-    setUserData({
-      ...userData,
-      ...result,
-    });
+    console.log(imgInput.current.files[0], profileData.str);
+    mutate({ userId: userData.u_userid, data: formData });
   };
 
   return (

@@ -1,20 +1,21 @@
+import { lazy } from "react";
 import GlobalLayout from "@pages/_layout";
-import SignOutLayout from "@pages/signOutLayout";
-import SignInLayout from "@pages/signInLayout";
+const SignOutLayout = lazy(() => import("@pages/signOutLayout"));
+const SignInLayout = lazy(() => import("@pages/signInLayout"));
 import Landing from "@pages";
 import SignIn from "@pages/signin";
 import SignUp from "@pages/signup";
-import Dashboard from "@pages/dashboard";
-import Todo from "@pages/todo";
-import Note from "@pages/note";
-import NoteList from "@pages/note/list/[catid]";
-import NoteDetail from "@pages/note/detail/[catid][subid]";
-import NoteWrite from "@pages/note/write/[...id]";
-import Search from "@pages/search";
-import Quiz from "@pages/quiz";
-import QuizGame from "@pages/quiz/game/[catId]";
-import QuizResult from "@pages/quiz/result";
-import Settings from "@pages/settings";
+const Dashboard = lazy(() => import("@pages/dashboard"));
+const Todo = lazy(() => import("@pages/todo"));
+const Note = lazy(() => import("@pages/note"));
+const NoteList = lazy(() => import("@pages/note/list/[catid]"));
+const NoteDetail = lazy(() => import("@pages/note/detail/[catid][subid]"));
+const NoteWrite = lazy(() => import("@pages/note/write/[...id]"));
+const Search = lazy(() => import("@pages/search"));
+const Quiz = lazy(() => import("@pages/quiz"));
+const QuizGame = lazy(() => import("@pages/quiz/game/[catId]"));
+const QuizResult = lazy(() => import("@pages/quiz/result"));
+const Settings = lazy(() => import("@pages/settings"));
 import Error from "@pages/error";
 
 export {
@@ -25,6 +26,7 @@ export {
   SignIn,
   SignUp,
   Dashboard,
+  Todo,
   Note,
   NoteList,
   NoteDetail,
@@ -33,7 +35,6 @@ export {
   Quiz,
   QuizGame,
   QuizResult,
-  Todo,
   Settings,
   Error,
 };

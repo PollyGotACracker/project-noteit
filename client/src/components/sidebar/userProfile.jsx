@@ -1,13 +1,14 @@
 import "@styles/components/userProfile.css";
 import { useNavigate } from "react-router";
+import { useRecoilValue } from "recoil";
 import { GiStarsStack } from "react-icons/gi";
 import profile from "@assets/images/profile.png";
 import { URLS } from "@/router";
-import { useUserContext } from "@contexts/userContext";
+import { userState } from "@recoils/user";
 import UserAvatar from "@components/userAvatar";
 
 const UserProfile = () => {
-  const { userData } = useUserContext();
+  const userData = useRecoilValue(userState);
   const navigate = useNavigate();
 
   return (

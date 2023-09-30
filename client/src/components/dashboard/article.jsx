@@ -1,13 +1,40 @@
+import "@styles/dashboard/article.css";
 import { Link } from "react-router-dom";
 import { RiMarkPenLine } from "react-icons/ri";
 import { FaTags } from "react-icons/fa";
 import { URLS } from "@/router";
 import { ReactComponent as NoThumbSvg } from "@assets/images/no_thumb.svg";
 import useThemeStyle from "@hooks/useThemeStyle";
-import NoStat from "@components/dashboard/noStat";
+import NoContent from "@components/noContent";
 
-const DashBoardArticle = ({ data, error }) => {
+const DashBoardArticle = ({ article, error }) => {
   const primary = useThemeStyle("--primary");
+
+  const thumbImage = (
+    <div className="thumb">
+      {article?.s_thumb ? (
+        <img
+          alt="article-thumb"
+          src={article?.s_thumb ? `${URLS.UPLOADS}/${article?.s_thumb}` : ""}
+        />
+      ) : (
+        <NoThumbSvg className="no-thumb-img" stroke={primary} />
+      )}
+    </div>
+  );
+
+  const content = (
+    <div className="content">
+      <span className="subject">{article?.s_subject}</span>
+      <span className="keycount">
+        <FaTags />
+        {article?.s_keycount}
+      </span>
+      <Link to={`${URLS.NOTE_DETAIL}/${article?.s_catid}/${article?.s_subid}`}>
+        노트 보기
+      </Link>
+    </div>
+  );
 
   return (
     <div className="article">
@@ -16,29 +43,13 @@ const DashBoardArticle = ({ data, error }) => {
         랜덤 주제
       </div>
       {error ? (
-        <NoStat msg={error} />
+        <NoContent msg={error} />
+      ) : !article?.s_subid ? (
+        <NoContent msg={"북마크된 주제가 없습니다."} />
       ) : (
         <>
-          <div className="thumb">
-            {data?.s_thumb ? (
-              <img
-                alt="article-thumb"
-                src={data?.s_thumb ? `${URLS.UPLOADS}/${data?.s_thumb}` : ""}
-              />
-            ) : (
-              <NoThumbSvg className="no-thumb-img" stroke={primary} />
-            )}
-          </div>
-          <div className="content">
-            <span className="subject">{data?.s_subject}</span>
-            <span className="keycount">
-              <FaTags />
-              {data?.s_keycount}
-            </span>
-            <Link to={`${URLS.NOTE_DETAIL}/${data?.s_catid}/${data?.s_subid}`}>
-              노트 보기
-            </Link>
-          </div>
+          {thumbImage}
+          {content}
         </>
       )}
     </div>

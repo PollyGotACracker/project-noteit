@@ -8,18 +8,17 @@ const initUser = {
   u_score: "",
 };
 
-const initProfile = {
-  src: "",
-  name: "",
-  str: "",
-};
-
 export const userState = atom({
   key: "userState",
   default: initUser,
 });
 
-export const profileState = atom({
-  key: "profileState",
-  default: initProfile,
+export const queryEnabledState = atom({
+  key: "queryEnabledState",
+  default: false,
+});
+
+export const isSignedInState = atom({
+  key: "isSignedInState",
+  default: false,
 });

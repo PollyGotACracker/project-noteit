@@ -45,7 +45,7 @@ router.get("/cats/:userId/get", async (req, res) => {
     });
     return res.json(cats);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res.status(500).json({
       message: "노트 목록을 가져오는 중 문제가 발생했습니다.",
     });
@@ -91,7 +91,7 @@ router.get("/random/:catId/get", async (req, res) => {
 
     return res.json(rndData);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res.status(500).json({
       message: "노트 데이터를 가져오는 중 문제가 발생했습니다.",
     });
@@ -104,7 +104,7 @@ router.post("/score/insert", async (req, res) => {
     await SCO.create(data);
     return res.json({ message: "퀴즈 기록이 저장되었습니다." });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res.status(500).json({ message: "이미 저장된 기록입니다." });
   }
 });
@@ -134,7 +134,7 @@ router.patch("/score/update", async (req, res) => {
     });
     return res.json({ message: "퀴즈 기록이 저장되었습니다." });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res
       .status(500)
       .json({ message: "퀴즈 기록 저장 중 문제가 발생했습니다." });

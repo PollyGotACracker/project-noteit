@@ -1,14 +1,15 @@
 import { useEffect } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { useMutation } from "react-query";
 import moment from "moment";
 import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
+import { userState } from "@recoils/user";
 import { editState, todoState, todosState } from "@recoils/todo";
 import { deleteTodo, updateTodoComplete } from "@services/todo.service";
 import { getClient } from "@services/core";
 
 const TodoItem = ({ item }) => {
-  const userId = "polly@gmail.com";
+  const userData = useRecoilValue(userState);
   const todoId = item.t_todoid;
   const queryClient = getClient();
   const setTodoList = useSetRecoilState(todosState);
@@ -16,10 +17,10 @@ const TodoItem = ({ item }) => {
   const setIsEdit = useSetRecoilState(editState);
 
   const { mutate: deleteMutation, data: deletedData } = useMutation(
-    deleteTodo({ queryClient, userId })
+    deleteTodo({ queryClient, userId: userData.u_userid })
   );
   const { mutate: updateCompleteMutation, data: completedData } = useMutation(
-    updateTodoComplete({ queryClient, userId })
+    updateTodoComplete({ queryClient, userId: userData.u_userid })
   );
 
   useEffect(() => {

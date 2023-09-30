@@ -1,11 +1,17 @@
 import "@styles/quiz/game.css";
 import { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useRecoilState, useResetRecoilState, useSetRecoilState } from "recoil";
+import {
+  useRecoilState,
+  useRecoilValue,
+  useResetRecoilState,
+  useSetRecoilState,
+} from "recoil";
 import { useQuery } from "react-query";
 import { FaTags } from "react-icons/fa";
 import { IoIosHourglass } from "react-icons/io";
 import { IoArrowRedoCircleOutline } from "react-icons/io5";
+import { userState } from "@recoils/user";
 import {
   initScore,
   subListState,
@@ -16,8 +22,8 @@ import {
   keyIdxState,
   subIdxState,
 } from "@recoils/quiz";
+import { URLS } from "@/router";
 import { feedbackMsgList } from "@data/quiz";
-import { useUserContext } from "@contexts/userContext";
 import { getQuizRandom } from "@services/quiz.service";
 import useQuizScore from "@hooks/useQuizScore";
 import useQuizTimeout from "@hooks/useQuizTimeout";
@@ -26,12 +32,12 @@ import useQuizWrongList from "@hooks/useQuizWrongList";
 import getDuration from "@utils/getDuration";
 import Feedback from "@components/quiz/gameFeedback";
 import Score from "@components/quiz/gameScore";
-import { URLS } from "@/router";
+import Fallback from "@components/fallback";
 
 const QuizGamePage = () => {
   const { catid: catId } = useParams();
   const navigate = useNavigate();
-  const { userData } = useUserContext();
+  const userData = useRecoilValue(userState);
   const [userScore, setUserScore] = useState(initScore);
   const { data, isLoading } = useQuery(getQuizRandom({ catId }));
   const [subjectList, setSubjectList] = useRecoilState(subListState);
@@ -165,54 +171,55 @@ const QuizGamePage = () => {
     resetAnswerInput();
   };
 
-  if (isLoading) return null;
   return (
-    <main className="Quiz">
-      {!isCountStart ? (
-        <div className="Game" ref={gameRef}>
-          <Score score={score} perfectScore={perfectScore} />
-          <div className="subject-box">
-            <div className="category">{subjectList[subIdx]?.s_category}</div>
-            <div>
-              {subjectList?.length} 개의 주제 중 {subIdx + 1} 번째
+    <Fallback isLoading={isLoading}>
+      <main className="Quiz">
+        {!isCountStart ? (
+          <div className="Game" ref={gameRef}>
+            <Score score={score} perfectScore={perfectScore} />
+            <div className="subject-box">
+              <div className="category">{subjectList[subIdx]?.s_category}</div>
+              <div>
+                {subjectList?.length} 개의 주제 중 {subIdx + 1} 번째
+              </div>
+              <div className="subject">{subjectList[subIdx]?.s_subject}</div>
+              <button onClick={skipSubjectHandler}>
+                <IoArrowRedoCircleOutline />
+                주제 건너뛰기
+              </button>
             </div>
-            <div className="subject">{subjectList[subIdx]?.s_subject}</div>
-            <button onClick={skipSubjectHandler}>
-              <IoArrowRedoCircleOutline />
-              주제 건너뛰기
-            </button>
+            <Feedback feedbackMsg={feedbackMsg} />
+            <div className="keyword-box">
+              <button onClick={skipKeywordHandler}>
+                <IoArrowRedoCircleOutline />
+                키워드 건너뛰기
+              </button>
+              <div className="keycount">
+                <FaTags /> {keyIdx + 1} / {subjectList[subIdx]?.s_keycount}
+              </div>
+              <div className="keyword-desc">{keywordList[keyIdx]?.k_desc}</div>
+            </div>
+            <section className="answer-box">
+              <div className="msg-box" ref={msgInputRef}>
+                <input
+                  className="msg"
+                  ref={userAnswerRef}
+                  placeholder="정답을 입력하세요!"
+                  value={userAnswer}
+                  onChange={({ target: { value } }) => setUserAnswer(value)}
+                  onKeyDown={onKeyDownHandler}
+                />
+              </div>
+            </section>
           </div>
-          <Feedback feedbackMsg={feedbackMsg} />
-          <div className="keyword-box">
-            <button onClick={skipKeywordHandler}>
-              <IoArrowRedoCircleOutline />
-              키워드 건너뛰기
-            </button>
-            <div className="keycount">
-              <FaTags /> {keyIdx + 1} / {subjectList[subIdx]?.s_keycount}
-            </div>
-            <div className="keyword-desc">{keywordList[keyIdx]?.k_desc}</div>
-          </div>
-          <section className="answer-box">
-            <div className="msg-box" ref={msgInputRef}>
-              <input
-                className="msg"
-                ref={userAnswerRef}
-                placeholder="정답을 입력하세요!"
-                value={userAnswer}
-                onChange={({ target: { value } }) => setUserAnswer(value)}
-                onKeyDown={onKeyDownHandler}
-              />
-            </div>
+        ) : (
+          <section className="loading">
+            <IoIosHourglass />
+            <span>점수 계산 중...</span>
           </section>
-        </div>
-      ) : (
-        <section className="loading">
-          <IoIosHourglass />
-          <span>점수 계산 중...</span>
-        </section>
-      )}
-    </main>
+        )}
+      </main>
+    </Fallback>
   );
 };
 

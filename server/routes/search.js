@@ -36,7 +36,7 @@ router.get("/", async (req, res) => {
     });
     return res.json({ result, regexp });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res.json({ error: "SQL query 실행 중 문제가 발생했습니다." });
   }
 });

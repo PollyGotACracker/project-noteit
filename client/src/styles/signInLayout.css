@@ -30,6 +30,21 @@ main {
   display: none;
 }
 
+.no-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.no-content .no-content-img {
+  opacity: 0.8;
+  width: 80%;
+  height: 80%;
+}
+
 @media only screen and (max-width: 1023px) {
   #root {
     background: var(--background);

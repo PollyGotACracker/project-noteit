@@ -13,7 +13,7 @@ router.post("/:userid/insert", async (req, res, next) => {
     await TODO.create(data);
     return next();
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res
       .status(500)
       .json({ message: "Todo 아이템 추가 중 오류가 발생했습니다." });
@@ -29,7 +29,7 @@ router.patch("/:userid/update", async (req, res, next) => {
     });
     return next();
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res
       .status(500)
       .json({ message: "Todo 아이템 수정 중 오류가 발생했습니다." });
@@ -45,7 +45,7 @@ router.delete("/:userid/delete/:id", async (req, res, next) => {
     });
     return next();
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res
       .status(500)
       .json({ message: "Todo 아이템 삭제 중 오류가 발생했습니다." });
@@ -69,7 +69,7 @@ router.patch("/:userid/complete/:id", async (req, res, next) => {
     );
     return next();
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res.status(500).json({
       message: "Todo 아이템 완료 업데이트 중 오류가 발생했습니다.",
     });
@@ -90,7 +90,7 @@ router.use("/:userid", async (req, res) => {
     });
     return res.json(todos);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return res.status(500).json({
       message: "Todo 목록을 불러오는 중 오류가 발생했습니다.",
     });

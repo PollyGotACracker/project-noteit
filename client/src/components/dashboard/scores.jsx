@@ -1,54 +1,52 @@
+import "@styles/dashboard/scores.css";
 import {
   Chart as ChartJS,
   LinearScale,
   CategoryScale,
-  BarElement,
   PointElement,
   LineElement,
   Legend,
   Tooltip,
   LineController,
-  BarController,
   TimeScale,
+  Filler,
 } from "chart.js";
 import { Chart } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { RiLineChartLine } from "react-icons/ri";
-import NoStat from "@components/dashboard/noStat";
 import useThemeStyle from "@hooks/useThemeStyle";
+import NoContent from "@components/noContent";
 
 ChartJS.register(
   LinearScale,
   CategoryScale,
-  BarElement,
   PointElement,
   LineElement,
   Legend,
   Tooltip,
   LineController,
-  BarController,
-  TimeScale
+  TimeScale,
+  Filler
 );
 
-const DashboardScores = ({ dates, scores, totalscores, percent, error }) => {
-  const [accent, accentAlpha, primary, primaryAlpha, secondary, lightAlpha] =
-    useThemeStyle([
-      "--accent",
-      "--accentalpha",
-      "--primary",
-      "--primaryalpha",
-      "--secondary",
-      "--lightalpha",
-    ]);
+const DashboardScores = ({ date, score, totalscore, percent, error }) => {
+  const [accent, accentAlpha, borderalpha] = useThemeStyle([
+    "--accent",
+    "--accentalpha",
+    "--borderalpha",
+  ]);
 
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    layout: {
-      padding: 10,
-    },
     scales: {
-      y1: {
+      x: {
+        reverse: true,
+        grid: {
+          color: borderalpha,
+        },
+      },
+      y: {
         title: {
           display: true,
           text: "백분율(%)",
@@ -58,22 +56,12 @@ const DashboardScores = ({ dates, scores, totalscores, percent, error }) => {
         position: "left",
         min: 0,
         max: 100,
-      },
-      y: {
-        title: {
-          display: true,
-          text: "점수(점)",
-        },
-        type: "linear",
-        display: true,
-        position: "right",
         grid: {
-          color: lightAlpha,
+          color: borderalpha,
         },
       },
     },
     plugins: {
-      // ChartDataLabels
       datalabels: {
         align: "end",
         formatter: (value, context) =>
@@ -81,14 +69,24 @@ const DashboardScores = ({ dates, scores, totalscores, percent, error }) => {
       },
       legend: {
         position: "top",
-        labels: {
-          padding: 15,
-        },
       },
       tooltip: {
+        callbacks: {
+          title: (tooltipItems) => {
+            const dataPoint = tooltipItems[0];
+            const dataIndex = dataPoint.dataIndex;
+            return date[dataIndex];
+          },
+          footer: (tooltipItems) => {
+            const dataPoint = tooltipItems[0];
+            const dataIndex = dataPoint.dataIndex;
+            const value = `${score[dataIndex]} / ${totalscore[dataIndex]}`;
+            return `득점: ${value}`;
+          },
+        },
         displayColors: false,
         titleFont: {
-          size: 15,
+          size: 12,
         },
         bodyFont: {
           size: 14,
@@ -106,7 +104,7 @@ const DashboardScores = ({ dates, scores, totalscores, percent, error }) => {
   };
 
   const data = {
-    labels: dates,
+    labels: date,
     datasets: [
       {
         label: "백분율",
@@ -116,32 +114,9 @@ const DashboardScores = ({ dates, scores, totalscores, percent, error }) => {
         pointRadius: 5,
         pointHoverRadius: 10,
         borderWidth: 1,
-        yAxisID: "y1",
         borderColor: accent,
         backgroundColor: accentAlpha,
-      },
-      {
-        label: "득점",
-        type: "line",
-        pointStyle: "circle",
-        data: scores,
-        pointRadius: 5,
-        pointHoverRadius: 10,
-        borderWidth: 0,
-        yAxisID: "y",
-        backgroundColor: secondary,
-      },
-      {
-        label: "총점",
-        type: "bar",
-        pointStyle: "rectRounded",
-        data: totalscores,
-        barThickness: 40,
-        borderWidth: 1,
-        borderRadius: 10,
-        yAxisID: "y",
-        borderColor: primary,
-        backgroundColor: primaryAlpha,
+        fill: true,
       },
     ],
   };
@@ -153,9 +128,11 @@ const DashboardScores = ({ dates, scores, totalscores, percent, error }) => {
         퀴즈 기록
       </div>
       {error ? (
-        <NoStat msg={error} />
+        <NoContent isChart={true} msg={error} />
       ) : (
-        <Chart options={options} data={data} plugins={[ChartDataLabels]} />
+        <div className="chart-container">
+          <Chart options={options} data={data} plugins={[ChartDataLabels]} />
+        </div>
       )}
     </div>
   );

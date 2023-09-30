@@ -1,5 +1,8 @@
 import "@styles/dashboard/dashboard.css";
 import { useQueries } from "react-query";
+import { useRecoilValue } from "recoil";
+import { GiStarsStack } from "react-icons/gi";
+import { userState } from "@recoils/user";
 import getDashboardQueries from "@services/dashboard.service";
 import setChartDefaultStyle from "@libs/chart";
 import TypeWriter from "@components/dashboard/typewriter";
@@ -7,51 +10,57 @@ import Todos from "@components/dashboard/todos";
 import Article from "@components/dashboard/article";
 import Wrongs from "@components/dashboard/wrongs";
 import Scores from "@components/dashboard/scores";
+import Fallback from "@components/fallback";
 
 const DashboardPage = () => {
-  const userId = "polly@gmail.com";
-  const [
-    { isLoading: todosIsLoading, data: todos },
-    { isLoading: wrongsIsLoading, data: wrongs },
-    { isLoading: scoresIsLoading, data: scores },
-  ] = useQueries(getDashboardQueries(userId));
+  const userData = useRecoilValue(userState);
+  const result = useQueries(getDashboardQueries(userData.u_userid));
+  const isLoading = result.some((query) => query.isLoading);
+  const [today, todos, wrongs, scores] = result.map((query) => query.data);
 
   setChartDefaultStyle();
 
-  if (!todosIsLoading && !wrongsIsLoading && !scoresIsLoading)
-    return (
+  return (
+    <Fallback isLoading={isLoading}>
       <main className="Dashboard">
         <div className="dashboard">DASHBOARD</div>
         <section className="content">
-          <section className="top-box">
+          <section className="headline">
             <TypeWriter />
-            <div className="subject">
-              최근 공부한 노트: {wrongs?.category || "없음"}
+            <div className="user-info">
+              <div title="점수" className="score">
+                <GiStarsStack />
+                {userData?.u_score}
+              </div>
+              <div className="today">
+                오늘 하루 <span>{` ${today?.gamecount} `}</span>회의 문제를
+                풀고,<span>{` ${today?.todayscore} `}</span>점을 얻었어요.
+              </div>
+              <div className="subject">
+                최근 공부한 노트: {wrongs?.category || scores?.category}
+              </div>
             </div>
           </section>
-          <Todos todos={todos} />
-          {!wrongs?.error && (
-            <section className="center-box">
-              <Wrongs
-                subject={wrongs?.subject}
-                wrong={wrongs?.wrong}
-                error={wrongs?.error}
-              />
-              <Article data={wrongs?.article} error={wrongs?.error} />
-            </section>
-          )}
-          <section className="botton-box">
+          <section className="details">
+            <Todos todos={todos} />
+            <Article article={wrongs?.article} error={wrongs?.error} />
+            <Wrongs
+              subject={wrongs?.wrongs?.subject}
+              count={wrongs?.wrongs?.count}
+              error={wrongs?.error}
+            />
             <Scores
-              dates={scores?.date}
-              scores={scores?.score}
-              totalscores={scores?.totalscore}
-              percent={scores?.percent}
+              date={scores?.scores?.date}
+              score={scores?.scores?.score}
+              totalscore={scores?.scores?.totalscore}
+              percent={scores?.scores?.percent}
               error={scores?.error}
             />
           </section>
         </section>
       </main>
-    );
+    </Fallback>
+  );
 };
 
 export default DashboardPage;

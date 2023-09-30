@@ -18,6 +18,7 @@ import {
   Settings,
   Error,
 } from "@/routeList.js";
+import { Navigate } from "react-router-dom";
 
 export const URLS = {
   UPLOAD_ROUTE: "/server/note/upload",
@@ -39,27 +40,31 @@ export const URLS = {
   FIND_PASSWORD: "/password/find",
 };
 
-export const routes = [
+export const routes = (isSignedIn) => [
   {
     path: "/",
     element: <GlobalLayout />,
     children: [
       {
-        path: "",
-        element: <SignOutLayout />,
+        path: "/",
+        element: !isSignedIn ? (
+          <SignOutLayout />
+        ) : (
+          <Navigate to={URLS.DASHBOARD} />
+        ),
         children: [
-          { path: "", exact: true, element: <Landing /> },
-          { path: URLS.SIGN_IN, element: <SignIn /> },
-          { path: URLS.SIGN_UP, element: <SignUp /> },
+          { path: "/", index: true, element: <Landing /> },
+          { path: URLS.SIGN_IN, index: true, element: <SignIn /> },
+          { path: URLS.SIGN_UP, index: true, element: <SignUp /> },
         ],
       },
       {
-        path: "",
-        element: <SignInLayout />,
+        path: "/",
+        element: isSignedIn ? <SignInLayout /> : <Navigate to={"/"} />,
         children: [
-          { path: URLS.DASHBOARD, element: <Dashboard /> },
-          { path: URLS.TODO, element: <Todo /> },
-          { path: URLS.NOTE, element: <Note /> },
+          { path: URLS.DASHBOARD, index: true, element: <Dashboard /> },
+          { path: URLS.TODO, index: true, element: <Todo /> },
+          { path: URLS.NOTE, index: true, element: <Note /> },
           {
             path: `${URLS.NOTE_LIST}/:catId`,
             element: <NoteList />,
@@ -74,12 +79,13 @@ export const routes = [
           },
           {
             path: URLS.SEARCH,
+            index: true,
             element: <Search />,
           },
-          { path: URLS.QUIZ, element: <Quiz /> },
+          { path: URLS.QUIZ, index: true, element: <Quiz /> },
           { path: `${URLS.QUIZ_GAME}/:catid`, element: <QuizGame /> },
           { path: URLS.QUIZ_RESULT, element: <QuizResult /> },
-          { path: URLS.SETTINGS, element: <Settings /> },
+          { path: URLS.SETTINGS, index: true, element: <Settings /> },
         ],
       },
       { path: "*", element: <Error /> },

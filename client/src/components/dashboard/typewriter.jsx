@@ -14,9 +14,9 @@ const DashboardTypewriter = () => {
       setTextValue((prev) => `${prev}${char}`);
     };
     const setSpeed = (num = 160) => (speed = num);
-    const setBlink = (bool) => {
+    const setBlink = (node, bool) => {
       const value = bool ? "blink" : "none";
-      textNode.current.style.animationName = value;
+      node.style.animationName = value;
     };
     const typing = () => {
       if (i < text.length) {
@@ -24,38 +24,40 @@ const DashboardTypewriter = () => {
           case " ":
             setSpeed();
             setNextChar("\xA0");
-            setBlink(false);
+            setBlink(textNode.current, false);
             break;
           case ",":
           case ".":
             const rndSpeed = Math.floor(Math.random() * (900 - 500 + 1)) + 500;
             setNextChar(text.charAt(i));
             setSpeed(rndSpeed);
-            setBlink(true);
+            setBlink(textNode.current, true);
             break;
           default:
             setSpeed();
             setNextChar(text.charAt(i));
-            setBlink(false);
+            setBlink(textNode.current, false);
         }
         i++;
         timeoutRef.current = setTimeout(typing, speed);
       } else {
-        setBlink(true);
+        setBlink(textNode.current, true);
       }
     };
     typing();
   };
 
   useEffect(() => {
-    const index = Math.floor(Math.random() * typewriteList.length + 1);
-    const msg = typewriteList[index - 1];
-    typeWriter(msg);
+    if (textNode.current) {
+      const index = Math.floor(Math.random() * typewriteList.length);
+      const msg = typewriteList[index];
+      typeWriter(msg);
+    }
     return () => {
       setTextValue("");
-      clearTimeout(timeoutRef.current);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, []);
+  }, [textNode.current]);
 
   return (
     <div className="text-box">
