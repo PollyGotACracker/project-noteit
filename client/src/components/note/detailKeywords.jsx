@@ -1,4 +1,4 @@
-import { useState, useReducer, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { RxDot, RxDotFilled } from "react-icons/rx";
 import {
   FaTags,
@@ -7,84 +7,56 @@ import {
   FaCaretLeft,
   FaCaretRight,
 } from "react-icons/fa";
+import useCarousel from "@hooks/useCarousel";
 
 const DetailKeywords = ({ subject, keywords }) => {
+  const containerRef = useRef(null);
+  const copyTimeoutRef = useRef(null);
   const [copyMsg, setCopyMsg] = useState("키워드 복사");
-  const [position, setPosition] = useState(0);
-
-  const changeKeyword = (state, action) => {
-    switch (action.type) {
-      case "PREV":
-        if (state > 1) {
-          setPosition(position + 100);
-          return state - 1;
-        }
-        if (state === 1) {
-          setPosition((action.payload - 1) * 100 * -1);
-          return action.payload;
-        }
-        break;
-      case "NEXT":
-        if (state < action.payload) {
-          setPosition(position - 100);
-          return state + 1;
-        }
-        if (state === action.payload) {
-          setPosition(0);
-          return 1;
-        }
-        break;
-      case "SELECT": {
-        setPosition((action.payload - 1) * 100 * -1);
-        return action.payload;
-      }
-      default: {
-        setPosition(state * 100 * -1);
-        return state;
-      }
-    }
-  };
-  const [state, dispatch] = useReducer(changeKeyword, 1);
-
-  const copyKeyword = () => {
-    const value = keywords[state - 1]?.k_keyword;
-    navigator.clipboard.writeText(value);
-    setCopyMsg("복사 완료!");
-    setTimeout(() => {
-      setCopyMsg("키워드 복사");
-    }, 3000);
-  };
-
-  const [keywordSlide, setKeywordSlide] = useState([]);
+  const { newList, state, setPrevSlide, setNextSlide, setSelectSlide } =
+    useCarousel({
+      ref: containerRef,
+      list: keywords,
+    });
 
   useEffect(() => {
-    if (keywords) setKeywordSlide([...keywordList]);
-  }, [keywords]);
+    if (copyTimeoutRef.current) {
+      clearTimeout(copyTimeoutRef.current);
+      setCopyMsg("키워드 복사");
+    }
+    return () => clearTimeout(copyTimeoutRef.current);
+  }, [state]);
 
-  const keywordList = keywords?.map((ele, idx) => {
-    return (
-      <div
-        key={`${ele.k_keyid}-${idx}`}
-        data-id={ele.k_index}
-        className="keyword"
-      >
-        <div className="top-box">
-          <div className="key">{ele.k_keyword}</div>
-          <div className="wrong">틀린 횟수: {ele.k_wrongcount}</div>
-        </div>
-        <div className="desc">{ele.k_desc}</div>
+  const copyKeyword = () => {
+    const keyword = keywords[state - 1]?.k_keyword;
+    navigator.clipboard.writeText(keyword);
+    setCopyMsg("복사 완료!");
+    copyTimeoutRef.current = setTimeout(() => setCopyMsg("키워드 복사"), 3000);
+  };
+
+  const keywordList = newList?.map((ele, idx) => (
+    <div
+      key={`${ele.k_keyid}-${idx}`}
+      data-id={ele.k_index}
+      className="keyword"
+    >
+      <div className="top-box">
+        <div className="key">{ele.k_keyword}</div>
+        <div className="wrong">틀린 횟수: {ele.k_wrongcount}</div>
       </div>
-    );
-  });
+      <div className="desc">{ele.k_desc}</div>
+    </div>
+  ));
 
-  const keywordDot = keywords?.map((ele, idx) => {
+  const keywordDot = keywords?.map((ele) => {
+    const isCurrent = state === ele.k_index;
     return (
       <button
-        key={`${ele.k_keyid}-${idx}`}
-        className={state === ele.k_index ? "keyword-dot active" : "keyword-dot"}
-        onClick={() => dispatch({ type: "SELECT", payload: ele.k_index })}
+        key={ele.k_keyid}
+        className={isCurrent ? "keyword-dot active" : "keyword-dot"}
+        onClick={() => setSelectSlide(ele.k_index)}
       >
-        {state === ele.k_index ? <RxDotFilled /> : <RxDot />}
+        {isCurrent ? <RxDotFilled /> : <RxDot />}
         {ele.k_keyword}
       </button>
     );
@@ -97,31 +69,21 @@ const DetailKeywords = ({ subject, keywords }) => {
           <FaTags />
           {state} / {subject?.s_keycount}
         </div>
-
         <button className="copy-btn" onClick={copyKeyword}>
           {copyMsg === "키워드 복사" ? <FaClipboard /> : <FaCheck />}
           <span className="copy-msg">{copyMsg}</span>
         </button>
       </section>
       <section className="keyword-slide">
-        <button
-          className="prev"
-          onClick={() => dispatch({ type: "PREV", payload: keywords?.length })}
-        >
+        <button className="prev" onClick={setPrevSlide}>
           <FaCaretLeft />
         </button>
         <div className="keyword-list-wrap">
-          <div
-            className="keyword-list"
-            style={{ transform: `translateX(${position}%)` }}
-          >
-            {keywordSlide}
+          <div className="keyword-list" ref={containerRef}>
+            {keywordList}
           </div>
         </div>
-        <button
-          className="next"
-          onClick={() => dispatch({ type: "NEXT", payload: keywords?.length })}
-        >
+        <button className="next" onClick={setNextSlide}>
           <FaCaretRight />
         </button>
       </section>
