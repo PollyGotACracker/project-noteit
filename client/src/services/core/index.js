@@ -34,7 +34,8 @@ export const fetcher = async ({ endPoint, options }) => {
   }).then(async (data) => {
     if (!data.ok) {
       return data.json().then((error) => {
-        throw new Error(error?.message);
+        if (error?.error) console.error(error?.error);
+        if (error?.message) throw new Error(error.message);
       });
     }
     return data.json();

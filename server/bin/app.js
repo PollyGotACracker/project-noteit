@@ -40,14 +40,11 @@ DB.sequelize.sync({ force: false }).then((dbConn) => {
 // Disable the fingerprinting of this web technology.
 app.disable("x-powered-by");
 
-app.set("views", path.join("react-client/build"));
-
 // middleWare enable
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join("react-client/build")));
 app.use("/uploads", express.static(path.join("public/uploads")));
 
 // router link enable
@@ -69,9 +66,8 @@ app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render("error");
+  console.error(err.stack);
+  res.status(err.status || 500).send("SERVER ERROR");
 });
 
 // execute scheduler

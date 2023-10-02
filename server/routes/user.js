@@ -1,8 +1,41 @@
 import express from "express";
+import { Sequelize } from "sequelize";
 import fileUp from "../modules/file_upload.js";
+import { hashPassword } from "../modules/password_hash.js";
+import { checkSignUpData } from "../modules/auth_validation.js";
 import DB from "../models/index.js";
+
 const USER = DB.models.tbl_users;
 const router = express.Router();
+
+router.post("/signup", checkSignUpData, async (req, res) => {
+  try {
+    const data = req.body;
+    const hashedPassword = await hashPassword(data.u_pwd);
+    if (hashedPassword) await USER.create(data);
+    return res.json({ message: "가입을 환영합니다!" });
+  } catch (err) {
+    if (err instanceof Sequelize.UniqueConstraintError) {
+      err.errors.forEach((errorItem) => {
+        if (errorItem.path === "PRIMARY") {
+          return res.status(422).json({ message: "이미 가입된 이메일입니다." });
+        }
+        if (errorItem.path === "u_nickname") {
+          return res.status(422).json({
+            message: "중복된 닉네임이 존재합니다.\n다른 닉네임을 사용해주세요.",
+          });
+        }
+      });
+    } else {
+      console.error(err);
+      return res
+        .status(500)
+        .json({ message: "서버에 문제가 발생했습니다.\n다시 시도해주세요." });
+    }
+  }
+});
+
+router.post("/signin", async (req, res) => {});
 
 router.get("/get", async (req, res) => {
   try {
