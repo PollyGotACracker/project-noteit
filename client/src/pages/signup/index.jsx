@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import { ReactComponent as JoinSvg } from "@assets/images/join.svg";
 import { getStyle } from "@utils/manageStyle";
+import checkValidation from "@utils/checkValidation";
 import userMsg from "@data/userMsg";
 import { userSignUp } from "@services/user.service";
 import { URLS } from "@/router";
@@ -21,36 +22,16 @@ const SignUpPage = () => {
     })
   );
 
-  const checkValidation = (target) => {
-    const { email, nickname, password, repassword } = target;
-    const removeSpace = (value) => value.replaceAll(" ", "");
-
-    for (let input of [email, nickname, password, repassword]) {
-      const value = removeSpace(input.value);
-      if (!value) {
-        alert(`${input.placeholder} 란을 입력해주세요.`);
-        input.focus();
-        return false;
-      }
-    }
-    if (removeSpace(password.value).length < 8) {
-      alert(userMsg.SHORT_PASSWORD);
-      password.focus();
-      return false;
-    }
+  const submitSignUpForm = (e) => {
+    e.preventDefault();
+    const { email, nickname, password, repassword } = e.target;
     if (password.value !== repassword.value) {
       alert(userMsg.WRONG_REPASSWORD);
       repassword.focus();
       return false;
     }
-    return true;
-  };
-
-  const submitSignUpForm = (e) => {
-    e.preventDefault();
     const isValid = checkValidation(e.target);
     if (isValid) {
-      const { email, nickname, password } = e.target;
       mutate({
         email: email.value,
         nickname: nickname.value,

@@ -18,7 +18,6 @@ import {
   Settings,
   Error,
 } from "@/routeList.js";
-import { Navigate } from "react-router-dom";
 
 export const URLS = {
   UPLOAD_ROUTE: "/server/note/upload",
@@ -36,22 +35,17 @@ export const URLS = {
   SETTINGS: "/settings",
   SIGN_UP: "/signup",
   SIGN_IN: "/signin",
-  SIGN_OUT: "/signout",
   FIND_PASSWORD: "/password/find",
 };
 
-export const routes = (isSignedIn) => [
+export const routes = [
   {
     path: "/",
     element: <GlobalLayout />,
     children: [
       {
         path: "/",
-        element: !isSignedIn ? (
-          <SignOutLayout />
-        ) : (
-          <Navigate to={URLS.DASHBOARD} />
-        ),
+        element: <SignOutLayout />,
         children: [
           { path: "/", index: true, element: <Landing /> },
           { path: URLS.SIGN_IN, index: true, element: <SignIn /> },
@@ -60,7 +54,7 @@ export const routes = (isSignedIn) => [
       },
       {
         path: "/",
-        element: isSignedIn ? <SignInLayout /> : <Navigate to={"/"} />,
+        element: <SignInLayout />,
         children: [
           { path: URLS.DASHBOARD, index: true, element: <Dashboard /> },
           { path: URLS.TODO, index: true, element: <Todo /> },

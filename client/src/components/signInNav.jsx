@@ -8,9 +8,12 @@ import {
 } from "react-icons/ri";
 import { BsFillJournalBookmarkFill } from "react-icons/bs";
 import { TbListCheck } from "react-icons/tb";
+import useUserSignOut from "@hooks/useUserSignout";
 import { URLS } from "@/router";
 
 const signInNav = () => {
+  const { signOut } = useUserSignOut();
+
   return (
     <nav className="nav-signin">
       <NavLink className="link home" to={URLS.DASHBOARD}>
@@ -35,10 +38,10 @@ const signInNav = () => {
         <RiSettings5Fill />
         설정
       </NavLink>
-      <NavLink className="link signout" to={URLS.SIGN_OUT}>
+      <button type="button" className="link signout" onClick={signOut}>
         <RiLogoutBoxLine />
         로그아웃
-      </NavLink>
+      </button>
     </nav>
   );
 };

@@ -1,46 +1,59 @@
+import { useEffect } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { useQuery } from "react-query";
+import { useMutation } from "react-query";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { isSignedInState, queryEnabledState, userState } from "@recoils/user";
-import { getUserInfo } from "@services/user.service";
+import { userSignIn } from "@services/user.service";
+import checkValidation from "@utils/checkValidation";
+import { setToken } from "@utils/manageToken";
 import { URLS } from "@/router";
 
 const SignInPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const setUserData = useSetRecoilState(userState);
+  const [userData, setUserData] = useRecoilState(userState);
+  const setQueryEnabled = useSetRecoilState(queryEnabledState);
   const setIsSignedIn = useSetRecoilState(isSignedInState);
-  const [queryEnabled, setQueryEnabled] = useRecoilState(queryEnabledState);
-  useQuery(
-    getUserInfo({
-      enabled: queryEnabled,
-      onSuccess: (data) => {
-        setUserData({ ...data });
+  const { mutate } = useMutation(
+    userSignIn({
+      onSuccess: (data, variables) => {
+        setUserData({ ...userData, u_userid: variables.email });
+        setQueryEnabled(true);
+        setToken(data.token);
         setIsSignedIn(true);
         navigate(URLS.DASHBOARD, { replace: true });
       },
     })
   );
-  const email = location?.state?.email;
 
-  const loginHandler = (e) => {
+  useEffect(() => {
+    if (location?.state?.email) {
+      setUserData({ ...userData, u_userid: location?.state?.email });
+    }
+  }, [location?.state?.email]);
+
+  const submitSignInForm = (e) => {
     e.preventDefault();
-    // 유효성 검사 및 fetch 추가할 것
-    setQueryEnabled(true);
+    const isValid = checkValidation(e.target);
+    if (isValid) {
+      const { email, password } = e.target;
+      mutate({ email: email.value, password: password.value });
+    }
   };
 
   return (
     <main className="Signin">
-      <form className="form-signin" onSubmit={loginHandler}>
+      <form className="form-signin" onSubmit={submitSignInForm}>
         <div className="greeting-msg">안녕하세요!</div>
         <label htmlFor="email">
           <input
             id="email"
             name="email"
             type="email"
-            defaultValue={email || ""}
-            placeholder="user@email.com"
+            defaultValue={userData.u_userid || ""}
+            placeholder="이메일"
             autoComplete="on"
+            spellCheck="false"
           />
         </label>
         <label htmlFor="password">
@@ -48,7 +61,7 @@ const SignInPage = () => {
             id="password"
             name="password"
             type="password"
-            placeholder="········"
+            placeholder="비밀번호"
             autoComplete="off"
           />
         </label>

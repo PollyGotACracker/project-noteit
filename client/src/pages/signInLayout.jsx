@@ -1,11 +1,7 @@
 import "@styles/signInLayout.css";
 import { Suspense, useEffect, useRef } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { useQuery } from "react-query";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { queryEnabledState, userState } from "@recoils/user";
-import { getUserInfo } from "@services/user.service";
 import SignInNav from "@components/signInNav";
 import Sidebar from "@components/sidebar";
 import Fallback from "@components/fallback";
@@ -14,23 +10,6 @@ const SignInLayout = () => {
   const location = useLocation();
   const sideRef = useRef(null);
   const blockRef = useRef(null);
-
-  const setUserData = useSetRecoilState(userState);
-  const [queryEnabled, setQueryEnabled] = useRecoilState(queryEnabledState);
-  useQuery(
-    getUserInfo({
-      enabled: queryEnabled,
-      onSuccess: (data) => {
-        setUserData({ ...data });
-      },
-    })
-  );
-
-  useEffect(() => {
-    if (queryEnabled) {
-      setQueryEnabled(false);
-    }
-  }, [queryEnabled]);
 
   const toggleSidebar = () => {
     sideRef.current.classList.toggle("active");

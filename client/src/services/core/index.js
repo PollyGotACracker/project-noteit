@@ -1,4 +1,5 @@
 import { QueryClient } from "react-query";
+import { getToken } from "@utils/manageToken";
 
 export const getClient = (() => {
   let client = null;
@@ -22,11 +23,15 @@ export const getClient = (() => {
 const BASE_URL = `/server`; //import.meta.env.VITE_SERVER_URL
 
 export const fetcher = async ({ endPoint, options }) => {
+  const token = getToken();
   const result = await fetch(`${BASE_URL}${endPoint}`, {
     ...options,
     headers: {
       ...(!(options?.body instanceof FormData) && {
         "Content-Type": "application/json",
+      }),
+      ...(token && {
+        authorization: `Bearer ${token}`,
       }),
       "Access-Control-Allow-Origin": BASE_URL,
       ...options?.headers,

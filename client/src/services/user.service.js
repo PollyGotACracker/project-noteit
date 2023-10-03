@@ -21,11 +21,18 @@ export const userSignUp = (queries) => ({
   ...queries,
 });
 
-export const getUserInfo = (queries) => ({
-  queryKey: QueryKeys.USER,
-  queryFn: async ({ email, password }) => {
-    const endPoint = `/user/get`;
-    const res = await fetcher({ endPoint });
+export const userSignIn = (queries) => ({
+  mutationKey: [...QueryKeys.USER, "signin"],
+  mutationFn: async ({ email, password }) => {
+    const endPoint = `/user/signin`;
+    const options = {
+      method: "POST",
+      body: JSON.stringify({
+        u_userid: email,
+        u_pwd: password,
+      }),
+    };
+    const res = await fetcher({ endPoint, options });
     return res;
   },
   onError: (error) => {
@@ -34,8 +41,18 @@ export const getUserInfo = (queries) => ({
   ...queries,
 });
 
-export const setUserInfo = (queries) => ({
-  mutationKey: [...QueryKeys.USER, "set"],
+export const getUserInfo = ({ id, queries }) => ({
+  queryKey: [...QueryKeys.USER, "get", id],
+  queryFn: async () => {
+    const endPoint = `/user/get`;
+    const res = await fetcher({ endPoint });
+    return res;
+  },
+  ...queries,
+});
+
+export const setUserInfo = ({ id, queries }) => ({
+  mutationKey: [...QueryKeys.USER, "set", id],
   mutationFn: async ({ userId, data }) => {
     const endPoint = `/user/${userId}/profile`;
     const options = {

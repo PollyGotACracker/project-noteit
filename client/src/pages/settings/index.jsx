@@ -10,21 +10,21 @@ import { setUserInfo } from "@services/user.service";
 import SettingBox from "@components/settings/wrapper";
 import UserAvatar from "@components/userAvatar";
 import { queryEnabledState, userState } from "@recoils/user";
-import { QueryKeys, getClient } from "@services/core";
 
 const SettingsPage = () => {
-  const queryClient = getClient();
   const userData = useRecoilValue(userState);
   const setQueryEnabled = useSetRecoilState(queryEnabledState);
   const { mutate } = useMutation(
     setUserInfo({
-      onSuccess: (data) => {
-        alert(data.message);
-        queryClient.invalidateQueries(QueryKeys.USER);
-        setQueryEnabled(true);
-      },
-      onError: (error) => {
-        alert(error.message);
+      id: userData.u_userid,
+      queries: {
+        onSuccess: (data) => {
+          alert(data.message);
+          setQueryEnabled(true);
+        },
+        onError: (error) => {
+          alert(error.message);
+        },
       },
     })
   );
@@ -32,7 +32,7 @@ const SettingsPage = () => {
   const [profileData, setProfileData] = useState({
     src: "",
     name: "",
-    str: userData.u_profilestr,
+    str: userData.u_profilestr || "",
   });
   const imgInput = useRef(null);
 
@@ -53,7 +53,6 @@ const SettingsPage = () => {
     const formData = new FormData();
     formData.append("upload", imgInput.current.files[0]);
     formData.append("str", profileData.str);
-    console.log(imgInput.current.files[0], profileData.str);
     mutate({ userId: userData.u_userid, data: formData });
   };
 

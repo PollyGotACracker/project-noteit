@@ -1,12 +1,12 @@
 import { atom } from "recoil";
 
-const initUser = {
+export const initUser = () => ({
   u_userid: "",
   u_nickname: "",
   u_profileimg: "",
   u_profilestr: "",
   u_score: "",
-};
+});
 
 export const userState = atom({
   key: "userState",
