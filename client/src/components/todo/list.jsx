@@ -15,7 +15,7 @@ const TodoList = () => {
     if (data) setTodoList([...data]);
   }, [data]);
 
-  if (todoList.length !== 0) return <ItemWrapper data={todoList} />;
+  return <ItemWrapper data={todoList} />;
 };
 
 export default TodoList;

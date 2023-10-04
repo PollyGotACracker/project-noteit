@@ -62,6 +62,7 @@ const SignUpPage = () => {
             placeholder="닉네임"
             autoComplete="on"
             spellCheck="false"
+            maxLength={12}
           />
         </label>
         <label htmlFor="password">
@@ -71,6 +72,7 @@ const SignUpPage = () => {
             type="password"
             placeholder="비밀번호"
             autoComplete="off"
+            minLength={8}
           />
         </label>
         <label htmlFor="repassword">
@@ -80,6 +82,7 @@ const SignUpPage = () => {
             type="password"
             placeholder="비밀번호 확인"
             autoComplete="off"
+            minLength={8}
           />
         </label>
         <button type="submit">회원가입</button>

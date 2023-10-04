@@ -7,9 +7,9 @@ const queryOptions = {
 
 const getDashboardQueries = (userId) => [
   {
-    queryKey: [QueryKeys.DASHBOARD, "today"],
+    queryKey: [QueryKeys.DASHBOARD, "today", userId],
     queryFn: async () => {
-      const endPoint = `/dashboard/${userId}/today`;
+      const endPoint = `/dashboard/today`;
       const res = await fetcher({ endPoint });
       return res;
     },
@@ -19,9 +19,9 @@ const getDashboardQueries = (userId) => [
     ...queryOptions,
   },
   {
-    queryKey: [QueryKeys.DASHBOARD, "todos"],
+    queryKey: [QueryKeys.DASHBOARD, "todos", userId],
     queryFn: async () => {
-      const endPoint = `/dashboard/${userId}/todos`;
+      const endPoint = `/dashboard/todos`;
       const res = await fetcher({ endPoint });
       return res;
     },
@@ -31,9 +31,9 @@ const getDashboardQueries = (userId) => [
     ...queryOptions,
   },
   {
-    queryKey: [QueryKeys.DASHBOARD, "wrongs"],
+    queryKey: [QueryKeys.DASHBOARD, "wrongs", userId],
     queryFn: async () => {
-      const endPoint = `/dashboard/${userId}/stat/wrongs`;
+      const endPoint = `/dashboard/stat/wrongs`;
       const res = await fetcher({ endPoint });
       return res;
     },
@@ -43,9 +43,9 @@ const getDashboardQueries = (userId) => [
     ...queryOptions,
   },
   {
-    queryKey: [QueryKeys.DASHBOARD, "scores"],
+    queryKey: [QueryKeys.DASHBOARD, "scores", userId],
     queryFn: async () => {
-      const endPoint = `/dashboard/${userId}/stat/scores`;
+      const endPoint = `/dashboard/stat/scores`;
       const res = await fetcher({ endPoint });
       return res;
     },

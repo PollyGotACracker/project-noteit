@@ -8,6 +8,11 @@ export default (sequelize) => {
         allowNull: false,
         primaryKey: true,
       },
+      s_userid: {
+        type: Sequelize.DataTypes.STRING(225),
+        allowNull: false,
+        primaryKey: true,
+      },
       s_subject: {
         type: Sequelize.DataTypes.STRING(125),
         allowNull: false,
@@ -57,7 +62,11 @@ export default (sequelize) => {
           name: "PRIMARY",
           unique: true,
           using: "BTREE",
-          fields: [{ name: "s_subid" }, { name: "s_catid" }],
+          fields: [
+            { name: "s_subid" },
+            { name: "s_catid" },
+            { name: "s_userid" },
+          ],
         },
       ],
     }

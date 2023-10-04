@@ -16,7 +16,7 @@ export default (sequelize) => {
       c_category: {
         type: Sequelize.DataTypes.STRING(125),
         allowNull: false,
-        unique: "c_category",
+        primaryKey: true,
       },
       c_subcount: {
         type: Sequelize.DataTypes.BIGINT,
@@ -46,7 +46,11 @@ export default (sequelize) => {
           name: "PRIMARY",
           unique: true,
           using: "BTREE",
-          fields: [{ name: "c_catid" }, { name: "c_userid" }],
+          fields: [
+            { name: "c_catid" },
+            { name: "c_userid" },
+            { name: "c_category" },
+          ],
         },
       ],
     }

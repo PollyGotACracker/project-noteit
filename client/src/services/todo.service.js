@@ -1,9 +1,16 @@
 import { QueryKeys, fetcher } from "@services/core";
+import { getClient } from "@services/core";
+
+const queryClient = getClient();
+const refetchOptions = {
+  exact: false,
+  refetchInactive: true,
+};
 
 export const getTodos = ({ userId }) => ({
-  queryKey: QueryKeys.TODO,
+  queryKey: [QueryKeys.TODO, userId],
   queryFn: async () => {
-    const endPoint = `/todo/${userId}`;
+    const endPoint = `/todo`;
     const res = await fetcher({ endPoint });
     return res;
   },
@@ -12,11 +19,11 @@ export const getTodos = ({ userId }) => ({
   },
 });
 
-export const upsertTodo = ({ queryClient, userId }) => ({
-  mutationKey: [...QueryKeys.TODO, "upsert"],
+export const upsertTodo = () => ({
+  mutationKey: [QueryKeys.TODO, "upsert"],
   mutationFn: async ({ todo }) => {
     const isNew = Number(todo.t_todoid) === 0;
-    const endPoint = `/todo/${userId}/${isNew ? "insert" : "update"}`;
+    const endPoint = `/todo/${isNew ? "insert" : "update"}`;
     const options = {
       method: isNew ? "POST" : "PATCH",
       body: JSON.stringify(todo),
@@ -25,17 +32,17 @@ export const upsertTodo = ({ queryClient, userId }) => ({
     return res;
   },
   onSuccess: () => {
-    queryClient.invalidateQueries(QueryKeys.TODO);
+    queryClient.invalidateQueries(QueryKeys.TODO, refetchOptions);
   },
   onError: (error) => {
     alert(error.message);
   },
 });
 
-export const deleteTodo = ({ queryClient, userId }) => ({
-  mutationKey: [...QueryKeys.TODO, "delete"],
+export const deleteTodo = () => ({
+  mutationKey: [QueryKeys.TODO, "delete"],
   mutationFn: async ({ todoId }) => {
-    const endPoint = `/todo/${userId}/delete/${todoId}`;
+    const endPoint = `/todo/delete/${todoId}`;
     const options = {
       method: "DELETE",
     };
@@ -43,17 +50,17 @@ export const deleteTodo = ({ queryClient, userId }) => ({
     return res;
   },
   onSuccess: () => {
-    queryClient.invalidateQueries(QueryKeys.TODO);
+    queryClient.invalidateQueries(QueryKeys.TODO, refetchOptions);
   },
   onError: (error) => {
     alert(error.message);
   },
 });
 
-export const updateTodoComplete = ({ queryClient, userId }) => ({
-  mutationKey: [...QueryKeys.TODO, "complete"],
+export const updateTodoComplete = () => ({
+  mutationKey: [QueryKeys.TODO, "complete"],
   mutationFn: async ({ todoId }) => {
-    const endPoint = `/todo/${userId}/complete/${todoId}`;
+    const endPoint = `/todo/complete/${todoId}`;
     const options = {
       method: "PATCH",
     };
@@ -61,7 +68,7 @@ export const updateTodoComplete = ({ queryClient, userId }) => ({
     return res;
   },
   onSuccess: () => {
-    queryClient.invalidateQueries(QueryKeys.TODO);
+    queryClient.invalidateQueries(QueryKeys.TODO, refetchOptions);
   },
   onError: (error) => {
     alert(error.message);

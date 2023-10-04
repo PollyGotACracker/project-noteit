@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "react-query";
 import { AiOutlineInfoCircle } from "react-icons/ai";
-import { getClient } from "@services/core";
 import {
   getCategoryData,
   getSubjectData,
@@ -15,16 +14,15 @@ import { URLS } from "@/router";
 import WriteKeywords from "@components/note/writeKeywords";
 
 const NoteWritePage = () => {
-  const queryClient = getClient();
+  const navigate = useNavigate();
   const { catId, subId = undefined } = useParams();
   const { data: category } = useQuery(getCategoryData({ catId }));
   const { data: { subject, keywords } = {} } = subId
     ? useQuery(getSubjectData({ subId }))
     : {};
   const { data: { subId: upsertSubId } = {}, mutate: upsertMutation } =
-    useMutation(upsertSubject({ queryClient, catId, subId }));
+    useMutation(upsertSubject({ subId }));
 
-  const navigate = useNavigate();
   const [noteSub, setNoteSub] = useState(initSub(subId));
   const [keywordList, setKeywordList] = useState([]);
   const keyboxRef = useRef(null);

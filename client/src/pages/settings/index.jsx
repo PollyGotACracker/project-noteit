@@ -53,7 +53,7 @@ const SettingsPage = () => {
     const formData = new FormData();
     formData.append("upload", imgInput.current.files[0]);
     formData.append("str", profileData.str);
-    mutate({ userId: userData.u_userid, data: formData });
+    mutate({ data: formData });
   };
 
   return (

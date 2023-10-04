@@ -1,5 +1,7 @@
 import { QueryKeys, fetcher } from "@services/core";
+import { getClient } from "@services/core";
 
+const queryClient = getClient();
 const QueryCat = [QueryKeys.NOTE, "category"];
 const QuerySub = [QueryKeys.NOTE, "subject"];
 const refetchOptions = {
@@ -8,9 +10,9 @@ const refetchOptions = {
 };
 
 export const getCategories = ({ userId }) => ({
-  queryKey: QueryCat,
+  queryKey: [...QueryCat, userId],
   queryFn: async () => {
-    const endPoint = `/note/cats/${userId}`;
+    const endPoint = `/note/cats`;
     const res = await fetcher({ endPoint });
     return res;
   },
@@ -31,7 +33,7 @@ export const getCategoryData = ({ catId }) => ({
   },
 });
 
-export const insertCategory = ({ queryClient }) => ({
+export const insertCategory = () => ({
   mutationKey: [...QueryCat, "insert"],
   mutationFn: async ({ category }) => {
     const endPoint = `/note/cat/insert`;
@@ -51,8 +53,8 @@ export const insertCategory = ({ queryClient }) => ({
   },
 });
 
-export const updateCategoryBookmark = ({ queryClient, catId }) => ({
-  mutationKey: [...QueryCat, "bookmark", catId],
+export const updateCategoryBookmark = ({ catId }) => ({
+  mutationKey: [...QueryCat, "bookmark"],
   mutationFn: async ({ bookmark }) => {
     const endPoint = `/note/cat/bookmark`;
     const options = {
@@ -74,8 +76,8 @@ export const updateCategoryBookmark = ({ queryClient, catId }) => ({
   },
 });
 
-export const updateCategory = ({ queryClient, catId }) => ({
-  mutationKey: [...QueryCat, "update", catId],
+export const updateCategory = ({ catId, queries }) => ({
+  mutationKey: [...QueryCat, "update"],
   mutationFn: async ({ catTitle }) => {
     const endPoint = `/note/cat/update`;
     const options = {
@@ -89,13 +91,11 @@ export const updateCategory = ({ queryClient, catId }) => ({
     queryClient.invalidateQueries(QueryCat);
     alert(data.message);
   },
-  onError: (error) => {
-    alert(error.message);
-  },
+  ...queries,
 });
 
-export const deleteCategory = ({ queryClient, catId }) => ({
-  mutationKey: [...QueryCat, "delete", catId],
+export const deleteCategory = ({ catId }) => ({
+  mutationKey: [...QueryCat, "delete"],
   mutationFn: async () => {
     const endPoint = `/note/cat/${catId}/delete`;
     const options = { method: "DELETE" };
@@ -135,8 +135,8 @@ export const getSubjectData = ({ subId }) => ({
   },
 });
 
-export const updateSubjectBookmark = ({ queryClient, catId, subId }) => ({
-  mutationKey: [...QuerySub, "bookmark", subId],
+export const updateSubjectBookmark = ({ subId }) => ({
+  mutationKey: [...QuerySub, "bookmark"],
   mutationFn: async ({ bookmark }) => {
     const endPoint = `/note/sub/bookmark`;
     const options = {
@@ -155,8 +155,8 @@ export const updateSubjectBookmark = ({ queryClient, catId, subId }) => ({
   },
 });
 
-export const upsertSubject = ({ queryClient, catId, subId }) => ({
-  mutationKey: [...QuerySub, "upsert", subId],
+export const upsertSubject = ({ subId }) => ({
+  mutationKey: [...QuerySub, "upsert"],
   mutationFn: async ({ subjects, keywords }) => {
     const endPoint = !subId ? `/note/sub/insert` : `/note/sub/update`;
     const options = {
@@ -176,8 +176,8 @@ export const upsertSubject = ({ queryClient, catId, subId }) => ({
   },
 });
 
-export const deleteSubject = ({ queryClient, catId, subId }) => ({
-  mutationKey: [...QuerySub, "delete", subId],
+export const deleteSubject = ({ catId, subId }) => ({
+  mutationKey: [...QuerySub, "delete"],
   mutationFn: async () => {
     const endPoint = `/note/sub/${catId}/${subId}/delete`;
     const options = {

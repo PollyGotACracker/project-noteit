@@ -8,6 +8,11 @@ export default (sequelize) => {
         allowNull: false,
         primaryKey: true,
       },
+      k_userid: {
+        type: Sequelize.DataTypes.STRING(225),
+        allowNull: false,
+        primaryKey: true,
+      },
       k_subid: {
         type: Sequelize.DataTypes.STRING(225),
         allowNull: false,
@@ -40,7 +45,11 @@ export default (sequelize) => {
           name: "PRIMARY",
           unique: true,
           using: "BTREE",
-          fields: [{ name: "k_keyid" }, { name: "k_subid" }],
+          fields: [
+            { name: "k_keyid" },
+            { name: "k_subid" },
+            { name: "k_userid" },
+          ],
         },
       ],
     }

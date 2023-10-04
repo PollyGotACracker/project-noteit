@@ -25,7 +25,7 @@ const DetailMenu = ({ subject, mutationParams }) => {
   const bookmarkRef = useRef(null);
 
   const { data: bookmarkedData, mutate: updateBookmarkMutation } = useMutation(
-    updateSubjectBookmark(mutationParams)
+    updateSubjectBookmark({ subId })
   );
   const { isSuccess: deleteSuccess, mutate: deleteMutation } = useMutation(
     deleteSubject(mutationParams)

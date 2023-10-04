@@ -3,19 +3,16 @@ import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { useMutation } from "react-query";
 import { userState } from "@recoils/user";
 import { editState, todoState } from "@recoils/todo";
-import { getClient } from "@services/core";
 import { upsertTodo } from "@services/todo.service";
 
 const TodoInput = () => {
   const userData = useRecoilValue(userState);
-  const queryClient = getClient();
   const [todoItem, setTodoItem] = useRecoilState(todoState);
   const resetTodoItem = useResetRecoilState(todoState);
   const [isEdit, setIsEdit] = useRecoilState(editState);
   const [showPrior, setShowPrior] = useState(false);
-
   const { mutate: upsertMutation, data: upsertedData } = useMutation(
-    upsertTodo({ queryClient, userId: userData.u_userid })
+    upsertTodo()
   );
 
   useEffect(() => {

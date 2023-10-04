@@ -1,9 +1,12 @@
 import express from "express";
+import { Op, Sequelize } from "sequelize";
 import { v4 as uuid } from "uuid";
 import moment from "moment";
+import { verifyToken } from "../modules/user_token.js";
 import fileUp from "../modules/file_upload.js";
 import { sanitizer } from "../modules/sanitize_html.js";
 import DB from "../models/index.js";
+
 const CAT = DB.models.tbl_categories;
 const SUB = DB.models.tbl_subjects;
 const KEY = DB.models.tbl_keywords;
@@ -12,9 +15,9 @@ const SCO = DB.models.tbl_score;
 const router = express.Router();
 
 // SELECT all categories
-router.get("/cats/:userId", async (req, res) => {
+router.get("/cats", verifyToken, async (req, res, next) => {
   try {
-    const userId = req.params.userId;
+    const userid = req.payload.email;
     const catList = await CAT.findAll({
       raw: true,
       order: [
@@ -22,91 +25,118 @@ router.get("/cats/:userId", async (req, res) => {
         ["c_category", "ASC"],
         ["c_date", "DESC"],
       ],
-      where: { c_userid: userId },
+      where: { c_userid: userid },
     });
     return res.json(catList);
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({
-      message: "노트 목록을 불러오는 중 문제가 발생했습니다.",
-    });
+    return next(err);
   }
 });
 
 // SELECT category detail (when SELECT/UPDATE subject, keywords)
-router.get("/cat/detail/:catid", async (req, res) => {
+router.get("/cat/detail/:catid", verifyToken, async (req, res, next) => {
   try {
+    const userid = req.payload.email;
     const catid = req.params.catid;
     const category = await CAT.findAll({
       attributes: ["c_catid", "c_category"],
-      where: { c_catid: catid },
+      where: {
+        [Op.and]: [{ c_catid: catid }, { c_userid: userid }],
+      },
     });
     return res.json(category[0]);
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({
-      message: "노트 데이터를 불러오는 중 오류가 발생했습니다.",
-    });
+    return next(err);
   }
 });
 
 // INSERT category
-router.post("/cat/insert", async (req, res) => {
+router.post("/cat/insert", verifyToken, async (req, res, next) => {
   try {
+    const userid = req.payload.email;
     const _data = req.body;
     const data = {
       ..._data,
       c_catid: uuid().substring(0, 8),
+      c_userid: userid,
       c_date: moment().format("YYYY[-]MM[-]DD"),
     };
     await CAT.create(data);
-    return res.json({ message: "노트가 정상적으로 등록되었습니다." });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({
-      message: "중복되는 노트 이름이 있는지 다시 확인해주세요.",
+    return res.json({
+      message: "노트가 정상적으로 등록되었습니다.",
     });
+  } catch (err) {
+    if (err instanceof Sequelize.UniqueConstraintError) {
+      err.errors.forEach((errorItem) => {
+        if (errorItem.path === "c_category") {
+          return res.status(422).json({
+            message: "중복되는 노트 이름이 있는지 다시 확인해주세요.",
+          });
+        }
+      });
+    } else return next(err);
   }
 });
 
 // UPDATE category
-router.patch("/cat/update", async (req, res) => {
+router.patch("/cat/update", verifyToken, async (req, res, next) => {
   try {
+    const userid = req.payload.email;
     const { c_catid: catid, c_category: category } = req.body;
-    await CAT.update({ c_category: category }, { where: { c_catid: catid } });
-    await SUB?.update({ s_category: category }, { where: { s_catid: catid } });
-    await SCO?.update(
-      { sc_category: category },
-      { where: { sc_catid: catid } }
-    );
-    return res.json({ message: "노트가 정상적으로 수정되었습니다." });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({
-      message: "노트를 수정하는 중 문제가 발생했습니다.",
+
+    await DB.sequelize.transaction(async () => {
+      await CAT.update(
+        { c_category: category },
+        { where: { [Op.and]: [{ c_catid: catid }, { c_userid: userid }] } }
+      );
+      await SUB?.update(
+        { s_category: category },
+        { where: { [Op.and]: [{ s_catid: catid }, { s_userid: userid }] } }
+      );
+      await SCO?.update(
+        { sc_category: category },
+        { where: { [Op.and]: [{ sc_catid: catid }, { sc_userid: userid }] } }
+      );
     });
+    return res.json({
+      message: "노트가 정상적으로 수정되었습니다.",
+    });
+  } catch (err) {
+    if (err instanceof Sequelize.UniqueConstraintError) {
+      err.errors.forEach((errorItem) => {
+        if (errorItem.path === "c_category") {
+          return res.status(422).json({
+            message: "중복되는 노트 이름이 있는지 다시 확인해주세요.",
+          });
+        }
+      });
+    } else {
+      return next(err);
+    }
   }
 });
 
 // toggle category bookmark
-router.patch("/cat/bookmark", async (req, res) => {
+router.patch("/cat/bookmark", verifyToken, async (req, res, next) => {
   try {
+    const userid = req.payload.email;
     const { c_catid, c_bookmark } = req.body;
-    await CAT.update({ c_bookmark }, { where: { c_catid } });
+    await CAT.update(
+      { c_bookmark },
+      { where: { [Op.and]: [{ c_catid }, { c_userid: userid }] } }
+    );
     const message =
       c_bookmark === 1 ? "북마크 되었습니다." : "북마크가 해제되었습니다.";
     return res.json({ message: message, result: c_bookmark });
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({
-      message: "노트 북마크 업데이트 중 오류가 발생했습니다.",
-    });
+    return next(err);
   }
 });
 
 // DELETE category
-router.delete("/cat/:catid/delete", async (req, res) => {
+router.delete("/cat/:catid/delete", verifyToken, async (req, res, next) => {
   try {
+    const userid = req.payload.email;
     const catid = req.params.catid;
     const _sub = await SUB.findAll({
       raw: true,
@@ -114,25 +144,38 @@ router.delete("/cat/:catid/delete", async (req, res) => {
     })[0];
     const subid = _sub?.s_subid || "";
 
-    await KEY.destroy({ where: { k_subid: subid } });
-    await SUB.destroy({ where: { s_subid: subid } });
-    await CAT.destroy({ where: { c_catid: catid } });
-    return res.json({ message: "노트가 정상적으로 삭제되었습니다." });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({
-      message: "노트 삭제 중 오류가 발생했습니다.",
+    await DB.sequelize.transaction(async () => {
+      await KEY.destroy({
+        where: {
+          [Op.and]: [{ k_subid: subid }, { k_userid: userid }],
+        },
+      });
+      await SUB.destroy({
+        where: {
+          [Op.and]: [{ s_subid: subid }, { s_userid: userid }],
+        },
+      });
+      await CAT.destroy({
+        where: { [Op.and]: [{ c_catid: catid }, { c_userid: userid }] },
+      });
     });
+    return res.json({
+      message: "노트가 정상적으로 삭제되었습니다.",
+    });
+  } catch (err) {
+    return next(err);
   }
 });
 
 // SELECT all subjects (in specific category)
-router.get("/subs/:catid", async (req, res) => {
+router.get("/subs/:catid", verifyToken, async (req, res, next) => {
   try {
+    const userid = req.payload.email;
     const catid = req.params.catid;
+
     const category = await CAT.findAll({
       raw: true,
-      where: { c_catid: catid },
+      where: { [Op.and]: [{ c_catid: catid }, { c_userid: userid }] },
     });
     const subjects = await SUB.findAll({
       raw: true,
@@ -140,120 +183,136 @@ router.get("/subs/:catid", async (req, res) => {
         ["s_bookmark", "DESC"],
         ["s_subject", "ASC"],
       ],
-      where: { s_catid: catid },
+      where: {
+        [Op.and]: [{ s_catid: catid }, { s_userid: userid }],
+      },
     });
     return res.json({ category: category[0], subjects });
   } catch (err) {
-    console.error(err);
-    return res
-      .status(500)
-      .json({ error: "주제 목록을 불러오는 중 오류가 발생했습니다." });
+    return next(err);
   }
 });
 
 // SELECT subject detail
-router.get("/sub/detail/:subid", async (req, res) => {
+router.get("/sub/detail/:subid", verifyToken, async (req, res, next) => {
   try {
+    const userid = req.payload.email;
     const subid = req.params.subid;
     const subject = await SUB.findAll({
-      where: { s_subid: subid },
+      where: { [Op.and]: [{ s_subid: subid }, { s_userid: userid }] },
     });
     const keywords = await KEY.findAll({
-      where: { k_subid: subid },
+      where: {
+        [Op.and]: [{ k_subid: subid }, { k_userid: userid }],
+      },
       order: [["k_index", "ASC"]],
     });
     return res.json({ subject: subject[0], keywords });
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({
-      message: "주제 상세 내용을 표시하는 중 오류가 발생했습니다.",
-    });
+    return next(err);
   }
 });
 
 // toggle subject bookmark
-router.patch("/sub/bookmark", async (req, res) => {
+router.patch("/sub/bookmark", verifyToken, async (req, res, next) => {
   try {
+    const userid = req.payload.email;
     const { s_subid, s_bookmark } = req.body;
-    await SUB.update({ s_bookmark }, { where: { s_subid } });
+    await SUB.update(
+      { s_bookmark },
+      {
+        where: {
+          [Op.and]: [{ s_subid }, { s_userid: userid }],
+        },
+      }
+    );
     const message =
       s_bookmark === 1 ? "북마크 추가되었습니다." : "북마크 해제되었습니다.";
     return res.json({ message, result: s_bookmark });
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({
-      message: "주제 북마크 업데이트 중 오류가 발생했습니다.",
-    });
+    return next(err);
   }
 });
 
 // INSERT attach
-router.post("/upload", fileUp.single("upload"), async (req, res) => {
-  try {
-    const file = req.file;
-    const uploadFileInfo = {
-      a_attid: uuid().substring(0, 8),
-      a_subid: req.body.subid,
-      a_date: moment().format("YYYY[-]MM[-]DD"),
-      a_time: moment().format("HH:mm:ss"),
-      a_originalname: file.originalname,
-      a_savename: file.filename,
-      a_ext: file.mimetype,
-    };
-    await ATT.create(uploadFileInfo);
-    return res.json({
-      uploaded: true,
-      url: uploadFileInfo.a_savename,
-    });
-  } catch (err) {
-    console.error(err);
-    return res
-      .status(500)
-      .json({ message: "이미지 업로드 중 예기치 않은 오류가 발생했습니다." });
+router.post(
+  "/upload",
+  verifyToken,
+  fileUp.single("upload"),
+  async (req, res, next) => {
+    try {
+      const userid = req.payload.email;
+      const file = req.file;
+      const uploadFileInfo = {
+        a_attid: uuid().substring(0, 8),
+        a_userid: userid,
+        a_subid: req.body.subid,
+        a_date: moment().format("YYYY[-]MM[-]DD"),
+        a_time: moment().format("HH:mm:ss"),
+        a_originalname: file.originalname,
+        a_savename: file.filename,
+        a_ext: file.mimetype,
+      };
+      await ATT.create(uploadFileInfo);
+      return res.json({
+        uploaded: true,
+        url: uploadFileInfo.a_savename,
+      });
+    } catch (err) {
+      return next(err);
+    }
   }
-});
+);
 
 // INSERT subject
-router.post("/sub/insert", sanitizer, async (req, res) => {
+router.post("/sub/insert", verifyToken, sanitizer, async (req, res, next) => {
   try {
+    const userid = req.payload.email;
     const subid = uuid().substring(0, 8);
     const keywords = req.body?.keywords;
+
     keywords?.map((key, idx) => {
+      key.k_userid = userid;
       key.k_subid = subid;
       key.k_index = idx + 1;
     });
     const subjects = {
       ...req.body.subjects,
+      s_userid: userid,
       s_keycount: keywords.length,
       s_content: req.filtered,
       s_subid: subid,
       s_date: moment().format("YYYY[-]MM[-]DD"),
     };
 
-    await SUB.create(subjects);
-    await KEY.bulkCreate(keywords);
-    await CAT.increment("c_subcount", {
-      by: 1,
-      where: { c_catid: subjects.s_catid },
+    await DB.sequelize.transaction(async () => {
+      await SUB.create(subjects);
+      await KEY.bulkCreate(keywords);
+      await CAT.increment("c_subcount", {
+        by: 1,
+        where: {
+          [Op.and]: [{ c_catid: subjects.s_catid }, { c_userid: userid }],
+        },
+      });
     });
     return res.json({
       message: "주제가 정상적으로 추가되었습니다.",
       subId: subid,
     });
   } catch (err) {
-    console.error(err);
-    return res
-      .status(500)
-      .json({ message: "주제 추가 중 문제가 발생했습니다." });
+    return next(err);
   }
 });
 
 // UPDATE subject
-router.patch("/sub/update", sanitizer, async (req, res) => {
+router.patch("/sub/update", verifyToken, sanitizer, async (req, res, next) => {
   try {
+    const userid = req.payload.email;
     const subid = req.body.subjects.s_subid;
     const keywords = req.body?.keywords;
+
     keywords?.map((key, idx) => {
+      key.k_userid = userid;
       key.k_subid = subid;
       key.k_index = idx + 1;
     });
@@ -262,39 +321,66 @@ router.patch("/sub/update", sanitizer, async (req, res) => {
       s_keycount: keywords.length,
       s_content: req.filtered,
     };
-    await SUB.update(subjects, { where: { s_subid: subjects.s_subid } });
-    await KEY.destroy({ where: { k_subid: subjects.s_subid } });
-    await KEY.bulkCreate(keywords);
+
+    await DB.sequelize.transaction(async () => {
+      await SUB.update(subjects, {
+        where: {
+          [Op.and]: [{ s_subid: subjects.s_subid }, { s_userid: userid }],
+        },
+      });
+      await KEY.destroy({
+        where: {
+          [Op.and]: [{ k_subid: subjects.s_subid }, { k_userid: userid }],
+        },
+      });
+      await KEY.bulkCreate(keywords);
+    });
     return res.json({
       message: "주제가 정상적으로 수정되었습니다.",
       subId: subid,
     });
   } catch (err) {
-    console.error(err);
-    return res
-      .status(500)
-      .json({ message: "주제 수정 중 문제가 발생했습니다." });
+    return next(err);
   }
 });
 
 // DELETE subject
-router.delete("/sub/:catid/:subid/delete", async (req, res) => {
-  try {
-    const catid = req.params.catid;
-    const subid = req.params.subid;
-    await KEY.destroy({ where: { k_subid: subid } });
-    await SUB.destroy({ where: { s_subid: subid } });
-    await CAT.decrement("c_subcount", {
-      by: 1,
-      where: { c_catid: catid },
-    });
-    return res.json({ message: "주제가 정상적으로 삭제되었습니다." });
-  } catch (err) {
-    console.error(err);
-    return res
-      .status(500)
-      .json({ message: "주제 삭제 중 오류가 발생했습니다." });
+router.delete(
+  "/sub/:catid/:subid/delete",
+  verifyToken,
+  async (req, res, next) => {
+    try {
+      const userid = req.payload.email;
+      const catid = req.params.catid;
+      const subid = req.params.subid;
+
+      await DB.sequelize.transaction(async () => {
+        await KEY.destroy({
+          where: { [Op.and]: [{ k_subid: subid }, { k_userid: userid }] },
+        });
+        await SUB.destroy({
+          where: { [Op.and]: [{ s_subid: subid }, { s_userid: userid }] },
+        });
+        await CAT.decrement("c_subcount", {
+          by: 1,
+          where: { [Op.and]: [{ c_catid: catid }, { c_userid: userid }] },
+        });
+      });
+      return res.json({
+        message: "주제가 정상적으로 삭제되었습니다.",
+      });
+    } catch (err) {
+      return next(err);
+    }
   }
+);
+
+router.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({
+    code: 500,
+    message: "서버 오류가 발생했습니다.\n다시 시도해주세요.",
+  });
 });
 
 export default router;

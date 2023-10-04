@@ -4,6 +4,7 @@
 import CustomEditor from "ckeditor5-custom-build/build/ckeditor";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import { URLS } from "@/router";
+import { getToken } from "@/utils/manageToken";
 
 export const Editor = ({ data, handler, subId }) => {
   // UploadAdapter Interface 를 implement 하여 CustomAdapter 구현
@@ -42,6 +43,7 @@ export const Editor = ({ data, handler, subId }) => {
       const xhr = (this.xhr = new XMLHttpRequest());
       xhr.open("POST", this.path, true);
       xhr.responseType = "json";
+      xhr.setRequestHeader("Authorization", `Bearer ${getToken()}`);
     }
 
     // XMLHttpRequest 리스너 초기화 method
@@ -87,7 +89,6 @@ export const Editor = ({ data, handler, subId }) => {
       const data = new FormData();
       data.append("upload", file);
       data.append("subid", subId);
-
       this.xhr.send(data);
     }
   }

@@ -1,35 +1,16 @@
-import { useEffect } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { useMutation } from "react-query";
 import moment from "moment";
 import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
-import { userState } from "@recoils/user";
-import { editState, todoState, todosState } from "@recoils/todo";
+import { edit, todo } from "@recoils/todo";
 import { deleteTodo, updateTodoComplete } from "@services/todo.service";
-import { getClient } from "@services/core";
 
 const TodoItem = ({ item }) => {
-  const userData = useRecoilValue(userState);
   const todoId = item.t_todoid;
-  const queryClient = getClient();
-  const setTodoList = useSetRecoilState(todosState);
-  const setTodoItem = useSetRecoilState(todoState);
-  const setIsEdit = useSetRecoilState(editState);
-
-  const { mutate: deleteMutation, data: deletedData } = useMutation(
-    deleteTodo({ queryClient, userId: userData.u_userid })
-  );
-  const { mutate: updateCompleteMutation, data: completedData } = useMutation(
-    updateTodoComplete({ queryClient, userId: userData.u_userid })
-  );
-
-  useEffect(() => {
-    if (deletedData) setTodoList([...deletedData]);
-  }, [deletedData]);
-
-  useEffect(() => {
-    if (completedData) setTodoList([...completedData]);
-  }, [completedData]);
+  const setTodoItem = useSetRecoilState(todo);
+  const setIsEdit = useSetRecoilState(edit);
+  const { mutate: deleteMutation } = useMutation(deleteTodo());
+  const { mutate: updateCompleteMutation } = useMutation(updateTodoComplete());
 
   const completeHandler = () => {
     updateCompleteMutation({ todoId });

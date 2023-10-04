@@ -55,6 +55,7 @@ export const QueryKeys = {
   TODO: "TODO",
   NOTE: "NOTE",
   QUIZ: "QUIZ",
+  SEARCH: "SEARCH",
 };
 
 /**

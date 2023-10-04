@@ -8,9 +8,15 @@ export default (sequelize) => {
         allowNull: false,
         primaryKey: true,
       },
+      a_userid: {
+        type: Sequelize.DataTypes.STRING(225),
+        allowNull: false,
+        primaryKey: true,
+      },
       a_subid: {
         type: Sequelize.DataTypes.STRING(225),
         allowNull: true,
+        primaryKey: true,
       },
       a_date: {
         type: Sequelize.DataTypes.STRING(10),
@@ -42,7 +48,11 @@ export default (sequelize) => {
           name: "PRIMARY",
           unique: true,
           using: "BTREE",
-          fields: [{ name: "a_attid" }],
+          fields: [
+            { name: "a_attid" },
+            { name: "a_subid" },
+            { name: "a_userid" },
+          ],
         },
       ],
     }

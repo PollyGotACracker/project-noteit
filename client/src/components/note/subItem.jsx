@@ -4,17 +4,15 @@ import { RxBookmark, RxBookmarkFilled } from "react-icons/rx";
 import { FaTags } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { URLS } from "@/router";
-import { getClient } from "@services/core";
 import { updateSubjectBookmark, deleteSubject } from "@services/note.service";
 
 const NoteSubItem = ({ item }) => {
-  const queryClient = getClient();
   const { s_catid: catId, s_subid: subId } = item;
-  const mutationParams = { queryClient, catId, subId };
+  const mutationParams = { catId, subId };
   const isBookmarked = item.s_bookmark !== 0;
 
   const { mutate: updateBookmarkMutation } = useMutation(
-    updateSubjectBookmark(mutationParams)
+    updateSubjectBookmark({ subId })
   );
   const { mutate: deleteMutation } = useMutation(deleteSubject(mutationParams));
 

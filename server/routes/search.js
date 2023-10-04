@@ -6,7 +6,8 @@ const KEY = DB.models.tbl_keywords;
 const router = express.Router();
 
 // search
-router.get("/", async (req, res) => {
+router.get("/:userid", async (req, res) => {
+  const userid = req.params.userid;
   const value = req.query.value;
   try {
     let regexp = value
@@ -21,11 +22,16 @@ router.get("/", async (req, res) => {
         as: "tbl_keywords",
       },
       where: {
-        [Op.or]: [
-          { s_subject: { [Op.regexp]: regexp } },
-          { s_content: { [Op.regexp]: regexp } },
-          { ["$tbl_keywords.k_keyword$"]: { [Op.regexp]: regexp } },
-          { ["$tbl_keywords.k_desc$"]: { [Op.regexp]: regexp } },
+        [Op.and]: [
+          { s_userid: userid },
+          {
+            [Op.or]: [
+              { s_subject: { [Op.regexp]: regexp } },
+              { s_content: { [Op.regexp]: regexp } },
+              { ["$tbl_keywords.k_keyword$"]: { [Op.regexp]: regexp } },
+              { ["$tbl_keywords.k_desc$"]: { [Op.regexp]: regexp } },
+            ],
+          },
         ],
       },
       order: [
@@ -37,7 +43,10 @@ router.get("/", async (req, res) => {
     return res.json({ result, regexp });
   } catch (err) {
     console.error(err);
-    return res.json({ error: "SQL query 실행 중 문제가 발생했습니다." });
+    res.status(500).json({
+      code: 500,
+      message: "서버 오류가 발생했습니다.\n다시 시도해주세요.",
+    });
   }
 });
 

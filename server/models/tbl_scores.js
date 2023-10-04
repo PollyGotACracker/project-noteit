@@ -11,6 +11,7 @@ export default (sequelize) => {
       sc_userid: {
         type: Sequelize.DataTypes.STRING(225),
         allowNull: false,
+        primaryKey: true,
       },
       sc_date: {
         type: Sequelize.DataTypes.STRING(125),
@@ -27,6 +28,7 @@ export default (sequelize) => {
       sc_catid: {
         type: Sequelize.DataTypes.STRING(125),
         allowNull: false,
+        primaryKey: true,
       },
       sc_category: {
         type: Sequelize.DataTypes.STRING(125),
@@ -50,7 +52,11 @@ export default (sequelize) => {
           name: "PRIMARY",
           unique: true,
           using: "BTREE",
-          fields: [{ name: "sc_scoid" }],
+          fields: [
+            { name: "sc_scoid" },
+            { name: "sc_catid" },
+            { name: "sc_userid" },
+          ],
         },
       ],
     }

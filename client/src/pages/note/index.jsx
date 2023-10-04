@@ -3,33 +3,19 @@ import { useMutation, useQuery } from "react-query";
 import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { HiFolderPlus } from "react-icons/hi2";
 import { AiOutlineInfoCircle } from "react-icons/ai";
-import { getClient } from "@services/core";
 import { getCategories, insertCategory } from "@services/note.service";
-<<<<<<< HEAD
-import { catState } from "@recoils/note";
-=======
 import { userState } from "@recoils/user";
-import { cat } from "@recoils/note";
->>>>>>> 8b102f0 (feat: Dashboard today 데이터 추가 및 리팩토링, User 데이터 정리)
+import { catState } from "@recoils/note";
 import CatItem from "@components/note/catItem";
 
 const NoteIndexPage = () => {
   const userData = useRecoilValue(userState);
-  const queryClient = getClient();
-<<<<<<< HEAD
   const [newCat, setNewCat] = useRecoilState(catState);
   const resetNewCat = useResetRecoilState(catState);
-  const { data: catList = [] } = useQuery(getCategories({ userId }));
-=======
-  const [newCat, setNewCat] = useRecoilState(cat);
-  const resetNewCat = useResetRecoilState(cat);
-  const { data: catList = [] } = useQuery(
+  const { data: catList } = useQuery(
     getCategories({ userId: userData.u_userid })
   );
->>>>>>> 8b102f0 (feat: Dashboard today 데이터 추가 및 리팩토링, User 데이터 정리)
-  const { mutate: insertMutation } = useMutation(
-    insertCategory({ queryClient })
-  );
+  const { mutate: insertMutation } = useMutation(insertCategory());
 
   const changeNewCatTitleHandler = ({ target }) => {
     setNewCat({ ...newCat, [target.name]: target.value });

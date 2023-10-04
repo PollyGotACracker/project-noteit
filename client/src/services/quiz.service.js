@@ -1,16 +1,17 @@
 import { QueryKeys, fetcher } from "@services/core";
+import { getClient } from "@services/core";
 
+const queryClient = getClient();
 const queryOptions = { cacheTime: 0, refetchOnMount: true };
-
 const refetchOptions = {
   exact: false,
   refetchInactive: true,
 };
 
 export const getQuizCategories = ({ userId }) => ({
-  queryKey: [QueryKeys.NOTE, "quiz"],
+  queryKey: [QueryKeys.NOTE, "quiz", userId],
   queryFn: async () => {
-    const endPoint = `/quiz/cats/${userId}/get`;
+    const endPoint = `/quiz/cats/get`;
     const res = await fetcher({ endPoint });
     return res;
   },
@@ -33,7 +34,7 @@ export const getQuizRandom = ({ catId }) => ({
   ...queryOptions,
 });
 
-export const insertScore = ({ score }) => ({
+export const insertScore = ({ score, queries }) => ({
   mutationKey: [QueryKeys.QUIZ, "insert"],
   mutationFn: async () => {
     const insertEndPoint = `/quiz/score/insert`;
@@ -47,9 +48,10 @@ export const insertScore = ({ score }) => ({
     });
     return res.message;
   },
+  ...queries,
 });
 
-export const updateUserNote = ({ queryClient, score }) => ({
+export const updateUserNote = ({ score, queries }) => ({
   mutationKey: [QueryKeys.QUIZ, "update"],
   mutationFn: async ({ keyids }) => {
     const {
@@ -72,4 +74,5 @@ export const updateUserNote = ({ queryClient, score }) => ({
   onSuccess: () => {
     queryClient.invalidateQueries(QueryKeys.USER, refetchOptions);
   },
+  ...queries,
 });

@@ -10,27 +10,30 @@ import {
   updateCategory,
   deleteCategory,
 } from "@services/note.service.js";
-import { getClient } from "@services/core";
 
 const NoteCatItem = ({ item }) => {
   const navigate = useNavigate();
-  const queryClient = getClient();
   const catId = item.c_catid;
   const isBookmarked = item.c_bookmark !== 0;
-  const mutationParams = { queryClient, catId };
   const [catTitle, setCatTitle] = useState(item.c_category);
   const [update, setUpdate] = useState("수정");
   const catInputRef = useRef();
 
   const { mutate: updateMutation } = useMutation(
-    updateCategory(mutationParams)
+    updateCategory({
+      catId,
+      queries: {
+        onError: (error) => {
+          alert(error.message);
+          setCatTitle(item.c_category);
+        },
+      },
+    })
   );
   const { mutate: updateBookmarkMutation } = useMutation(
-    updateCategoryBookmark(mutationParams)
+    updateCategoryBookmark({ catId })
   );
-  const { mutate: deleteMutation } = useMutation(
-    deleteCategory(mutationParams)
-  );
+  const { mutate: deleteMutation } = useMutation(deleteCategory({ catId }));
 
   const ChangeNameHandler = ({ target: { value } }) => setCatTitle(value);
 

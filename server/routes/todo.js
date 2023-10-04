@@ -1,11 +1,13 @@
 import express from "express";
 import { Op } from "sequelize";
 import moment from "moment";
+import { verifyToken } from "../modules/user_token.js";
 import DB from "../models/index.js";
+
 const TODO = DB.models.tbl_todo;
 const router = express.Router();
 
-router.post("/:userid/insert", async (req, res, next) => {
+router.post("/insert", verifyToken, async (req, res, next) => {
   try {
     const data = req.body;
     data.t_date = moment().format("YYYY[-]MM[-]DD");
@@ -13,49 +15,40 @@ router.post("/:userid/insert", async (req, res, next) => {
     await TODO.create(data);
     return next();
   } catch (err) {
-    console.error(err);
-    return res
-      .status(500)
-      .json({ message: "Todo 아이템 추가 중 오류가 발생했습니다." });
+    return next(err);
   }
 });
 
-router.patch("/:userid/update", async (req, res, next) => {
+router.patch("/update", verifyToken, async (req, res, next) => {
   try {
     const data = req.body;
-    const userid = req.params.userid;
+    const userid = req.payload.email;
     await TODO.update(data, {
       where: { [Op.and]: [{ t_todoid: data.t_todoid }, { t_userid: userid }] },
     });
     return next();
   } catch (err) {
-    console.error(err);
-    return res
-      .status(500)
-      .json({ message: "Todo 아이템 수정 중 오류가 발생했습니다." });
+    return next(err);
   }
 });
 
-router.delete("/:userid/delete/:id", async (req, res, next) => {
+router.delete("/delete/:id", verifyToken, async (req, res, next) => {
   try {
     const id = req.params.id;
-    const userid = req.params.userid;
+    const userid = req.payload.email;
     await TODO.destroy({
       where: { [Op.and]: [{ t_todoid: id }, { t_userid: userid }] },
     });
     return next();
   } catch (err) {
-    console.error(err);
-    return res
-      .status(500)
-      .json({ message: "Todo 아이템 삭제 중 오류가 발생했습니다." });
+    return next(err);
   }
 });
 
-router.patch("/:userid/complete/:id", async (req, res, next) => {
+router.patch("/complete/:id", verifyToken, async (req, res, next) => {
   try {
     const id = req.params.id;
-    const userid = req.params.userid;
+    const userid = req.payload.email;
     const todo = await TODO.findByPk(id);
     const date = moment().format("YYYY[-]MM[-]DD");
     const time = moment().format("HH:mm:ss");
@@ -69,16 +62,13 @@ router.patch("/:userid/complete/:id", async (req, res, next) => {
     );
     return next();
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({
-      message: "Todo 아이템 완료 업데이트 중 오류가 발생했습니다.",
-    });
+    return next(err);
   }
 });
 
-router.use("/:userid", async (req, res) => {
+router.use("/", verifyToken, async (req, res, next) => {
   try {
-    const userid = req.params.userid;
+    const userid = req.payload.email;
     const todos = await TODO.findAll({
       order: [
         ["t_prior", "ASC"],
@@ -90,11 +80,16 @@ router.use("/:userid", async (req, res) => {
     });
     return res.json(todos);
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({
-      message: "Todo 목록을 불러오는 중 오류가 발생했습니다.",
-    });
+    return next(err);
   }
+});
+
+router.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({
+    code: 500,
+    message: "서버 오류가 발생했습니다.\n다시 시도해주세요.",
+  });
 });
 
 export default router;

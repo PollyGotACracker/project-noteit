@@ -28,6 +28,7 @@ const SignInPage = () => {
 
   useEffect(() => {
     if (location?.state?.email) {
+      console.log(location?.state?.email);
       setUserData({ ...userData, u_userid: location?.state?.email });
     }
   }, [location?.state?.email]);
@@ -50,7 +51,7 @@ const SignInPage = () => {
             id="email"
             name="email"
             type="email"
-            defaultValue={userData.u_userid || ""}
+            defaultValue={location?.state?.email || ""}
             placeholder="이메일"
             autoComplete="on"
             spellCheck="false"
@@ -63,6 +64,7 @@ const SignInPage = () => {
             type="password"
             placeholder="비밀번호"
             autoComplete="off"
+            minLength={8}
           />
         </label>
         <NavLink to={URLS.FIND_PASSWORD}>비밀번호 찾기</NavLink>

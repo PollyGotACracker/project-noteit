@@ -2,7 +2,9 @@ import express from "express";
 import sequelize, { Op } from "sequelize";
 import Sequelize from "sequelize";
 import moment from "moment";
+import { verifyToken } from "../modules/user_token.js";
 import DB from "../models/index.js";
+
 const SCO = DB.models.tbl_scores;
 const CAT = DB.models.tbl_categories;
 const SUB = DB.models.tbl_subjects;
@@ -10,9 +12,9 @@ const KEY = DB.models.tbl_keywords;
 const TODO = DB.models.tbl_todo;
 const router = express.Router();
 
-router.use("/:userid/stat", async (req, res, next) => {
+router.use("/stat", verifyToken, async (req, res, next) => {
   try {
-    req.userid = req.params.userid;
+    req.userid = req.payload.email;
     req.cat = await CAT.findOne({
       raw: true,
       attributes: ["c_catid", "c_category"],
@@ -22,22 +24,19 @@ router.use("/:userid/stat", async (req, res, next) => {
     });
     next();
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({
-      message: "유저 정보를 가져올 수 없습니다.",
-    });
+    return next(err);
   }
 });
 
-router.get("/:userid/today", async (req, res) => {
+router.get("/today", verifyToken, async (req, res, next) => {
   try {
-    const userId = req.params.userid;
+    const userid = req.payload.email;
     const today = moment().format("YYYY-MM-DD");
     const _data = await SCO.findAll({
       raw: true,
       attributes: ["sc_score", "sc_date"],
       where: {
-        [Op.and]: [{ sc_userid: userId }, { sc_date: { [Op.eq]: today } }],
+        [Op.and]: [{ sc_userid: userid }, { sc_date: { [Op.eq]: today } }],
       },
     });
     const todayscore = await _data.reduce((acc, cur) => acc + cur.sc_score, 0);
@@ -47,22 +46,19 @@ router.get("/:userid/today", async (req, res) => {
       gamecount: _data.length,
     });
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({
-      message: "하루 퀴즈 데이터를 가져오는 도중 문제가 발생했습니다.",
-    });
+    return next(err);
   }
 });
 
-router.get("/:userid/todos", async (req, res) => {
+router.get("/todos", verifyToken, async (req, res, next) => {
   try {
-    const userId = req.params.userid;
+    const userid = req.payload.email;
     const today = moment().format("YYYY-MM-DD");
 
     const todos = await TODO.findAll({
       order: [
-        ["t_deadline", "ASC"],
         ["t_prior", "ASC"],
+        ["t_deadline", "ASC"],
         ["t_date", "DESC"],
         ["t_time", "DESC"],
       ],
@@ -71,7 +67,7 @@ router.get("/:userid/todos", async (req, res) => {
         [Op.and]: [
           { t_compdate: { [Op.notRegexp]: "[-]{1}" } },
           { t_deadline: { [Op.gte]: today } },
-          { t_userid: userId },
+          { t_userid: userid },
         ],
       },
       limit: 5,
@@ -79,14 +75,11 @@ router.get("/:userid/todos", async (req, res) => {
 
     return res.json(todos);
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({
-      message: "목표 리스트를 가져오는 중 문제가 발생했습니다.",
-    });
+    return next(err);
   }
 });
 
-router.get("/:userid/stat/wrongs", async (req, res) => {
+router.get("/stat/wrongs", async (req, res, next) => {
   try {
     if (!req.cat?.c_catid)
       return res.json({
@@ -109,7 +102,9 @@ router.get("/:userid/stat/wrongs", async (req, res) => {
         as: "tbl_keywords",
         attributes: [],
       },
-      where: { s_catid: req.cat.c_catid },
+      where: {
+        [Op.and]: [{ s_catid: req.cat.c_catid }, { s_userid: req.userid }],
+      },
       order: [["wrongcount", "DESC"]],
       group: ["k_subid"],
     });
@@ -131,15 +126,11 @@ router.get("/:userid/stat/wrongs", async (req, res) => {
 
     return res.json({ category, wrongs: { subject, count }, article });
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({
-      message:
-        "틀린 주제 및 랜덤 주제 데이터를 가져오는 중 문제가 발생했습니다.",
-    });
+    return next(err);
   }
 });
 
-router.get("/:userid/stat/scores", async (req, res) => {
+router.get("/stat/scores", async (req, res, next) => {
   try {
     if (!req.cat?.c_catid)
       return res.json({
@@ -160,7 +151,9 @@ router.get("/:userid/stat/scores", async (req, res) => {
         "sc_time",
         [Sequelize.literal("sc_score / sc_totalscore * 100"), "calc"],
       ],
-      where: { sc_catid: req.cat.c_catid },
+      where: {
+        [Op.and]: [{ sc_catid: req.cat.c_catid }, { sc_userid: req.userid }],
+      },
       order: [
         ["sc_date", "DESC"],
         ["sc_time", "DESC"],
@@ -176,11 +169,16 @@ router.get("/:userid/stat/scores", async (req, res) => {
 
     return res.json({ category, scores: { date, score, totalscore, percent } });
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({
-      message: "통계 데이터를 가져오는 중 문제가 발생했습니다.",
-    });
+    return next(err);
   }
+});
+
+router.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({
+    code: 500,
+    message: "서버 오류가 발생했습니다.\n다시 시도해주세요.",
+  });
 });
 
 export default router;

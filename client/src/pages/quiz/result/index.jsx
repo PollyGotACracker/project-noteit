@@ -5,40 +5,46 @@ import { useSetRecoilState } from "recoil";
 import { useMutation } from "react-query";
 import { BsArrowRepeat } from "react-icons/bs";
 import { FaRegSave } from "react-icons/fa";
-import { getClient } from "@services/core";
 import { queryEnabledState } from "@recoils/user";
 import getTodayFormat from "@utils/getTodayFormat";
 import { insertScore, updateUserNote } from "@services/quiz.service";
 import { URLS } from "@/router";
 import ResultWrongs from "@components/quiz/resultWrongs";
+import QuizResultErrorPage from "@pages/quiz/result/error";
 
 const QuizResultPage = () => {
   const location = useLocation();
-  const queryClient = getClient();
-  const [saveMsg, setSaveMsg] = useState("");
-  const setQueryEnabled = useSetRecoilState(queryEnabledState);
-
-  if (!location?.state)
-    return (
-      <main className="Quiz">
-        <p style={{ textAlign: "center" }}>잘못된 접근입니다.</p>
-      </main>
-    );
-
+  if (!location?.state) return <QuizResultErrorPage />;
   const { wrongs, score } = location.state;
   const { dateStr, timeStr } = getTodayFormat(score.sc_date, score.sc_time);
   const ratio = score.sc_score / score.sc_totalscore;
+  const [saveMsg, setSaveMsg] = useState("");
+  const setQueryEnabled = useSetRecoilState(queryEnabledState);
 
-  const {
-    mutate: saveMutation,
-    isSuccess,
-    error: insertScoreError,
-  } = useMutation(insertScore({ score }));
-  const {
-    mutate: saveUserMutation,
-    data: updateScoreSuccess,
-    error: updatScoreError,
-  } = useMutation(updateUserNote({ queryClient, score }));
+  const { mutate: saveMutation, isSuccess } = useMutation(
+    insertScore({
+      score,
+      queries: {
+        onError: (error) => {
+          setSaveMsg(error.message);
+        },
+      },
+    })
+  );
+  const { mutate: saveUserMutation } = useMutation(
+    updateUserNote({
+      score,
+      queries: {
+        onSuccess: (data) => {
+          setSaveMsg(data.message);
+          setQueryEnabled(true);
+        },
+        onError: (error) => {
+          setSaveMsg(error.message);
+        },
+      },
+    })
+  );
 
   useEffect(() => {
     if (isSuccess) {
@@ -48,21 +54,6 @@ const QuizResultPage = () => {
       saveUserMutation({ keyids });
     }
   }, [isSuccess]);
-
-  useEffect(() => {
-    if (insertScoreError) setSaveMsg(insertScoreError.message);
-  }, [insertScoreError]);
-
-  useEffect(() => {
-    if (updateScoreSuccess) {
-      setSaveMsg(updateScoreSuccess.message);
-      setQueryEnabled(true);
-    }
-  }, [updateScoreSuccess]);
-
-  useEffect(() => {
-    if (updatScoreError) setSaveMsg(updatScoreError.message);
-  }, [updatScoreError]);
 
   const saveQuizResult = () => {
     setSaveMsg("기록을 저장 중입니다...");

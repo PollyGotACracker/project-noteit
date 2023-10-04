@@ -8,7 +8,7 @@ export default (sequelize) => {
         allowNull: false,
         primaryKey: true,
       },
-      u_pwd: {
+      u_password: {
         type: Sequelize.DataTypes.STRING(225),
         allowNull: false,
       },
