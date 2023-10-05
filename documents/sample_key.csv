@@ -1,65 +1,65 @@
-"k_keyid";"k_subid";"k_index";"k_wrongcount";"k_keyword";"k_desc"
-"044d7b14";"ba9ac266";3;0;"팩토리 메소드";"Factory Method
+"k_keyid";"k_userid";"k_subid";"k_index";"k_wrongcount";"k_keyword";"k_desc"
+"044d7b14";"polly@polly.com";"ba9ac266";3;0;"팩토리 메소드";"Factory Method
 객체 생성을 서브 클래스에서 처리하도록 분리하여 캡슐화한 패턴"
-"08300cc3";"a64d5254";1;0;"배열";"크기와 형이 동일한 자료들이 순서대로 나열된 자료의 집합"
-"216fbbc0";"c6dd5f82";1;0;"기능적 응집도";"Functional Cohension
+"08300cc3";"polly@polly.com";"a64d5254";1;0;"배열";"크기와 형이 동일한 자료들이 순서대로 나열된 자료의 집합"
+"216fbbc0";"polly@polly.com";"c6dd5f82";1;0;"기능적 응집도";"Functional Cohension
 모듈 내부의 모든 기능 요소들이 단일 문제와 연관되어 수행될 경우의 응집도"
-"24dce787";"e9bc432f";3;0;"원인-효과 그래프 검사";"Cause-Effect Graphing Testing
+"24dce787";"polly@polly.com";"e9bc432f";3;0;"원인-효과 그래프 검사";"Cause-Effect Graphing Testing
 입력 데이터 간의 관계와 출력에 영향을 미치는 상황을 체계적으로 분석한 다음 효용성이 높은 테스트 케이스를 선정하여 검사하는 기법"
-"3551db82";"29bcda03";2;0;"일관성(Consistency)";"트랜잭션이 그 실행을 성공적으로 완료하면 언제나 일관성 있는 데이터베이스 상태로 변환함"
-"38d4eb69";"e9bc432f";2;0;"경계값 분석";"Boundary Value Analysis
+"3551db82";"polly@polly.com";"29bcda03";2;0;"일관성(Consistency)";"트랜잭션이 그 실행을 성공적으로 완료하면 언제나 일관성 있는 데이터베이스 상태로 변환함"
+"38d4eb69";"polly@polly.com";"e9bc432f";2;0;"경계값 분석";"Boundary Value Analysis
 입력 조건의 중간값보다 경계값에서 오류가 발생할 확률이 높다는 점을 이용하여 입력 조건의 경계값을 테스트 케이스로 선정하여 검사하는 기법"
-"4070493d";"46286f22";6;0;"자료 결합도";"Data Coupling
+"4070493d";"polly@polly.com";"46286f22";6;0;"자료 결합도";"Data Coupling
 모듈 간의 인터페이스가 자료 요소로만 구성될 때의 결합도"
-"50e323b4";"29bcda03";1;0;"원자성(Atomicity)";"트랜잭션의 연산은 데이터베이스에 모두 반영되도록 완료(Commit)되든지 아니면 전혀 반영되지 않도록 복구(Rollback)되어야 함"
-"5c79acb2";"e9bc432f";5;0;"비교 검사";"Comparison Testing
+"50e323b4";"polly@polly.com";"29bcda03";1;0;"원자성(Atomicity)";"트랜잭션의 연산은 데이터베이스에 모두 반영되도록 완료(Commit)되든지 아니면 전혀 반영되지 않도록 복구(Rollback)되어야 함"
+"5c79acb2";"polly@polly.com";"e9bc432f";5;0;"비교 검사";"Comparison Testing
 여러 버전의 프로그램에 동일한 테스트 자료를 제공하여 동일한 결과가 출력되는지 테스트하는 기법"
-"5fdc1f15";"a64d5254";6;0;"그래프";"정점과 간선의 두 집합으로 이루어지는 자료 구조"
-"60895165";"c6dd5f82";4;0;"절차적 응집도";"Procedural Cohension
+"5fdc1f15";"polly@polly.com";"a64d5254";6;0;"그래프";"정점과 간선의 두 집합으로 이루어지는 자료 구조"
+"60895165";"polly@polly.com";"c6dd5f82";4;0;"절차적 응집도";"Procedural Cohension
 모듈이 다수의 관련 기능을 가질 때 모듈 안의 구성 요소들이 그 기능을 순차적으로 수행할 경우의 응집도"
-"6173557d";"46286f22";1;0;"내용 결합도";"Content Coupling
+"6173557d";"polly@polly.com";"46286f22";1;0;"내용 결합도";"Content Coupling
 한 모듈이 다른 모듈의 내부 기능 및 그 내부 자료를 직접 참조하거나 수정할 때의 결합도"
-"6ad229ea";"a64d5254";4;0;"스택";"리스트의 한쪽 끝으로만 자료의 삽입, 삭제 작업이 이루어지는 자료 구조"
-"6b73ce87";"c6dd5f82";6;0;"논리적 응집도";"Logical Cohension
+"6ad229ea";"polly@polly.com";"a64d5254";4;0;"스택";"리스트의 한쪽 끝으로만 자료의 삽입, 삭제 작업이 이루어지는 자료 구조"
+"6b73ce87";"polly@polly.com";"c6dd5f82";6;0;"논리적 응집도";"Logical Cohension
 유사한 성격을 갖거나 특정 형태로 분류되는 처리 요소들로 하나의 모듈이 형성되는 경우의 응집도"
-"6e534a9d";"c6dd5f82";2;0;"순차적 응집도";"Sequential Cohension
+"6e534a9d";"polly@polly.com";"c6dd5f82";2;0;"순차적 응집도";"Sequential Cohension
 모듈 내 하나의 활동으로부터 나온 출력 데이터를 그 다음 활동의 입력 데이터로 사용할 경우의 응집도"
-"780b88b4";"e9bc432f";4;0;"오류 예측 검사";"Error Guessing
+"780b88b4";"polly@polly.com";"e9bc432f";4;0;"오류 예측 검사";"Error Guessing
 과거의 경험이나 확인자의 감각으로 테스트하는 기법"
-"813b945e";"5983f934";4;0;"연관성";"Relationship
+"813b945e";"polly@polly.com";"5983f934";4;0;"연관성";"Relationship
 두 개 이상의 객체들이 상호 참조하는 관계"
-"849133e4";"46286f22";3;0;"외부 결합도";"External Coupling
+"849133e4";"polly@polly.com";"46286f22";3;0;"외부 결합도";"External Coupling
 어떤 모듈에서 선언한 데이터(변수)를 외부의 다른 모듈에서 참조할 때의 결합도"
-"880985d9";"a64d5254";3;0;"연결 리스트";"자료들을 임의의 기억공간에 기억시키되, 자료 항목의 순서에 따라 노드의 포인터 부분을 이용하여 서로 연결시킨 자료 구조"
-"8a79c3cc";"46286f22";4;0;"제어 결합도";"Control Coupling
+"880985d9";"polly@polly.com";"a64d5254";3;0;"연결 리스트";"자료들을 임의의 기억공간에 기억시키되, 자료 항목의 순서에 따라 노드의 포인터 부분을 이용하여 서로 연결시킨 자료 구조"
+"8a79c3cc";"polly@polly.com";"46286f22";4;0;"제어 결합도";"Control Coupling
 어떤 모듈이 다른 모듈 내부의 논리적인 흐름을 제어하기 위해 제어 신호나 제어 요소를 전달하는 결합도"
-"9ec5b3f9";"a64d5254";5;0;"큐";"리스트의 한쪽에서는 삽입 작업이 이루어지고 다른 한쪽에서는 삭제 작업이 이루어지는 자료 구조"
-"a2c421a7";"c6dd5f82";7;0;"우연적 응집도";"Coincidental Cohension
+"9ec5b3f9";"polly@polly.com";"a64d5254";5;0;"큐";"리스트의 한쪽에서는 삽입 작업이 이루어지고 다른 한쪽에서는 삭제 작업이 이루어지는 자료 구조"
+"a2c421a7";"polly@polly.com";"c6dd5f82";7;0;"우연적 응집도";"Coincidental Cohension
 모듈 내부의 각 구성 요소들이 서로 관련 없는 요소로만 구성된 경우의 응집도"
-"ad7e06ca";"ba9ac266";1;0;"추상 팩토리";"Abstract Factory
+"ad7e06ca";"polly@polly.com";"ba9ac266";1;0;"추상 팩토리";"Abstract Factory
 구체적인 클래스에 의존하지 않고, 인터페이스를 통해 서로 연관, 의존하는 객체들의 그룹으로 생성하여 추상적으로 표현함"
-"b1568303";"46286f22";5;0;"스탬프 결합도";"Stamp Coupling
+"b1568303";"polly@polly.com";"46286f22";5;0;"스탬프 결합도";"Stamp Coupling
 모듈 간의 인터페이스로 배열이나 레코드 등의 자료 구조가 전달될 때의 결합도"
-"b8e5b0bb";"c6dd5f82";3;0;"교환적 응집도";"Communication Cohension
+"b8e5b0bb";"polly@polly.com";"c6dd5f82";3;0;"교환적 응집도";"Communication Cohension
 동일한 입력과 출력을 사용하여 서로 다른 기능을 수행하는 구성 요소들이 모였을 경우의 응집도"
-"bab80b11";"e9bc432f";1;0;"동치 분할 검사";"Equivalence Partitioning Testing
+"bab80b11";"polly@polly.com";"e9bc432f";1;0;"동치 분할 검사";"Equivalence Partitioning Testing
 프로그램의 입력 조건에 타당한 입력 자료와 타당하지 않는 자료의 개수를 균등하게 하여 테스트 케이스를 정하고, 해당 입력 자료에 맞는 결과가 출력되는지 확인하는 기법"
-"bd8fee0f";"5983f934";1;0;"캡슐화";"Encapsulation
+"bd8fee0f";"polly@polly.com";"5983f934";1;0;"캡슐화";"Encapsulation
 외부에서의 접근을 제한하기 위해 인터페이스를 제외한 세부 내용을 은닉하는 것"
-"c6a40530";"ba9ac266";4;0;"프로토타입";"Prototype
+"c6a40530";"polly@polly.com";"ba9ac266";4;0;"프로토타입";"Prototype
 원본 객체를 복제하는 방법으로 객체를 생성하는 패턴"
-"ccd8c583";"ba9ac266";5;0;"싱글톤";"Singleton
+"ccd8c583";"polly@polly.com";"ba9ac266";5;0;"싱글톤";"Singleton
 하나의 객체를 생성하면 생성된 객체를 어디서든 참조할 수 있지만, 여러 프로세스가 동시에 참조할 수는 없음"
-"cf1c5205";"29bcda03";4;0;"영속성(Durability, 지속성)";"성공적으로 완료된 트랜잭션의 결과는 시스템이 고장나더라도 영구적으로 반영되어야 함"
-"d1b6ea89";"ba9ac266";2;0;"빌더";"Builder
+"cf1c5205";"polly@polly.com";"29bcda03";4;0;"영속성(Durability, 지속성)";"성공적으로 완료된 트랜잭션의 결과는 시스템이 고장나더라도 영구적으로 반영되어야 함"
+"d1b6ea89";"polly@polly.com";"ba9ac266";2;0;"빌더";"Builder
 작게 분리된 인스턴스를 건축하듯이 초합하여 객체를 생성함"
-"dabf0e65";"5983f934";2;0;"상속";"Inheritance
+"dabf0e65";"polly@polly.com";"5983f934";2;0;"상속";"Inheritance
 상위 클래스의 모든 속성과 연산을 하위 클래스가 물려받는 것"
-"e3b1ac16";"a64d5254";2;0;"연속 리스트";"배열과 같이 연속되는 기억장소에 저장되는 자료 구조"
-"f7ba7eb2";"46286f22";2;0;"공통 결합도";"common Coupling
+"e3b1ac16";"polly@polly.com";"a64d5254";2;0;"연속 리스트";"배열과 같이 연속되는 기억장소에 저장되는 자료 구조"
+"f7ba7eb2";"polly@polly.com";"46286f22";2;0;"공통 결합도";"common Coupling
 고유되는 공통 데이터 영역을 여러 모듈이 사용할 때의 결합도"
-"f8a7984f";"c6dd5f82";5;0;"시간적 응집도";"Temporal Cohension
+"f8a7984f";"polly@polly.com";"c6dd5f82";5;0;"시간적 응집도";"Temporal Cohension
 특정 시간에 처리되는 몇 개의 기능을 모아 하나의 모듈로 작성할 경우의 응집도"
-"fed3cd3c";"5983f934";3;0;"다형성";"Polymorphism
+"fed3cd3c";"polly@polly.com";"5983f934";3;0;"다형성";"Polymorphism
 하나의 메시지에 대해 각각의 객체가 가지고 있는 고유한 방법으로 응답할 수 있는 능력"
-"ff3bb160";"29bcda03";3;0;"독립성(Isolation, 격리성, 순차성)";"둘 이상의 트랜잭션이 동시에 병행 실행되는 경우 어느 하나의 트랜잭션 실행 중에 다른 트랜잭션의 연산이 끼어들 수 없음"
+"ff3bb160";"polly@polly.com";"29bcda03";3;0;"독립성(Isolation, 격리성, 순차성)";"둘 이상의 트랜잭션이 동시에 병행 실행되는 경우 어느 하나의 트랜잭션 실행 중에 다른 트랜잭션의 연산이 끼어들 수 없음"

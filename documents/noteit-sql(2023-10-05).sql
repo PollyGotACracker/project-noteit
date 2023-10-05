@@ -1,10 +1,10 @@
-CREATE DATABASE notedb;
-USE notedb;
+CREATE DATABASE noteitdb;
+USE noteitdb;
 
 -- 사용자정보
 CREATE TABLE IF NOT EXISTS tbl_users(
 	u_userid	VARCHAR(225)	NOT NULL,
-	u_pwd	VARCHAR(225)	NOT NULL,
+	u_password	VARCHAR(225)	NOT NULL,
 	u_nickname	VARCHAR(225)	NOT NULL UNIQUE,	
 	u_profileimg	VARCHAR(225),	
     u_profilestr	VARCHAR(225),
@@ -47,6 +47,7 @@ CREATE TABLE IF NOT EXISTS tbl_categories(
 -- 주제
 CREATE TABLE IF NOT EXISTS tbl_subjects(
 	s_subid	VARCHAR(225)	NOT NULL,
+    s_userid	VARCHAR(225)	NOT NULL,
 	s_subject	VARCHAR(125)	NOT NULL,
 	s_catid	VARCHAR(225)	NOT NULL,
 	s_category	VARCHAR(125)	NOT NULL,	
@@ -54,7 +55,7 @@ CREATE TABLE IF NOT EXISTS tbl_subjects(
     s_keycount	BIGINT	NOT NULL	DEFAULT 0,
 	s_bookmark	TINYINT	NOT NULL	DEFAULT 0,
 	s_content	TEXT,
-	PRIMARY KEY(s_subid, s_catid)
+	PRIMARY KEY(s_subid, s_catid, s_userid)
 -- 	CONSTRAINT fk_catsub
 -- 	FOREIGN KEY(s_catid) REFERENCES tbl_categories(c_catid)
 -- 	ON DELETE CASCADE
@@ -63,12 +64,13 @@ CREATE TABLE IF NOT EXISTS tbl_subjects(
 -- 키워드
 CREATE TABLE IF NOT EXISTS tbl_keywords(
 	k_keyid	VARCHAR(225)	NOT NULL,
+    k_userid	VARCHAR(225)	NOT NULL,
 	k_subid	VARCHAR(225)	NOT NULL,
     k_index	INT	NOT NULL,
     k_wrongcount	BIGINT	NOT NULL	DEFAULT 0,
 	k_keyword	VARCHAR(225)	NOT NULL,	
 	k_desc	TEXT,
-	PRIMARY KEY(k_keyid, k_subid)
+	PRIMARY KEY(k_keyid, k_subid, k_userid)
 -- 	CONSTRAINT fk_subkey
 -- 	FOREIGN KEY(k_subid) REFERENCES tbl_subjects(s_subid)
 -- 	ON DELETE CASCADE
@@ -77,13 +79,14 @@ CREATE TABLE IF NOT EXISTS tbl_keywords(
 -- 첨부파일
 CREATE TABLE IF NOT EXISTS tbl_attachs(
 	a_attid	VARCHAR(225)	NOT NULL,
+    a_userid	VARCHAR(225)	NOT NULL, 
 	a_subid	VARCHAR(225),
 	a_date	VARCHAR(10)	NOT NULL,
 	a_time	VARCHAR(10)	NOT NULL,
 	a_originalname	VARCHAR(225)	NOT NULL,
 	a_savename	VARCHAR(225)	NOT NULL,
 	a_ext	VARCHAR(10)	NOT NULL,
-	PRIMARY KEY(a_attid)
+	PRIMARY KEY(a_attid, a_subid, a_userid)
 -- 	CONSTRAINT fk_subatt
 -- 	FOREIGN KEY(a_subid) REFERENCES tbl_subjects(s_subid)
 -- 	ON DELETE CASCADE
