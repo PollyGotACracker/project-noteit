@@ -1,23 +1,27 @@
 import userMsg from "@data/userMsg";
 
 const checkValidation = (target) => {
-  const { email, password } = target;
   const removeSpace = (value) => value.replaceAll(" ", "");
-
-  for (let input of [email, password]) {
-    const value = removeSpace(input.value);
+  for (let ele of target.elements) {
+    if (ele.tagName !== "INPUT") continue;
+    const value = removeSpace(ele.value);
     if (!value) {
-      alert(`${input.placeholder} 란을 입력해주세요.`);
-      input.focus();
+      alert(`${ele.placeholder} 란을 입력해주세요.`);
+      ele.focus();
+      return false;
+    }
+    if (ele.value.includes(" ")) {
+      alert(`${ele.placeholder} 란의 공백을 제거하고 다시 입력해주세요.`);
+      ele.focus();
+      return false;
+    }
+    const isPassword = ele.type === "password";
+    if (isPassword && ele.value.length < 8) {
+      alert(userMsg.SHORT_PASSWORD);
+      ele.focus();
       return false;
     }
   }
-  if (removeSpace(password.value).length < 8) {
-    alert(userMsg.SHORT_PASSWORD);
-    password.focus();
-    return false;
-  }
-
   return true;
 };
 

@@ -108,6 +108,29 @@ router.post(
   }
 );
 
+router.post("/password/change", verifyToken, async (req, res, next) => {
+  try {
+    const userid = req.payload.email;
+    const { u_password, value } = req.body;
+    const _data = await USER.findByPk(userid);
+    const isMatched = await checkPassword(u_password, _data.u_password);
+    if (!isMatched) {
+      return res
+        .status(422)
+        .json({ code: 422, message: "비밀번호가 일치하지 않습니다." });
+    } else {
+      const newPassword = await hashPassword(value);
+      await USER.update(
+        { u_password: newPassword },
+        { where: { u_userid: userid } }
+      );
+    }
+    return res.json({ message: "비밀번호가 정상적으로 변경되었습니다." });
+  } catch (err) {
+    return next(err);
+  }
+});
+
 router.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({
