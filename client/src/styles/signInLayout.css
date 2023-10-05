@@ -15,7 +15,6 @@ main {
   align-items: center;
   justify-content: space-between;
   background: transparent;
-  z-index: 99;
   color: var(--light);
 }
 
@@ -46,10 +45,6 @@ main {
 }
 
 @media only screen and (max-width: 1023px) {
-  #root {
-    background: var(--background);
-  }
-
   main {
     margin: 60px 0px 0px 0px;
     background-color: var(--background);

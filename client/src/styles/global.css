@@ -229,10 +229,49 @@ svg {
   align-items: center;
 }
 
+.modal {
+  position: fixed;
+  width: 80vw;
+  height: 80vh;
+  top: 50%;
+  left: 50%;
+  background-color: var(--background);
+  border-radius: 20px;
+  padding: calc(30px + 30px);
+}
+
+.modal .btn-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+.modal .btn-close svg {
+  font-size: 30px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -100;
+}
+
+.overlay.active {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(1px);
+  z-index: 100;
+}
+
 @media only screen and (max-width: 1023px) {
   main {
     width: 100%;
     padding-left: 16px;
     padding-right: 16px;
+  }
+  .modal {
+    width: 80vw;
   }
 }

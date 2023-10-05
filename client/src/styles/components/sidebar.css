@@ -10,7 +10,6 @@
   justify-content: space-between;
   gap: 20px;
   transition: right ease 0.3s;
-  z-index: 102;
   color: var(--light);
 }
 
@@ -44,6 +43,7 @@
     right: -260px;
     background: var(--background);
     flex-direction: column;
+    z-index: 102;
   }
 
   .sidebar.active {
@@ -71,21 +71,6 @@
 
   .sidebar > .nav-signin > .link.signout {
     display: none;
-  }
-
-  .blocker {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: -100;
-  }
-
-  .blocker.active {
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(1px);
-    z-index: 100;
   }
 
   :root[color-theme="light"] .sidebar,
