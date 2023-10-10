@@ -1,58 +1,81 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { useQuery } from "react-query";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useMutation, useQuery } from "react-query";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
-  initUser,
   isSignedInState,
-  queryEnabledState,
+  userInfoFlagState,
+  tokenSelector,
   userState,
+  userTokenFlagState,
 } from "@recoils/user";
-import { getUserInfo } from "@services/user.service";
-import { getToken, removeToken } from "@utils/manageToken";
+import useUserFetcher from "@services/useUserFetcher";
+import useUserSignOut from "@hooks/useUserSignout";
 import { URLS } from "@/router";
 
 const useUserStatus = () => {
+  const { getUserToken, getUserInfo } = useUserFetcher();
+  const { initAuth } = useUserSignOut();
   const navigate = useNavigate();
-  const token = getToken();
+  const token = useRecoilValue(tokenSelector);
   const [userData, setUserData] = useRecoilState(userState);
-  const [queryEnabled, setQueryEnabled] = useRecoilState(queryEnabledState);
-  const setIsSignedIn = useSetRecoilState(isSignedInState);
+  const [userInfoFlag, setUserInfoFlag] = useRecoilState(userInfoFlagState);
+  const [userTokenFlag, setUserTokenFlag] = useRecoilState(userTokenFlagState);
+  const [isSignedIn, setIsSignedIn] = useRecoilState(isSignedInState);
+  const [initial, setInitial] = useState(true);
   const signedOut = ["/", URLS.SIGN_IN, URLS.SIGN_UP, URLS.FIND_PASSWORD];
   const isToSignedOut = signedOut.includes(window.location.pathname);
+
+  const { mutate } = useMutation(
+    getUserToken({
+      id: userData.u_userid || token,
+      initial: initial,
+      queries: {
+        onSuccess: (data) => {
+          if (data.code === "ACCESS_TOKEN") {
+            setIsSignedIn(true);
+            setUserInfoFlag(true);
+            if (isToSignedOut) navigate(URLS.DASHBOARD);
+          }
+        },
+        onError: () => {
+          if (isSignedIn) initAuth();
+          if (!isSignedIn) {
+            if (isToSignedOut) navigate(window.location.pathname);
+            if (!isToSignedOut) navigate("/", { replace: true });
+          }
+        },
+        onSettled: () => {
+          setUserTokenFlag(false);
+          setInitial(false);
+        },
+        retry: false,
+      },
+    })
+  );
 
   const { refetch } = useQuery(
     getUserInfo({
       id: userData.u_userid || token,
       queries: {
-        enabled: queryEnabled,
+        enabled: userInfoFlag,
         onSuccess: (data) => {
           setUserData({ ...data });
-          setIsSignedIn(true);
-          if (isToSignedOut) navigate(URLS.DASHBOARD);
-        },
-        onError: (error) => {
-          setUserData({ ...initUser(), u_userid: userData.u_userid });
-          setIsSignedIn(false);
-          navigate("/", { replace: true });
-          alert(error.message);
-          removeToken();
         },
         onSettled: () => {
-          setQueryEnabled(false);
+          setUserInfoFlag(false);
         },
       },
     })
   );
 
   useEffect(() => {
-    if (token) setQueryEnabled(true);
-    if (!token && !isToSignedOut) navigate("/", { replace: true });
-  }, []);
+    if (userTokenFlag) mutate();
+  }, [userTokenFlag]);
 
   useEffect(() => {
-    if (queryEnabled) refetch();
-  }, [queryEnabled]);
+    if (userInfoFlag) refetch();
+  }, [userInfoFlag]);
 };
 
 export default useUserStatus;

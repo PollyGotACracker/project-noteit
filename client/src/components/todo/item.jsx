@@ -2,13 +2,14 @@ import { useSetRecoilState } from "recoil";
 import { useMutation } from "react-query";
 import moment from "moment";
 import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
-import { edit, todo } from "@recoils/todo";
-import { deleteTodo, updateTodoComplete } from "@services/todo.service";
+import { editState, todoState } from "@recoils/todo";
+import useTodoFetcher from "@services/useTodoFetcher";
 
 const TodoItem = ({ item }) => {
+  const { deleteTodo, updateTodoComplete } = useTodoFetcher();
   const todoId = item.t_todoid;
-  const setTodoItem = useSetRecoilState(todo);
-  const setIsEdit = useSetRecoilState(edit);
+  const setTodoItem = useSetRecoilState(todoState);
+  const setIsEdit = useSetRecoilState(editState);
   const { mutate: deleteMutation } = useMutation(deleteTodo());
   const { mutate: updateCompleteMutation } = useMutation(updateTodoComplete());
 

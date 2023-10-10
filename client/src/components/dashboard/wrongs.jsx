@@ -7,10 +7,10 @@ import useThemeStyle from "@hooks/useThemeStyle";
 import NoContent from "@components/noContent";
 import { useEffect } from "react";
 import { useState } from "react";
+import setChartDefaultStyle from "@libs/chart";
 
-ChartJS.register(ArcElement, Tooltip, Legend, Title);
-
-const DashboardWrongs = ({ subject, count, error }) => {
+const DashboardWrongs = ({ subject = [], count = [], error }) => {
+  ChartJS.register(ArcElement, Tooltip, Legend, Title);
   const getLabelPos = () => {
     const width = window.innerWidth;
     const value = width >= 600 ? "right" : "top";
@@ -29,7 +29,7 @@ const DashboardWrongs = ({ subject, count, error }) => {
       window.removeEventListener("resize", resetLabelPos);
     };
   }, []);
-
+  setChartDefaultStyle();
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -38,7 +38,7 @@ const DashboardWrongs = ({ subject, count, error }) => {
     plugins: {
       title: {
         display: true,
-        text: `총 오답 횟수: ${allCount}`,
+        text: `총 오답 횟수: ${allCount || 0}`,
         align: "center",
         font: { size: 16 },
         padding: {

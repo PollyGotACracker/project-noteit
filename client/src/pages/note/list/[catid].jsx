@@ -3,16 +3,17 @@ import { useParams, Link } from "react-router-dom";
 import { useQuery } from "react-query";
 import { URLS } from "@/router";
 import { BsFillFileEarmarkPlusFill } from "react-icons/bs";
-import { getSubjects } from "@services/note.service";
+import useNoteFetcher from "@services/useNoteFetcher";
 import SubItem from "@components/note/subItem";
 import SubNoData from "@components/note/subNoData";
 
 const NoteSubPage = () => {
+  const { getSubjects } = useNoteFetcher();
   const { catId } = useParams();
   const { data: { category, subjects } = {}, isLoading } = useQuery(
     getSubjects({ catId })
   );
-  const isNoData = !isLoading && subjects.length === 0;
+  const isNoData = !isLoading && subjects?.length === 0;
 
   return (
     <main className="Note List">

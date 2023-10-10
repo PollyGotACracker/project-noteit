@@ -3,10 +3,13 @@
 
 import CustomEditor from "ckeditor5-custom-build/build/ckeditor";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
+import { useRecoilValue } from "recoil";
+import { tokenState } from "@recoils/user";
 import { URLS } from "@/router";
-import { getToken } from "@/utils/manageToken";
 
 export const Editor = ({ data, handler, subId }) => {
+  const token = useRecoilValue(tokenState);
+
   // UploadAdapter Interface 를 implement 하여 CustomAdapter 구현
   class imageUploadAdapter {
     constructor(loader) {
@@ -43,7 +46,7 @@ export const Editor = ({ data, handler, subId }) => {
       const xhr = (this.xhr = new XMLHttpRequest());
       xhr.open("POST", this.path, true);
       xhr.responseType = "json";
-      xhr.setRequestHeader("Authorization", `Bearer ${getToken()}`);
+      xhr.setRequestHeader("Authorization", `Bearer ${token}`);
     }
 
     // XMLHttpRequest 리스너 초기화 method

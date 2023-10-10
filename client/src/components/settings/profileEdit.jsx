@@ -5,14 +5,15 @@ import { FaUserEdit } from "react-icons/fa";
 import { GiStarsStack } from "react-icons/gi";
 import profile from "@assets/images/profile.png";
 import { URLS } from "@/router";
-import { setUserInfo } from "@services/user.service";
-import { queryEnabledState, userState } from "@recoils/user";
+import useUserFetcher from "@services/useUserFetcher";
+import { userInfoFlagState, userState } from "@recoils/user";
 import SettingBox from "@components/settings/wrapper";
 import UserAvatar from "@components/userAvatar";
 
 const ProfileEdit = () => {
+  const { setUserInfo } = useUserFetcher();
   const userData = useRecoilValue(userState);
-  const setQueryEnabled = useSetRecoilState(queryEnabledState);
+  const setUserInfoFlag = useSetRecoilState(userInfoFlagState);
   const [profileData, setProfileData] = useState({
     src: "",
     name: "",
@@ -25,10 +26,7 @@ const ProfileEdit = () => {
       queries: {
         onSuccess: (data) => {
           alert(data.message);
-          setQueryEnabled(true);
-        },
-        onError: (error) => {
-          alert(error.message);
+          setUserInfoFlag(true);
         },
       },
     })

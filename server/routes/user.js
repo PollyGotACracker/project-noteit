@@ -2,7 +2,12 @@ import express from "express";
 import { Sequelize } from "sequelize";
 import fileUp from "../modules/file_upload.js";
 import { checkPassword, hashPassword } from "../modules/password_hash.js";
-import { getToken, verifyToken } from "../modules/user_token.js";
+import {
+  getRefresh,
+  getToken,
+  verifyRefresh,
+  verifyToken,
+} from "../modules/user_token.js";
 import { checkSignUpData } from "../modules/auth_validation.js";
 import DB from "../models/index.js";
 
@@ -45,7 +50,7 @@ router.post("/signup", checkSignUpData, async (req, res, next) => {
   }
 });
 
-router.post("/signin", async (req, res, next) => {
+router.post("/signin", getToken, getRefresh, async (req, res, next) => {
   try {
     const { u_userid, u_password } = req.body;
     const hashedPassword = await USER.findOne({
@@ -62,27 +67,39 @@ router.post("/signin", async (req, res, next) => {
       u_password,
       hashedPassword.u_password
     );
-    if (isMatched) {
-      const token = getToken(u_userid);
-      return res.json({ message: "정상적으로 로그인되었습니다.", token });
-    }
     if (!isMatched) {
       return res
         .status(422)
         .json({ code: 422, message: "비밀번호가 일치하지 않습니다." });
     }
+
+    return res.json({
+      message: "정상적으로 로그인되었습니다.",
+    });
   } catch (err) {
     return next(err);
   }
 });
 
-router.get("/get", verifyToken, async (req, res, next) => {
+router.post("/token", verifyRefresh, getToken, async (req, res, next) => {
+  try {
+    return res.json({
+      code: "ACCESS_TOKEN",
+      message: "토큰이 정상적으로 발급되었습니다.",
+    });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+router.get("/profile", verifyToken, async (req, res, next) => {
   try {
     const userid = req.payload.email;
     const user = await USER.findOne({
       attributes: { exclude: ["u_password"] },
       where: { u_userid: userid },
     });
+
     return res.json(user);
   } catch (err) {
     return next(err);
@@ -162,6 +179,11 @@ router.delete("/account", verifyToken, async (req, res, next) => {
   } catch (err) {
     return next(err);
   }
+});
+
+router.post("/signout", (req, res) => {
+  res.clearCookie("refreshToken", { httpOnly: true });
+  res.status(200).json({ message: "로그아웃되었습니다." });
 });
 
 router.use((err, req, res, next) => {

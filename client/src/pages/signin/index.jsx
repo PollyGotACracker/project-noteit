@@ -2,24 +2,23 @@ import { useEffect } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { isSignedInState, queryEnabledState, userState } from "@recoils/user";
-import { userSignIn } from "@services/user.service";
+import { isSignedInState, userTokenFlagState, userState } from "@recoils/user";
+import useUserFetcher from "@services/useUserFetcher";
 import checkValidation from "@utils/checkValidation";
-import { setToken } from "@utils/manageToken";
 import { URLS } from "@/router";
 
 const SignInPage = () => {
+  const { userSignIn } = useUserFetcher();
   const location = useLocation();
   const navigate = useNavigate();
   const [userData, setUserData] = useRecoilState(userState);
-  const setQueryEnabled = useSetRecoilState(queryEnabledState);
+  const setTokenFlag = useSetRecoilState(userTokenFlagState);
   const setIsSignedIn = useSetRecoilState(isSignedInState);
   const { mutate } = useMutation(
     userSignIn({
       onSuccess: (data, variables) => {
         setUserData({ ...userData, u_userid: variables.email });
-        setQueryEnabled(true);
-        setToken(data.token);
+        setTokenFlag(true);
         setIsSignedIn(true);
         navigate(URLS.DASHBOARD, { replace: true });
       },
@@ -51,7 +50,7 @@ const SignInPage = () => {
             id="email"
             name="email"
             type="email"
-            defaultValue={location?.state?.email || ""}
+            defaultValue={location?.state?.email || userData.u_userid || ""}
             placeholder="이메일"
             autoComplete="on"
             spellCheck="false"

@@ -103,29 +103,6 @@
   gap: 8px;
 }
 
-*[data-prior]:after {
-  display: inline-block;
-  content: "";
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-}
-*[data-prior="1"]:after {
-  background-color: var(--red);
-}
-*[data-prior="2"]:after {
-  background-color: var(--yellow);
-}
-*[data-prior="3"]:after {
-  background-color: var(--green);
-}
-*[data-prior="4"]:after {
-  background-color: var(--blue);
-}
-*[data-prior="5"]:after {
-  background-color: var(--violet);
-}
-
 @media (max-width: 768px) {
   .Todo .input .t_content {
     flex-basis: 100%;

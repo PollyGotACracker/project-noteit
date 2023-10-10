@@ -3,11 +3,12 @@ import { Link, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { URLS } from "@/router";
 import { getClient } from "@services/core";
-import { getSubjectData } from "@services/note.service";
+import useNoteFetcher from "@services/useNoteFetcher";
 import DetailMenu from "@components/note/detailMenu";
 import DetailKeywords from "@components/note/detailKeywords";
 
 const NoteDetailPage = () => {
+  const { getSubjectData } = useNoteFetcher();
   const queryClient = getClient();
   const { catId, subId } = useParams();
   const mutationParams = { queryClient, catId, subId };

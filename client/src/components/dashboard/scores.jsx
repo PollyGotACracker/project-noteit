@@ -16,26 +16,33 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 import { RiLineChartLine } from "react-icons/ri";
 import useThemeStyle from "@hooks/useThemeStyle";
 import NoContent from "@components/noContent";
+import setChartDefaultStyle from "@libs/chart";
 
-ChartJS.register(
-  LinearScale,
-  CategoryScale,
-  PointElement,
-  LineElement,
-  Legend,
-  Tooltip,
-  LineController,
-  TimeScale,
-  Filler
-);
+const DashboardScores = ({
+  date = [],
+  score = [],
+  totalscore = [],
+  percent = [],
+  error,
+}) => {
+  ChartJS.register(
+    LinearScale,
+    CategoryScale,
+    PointElement,
+    LineElement,
+    Legend,
+    Tooltip,
+    LineController,
+    TimeScale,
+    Filler
+  );
 
-const DashboardScores = ({ date, score, totalscore, percent, error }) => {
   const [accent, accentAlpha, borderalpha] = useThemeStyle([
     "--accent",
     "--accentalpha",
     "--borderalpha",
   ]);
-
+  setChartDefaultStyle();
   const options = {
     responsive: true,
     maintainAspectRatio: false,

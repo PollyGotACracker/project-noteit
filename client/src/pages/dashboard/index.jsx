@@ -1,10 +1,10 @@
 import "@styles/dashboard/dashboard.css";
+import { useEffect } from "react";
 import { useQueries } from "react-query";
 import { useRecoilValue } from "recoil";
 import { GiStarsStack } from "react-icons/gi";
 import { userState } from "@recoils/user";
-import getDashboardQueries from "@services/dashboard.service";
-import setChartDefaultStyle from "@libs/chart";
+import useDashboardFetcher from "@services/useDashboardFetcher";
 import TypeWriter from "@components/dashboard/typewriter";
 import Todos from "@components/dashboard/todos";
 import Article from "@components/dashboard/article";
@@ -13,12 +13,24 @@ import Scores from "@components/dashboard/scores";
 import Fallback from "@components/fallback";
 
 const DashboardPage = () => {
+  const getDashboardQueries = useDashboardFetcher();
   const userData = useRecoilValue(userState);
-  const result = useQueries(getDashboardQueries(userData.u_userid));
+  const result = useQueries(getDashboardQueries());
   const isLoading = result.some((query) => query.isLoading);
   const [today, todos, wrongs, scores] = result.map((query) => query.data);
 
-  setChartDefaultStyle();
+  useEffect(() => {
+    const now = new Date();
+    const timeUntilMidnight =
+      new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1) - now;
+    const timeout = setTimeout(() => {
+      result.forEach((query) => {
+        if (query.refetch) query.refetch();
+      });
+    }, timeUntilMidnight);
+
+    return () => clearTimeout(timeout);
+  }, [result]);
 
   return (
     <Fallback isLoading={isLoading}>
@@ -33,8 +45,9 @@ const DashboardPage = () => {
                 {userData?.u_score}
               </div>
               <div className="today">
-                오늘 하루 <span>{` ${today?.gamecount} `}</span>회의 문제를
-                풀고,<span>{` ${today?.todayscore} `}</span>점을 얻었어요.
+                오늘 하루 <span>{` ${today?.gamecount || 0} `}</span>회의 문제를
+                풀고,
+                <span>{` ${today?.todayscore || 0} `}</span>점을 얻었어요.
               </div>
               <div className="subject">
                 최근 공부한 노트: {wrongs?.category || scores?.category}

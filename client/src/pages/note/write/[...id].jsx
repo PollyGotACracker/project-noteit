@@ -3,17 +3,14 @@ import { useEffect, useRef, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "react-query";
 import { AiOutlineInfoCircle } from "react-icons/ai";
-import {
-  getCategoryData,
-  getSubjectData,
-  upsertSubject,
-} from "@services/note.service";
+import useNoteFetcher from "@services/useNoteFetcher";
 import { initKey, initSub } from "@recoils/note";
 import Editor from "@libs/editor";
 import { URLS } from "@/router";
 import WriteKeywords from "@components/note/writeKeywords";
 
 const NoteWritePage = () => {
+  const { getCategoryData, getSubjectData, upsertSubject } = useNoteFetcher();
   const navigate = useNavigate();
   const { catId, subId = undefined } = useParams();
   const { data: category } = useQuery(getCategoryData({ catId }));

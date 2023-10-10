@@ -24,7 +24,7 @@ import {
 } from "@recoils/quiz";
 import { URLS } from "@/router";
 import { feedbackMsgList } from "@data/quiz";
-import { getQuizRandom } from "@services/quiz.service";
+import useQuizFetcher from "@services/useQuizFetcher";
 import useQuizScore from "@hooks/useQuizScore";
 import useQuizTimeout from "@hooks/useQuizTimeout";
 import useQuizState from "@hooks/useQuizState";
@@ -35,6 +35,7 @@ import Score from "@components/quiz/gameScore";
 import Fallback from "@components/fallback";
 
 const QuizGamePage = () => {
+  const { getQuizRandom } = useQuizFetcher();
   const { catid: catId } = useParams();
   const navigate = useNavigate();
   const userData = useRecoilValue(userState);

@@ -5,13 +5,11 @@ import { MdDelete } from "react-icons/md";
 import { BsBookmarkFill } from "react-icons/bs";
 import { RiCheckFill, RiBallPenFill } from "react-icons/ri";
 import { URLS } from "@/router";
-import {
-  updateCategoryBookmark,
-  updateCategory,
-  deleteCategory,
-} from "@services/note.service.js";
+import useNoteFetcher from "@services/useNoteFetcher";
 
 const NoteCatItem = ({ item }) => {
+  const { updateCategoryBookmark, updateCategory, deleteCategory } =
+    useNoteFetcher();
   const navigate = useNavigate();
   const catId = item.c_catid;
   const isBookmarked = item.c_bookmark !== 0;
@@ -23,8 +21,7 @@ const NoteCatItem = ({ item }) => {
     updateCategory({
       catId,
       queries: {
-        onError: (error) => {
-          alert(error.message);
+        onError: () => {
           setCatTitle(item.c_category);
         },
       },

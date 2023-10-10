@@ -3,9 +3,10 @@ import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { useMutation } from "react-query";
 import { userState } from "@recoils/user";
 import { editState, todoState } from "@recoils/todo";
-import { upsertTodo } from "@services/todo.service";
+import useTodoFetcher from "@services/useTodoFetcher";
 
 const TodoInput = () => {
+  const { upsertTodo } = useTodoFetcher();
   const userData = useRecoilValue(userState);
   const [todoItem, setTodoItem] = useRecoilState(todoState);
   const resetTodoItem = useResetRecoilState(todoState);

@@ -6,7 +6,7 @@ import { IoPrint } from "react-icons/io5";
 import { RxBookmark, RxBookmarkFilled } from "react-icons/rx";
 import { RiBallPenFill, RiGoogleFill } from "react-icons/ri";
 import { URLS } from "@/router";
-import { deleteSubject, updateSubjectBookmark } from "@services/note.service";
+import useNoteFetcher from "@services/useNoteFetcher";
 
 const showMsg = (ele) => {
   ele.style.animationName = "popUp";
@@ -18,6 +18,8 @@ const showMsg = (ele) => {
 };
 
 const DetailMenu = ({ subject, mutationParams }) => {
+  const { deleteSubject, updateSubjectBookmark } = useNoteFetcher();
+
   const navigate = useNavigate();
   const { catId, subId } = mutationParams;
   const isBookmarked = subject?.s_bookmark !== 0;

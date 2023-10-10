@@ -4,10 +4,12 @@ import { useRecoilValue } from "recoil";
 import { useQuery } from "react-query";
 import { FaFileAlt, FaTags } from "react-icons/fa";
 import { userState } from "@recoils/user";
-import { getQuizCategories } from "@services/quiz.service";
+import useQuizFetcher from "@services/useQuizFetcher";
 import { URLS } from "@/router";
 
 const QuizIndexPage = () => {
+  const { getQuizCategories } = useQuizFetcher();
+
   const userData = useRecoilValue(userState);
   const { data: quizCatList } = useQuery(
     getQuizCategories({ userId: userData.u_userid })

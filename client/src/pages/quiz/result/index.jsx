@@ -5,21 +5,22 @@ import { useSetRecoilState } from "recoil";
 import { useMutation } from "react-query";
 import { BsArrowRepeat } from "react-icons/bs";
 import { FaRegSave } from "react-icons/fa";
-import { queryEnabledState } from "@recoils/user";
+import { userInfoFlagState } from "@recoils/user";
 import getTodayFormat from "@utils/getTodayFormat";
-import { insertScore, updateUserNote } from "@services/quiz.service";
+import useQuizFetcher from "@services/useQuizFetcher";
 import { URLS } from "@/router";
 import ResultWrongs from "@components/quiz/resultWrongs";
 import QuizResultErrorPage from "@pages/quiz/result/error";
 
 const QuizResultPage = () => {
+  const { insertScore, updateUserNote } = useQuizFetcher();
   const location = useLocation();
   if (!location?.state) return <QuizResultErrorPage />;
   const { wrongs, score } = location.state;
   const { dateStr, timeStr } = getTodayFormat(score.sc_date, score.sc_time);
   const ratio = score.sc_score / score.sc_totalscore;
   const [saveMsg, setSaveMsg] = useState("");
-  const setQueryEnabled = useSetRecoilState(queryEnabledState);
+  const setUserInfoFlag = useSetRecoilState(userInfoFlagState);
 
   const { mutate: saveMutation, isSuccess } = useMutation(
     insertScore({
@@ -37,7 +38,7 @@ const QuizResultPage = () => {
       queries: {
         onSuccess: (data) => {
           setSaveMsg(data.message);
-          setQueryEnabled(true);
+          setUserInfoFlag(true);
         },
         onError: (error) => {
           setSaveMsg(error.message);

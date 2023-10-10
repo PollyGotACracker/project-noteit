@@ -4,10 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { useQuery } from "react-query";
 import { userState } from "@recoils/user";
-import { getSearchResult } from "@services/search.service";
+import useSearchFetcher from "@services/useSearchFetcher";
 import { URLS } from "@/router";
 
 const SearchForm = () => {
+  const getSearchResult = useSearchFetcher();
   const userData = useRecoilValue(userState);
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");

@@ -2,11 +2,12 @@ import { useRef } from "react";
 import { useMutation } from "react-query";
 import { RiLockPasswordFill } from "react-icons/ri";
 import userMsg from "@data/userMsg";
-import { changePassword } from "@services/user.service";
+import useUserFetcher from "@services/useUserFetcher";
 import checkValidation from "@utils/checkValidation";
 import SettingBox from "@components/settings/wrapper";
 
 const PasswordChange = () => {
+  const { changePassword } = useUserFetcher();
   const pwdRef = useRef(null);
   const newPwdRef = useRef(null);
   const reNewPwdRef = useRef(null);

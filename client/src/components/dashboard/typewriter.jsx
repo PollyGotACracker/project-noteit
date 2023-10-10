@@ -16,7 +16,7 @@ const DashboardTypewriter = () => {
     const setSpeed = (num = 160) => (speed = num);
     const setBlink = (node, bool) => {
       const value = bool ? "blink" : "none";
-      node.style.animationName = value;
+      if (node) node.style.animationName = value;
     };
     const typing = () => {
       if (i < text.length) {

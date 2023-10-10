@@ -3,12 +3,13 @@ import { useMutation, useQuery } from "react-query";
 import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { HiFolderPlus } from "react-icons/hi2";
 import { AiOutlineInfoCircle } from "react-icons/ai";
-import { getCategories, insertCategory } from "@services/note.service";
+import useNoteFetcher from "@services/useNoteFetcher";
 import { userState } from "@recoils/user";
 import { catState } from "@recoils/note";
 import CatItem from "@components/note/catItem";
 
 const NoteIndexPage = () => {
+  const { getCategories, insertCategory } = useNoteFetcher();
   const userData = useRecoilValue(userState);
   const [newCat, setNewCat] = useRecoilState(catState);
   const resetNewCat = useResetRecoilState(catState);

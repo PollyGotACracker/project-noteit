@@ -5,10 +5,11 @@ import { ReactComponent as JoinSvg } from "@assets/images/join.svg";
 import { getStyle } from "@utils/manageStyle";
 import checkValidation from "@utils/checkValidation";
 import userMsg from "@data/userMsg";
-import { userSignUp } from "@services/user.service";
+import useUserFetcher from "@services/useUserFetcher";
 import { URLS } from "@/router";
 
 const SignUpPage = () => {
+  const { userSignUp } = useUserFetcher();
   const navigate = useNavigate();
   const { mutate } = useMutation(
     userSignUp({

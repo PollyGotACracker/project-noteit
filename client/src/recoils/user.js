@@ -1,4 +1,4 @@
-import { atom } from "recoil";
+import { atom, selector } from "recoil";
 
 export const initUser = () => ({
   u_userid: "",
@@ -8,17 +8,36 @@ export const initUser = () => ({
   u_score: "",
 });
 
+export const tokenState = atom({
+  key: "tokenState",
+  default: "",
+});
+
+export const tokenSelector = selector({
+  key: "tokenSelector",
+  get: ({ get }) => get(tokenState),
+  set: ({ set, reset }, value) => {
+    if (typeof value === "string") set(tokenState, value);
+    else reset(tokenState);
+  },
+});
+
 export const userState = atom({
   key: "userState",
   default: initUser,
 });
 
-export const queryEnabledState = atom({
-  key: "queryEnabledState",
-  default: false,
-});
-
 export const isSignedInState = atom({
   key: "isSignedInState",
   default: false,
+});
+
+export const userInfoFlagState = atom({
+  key: "userInfoFlagState",
+  default: false,
+});
+
+export const userTokenFlagState = atom({
+  key: "userTokenFlagState",
+  default: true,
 });
