@@ -15,7 +15,7 @@ const Sidebar = () => {
   const { signOut } = useUserSignOut();
 
   return (
-    <aside className={`sidebar ${sidebarClass}`}>
+    <aside className={`sidebar${sidebarClass}`}>
       <Clock />
       <AudioPlayer />
       <SearchForm />

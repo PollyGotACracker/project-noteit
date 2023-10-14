@@ -21,8 +21,8 @@ export const modalSelector = selector({
   set: ({ get, set }) => {
     const isActive = !!get(modalState);
     if (!isActive) {
-      set(modalState, "active");
-      set(overlayState, "active");
+      set(modalState, " active");
+      set(overlayState, " active");
     }
     if (isActive) {
       set(modalState, "");
@@ -37,8 +37,8 @@ export const sidebarSelector = selector({
   set: ({ get, set }) => {
     const isNotActive = !!!get(sidebarState);
     if (isNotActive) {
-      set(sidebarState, "active");
-      set(overlayState, "active");
+      set(sidebarState, " active");
+      set(overlayState, " active");
     }
   },
 });
@@ -49,7 +49,7 @@ export const layoutSelector = selector({
   set: ({ get, set }, state) => {
     const isTrue = typeof state === "boolean" && state === true;
     const isModalActive = !!get(modalState);
-    if (isTrue) return set(overlayState, "active");
+    if (isTrue) return set(overlayState, " active");
     if (isModalActive) return;
     set(sidebarState, "");
     set(overlayState, "");

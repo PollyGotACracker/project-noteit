@@ -26,6 +26,7 @@ export default defineConfig(({ mode }) => {
         { find: "@contexts", replacement: "/src/contexts" },
         { find: "@data", replacement: "/src/data" },
         { find: "@hooks", replacement: "/src/hooks" },
+        { find: "@layouts", replacement: "/src/layouts" },
         { find: "@libs", replacement: "/src/libs" },
         { find: "@pages", replacement: "/src/pages" },
         { find: "@recoils", replacement: "/src/recoils" },

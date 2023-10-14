@@ -1,7 +1,6 @@
 import { lazy } from "react";
-import GlobalLayout from "@pages/_layout";
-const SignOutLayout = lazy(() => import("@pages/signOutLayout"));
-const SignInLayout = lazy(() => import("@pages/signInLayout"));
+import SignOutLayout from "@layouts/signOutLayout";
+import SignInLayout from "@layouts/signInLayout";
 import Landing from "@pages";
 import SignIn from "@pages/signin";
 import SignUp from "@pages/signup";
@@ -13,13 +12,12 @@ const NoteDetail = lazy(() => import("@pages/note/detail/[catid][subid]"));
 const NoteWrite = lazy(() => import("@pages/note/write/[...id]"));
 const Search = lazy(() => import("@pages/search"));
 const Quiz = lazy(() => import("@pages/quiz"));
-const QuizGame = lazy(() => import("@pages/quiz/game/[catId]"));
+const QuizGame = lazy(() => import("@pages/quiz/game/[catid]"));
 const QuizResult = lazy(() => import("@pages/quiz/result"));
 const Settings = lazy(() => import("@pages/settings"));
 import Error from "@pages/error";
 
 export {
-  GlobalLayout,
   SignOutLayout,
   SignInLayout,
   Landing,

@@ -10,6 +10,7 @@
       "@contexts/*": ["contexts/*"],
       "@data/*": ["data/*"],
       "@hooks/*": ["hooks/*"],
+      "@layouts/*": ["layouts/*"],
       "@libs/*": ["libs/*"],
       "@pages/*": ["pages/*"],
       "@recoils/*": ["recoils/*"],

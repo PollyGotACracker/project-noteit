@@ -1,11 +1,12 @@
 import "@styles/signOutLayout.css";
 import { useEffect, useRef } from "react";
-import { Outlet } from "react-router-dom";
 import genStars from "@utils/genStars";
 import SignOutNav from "@components/signOutNav";
+import useUserStatus from "@hooks/useUserStatus";
 
-const SignOutLayout = () => {
+const SignOutLayout = ({ children }) => {
   const IntroRef = useRef(null);
+  useUserStatus();
 
   useEffect(() => {
     if (IntroRef.current) genStars(IntroRef.current);
@@ -16,7 +17,7 @@ const SignOutLayout = () => {
       <header className="header-signout">
         <SignOutNav />
       </header>
-      <Outlet />
+      {children}
       <div className="stars-container" ref={IntroRef}></div>
     </>
   );
