@@ -71,10 +71,16 @@
   border-radius: 0;
   color: var(--light);
   caret-color: var(--accent);
-  background-repeat: no-repeat;
-  background-position: left 10px bottom 50%;
-  background-size: 16px;
-  padding: 10px 40px;
+  padding: 10px;
+}
+
+.form-signup input:-webkit-autofill,
+.form-signup input:-webkit-autofill:hover,
+.form-signup input:-webkit-autofill:focus,
+.form-signin input:-webkit-autofill,
+.form-signin input:-webkit-autofill:hover,
+.form-signin input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--light);
 }
 
 .form-signup input:focus,
@@ -82,22 +88,33 @@
   border-color: var(--accent);
 }
 
-.form-signup input[name="email"],
-.form-signin input[name="email"] {
+.form-signup label:before,
+.form-signin label:before {
+  content: "";
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 18px;
+  width: 40px;
+  height: 100%;
+}
+
+.form-signup label[for="email"]:before,
+.form-signin label[for="email"]:before {
   background-image: url("@assets/images/email.png");
 }
 
-.form-signup input[name="nickname"],
-.form-signin input[name="nickname"] {
+.form-signup label[for="nickname"]:before,
+.form-signin label[for="nickname"]:before {
   background-image: url("@assets/images/user.png");
 }
 
-.form-signup input[name="password"],
-.form-signin input[name="password"] {
+.form-signup label[for="password"]:before,
+.form-signin label[for="password"]:before {
   background-image: url("@assets/images/pwd.png");
 }
 
-.form-signup input[name="repassword"] {
+.form-signup label[for="repassword"]:before {
   background-image: url("@assets/images/pwd_check.png");
 }
 
