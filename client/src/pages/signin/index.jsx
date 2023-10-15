@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useMutation } from "react-query";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { isSignedInState, userTokenFlagState, userState } from "@recoils/user";
+import { userTokenFlagState, userState } from "@recoils/user";
 import useUserFetcher from "@services/useUserFetcher";
 import checkValidation from "@utils/checkValidation";
 import { URLS } from "@/router";
@@ -10,24 +10,19 @@ import { URLS } from "@/router";
 const SignInPage = () => {
   const { userSignIn } = useUserFetcher();
   const location = useLocation();
-  const navigate = useNavigate();
   const [userData, setUserData] = useRecoilState(userState);
   const setTokenFlag = useSetRecoilState(userTokenFlagState);
-  const setIsSignedIn = useSetRecoilState(isSignedInState);
   const { mutate } = useMutation(
     userSignIn({
       onSuccess: (data, variables) => {
         setUserData({ ...userData, u_userid: variables.email });
         setTokenFlag(true);
-        setIsSignedIn(true);
-        navigate(URLS.DASHBOARD, { replace: true });
       },
     })
   );
 
   useEffect(() => {
     if (location?.state?.email) {
-      console.log(location?.state?.email);
       setUserData({ ...userData, u_userid: location?.state?.email });
     }
   }, [location?.state?.email]);

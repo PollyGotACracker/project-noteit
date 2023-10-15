@@ -39,5 +39,5 @@ export const userInfoFlagState = atom({
 
 export const userTokenFlagState = atom({
   key: "userTokenFlagState",
-  default: true,
+  default: false,
 });

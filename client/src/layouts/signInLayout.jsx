@@ -1,19 +1,30 @@
 import "@styles/signInLayout.css";
 import { Suspense, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import useUserStatus from "@hooks/useUserStatus";
 import { sidebarSelector, layoutSelector } from "@recoils/global";
+import { isSignedInState } from "@recoils/user";
 import SignInNav from "@components/signInNav";
 import Sidebar from "@components/sidebar";
 import Fallback from "@components/fallback";
-import useUserStatus from "@hooks/useUserStatus";
 
 const SignInLayout = ({ children }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { initial, setUserTokenFlag } = useUserStatus();
+  const isSignedIn = useRecoilValue(isSignedInState);
   const openSidebar = useSetRecoilState(sidebarSelector);
   const [overlayClass, resetUI] = useRecoilState(layoutSelector);
-  const location = useLocation();
-  useUserStatus();
+
+  useEffect(() => {
+    setUserTokenFlag(true);
+  }, [children]);
+
+  useEffect(() => {
+    if (!initial && !isSignedIn) navigate("/", { replace: true });
+  }, [initial, isSignedIn]);
 
   useEffect(() => {
     resetUI();
@@ -21,6 +32,7 @@ const SignInLayout = ({ children }) => {
     return () => window.removeEventListener("resize", resetUI);
   }, [location.key]);
 
+  if (!isSignedIn) return <></>;
   return (
     <>
       <header className="header-signin">

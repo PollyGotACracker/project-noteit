@@ -74,18 +74,18 @@ export const verifyRefresh = async (req, res, next) => {
     req.payload = jwt.verify(token, privateKey);
     return next();
   } catch (err) {
+    if (req.headers["x-initial-entry"] === "true") {
+      return res.status(200).json({ code: "INITIAL_ENTRY" });
+    }
     if (err.name === "TokenExpiredError") {
       return res.status(401).json({
         code: "INVALID_REFRESH_TOKEN",
-        message: "장기간 미활동으로 로그아웃되었습니다.\n다시 로그인해주세요.",
+        message: "토큰이 만료되었습니다.\n다시 로그인해주세요.",
       });
-    }
-    if (req.headers["x-initial-entry"] === "true") {
-      return res.status(200).json({ code: "INITIAL_ENTRY" });
     } else {
       return res.status(401).json({
         code: "UNKNOWN_REFRESH_TOKEN",
-        message: "로그인이 필요합니다.",
+        message: "토큰이 만료되었습니다.\n다시 로그인해주세요.",
       });
     }
   }

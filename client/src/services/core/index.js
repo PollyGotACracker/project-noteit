@@ -16,7 +16,10 @@ export const refreshTokenError = [
   "INVALID_REFRESH_TOKEN",
   "UNKNOWN_REFRESH_TOKEN",
 ];
-const tokenError = [...accessTokenError, ...refreshTokenError];
+
+const checkTokenError = (code) => {
+  return [...accessTokenError, ...refreshTokenError].includes(code);
+};
 
 export const getClient = (() => {
   let client = null;
@@ -31,12 +34,14 @@ export const getClient = (() => {
           refetchOnReconnect: true,
           refetchOnWindowsFocus: false,
           onError: (error) => {
-            if (tokenError.includes(error.code)) {
+            if (checkTokenError(error?.code)) {
               client.cancelQueries();
             }
           },
           retry: (error) => {
-            if (tokenError.includes(error.code)) return false;
+            if (checkTokenError(error?.code)) {
+              return false;
+            }
           },
         },
       },

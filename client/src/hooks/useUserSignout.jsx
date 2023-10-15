@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router";
 import { useMutation } from "react-query";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
@@ -11,7 +10,6 @@ import useUserFetcher from "@/services/useUserFetcher";
 
 const useUserSignOut = () => {
   const { userSignOut } = useUserFetcher();
-  const navigate = useNavigate();
   const [userData, setUserData] = useRecoilState(userState);
   const setToken = useSetRecoilState(tokenSelector);
   const setIsSignedIn = useSetRecoilState(isSignedInState);
@@ -27,7 +25,6 @@ const useUserSignOut = () => {
     setUserData({ ...initUser(), u_userid: userData.u_userid });
     setToken();
     setIsSignedIn(false);
-    navigate("/", { replace: true });
   };
 
   const signOut = () => {
