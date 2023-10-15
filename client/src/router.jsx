@@ -18,6 +18,11 @@ import {
   Error,
 } from "@/routeList.js";
 import { createBrowserRouter } from "react-router-dom";
+import { MdSpaceDashboard } from "react-icons/md";
+import { TbListCheck } from "react-icons/tb";
+import { BsFillJournalBookmarkFill } from "react-icons/bs";
+import { AiFillQuestionCircle } from "react-icons/ai";
+import { RiSettings5Fill } from "react-icons/ri";
 
 export const URLS = {
   UPLOAD_ROUTE: "/server/note/upload",
@@ -45,20 +50,23 @@ export const routerData = [
     label: "홈",
     element: <Landing />,
     withAuth: false,
+    withLanding: false,
   },
   {
     id: 1,
-    path: URLS.SIGN_IN,
-    label: "로그인",
-    element: <SignIn />,
-    withAuth: false,
-  },
-  {
-    id: 2,
     path: URLS.SIGN_UP,
     label: "회원가입",
     element: <SignUp />,
     withAuth: false,
+    withLanding: true,
+  },
+  {
+    id: 2,
+    path: URLS.SIGN_IN,
+    label: "로그인",
+    element: <SignIn />,
+    withAuth: false,
+    withLanding: true,
   },
   {
     id: 3,
@@ -66,6 +74,7 @@ export const routerData = [
     label: "비밀번호 찾기",
     element: <SignIn />,
     withAuth: false,
+    withLanding: false,
   },
   {
     id: 4,
@@ -73,13 +82,21 @@ export const routerData = [
     label: "대시보드",
     element: <Dashboard />,
     withAuth: true,
+    class: "dashboard",
+    icon: <MdSpaceDashboard />,
   },
   {
     id: 5,
     path: URLS.TODO,
-    label: "할 일",
+    label: "목표",
     element: <Todo />,
     withAuth: true,
+    class: "todo",
+    icon: (
+      <div>
+        <TbListCheck />
+      </div>
+    ),
   },
   {
     id: 6,
@@ -87,6 +104,8 @@ export const routerData = [
     label: "노트",
     element: <Note />,
     withAuth: true,
+    class: "note",
+    icon: <BsFillJournalBookmarkFill />,
   },
   {
     id: 7,
@@ -122,6 +141,8 @@ export const routerData = [
     label: "퀴즈",
     element: <Quiz />,
     withAuth: true,
+    class: "quiz",
+    icon: <AiFillQuestionCircle />,
   },
   {
     id: 12,
@@ -144,6 +165,8 @@ export const routerData = [
     index: true,
     element: <Settings />,
     withAuth: true,
+    class: "settings",
+    icon: <RiSettings5Fill />,
   },
 ];
 

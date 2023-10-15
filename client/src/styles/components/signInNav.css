@@ -36,7 +36,7 @@ a.link svg {
 }
 
 /* seperate anchor style */
-.link.home:hover svg {
+.link.dashboard:hover svg {
   animation: 1s infinite shake;
   -webkit-animation: 1s infinite shake;
 }
@@ -73,6 +73,8 @@ a.link svg {
 
 .link.signout {
   margin-top: auto;
+  margin-bottom: 20px;
+  color: var(--light);
 }
 
 @media only screen and (max-width: 1023px) {

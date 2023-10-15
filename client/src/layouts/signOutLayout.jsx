@@ -5,9 +5,9 @@ import { useRecoilValue } from "recoil";
 import genStars from "@utils/genStars";
 import useUserStatus from "@hooks/useUserStatus";
 import { isSignedInState } from "@recoils/user";
-import SignOutNav from "@components/signOutNav";
-
 import { URLS } from "@/router";
+import SignOutNav from "@components/signOutNav";
+import HomeLink from "@components/homeLink";
 
 const SignOutLayout = ({ children }) => {
   const navigate = useNavigate();
@@ -31,6 +31,7 @@ const SignOutLayout = ({ children }) => {
   return (
     <>
       <header className="header-signout">
+        <HomeLink />
         <SignOutNav />
       </header>
       {children}

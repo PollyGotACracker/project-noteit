@@ -1,6 +1,6 @@
 import "@styles/signInLayout.css";
 import { Suspense, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import useUserStatus from "@hooks/useUserStatus";
@@ -9,6 +9,7 @@ import { isSignedInState } from "@recoils/user";
 import SignInNav from "@components/signInNav";
 import Sidebar from "@components/sidebar";
 import Fallback from "@components/fallback";
+import HomeLink from "@components/homeLink";
 
 const SignInLayout = ({ children }) => {
   const navigate = useNavigate();
@@ -36,9 +37,7 @@ const SignInLayout = ({ children }) => {
   return (
     <>
       <header className="header-signin">
-        <Link className="title" to={"/"}>
-          NoteIT
-        </Link>
+        <HomeLink />
         <button className="sidebar-btn" onClick={openSidebar} type="button">
           <BsThreeDotsVertical />
         </button>
