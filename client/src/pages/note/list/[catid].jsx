@@ -1,46 +1,85 @@
 import "@styles/note/list.css";
+import { useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
-import { useQuery } from "react-query";
+import { useInfiniteQuery, useQuery } from "react-query";
 import { URLS } from "@/router";
 import { BsFillFileEarmarkPlusFill } from "react-icons/bs";
 import useNoteFetcher from "@services/useNoteFetcher";
+import useObserver from "@hooks/useObserver";
+import useScrollPosition from "@hooks/useScrollPosition";
 import SubItem from "@components/note/subItem";
 import SubNoData from "@components/note/subNoData";
+import Fallback from "@components/fallback";
 
 const NoteSubPage = () => {
-  const { getSubjects } = useNoteFetcher();
+  const listRef = useRef(null);
+  const fetchListRef = useRef(null);
+  const saveScrollPos = useScrollPosition(listRef);
   const { catId } = useParams();
-  const { data: { category, subjects } = {}, isLoading } = useQuery(
-    getSubjects({ catId })
+  const { getCategoryData, getSubjects } = useNoteFetcher();
+  const isIntersecting = useObserver(fetchListRef);
+  const { data: category } = useQuery(getCategoryData({ catId }));
+  const {
+    data,
+    isLoading,
+    isSuccess,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery(
+    getSubjects({
+      catId,
+      queries: {
+        getNextPageParam: (lastPage) => {
+          if (lastPage.totalPages === lastPage.currentPage) return;
+          return lastPage.offset + lastPage.limit;
+        },
+      },
+    })
   );
-  const isNoData = !isLoading && subjects?.length === 0;
+  const isNoData = isSuccess && data?.pages[0]?.data?.length === 0;
+
+  useEffect(() => {
+    if (!isIntersecting || !isSuccess || !hasNextPage || isFetchingNextPage)
+      return;
+    fetchNextPage();
+  }, [isIntersecting]);
 
   return (
-    <main className="Note List">
-      <section className="title">
-        <div className="category">{category?.c_category}</div>
-        <div className="subcount">{`[ ${category?.c_subcount} ]`}</div>
-        <Link
-          className="insert-btn"
-          to={`${URLS.NOTE_WRITE}/${catId}`}
-          title="추가"
-        >
-          <BsFillFileEarmarkPlusFill />
-          주제 추가
-        </Link>
-      </section>
-      <section className="content">
-        {isNoData ? (
-          <SubNoData />
-        ) : (
-          <ul>
-            {subjects?.map((item) => (
-              <SubItem item={item} key={item.s_subid} />
-            ))}
-          </ul>
-        )}
-      </section>
-    </main>
+    <Fallback isLoading={isLoading}>
+      <main className="Note List">
+        <section className="title">
+          <div className="category">{category?.c_category}</div>
+          <div className="subcount">{`[ ${category?.c_subcount} ]`}</div>
+          <Link
+            className="insert-btn"
+            to={`${URLS.NOTE_WRITE}/${catId}`}
+            title="추가"
+          >
+            <BsFillFileEarmarkPlusFill />
+            주제 추가
+          </Link>
+        </section>
+        <section className="content" ref={listRef}>
+          {isNoData ? (
+            <SubNoData />
+          ) : (
+            <ul>
+              {data?.pages.map((page) =>
+                page.data.map((item) => (
+                  <SubItem
+                    item={item}
+                    key={item.s_subid}
+                    savePos={saveScrollPos}
+                  />
+                ))
+              )}
+            </ul>
+          )}
+          <div className="load-more" ref={fetchListRef} />
+        </section>
+      </main>
+    </Fallback>
   );
 };
 export default NoteSubPage;

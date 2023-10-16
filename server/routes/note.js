@@ -17,8 +17,11 @@ const router = express.Router();
 // SELECT all categories
 router.get("/cats", verifyToken, async (req, res, next) => {
   try {
+    const limit = Number(req.query.limit);
+    const offset = Number(req.query.offset);
     const userid = req.payload.email;
-    const catList = await CAT.findAll({
+
+    const data = await CAT.findAll({
       raw: true,
       order: [
         ["c_bookmark", "DESC"],
@@ -26,20 +29,26 @@ router.get("/cats", verifyToken, async (req, res, next) => {
         ["c_date", "DESC"],
       ],
       where: { c_userid: userid },
+      limit: limit,
+      offset: offset,
     });
-    return res.json(catList);
+    const currentPage = Math.ceil((offset + 1) / limit);
+    const _totalData = await CAT.count({
+      where: { c_userid: userid },
+    });
+    const totalPages = Math.ceil(_totalData / limit);
+    return res.json({ data, offset, limit, currentPage, totalPages });
   } catch (err) {
     return next(err);
   }
 });
 
-// SELECT category detail (when SELECT/UPDATE subject, keywords)
-router.get("/cat/detail/:catid", verifyToken, async (req, res, next) => {
+// SELECT category info (when SELECT/UPDATE subject, keywords)
+router.get("/cat/info/:catid", verifyToken, async (req, res, next) => {
   try {
     const userid = req.payload.email;
     const catid = req.params.catid;
     const category = await CAT.findAll({
-      attributes: ["c_catid", "c_category"],
       where: {
         [Op.and]: [{ c_catid: catid }, { c_userid: userid }],
       },
@@ -170,6 +179,8 @@ router.delete("/cat/:catid/delete", verifyToken, async (req, res, next) => {
 // SELECT all subjects (in specific category)
 router.get("/subs/:catid", verifyToken, async (req, res, next) => {
   try {
+    const limit = Number(req.query.limit);
+    const offset = Number(req.query.offset);
     const userid = req.payload.email;
     const catid = req.params.catid;
 
@@ -177,7 +188,7 @@ router.get("/subs/:catid", verifyToken, async (req, res, next) => {
       raw: true,
       where: { [Op.and]: [{ c_catid: catid }, { c_userid: userid }] },
     });
-    const subjects = await SUB.findAll({
+    const data = await SUB.findAll({
       raw: true,
       order: [
         ["s_bookmark", "DESC"],
@@ -186,8 +197,19 @@ router.get("/subs/:catid", verifyToken, async (req, res, next) => {
       where: {
         [Op.and]: [{ s_catid: catid }, { s_userid: userid }],
       },
+      limit: limit,
+      offset: offset,
     });
-    return res.json({ category: category[0], subjects });
+    const currentPage = Math.ceil((offset + 1) / limit);
+    const _totalData = await category[0].c_subcount;
+    const totalPages = Math.ceil(_totalData / limit);
+    return res.json({
+      data,
+      offset,
+      limit,
+      currentPage,
+      totalPages,
+    });
   } catch (err) {
     return next(err);
   }

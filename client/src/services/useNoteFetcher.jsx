@@ -12,19 +12,21 @@ const refetchOptions = {
 const useNoteFetcher = () => {
   const fetcher = useFetcher();
 
-  const getCategories = ({ userId }) => ({
+  const getCategories = ({ userId, queries }) => ({
     queryKey: [...QueryCat, userId],
-    queryFn: async () => {
-      const endPoint = `/note/cats`;
+    queryFn: async ({ pageParam = 0 }) => {
+      const limit = 20;
+      const endPoint = `/note/cats?limit=${limit}&offset=${pageParam}`;
       const res = await fetcher({ endPoint });
       return res;
     },
+    ...queries,
   });
 
   const getCategoryData = ({ catId }) => ({
     queryKey: [...QueryCat, catId],
     queryFn: async () => {
-      const endPoint = `/note/cat/detail/${catId}`;
+      const endPoint = `/note/cat/info/${catId}`;
       const res = await fetcher({ endPoint });
       return res;
     },
@@ -99,13 +101,15 @@ const useNoteFetcher = () => {
     },
   });
 
-  const getSubjects = ({ catId }) => ({
+  const getSubjects = ({ catId, queries }) => ({
     queryKey: [...QuerySub, catId],
-    queryFn: async () => {
-      const endPoint = `/note/subs/${catId}`;
-      const { category, subjects } = await fetcher({ endPoint });
-      return { category, subjects };
+    queryFn: async ({ pageParam = 0 }) => {
+      const limit = 20;
+      const endPoint = `/note/subs/${catId}?limit=${limit}&offset=${pageParam}`;
+      const res = await fetcher({ endPoint });
+      return res;
     },
+    ...queries,
   });
 
   const getSubjectData = ({ subId }) => ({

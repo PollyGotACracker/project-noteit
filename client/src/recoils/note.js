@@ -1,4 +1,4 @@
-import { atom } from "recoil";
+import { atom, atomFamily } from "recoil";
 import { v4 as uuid } from "uuid";
 
 export const initCat = () => ({
@@ -30,4 +30,11 @@ export const initKey = () => ({
 export const catState = atom({
   key: "catState",
   default: initCat(),
+});
+
+export const scrollPosState = atomFamily({
+  key: "scrollPosState",
+  default: (path) => {
+    return { path, pos: 0 };
+  },
 });

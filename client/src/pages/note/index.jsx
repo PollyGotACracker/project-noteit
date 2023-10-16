@@ -1,21 +1,39 @@
 import "@styles/note/note.css";
-import { useMutation, useQuery } from "react-query";
+import { useEffect, useRef } from "react";
+import { useInfiniteQuery, useMutation } from "react-query";
 import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { HiFolderPlus } from "react-icons/hi2";
 import useNoteFetcher from "@services/useNoteFetcher";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { userState } from "@recoils/user";
 import { catState } from "@recoils/note";
+import useObserver from "@hooks/useObserver";
+import useScrollPosition from "@hooks/useScrollPosition";
 import CatItem from "@components/note/catItem";
 
 const NoteIndexPage = () => {
+  const listRef = useRef(null);
+  const fetchListRef = useRef(null);
+  const isIntersecting = useObserver(fetchListRef);
+  const saveScrollPos = useScrollPosition(listRef);
   const { getCategories, insertCategory } = useNoteFetcher();
   const userData = useRecoilValue(userState);
   const [newCat, setNewCat] = useRecoilState(catState);
   const resetNewCat = useResetRecoilState(catState);
-  const { data: catList } = useQuery(
-    getCategories({ userId: userData.u_userid })
-  );
+
+  const { data, isSuccess, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    useInfiniteQuery(
+      getCategories({
+        userId: userData.u_userid,
+        queries: {
+          getNextPageParam: (lastPage) => {
+            if (lastPage.totalPages === lastPage.currentPage) return;
+            return lastPage.offset + lastPage.limit;
+          },
+        },
+      })
+    );
+
   const { mutate: insertMutation } = useMutation(insertCategory());
 
   const changeNewCatTitleHandler = ({ target }) => {
@@ -32,6 +50,12 @@ const NoteIndexPage = () => {
       resetNewCat();
     }
   };
+
+  useEffect(() => {
+    if (!isIntersecting || !isSuccess || !hasNextPage || isFetchingNextPage)
+      return;
+    fetchNextPage();
+  }, [isIntersecting]);
 
   return (
     <main className="Note Index">
@@ -60,10 +84,18 @@ const NoteIndexPage = () => {
           </button>
         </form>
       </section>
-      <section className="cat-list">
-        {catList?.map((item) => (
-          <CatItem key={item.c_catid} className="Item" item={item} />
-        ))}
+      <section className="cat-list" ref={listRef}>
+        {data?.pages.map((page) =>
+          page.data.map((item) => (
+            <CatItem
+              key={item.c_catid}
+              className="Item"
+              item={item}
+              savePos={saveScrollPos}
+            />
+          ))
+        )}
+        <div className="load-more" ref={fetchListRef} />
       </section>
     </main>
   );

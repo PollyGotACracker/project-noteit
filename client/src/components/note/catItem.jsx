@@ -4,10 +4,10 @@ import { useMutation } from "react-query";
 import { MdDelete } from "react-icons/md";
 import { BsBookmarkFill } from "react-icons/bs";
 import { RiCheckFill, RiBallPenFill } from "react-icons/ri";
-import { URLS } from "@/router";
 import useNoteFetcher from "@services/useNoteFetcher";
+import { URLS } from "@/router";
 
-const NoteCatItem = ({ item }) => {
+const NoteCatItem = ({ item, savePos }) => {
   const { updateCategoryBookmark, updateCategory, deleteCategory } =
     useNoteFetcher();
   const navigate = useNavigate();
@@ -78,7 +78,7 @@ const NoteCatItem = ({ item }) => {
   };
 
   return (
-    <section className="cat-item">
+    <section className="cat-item" onClick={savePos}>
       <div
         className={`link-box`}
         onClick={clickItemHandler}

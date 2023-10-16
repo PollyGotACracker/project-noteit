@@ -3,10 +3,10 @@ import { useMutation } from "react-query";
 import { RxBookmark, RxBookmarkFilled } from "react-icons/rx";
 import { FaTags } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { URLS } from "@/router";
 import useNoteFetcher from "@services/useNoteFetcher";
+import { URLS } from "@/router";
 
-const NoteSubItem = ({ item }) => {
+const NoteSubItem = ({ item, savePos }) => {
   const { updateSubjectBookmark, deleteSubject } = useNoteFetcher();
   const { s_catid: catId, s_subid: subId } = item;
   const mutationParams = { catId, subId };
@@ -31,7 +31,7 @@ const NoteSubItem = ({ item }) => {
   };
 
   return (
-    <li className="item" data-id={subId}>
+    <li className="item" data-id={subId} onClick={savePos}>
       <button
         className="bookmark-btn"
         title="북마크"
