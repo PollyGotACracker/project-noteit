@@ -12,11 +12,12 @@ const refetchOptions = {
 const useNoteFetcher = () => {
   const fetcher = useFetcher();
 
-  const getCategories = ({ userId, queries }) => ({
-    queryKey: [...QueryCat, userId],
-    queryFn: async ({ pageParam = 0 }) => {
+  const getCategories = ({ userId, filter = false, queries }) => ({
+    queryKey: [...QueryCat, userId, filter],
+    queryFn: async ({ pageParam = 0, queryKey }) => {
+      const filter = queryKey.at(-1);
       const limit = 20;
-      const endPoint = `/note/cats?limit=${limit}&offset=${pageParam}`;
+      const endPoint = `/note/cats?limit=${limit}&offset=${pageParam}&filter=${filter}`;
       const res = await fetcher({ endPoint });
       return res;
     },
@@ -63,9 +64,8 @@ const useNoteFetcher = () => {
       const res = await fetcher({ endPoint, options });
       return res;
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries(QueryCat);
-      alert(data.message);
     },
   });
 
@@ -80,9 +80,8 @@ const useNoteFetcher = () => {
       const res = await fetcher({ endPoint, options });
       return res;
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries(QueryCat);
-      alert(data.message);
     },
     ...queries,
   });

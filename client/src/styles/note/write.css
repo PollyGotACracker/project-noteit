@@ -5,7 +5,7 @@
   flex-direction: column;
 }
 
-.Write label {
+.Write .form-label {
   display: inline-block;
   width: 120px;
   font-size: 2rem;
@@ -14,12 +14,14 @@
   margin: 50px 10px 20px 0px;
 }
 
-.Write label::before {
-  content: "・ ";
-  color: var(--accent);
+.Write .form-label::before {
+  content: "-";
+  display: inline-block;
+  color: var(--primary);
+  width: 30px;
 }
 
-.Write label[for="category"] {
+.Write .form-label[for="category"] {
   margin-top: 0;
 }
 
@@ -64,7 +66,7 @@
 
 .Write .keyword-btn-box .keyword-index {
   font-size: 2.5rem;
-  color: var(--primary);
+  color: var(--accent);
   user-select: none;
 }
 
@@ -103,22 +105,36 @@
   border-color: var(--accent);
 }
 
-.Write .keyword-wrap > * {
+.Write .keyword-wrap .keyword-label {
+  position: relative;
   width: 100%;
+  border-bottom: 1px solid var(--border);
+}
+
+.Write .keyword-wrap .keyword-label::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 18px;
+  width: 40px;
+  height: 100%;
+  background-image: url("@assets/images/keyword.png");
 }
 
 .Write .keyword-wrap .keyword {
-  background-image: url("@assets/images/keyword.png");
-  border-bottom: 1px dashed var(--border);
-  background-repeat: no-repeat;
-  background-position: left 10px bottom 50%;
-  background-size: 16px;
-  padding: 10px 40px;
+  border: none;
+  padding: 10px;
+  margin-left: 40px;
+  width: 100%;
 }
 
 .Write .keyword-wrap .desc {
   height: 10vh;
   border: none;
+  width: 100%;
 }
 
 .Write .keyword-controller {

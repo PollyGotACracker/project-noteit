@@ -17,18 +17,20 @@ const router = express.Router();
 // SELECT all categories
 router.get("/cats", verifyToken, async (req, res, next) => {
   try {
+    const userid = req.payload.email;
     const limit = Number(req.query.limit);
     const offset = Number(req.query.offset);
-    const userid = req.payload.email;
+    const filter = req.query.filter === "true" ? true : false;
+    const filterQueries = [{ c_userid: userid }];
+    if (filter) filterQueries.push({ c_bookmark: 1 });
 
     const data = await CAT.findAll({
       raw: true,
       order: [
-        ["c_bookmark", "DESC"],
-        ["c_category", "ASC"],
         ["c_date", "DESC"],
+        ["c_category", "ASC"],
       ],
-      where: { c_userid: userid },
+      where: { [Op.and]: filterQueries },
       limit: limit,
       offset: offset,
     });
@@ -191,8 +193,9 @@ router.get("/subs/:catid", verifyToken, async (req, res, next) => {
     const data = await SUB.findAll({
       raw: true,
       order: [
-        ["s_bookmark", "DESC"],
+        ["s_date", "DESC"],
         ["s_subject", "ASC"],
+        ["s_bookmark", "DESC"],
       ],
       where: {
         [Op.and]: [{ s_catid: catid }, { s_userid: userid }],

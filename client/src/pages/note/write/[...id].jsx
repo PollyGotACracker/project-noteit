@@ -59,9 +59,32 @@ const NoteWritePage = () => {
     setNoteSub({ ...noteSub, s_content: data });
   };
 
-  const submitHandler = async () => {
-    let subjects = { ...noteSub, s_catid: catId, s_subid: subId ? subId : "" };
+  const validateSubject = () => {
+    const checkValidArray = (arr) => {
+      const _arr = Array.isArray(arr) ? arr : [arr];
+      return _arr.some((ele) => {
+        if (typeof ele === "object") {
+          return Object.values(ele).every((val) =>
+            typeof val === "string" ? val.replaceAll(" ", "") : true
+          );
+        } else return ele.replaceAll(" ", "");
+      });
+    };
 
+    if (!checkValidArray(noteSub.s_subject)) {
+      alert("공부 주제를 입력하세요.");
+      return false;
+    }
+    if (!checkValidArray(keywordList)) {
+      alert("비어있는 키워드가 있는지 확인해주세요.");
+      return false;
+    }
+    return true;
+  };
+
+  const submitHandler = async () => {
+    if (!validateSubject()) return;
+    let subjects = { ...noteSub, s_catid: catId, s_subid: subId ? subId : "" };
     const images = document?.querySelectorAll(".ck-content img");
     if (images) {
       const imageArr = Array?.from(images).map((item) => {
@@ -85,7 +108,9 @@ const NoteWritePage = () => {
   return (
     <main className="Write">
       <form>
-        <label htmlFor="category">카테고리</label>
+        <label className="form-label" htmlFor="category">
+          카테고리
+        </label>
         <input
           id="category"
           name="s_category"
@@ -93,17 +118,18 @@ const NoteWritePage = () => {
           readOnly={true}
           onChange={onChangeSubHandler}
         />
-        <label htmlFor="subject">주제</label>
+        <label className="form-label" htmlFor="subject">
+          주제
+        </label>
         <input
           id="subject"
           value={noteSub?.s_subject || ""}
-          required={true}
           name="s_subject"
           onChange={onChangeSubHandler}
           autoComplete="false"
         />
         <section className="keyword-controller">
-          <label>키워드</label>
+          <span className="form-label">키워드</span>
           <div className="keyword-info">
             <AiOutlineInfoCircle />
             <span>
@@ -126,7 +152,9 @@ const NoteWritePage = () => {
           </button>
         </section>
         <section>
-          <label htmlFor="content">메모</label>
+          <label className="form-label" htmlFor="content">
+            메모
+          </label>
           <Editor
             data={noteSub?.s_content}
             handler={onChangeContentHandler}

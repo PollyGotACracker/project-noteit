@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import { MdDelete } from "react-icons/md";
@@ -8,37 +8,18 @@ import { RiBallPenFill, RiGoogleFill } from "react-icons/ri";
 import { URLS } from "@/router";
 import useNoteFetcher from "@services/useNoteFetcher";
 
-const showMsg = (ele) => {
-  ele.style.animationName = "popUp";
-  ele.style.animationDuration = "3s";
-  setTimeout(() => {
-    ele.style.animationName = "";
-    ele.style.animationDuration = "";
-  }, 3000);
-};
-
 const DetailMenu = ({ subject, mutationParams }) => {
-  const { deleteSubject, updateSubjectBookmark } = useNoteFetcher();
-
   const navigate = useNavigate();
+  const { deleteSubject, updateSubjectBookmark } = useNoteFetcher();
   const { catId, subId } = mutationParams;
   const isBookmarked = subject?.s_bookmark !== 0;
-  const [msg, setMsg] = useState("");
-  const bookmarkRef = useRef(null);
 
-  const { data: bookmarkedData, mutate: updateBookmarkMutation } = useMutation(
+  const { mutate: updateBookmarkMutation } = useMutation(
     updateSubjectBookmark({ subId })
   );
   const { isSuccess: deleteSuccess, mutate: deleteMutation } = useMutation(
     deleteSubject(mutationParams)
   );
-
-  useEffect(() => {
-    if (bookmarkedData) {
-      setMsg(bookmarkedData.message);
-      showMsg(bookmarkRef.current);
-    }
-  }, [bookmarkedData]);
 
   useEffect(() => {
     if (deleteSuccess) {
@@ -61,19 +42,14 @@ const DetailMenu = ({ subject, mutationParams }) => {
 
   return (
     <section className="menu">
-      <div className="bookmark-wrap">
-        <button
-          className={isBookmarked ? "bookmark-btn active" : "bookmark-btn"}
-          value={subject?.s_bookmark}
-          onClick={bookmarkHandler}
-        >
-          {isBookmarked ? <RxBookmarkFilled /> : <RxBookmark />}
-          북마크
-        </button>
-        <div className="bookmark msg" ref={bookmarkRef}>
-          {msg}
-        </div>
-      </div>
+      <button
+        className={isBookmarked ? "bookmark-btn active" : "bookmark-btn"}
+        value={subject?.s_bookmark}
+        onClick={bookmarkHandler}
+      >
+        {isBookmarked ? <RxBookmarkFilled /> : <RxBookmark />}
+        북마크
+      </button>
       <Link className="write" to={`/note/write/${catId}/${subId}`}>
         <RiBallPenFill />
         수정

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { scrollPosState } from "@recoils/note";
@@ -9,18 +9,18 @@ const useScrollPosition = (target) => {
     scrollPosState(location.pathname)
   );
 
-  const saveScrollPos = () => {
+  const saveScrollPos = (pos) => {
     setScrollPos({
       path: location.pathname,
-      pos: target.current.scrollTop,
+      pos: typeof pos === "number" ? pos : target.current.scrollTop,
     });
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (target.current) {
       target.current.scrollTop = scrollPos.pos;
     }
-  }, [target.current]);
+  }, [target.current, scrollPos]);
 
   return saveScrollPos;
 };

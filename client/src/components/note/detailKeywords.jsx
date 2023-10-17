@@ -9,7 +9,7 @@ import {
 } from "react-icons/fa";
 import useCarousel from "@hooks/useCarousel";
 
-const DetailKeywords = ({ subject, keywords }) => {
+const DetailKeywords = ({ keywords }) => {
   const containerRef = useRef(null);
   const copyTimeoutRef = useRef(null);
   const [copyMsg, setCopyMsg] = useState("키워드 복사");
@@ -67,7 +67,7 @@ const DetailKeywords = ({ subject, keywords }) => {
       <section className="keyword-list-top">
         <div className="keyword-count">
           <FaTags />
-          {state} / {subject?.s_keycount}
+          {state} / {keywords?.length}
         </div>
         <button className="copy-btn" onClick={copyKeyword}>
           {copyMsg === "키워드 복사" ? <FaClipboard /> : <FaCheck />}

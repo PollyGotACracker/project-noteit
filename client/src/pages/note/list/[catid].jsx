@@ -54,30 +54,28 @@ const NoteSubPage = () => {
           <Link
             className="insert-btn"
             to={`${URLS.NOTE_WRITE}/${catId}`}
-            title="추가"
+            title="주제 추가"
           >
             <BsFillFileEarmarkPlusFill />
-            주제 추가
           </Link>
         </section>
-        <section className="content" ref={listRef}>
-          {isNoData ? (
-            <SubNoData />
-          ) : (
-            <ul>
-              {data?.pages.map((page) =>
-                page.data.map((item) => (
-                  <SubItem
-                    item={item}
-                    key={item.s_subid}
-                    savePos={saveScrollPos}
-                  />
-                ))
-              )}
-            </ul>
-          )}
-          <div className="load-more" ref={fetchListRef} />
-        </section>
+
+        {isNoData ? (
+          <SubNoData />
+        ) : (
+          <ul className="content" ref={listRef}>
+            {data?.pages.map((page) =>
+              page.data.map((item) => (
+                <SubItem
+                  item={item}
+                  key={item.s_subid}
+                  savePos={saveScrollPos}
+                />
+              ))
+            )}
+          </ul>
+        )}
+        <div className="load-more" ref={fetchListRef} />
       </main>
     </Fallback>
   );

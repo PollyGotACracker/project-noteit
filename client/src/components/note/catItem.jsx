@@ -1,10 +1,11 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import { MdDelete } from "react-icons/md";
 import { BsBookmarkFill } from "react-icons/bs";
 import { RiCheckFill, RiBallPenFill } from "react-icons/ri";
 import useNoteFetcher from "@services/useNoteFetcher";
+import { getStyle } from "@utils/manageStyle";
 import { URLS } from "@/router";
 
 const NoteCatItem = ({ item, savePos }) => {
@@ -14,7 +15,7 @@ const NoteCatItem = ({ item, savePos }) => {
   const catId = item.c_catid;
   const isBookmarked = item.c_bookmark !== 0;
   const [catTitle, setCatTitle] = useState(item.c_category);
-  const [update, setUpdate] = useState("수정");
+  const [updateLabel, setUpdateLabel] = useState("수정");
   const catInputRef = useRef();
 
   const { mutate: updateMutation } = useMutation(
@@ -32,21 +33,21 @@ const NoteCatItem = ({ item, savePos }) => {
   );
   const { mutate: deleteMutation } = useMutation(deleteCategory({ catId }));
 
+  useEffect(() => {
+    if (catInputRef.current) catInputRef.current.focus();
+  }, [updateLabel, catInputRef.current]);
+
   const ChangeNameHandler = ({ target: { value } }) => setCatTitle(value);
 
   const updateHandler = (e) => {
     e.stopPropagation();
     e.preventDefault();
-
-    if (update === "수정") {
-      setUpdate("완료");
-      catInputRef.current.readOnly = false;
-      catInputRef.current.focus();
+    if (updateLabel === "수정") {
+      setUpdateLabel("완료");
     }
-    if (update === "완료") {
+    if (updateLabel === "완료") {
       updateMutation({ catTitle });
-      catInputRef.current.readOnly = true;
-      setUpdate("수정");
+      setUpdateLabel("수정");
     }
   };
 
@@ -62,27 +63,22 @@ const NoteCatItem = ({ item, savePos }) => {
   const deleteHandler = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    if (!window.confirm("이 카테고리를 삭제할까요?")) {
-      return false;
-    } else {
+    if (window.confirm("이 카테고리를 삭제할까요?")) {
       deleteMutation();
     }
   };
 
   const clickItemHandler = () => {
-    if (update === "완료") {
-      return false;
-    } else {
-      navigate(`${URLS.NOTE_LIST}/${catId}`);
-    }
+    if (updateLabel === "완료") return;
+    else navigate(`${URLS.NOTE_LIST}/${catId}`);
   };
 
   return (
-    <section className="cat-item" onClick={savePos}>
+    <li className="item" onClick={savePos}>
       <div
-        className={`link-box`}
+        className="link-wrapper"
         onClick={clickItemHandler}
-        style={{ cursor: update === "완료" ? "default" : "pointer" }}
+        style={{ cursor: updateLabel === "완료" ? "default" : "pointer" }}
       >
         <button
           className={isBookmarked ? "bookmark-btn active" : "bookmark-btn"}
@@ -92,41 +88,48 @@ const NoteCatItem = ({ item, savePos }) => {
         >
           <BsBookmarkFill />
         </button>
-        <input
-          className={`title-${catId}`}
-          data-id={catId}
-          value={catTitle}
-          maxLength={225}
-          spellCheck="false"
-          readOnly={true}
-          onChange={ChangeNameHandler}
-          style={{ cursor: update === "완료" ? "text" : "pointer" }}
-          ref={catInputRef}
-        />
-        <div className="date">{item.c_date}</div>
-        <div className="subcount">{item.c_subcount}</div>
-        <div className="btn-box">
-          <button
-            className="update-btn"
-            type="button"
-            disabled={catTitle.length < 1}
-            title="수정"
-            style={{ color: update === "완료" ? "#e69215" : "" }}
-            onClick={updateHandler}
-          >
-            {update === "완료" ? <RiCheckFill /> : <RiBallPenFill />} {update}
-          </button>
-          <button
-            className="delete-btn"
-            type="button"
-            title="삭제"
-            onClick={deleteHandler}
-          >
-            <MdDelete /> 삭제
-          </button>
+        {updateLabel === "완료" ? (
+          <input
+            className="title"
+            data-id={catId}
+            value={catTitle}
+            maxLength={30}
+            spellCheck={false}
+            onChange={ChangeNameHandler}
+            ref={catInputRef}
+          />
+        ) : (
+          <div className="title">{catTitle}</div>
+        )}
+        <div className="bottom-wrapper">
+          <div className="date">{item.c_date}</div>
+          <div className="subcount">{item.c_subcount}</div>
+          <div className="btn-box" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="update-btn"
+              type="button"
+              disabled={catTitle.length < 1}
+              title="수정"
+              style={{
+                color: updateLabel === "완료" ? getStyle("--accent") : "",
+              }}
+              onClick={updateHandler}
+            >
+              {updateLabel === "완료" ? <RiCheckFill /> : <RiBallPenFill />}{" "}
+              {updateLabel}
+            </button>
+            <button
+              className="delete-btn"
+              type="button"
+              title="삭제"
+              onClick={deleteHandler}
+            >
+              <MdDelete /> 삭제
+            </button>
+          </div>
         </div>
       </div>
-    </section>
+    </li>
   );
 };
 export default NoteCatItem;

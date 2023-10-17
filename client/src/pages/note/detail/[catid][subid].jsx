@@ -28,9 +28,7 @@ const NoteDetailPage = () => {
             {subject?.s_category}
           </Link>
         </section>
-        {keywords?.length !== 0 && (
-          <DetailKeywords keywords={keywords} subject={subject} />
-        )}
+        {keywords?.length !== 0 && <DetailKeywords keywords={keywords} />}
         <section className="content">
           <div dangerouslySetInnerHTML={{ __html: subject?.s_content }}></div>
         </section>

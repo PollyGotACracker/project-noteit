@@ -38,7 +38,6 @@ const WriteKeywords = ({ keywordList, setKeywordList }) => {
     <>
       {keywordList?.map((item, idx) => (
         // key 가 고유값이 아니면 input 동작에 영향을 줌
-
         <div className="keyword-item" key={item.k_keyid}>
           <div className="keyword-btn-box">
             <div className="keyword-index">{idx + 1}</div>
@@ -50,22 +49,22 @@ const WriteKeywords = ({ keywordList, setKeywordList }) => {
             </button>
           </div>
           <div className="keyword-wrap">
-            <input
-              className="keyword"
-              name="k_keyword"
-              required={true}
-              defaultValue={item.k_keyword}
-              type="text"
-              placeholder="키워드 제목"
-              maxLength={225}
-              autoComplete="false"
-              spellCheck="false"
-              onChange={(e) => onChangeKeyHandler(e, idx)}
-            />
+            <label className="keyword-label">
+              <input
+                className="keyword"
+                name="k_keyword"
+                defaultValue={item.k_keyword}
+                type="text"
+                placeholder="키워드 제목"
+                maxLength={225}
+                autoComplete="false"
+                spellCheck="false"
+                onChange={(e) => onChangeKeyHandler(e, idx)}
+              />
+            </label>
             <textarea
               className="desc"
               name="k_desc"
-              required={true}
               placeholder="키워드 내용"
               defaultValue={item.k_desc}
               autoComplete="false"
