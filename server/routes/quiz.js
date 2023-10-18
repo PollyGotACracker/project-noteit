@@ -91,6 +91,50 @@ router.get("/random/:catId/get", verifyToken, async (req, res, next) => {
   }
 });
 
+router.get("/score/get", verifyToken, async (req, res, next) => {
+  try {
+    const userid = req.payload.email;
+    const sort = req.query.sort;
+    const filter = req.query.filter;
+    if (!["date", "category"].includes(sort)) {
+      return res.status(400).json({
+        code: 400,
+        error: "sort 값은 date 또는 category 여야 합니다.",
+      });
+    }
+
+    const orderQueries = {
+      date: [
+        ["sc_date", "DESC"],
+        ["sc_time", "DESC"],
+        ["sc_category", "ASC"],
+      ],
+      category: [
+        ["sc_category", "ASC"],
+        ["sc_date", "DESC"],
+        ["sc_time", "DESC"],
+      ],
+    };
+    const filterQueries = [{ sc_userid: userid }];
+    if (filter) filterQueries.push({ sc_catid: filter });
+
+    const categories = await SCO.findAll({
+      attributes: ["sc_catid", "sc_category"],
+      where: { sc_userid: userid },
+      group: ["sc_catid"],
+    });
+    const data = await SCO.findAll({
+      where: {
+        [Op.and]: filterQueries,
+      },
+      order: orderQueries[sort],
+    });
+    return res.json({ categories, data });
+  } catch (err) {
+    return next(err);
+  }
+});
+
 router.post("/score/insert", verifyToken, async (req, res, next) => {
   try {
     const data = req.body;
@@ -148,6 +192,23 @@ router.patch("/score/update", verifyToken, async (req, res, next) => {
       );
     });
     return res.json({ message: "퀴즈 기록이 저장되었습니다." });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+router.delete("/score/delete", verifyToken, async (req, res, next) => {
+  try {
+    const userid = req.payload.email;
+    const scoids = req.body;
+    await DB.sequelize.transaction(async () => {
+      for (let i = 0; i < scoids.length; i++) {
+        await SCO.destroy({
+          where: { [Op.and]: [{ sc_scoid: scoids[i] }, { sc_userid: userid }] },
+        });
+      }
+    });
+    return res.json({ message: "퀴즈 기록이 정상적으로 삭제되었습니다." });
   } catch (err) {
     return next(err);
   }
