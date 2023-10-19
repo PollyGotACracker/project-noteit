@@ -1,22 +1,22 @@
 .Settings {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  row-gap: 20px;
 }
 
 .Settings .setting-box {
   width: 100%;
-  padding: 32px 48px;
+  padding: 32px min(6vw, 32px);
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 32px;
+  row-gap: 32px;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--border);
+  border: 1px solid var(--subborder);
+  border-radius: 10px;
 }
 
-.Settings .setting-box:nth-child(1) {
+.Settings .setting-box.password-change,
+.Settings .setting-box.account-delete {
   flex-direction: column;
   gap: 8px;
 }
@@ -25,6 +25,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-right: auto;
   gap: 8px;
   font-size: 1.8rem;
   font-weight: 700;
@@ -32,82 +33,45 @@
   user-select: none;
 }
 
-.Settings .setting-box:nth-last-child(1) .title,
-.Settings .setting-box:nth-last-child(2) .title {
+.Settings .setting-box.password-change .title,
+.Settings .setting-box.account-delete .title {
+  margin-bottom: 20px;
+}
+
+.Settings .setting-box.account-delete .title {
   color: var(--red);
 }
 
-.Settings .data-box,
-.Settings .account-box {
+.Settings .password-change > form,
+.Settings .account-delete > form {
   flex: 1;
+  width: 100%;
   display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.Settings .password-change > form {
+  flex-direction: column;
+  align-items: end;
+}
+
+.Settings .account-delete > form {
   justify-content: flex-end;
-  gap: 2vw;
 }
 
-.Settings .setting-box:last-child {
-  border-bottom: 0;
+.Settings form label {
+  gap: 8px;
 }
 
-.Settings .profile-box {
-  max-width: 500px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.Settings .upload-img-wrap {
-  width: 200px;
-  height: 200px;
-  margin: 32px auto;
-  border-radius: 50%;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.Settings .upload {
-  height: 100%;
+.Settings form label span {
   display: inline-block;
+  width: 120px;
+  margin-right: auto;
 }
 
-.Settings #img-input {
-  pointer-events: none;
-  border: none;
+.Settings form input {
   width: 100%;
-  text-overflow: ellipsis;
-}
-
-.Settings #img-input::file-selector-button {
-  display: none;
-}
-
-.Settings label[for="img-input"] {
-  display: inline-block;
-  user-select: none;
-  border-radius: 5px;
-  border: 1px solid var(--border);
-  padding: 8px;
-  transition: all ease 0.2s;
-  white-space: nowrap;
-  cursor: pointer;
-  text-align: center;
-}
-
-.Settings label[for="img-input"]:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.Settings #str-input {
-  margin: 16px 0;
-  width: 100%;
-}
-
-.Settings #profile-update-btn {
-  align-self: flex-end;
 }
 
 .Settings .setting-box #push {
@@ -116,23 +80,7 @@
 
 .Settings label[for="push"] {
   cursor: pointer;
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 400;
   transition: all ease 0.2s;
-}
-
-.Settings label[for="push"]:hover {
-  color: var(--accent);
-}
-
-.Settings .account-box form {
-  display: flex;
-  justify-content: space-between;
-  gap: 32px;
-}
-
-@media only screen and (max-width: 1023px) {
-  .Set .profile-box {
-    width: 70vw;
-  }
 }

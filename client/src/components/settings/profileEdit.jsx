@@ -1,3 +1,4 @@
+import "@styles/settings/profileEdit.css";
 import { useRef, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { useMutation } from "react-query";
@@ -53,8 +54,12 @@ const ProfileEdit = () => {
   };
 
   return (
-    <SettingBox icon={<FaUserEdit />} title={"나의 프로필"}>
-      <div className="upload-img-wrap">
+    <SettingBox
+      icon={<FaUserEdit />}
+      title={"나의 프로필"}
+      className={"profile-edit"}
+    >
+      <div className="upload-img-wrapper">
         <UserAvatar
           src={
             profileData.src
@@ -70,7 +75,7 @@ const ProfileEdit = () => {
       <div title="점수" className="score">
         <GiStarsStack /> {userData?.u_score}
       </div>
-      <div className="profile-box">
+      <div className="profile-edit-wrapper">
         <input
           type="file"
           id="img-input"
@@ -82,7 +87,7 @@ const ProfileEdit = () => {
         />
         <label htmlFor="img-input">업로드</label>
       </div>
-      <div className="profile-box">
+      <div className="profile-edit-wrapper">
         <input
           id="str-input"
           value={profileData?.str}
@@ -91,7 +96,7 @@ const ProfileEdit = () => {
         />
       </div>
       <button
-        id="profile-update-btn"
+        className="profile-update-btn"
         type="button"
         onClick={onClickSubmitProfile}
       >

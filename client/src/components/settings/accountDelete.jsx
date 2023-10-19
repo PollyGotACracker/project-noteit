@@ -43,23 +43,25 @@ const AccountDelete = () => {
   };
 
   return (
-    <SettingBox icon={<FaUserTimes />} title={"계정 삭제"}>
-      <div className="account-box">
-        <form onSubmit={submitHandler}>
-          <label htmlFor="deletePassword">
-            <input
-              ref={inputRef}
-              id="deletePassword"
-              name="password"
-              type="password"
-              autoComplete="false"
-              placeholder="비밀번호 입력"
-              onPaste={(e) => e.preventDefault()}
-            />
-          </label>
-          <button type="submit">계정 삭제</button>
-        </form>
-      </div>
+    <SettingBox
+      icon={<FaUserTimes />}
+      title={"계정 삭제"}
+      className={"account-delete"}
+    >
+      <form onSubmit={submitHandler}>
+        <label htmlFor="deletePassword">
+          <input
+            ref={inputRef}
+            id="deletePassword"
+            name="password"
+            type="password"
+            autoComplete="false"
+            placeholder="비밀번호 입력"
+            onPaste={(e) => e.preventDefault()}
+          />
+        </label>
+        <button type="submit">계정 삭제</button>
+      </form>
     </SettingBox>
   );
 };

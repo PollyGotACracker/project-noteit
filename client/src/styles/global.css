@@ -223,6 +223,8 @@ label {
   justify-content: center;
   align-items: center;
   gap: 4px;
+  user-select: none;
+  word-break: keep-all;
 }
 
 svg {

@@ -10,10 +10,12 @@ const ScoresDelete = () => {
   const openModal = useSetRecoilState(modalSelector);
 
   return (
-    <SettingBox icon={<FaDatabase />} title={"퀴즈 데이터 관리"}>
-      <div className="data-box">
-        <button onClick={() => openModal(true)}>목록 보기</button>
-      </div>
+    <SettingBox
+      icon={<FaDatabase />}
+      title={"퀴즈 데이터 관리"}
+      className={"scores-delete"}
+    >
+      <button onClick={() => openModal(true)}>목록 보기</button>
       <Modal content={<ScoresDeleteContainer />} />
     </SettingBox>
   );

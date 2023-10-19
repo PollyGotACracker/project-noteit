@@ -1,0 +1,78 @@
+.Settings .setting-box.profile-edit {
+  flex-direction: column;
+  gap: 8px;
+}
+
+.Settings .profile-edit .title {
+  margin-bottom: 20px;
+}
+
+.Settings .profile-edit .nickname {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.Settings .profile-edit .score {
+  display: flex;
+  column-gap: 8px;
+}
+
+.Settings .profile-edit-wrapper {
+  max-width: 500px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Settings .upload-img-wrapper {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Settings .upload {
+  height: 100%;
+  display: inline-block;
+}
+
+.Settings #img-input {
+  pointer-events: none;
+  border: none;
+  width: 100%;
+  text-overflow: ellipsis;
+}
+
+.Settings #img-input::file-selector-button {
+  display: none;
+}
+
+.Settings label[for="img-input"] {
+  display: inline-block;
+  user-select: none;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  padding: 8px;
+  transition: all ease 0.2s;
+  white-space: nowrap;
+  cursor: pointer;
+  text-align: center;
+}
+
+.Settings label[for="img-input"]:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.Settings #str-input {
+  margin: 16px 0;
+  width: 100%;
+}
+
+.Settings .profile-update-btn {
+  align-self: flex-end;
+}

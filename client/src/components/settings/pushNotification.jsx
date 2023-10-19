@@ -3,7 +3,11 @@ import SettingBox from "@components/settings/wrapper";
 
 const PushNotification = () => {
   return (
-    <SettingBox icon={<FaBell />} title={"PUSH 알림"}>
+    <SettingBox
+      icon={<FaBell />}
+      title={"PUSH 알림"}
+      className={"push-notification"}
+    >
       <label htmlFor="push">
         <FaBell />
       </label>

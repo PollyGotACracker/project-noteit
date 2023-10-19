@@ -38,10 +38,14 @@ const PasswordChange = () => {
   };
 
   return (
-    <SettingBox icon={<RiLockPasswordFill />} title={"비밀번호 변경"}>
+    <SettingBox
+      icon={<RiLockPasswordFill />}
+      title={"비밀번호 변경"}
+      className={"password-change"}
+    >
       <form onSubmit={submitHandler}>
         <label htmlFor="password">
-          비밀번호
+          <span>비밀번호</span>
           <input
             id="password"
             name="password"
@@ -54,7 +58,7 @@ const PasswordChange = () => {
           />
         </label>
         <label htmlFor="newPassword">
-          새 비밀번호
+          <span>새 비밀번호</span>
           <input
             id="newPassword"
             name="newPassword"
@@ -66,7 +70,7 @@ const PasswordChange = () => {
           />
         </label>
         <label htmlFor="reNewPassword">
-          새 비밀번호 확인
+          <span> 새 비밀번호 확인</span>
           <input
             id="reNewPassword"
             name="reNewPassword"

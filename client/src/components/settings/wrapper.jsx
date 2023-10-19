@@ -1,6 +1,6 @@
-const SettingsWrapper = ({ icon, title, children }) => {
+const SettingsWrapper = ({ className, icon, title, children }) => {
   return (
-    <section className="setting-box">
+    <section className={`setting-box ${className}`}>
       <div className="title">
         {icon}
         {title}
