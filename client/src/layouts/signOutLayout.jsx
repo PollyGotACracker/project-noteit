@@ -1,7 +1,8 @@
 import "@styles/signOutLayout.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { useRecoilValue } from "recoil";
+import { BsThreeDotsVertical } from "react-icons/bs";
 import genStars from "@utils/genStars";
 import useUserStatus from "@hooks/useUserStatus";
 import { isSignedInState } from "@recoils/user";
@@ -11,6 +12,7 @@ import HomeLink from "@components/homeLink";
 
 const SignOutLayout = ({ children }) => {
   const navigate = useNavigate();
+  const [showDropdown, setShowDropdown] = useState(false);
   const IntroRef = useRef(null);
   const { initial, userTokenFlag, setUserTokenFlag } = useUserStatus();
   const isSignedIn = useRecoilValue(isSignedInState);
@@ -27,12 +29,36 @@ const SignOutLayout = ({ children }) => {
     if (IntroRef.current) genStars(IntroRef.current);
   }, [userTokenFlag]);
 
+  useEffect(() => {
+    const closeDropdown = () => setShowDropdown(false);
+    window.addEventListener("resize", closeDropdown);
+    document.body.addEventListener("click", closeDropdown);
+    return () => {
+      window.removeEventListener("resize", closeDropdown);
+      document.body.removeEventListener("click", closeDropdown);
+    };
+  }, []);
+
+  const showNavDropdown = (e) => {
+    e.stopPropagation();
+    setShowDropdown(!showDropdown);
+  };
+
   if (isSignedIn || userTokenFlag) return <></>;
   return (
     <>
       <header className="header-signout">
         <HomeLink />
-        <SignOutNav />
+        <div className={`dropdown-wrapper${showDropdown ? " active" : ""}`}>
+          <button
+            className="dropdown-btn"
+            onClick={showNavDropdown}
+            type="button"
+          >
+            <BsThreeDotsVertical />
+          </button>
+          <SignOutNav />
+        </div>
       </header>
       {children}
       <div className="stars-container" ref={IntroRef}></div>

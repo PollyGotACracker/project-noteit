@@ -3,19 +3,24 @@
   width: 100%;
   justify-content: flex-end;
   align-items: center;
-  gap: 80px;
+  gap: 30px 80px;
 }
 
-.nav-signout > * {
-  display: inline-block;
+.nav-signout > a {
+  position: relative;
   color: var(--light);
+  display: inline-block;
 }
 
-.nav-signout a {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 4px;
+.nav-signout > a + a::before {
+  content: "";
+  position: absolute;
+  display: block;
+  top: 0;
+  left: calc(-40px + -1px);
+  width: 2px;
+  height: 100%;
+  background-color: var(--light);
 }
 
 .nav-signout a:hover {
@@ -24,4 +29,37 @@
 
 .nav-signout a.active {
   color: var(--accent);
+}
+
+@media only screen and (max-width: 1023px) {
+  .nav-signout {
+    position: absolute;
+    top: calc(100% + 30px);
+    right: -16px;
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(200px);
+    transition: transform 0.3s ease-in-out;
+    background-color: var(--darkalpha);
+    border-radius: 10px;
+    padding: 20px;
+  }
+
+  .nav-signout > a {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .nav-signout > a + a::before {
+    top: calc(-15px + -0.5px);
+    left: 0;
+    width: 100%;
+    height: 1px;
+  }
+
+  .dropdown-wrapper.active .nav-signout {
+    transform: translateX(0);
+  }
 }
