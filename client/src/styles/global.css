@@ -229,6 +229,7 @@ svg {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .home-link {
@@ -248,7 +249,7 @@ svg {
   left: 50%;
   background-color: var(--background);
   border-radius: 20px;
-  padding: calc(30px + 30px);
+  padding: calc(35px + 1vh) calc(35px + 2vw);
 }
 
 .modal .btn-close {

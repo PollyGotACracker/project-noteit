@@ -4,11 +4,6 @@
   align-items: center;
 }
 
-.Settings .setting-box * {
-  user-select: none;
-  white-space: nowrap;
-}
-
 .Settings .setting-box {
   width: 100%;
   padding: 32px 48px;
@@ -34,6 +29,7 @@
   font-size: 1.8rem;
   font-weight: 700;
   white-space: nowrap;
+  user-select: none;
 }
 
 .Settings .setting-box:nth-last-child(1) .title,

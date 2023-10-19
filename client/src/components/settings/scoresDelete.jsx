@@ -1,3 +1,4 @@
+import "@styles/settings/scoresDelete.css";
 import { useSetRecoilState } from "recoil";
 import { FaDatabase } from "react-icons/fa";
 import { modalSelector } from "@recoils/global";
