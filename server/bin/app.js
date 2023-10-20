@@ -52,7 +52,7 @@ app.use("/uploads", express.static(path.join("public/uploads")));
 // app.set("trust proxy", 1);
 app.use(
   session({
-    secret: "NoteIT",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {

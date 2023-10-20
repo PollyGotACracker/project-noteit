@@ -9,8 +9,13 @@ import {
   verifyToken,
 } from "../modules/user_token.js";
 import { checkSignUpData } from "../modules/auth_validation.js";
-import { checkNewUser } from "../modules/check_user.js";
-import { sendAuthCode, verifyAuthCode } from "../modules/email_sending.js";
+import { checkNewUser, checkUser } from "../modules/check_user.js";
+import {
+  sendAuthCode,
+  verifyAuthCode,
+  sendResetPwdLink,
+  verifyResetPwdLink,
+} from "../modules/email_sending.js";
 import DB from "../models/index.js";
 
 const USER = DB.models.tbl_users;
@@ -81,6 +86,26 @@ router.post("/signin", getToken, getRefresh, async (req, res, next) => {
 
     return res.json({
       message: "정상적으로 로그인되었습니다.",
+    });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+router.post("/password/send-code", checkUser, sendResetPwdLink);
+
+router.post("/password/reset", verifyResetPwdLink, async (req, res, next) => {
+  try {
+    const userid = req.payload.email;
+    const { value } = req.body;
+    const newPassword = await hashPassword(value);
+    await USER.update(
+      { u_password: newPassword },
+      { where: { u_userid: userid } }
+    );
+    return res.json({
+      email: userid,
+      message: "비밀번호가 정상적으로 변경되었습니다.",
     });
   } catch (err) {
     return next(err);

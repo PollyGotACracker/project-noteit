@@ -1,5 +1,9 @@
-import nodemailer from "nodemailer";
 import { EMAIL_AUTH } from "../config/email_config.js";
+import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
+
+dotenv.config();
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -56,5 +60,60 @@ export const verifyAuthCode = (req, res, next) => {
     return res.json({
       message: "인증에 성공했습니다.",
     });
+  }
+};
+
+export const sendResetPwdLink = async (req, res, next) => {
+  const email = req.body.email;
+  const payload = {
+    email: email,
+    timestamp: Math.floor(Date.now() / 1000) + 60 * 60, // 1h
+  };
+  const privateKey = process.env.JWT_RESET_PWD_SECRET;
+  const resetToken = jwt.sign(payload, privateKey, {
+    expiresIn: "1h",
+    issuer: "noteit",
+  });
+  const message = {
+    from: `"NoteIT" <${EMAIL_AUTH.user}>`,
+    to: email,
+    subject: "비밀번호 초기화 링크입니다.",
+    html: `
+    <h1 style="text-align: center; border-bottom: 1px solid black; color: black;">NoteIT</h1>
+    <p style="text-align: center; color: black;">1시간 내에 아래 링크로 접속하여 비밀번호를 변경하세요.</p>
+    <a href="${process.env.CLIENT_URL}/password-reset/link?verify=${resetToken}" style="text-align: center; display: block; margin: 0 auto; background-color: #60798c; border-radius: 10px; padding: 10px; text-decoration: none; font-size: large; color: white;">비밀번호 변경하기</a>
+    `,
+  };
+
+  const info = await transporter.sendMail(message);
+  transporter.close();
+  if (info.err) {
+    return res
+      .status(500)
+      .json({ code: 500, message: "링크 전송에 실패했습니다." });
+  }
+  return res.json({
+    message: "링크 전송에 성공했습니다.",
+  });
+};
+
+export const verifyResetPwdLink = async (req, res, next) => {
+  try {
+    const token = req.query.verify;
+    const privateKey = process.env.JWT_RESET_PWD_SECRET;
+    req.payload = jwt.verify(token, privateKey);
+    return next();
+  } catch (err) {
+    if (err.name === "TokenExpiredError") {
+      return res.status(401).json({
+        code: "INVALID_RESET_TOKEN",
+        message: "인증 시간이 만료되었습니다.",
+      });
+    } else {
+      return res.status(401).json({
+        code: "UNKNOWN_RESET_TOKEN",
+        message: "인증 시간이 만료되었습니다.",
+      });
+    }
   }
 };

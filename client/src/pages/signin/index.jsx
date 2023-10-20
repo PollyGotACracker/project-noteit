@@ -61,7 +61,7 @@ const SignInPage = () => {
             minLength={8}
           />
         </label>
-        <NavLink to={URLS.FIND_PASSWORD}>비밀번호 찾기</NavLink>
+        <NavLink to={URLS.RESET_PASSWORD}>비밀번호를 잊어버렸나요?</NavLink>
         <button type="submit">로그인</button>
       </form>
     </main>

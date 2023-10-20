@@ -37,12 +37,14 @@ const SignUpPage = () => {
   );
   const { mutate: mutateSubmitSignUp } = useMutation(
     userSignUp({
-      onSuccess: (data, variables) => {
-        alert(data.message);
-        navigate(URLS.SIGN_IN, {
-          state: { email: variables.email },
-          replace: true,
-        });
+      queries: {
+        onSuccess: (data, variables) => {
+          alert(data.message);
+          navigate(URLS.SIGN_IN, {
+            state: { email: variables.email },
+            replace: true,
+          });
+        },
       },
     })
   );

@@ -4,6 +4,8 @@ import SignInLayout from "@layouts/signInLayout";
 import Landing from "@pages";
 import SignIn from "@pages/signin";
 import SignUp from "@pages/signup";
+import PwdReset from "@pages/pwdreset";
+import PwdResetLink from "@pages/pwdreset/link";
 const Dashboard = lazy(() => import("@pages/dashboard"));
 const Todo = lazy(() => import("@pages/todo"));
 const Note = lazy(() => import("@pages/note"));
@@ -23,6 +25,8 @@ export {
   Landing,
   SignIn,
   SignUp,
+  PwdReset,
+  PwdResetLink,
   Dashboard,
   Todo,
   Note,
