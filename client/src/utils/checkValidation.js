@@ -2,7 +2,8 @@ import userMsg from "@data/userMsg";
 
 const checkValidation = (target) => {
   const removeSpace = (value) => value.replaceAll(" ", "");
-  for (let ele of target.elements) {
+  const inputs = target?.elements || target;
+  for (let ele of inputs) {
     if (ele.tagName !== "INPUT") continue;
     const value = removeSpace(ele.value);
     if (!value) {

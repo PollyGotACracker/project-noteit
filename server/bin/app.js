@@ -13,6 +13,7 @@ import path from "path";
 
 // 3rd party lib modules
 import cookieParser from "cookie-parser";
+import session from "express-session";
 import logger from "morgan";
 
 // MySQL Sequelize
@@ -46,6 +47,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use("/uploads", express.static(path.join("public/uploads")));
+
+// session enable
+// app.set("trust proxy", 1);
+app.use(
+  session({
+    secret: "NoteIT",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      // secure: true,
+      maxAge: 5 * 60 * 1000, // 5min
+      sameSite: "lax",
+      httpOnly: true,
+    },
+  })
+);
 
 // router link enable
 app.use("/dashboard", dashboardRouter);

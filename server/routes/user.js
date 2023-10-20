@@ -9,6 +9,8 @@ import {
   verifyToken,
 } from "../modules/user_token.js";
 import { checkSignUpData } from "../modules/auth_validation.js";
+import { checkNewUser } from "../modules/check_user.js";
+import { sendAuthCode, verifyAuthCode } from "../modules/email_sending.js";
 import DB from "../models/index.js";
 
 const USER = DB.models.tbl_users;
@@ -19,6 +21,10 @@ const ATT = DB.models.tbl_attachs;
 const SCO = DB.models.tbl_scores;
 const TODO = DB.models.tbl_todo;
 const router = express.Router();
+
+router.post("/signup/send-code", checkNewUser, sendAuthCode);
+
+router.post("/signup/verify-code", verifyAuthCode);
 
 router.post("/signup", checkSignUpData, async (req, res, next) => {
   try {
