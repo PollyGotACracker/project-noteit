@@ -1,5 +1,7 @@
 import "@styles/landing/landing.css";
-import { ReactComponent as Intro } from "@assets/images/intro.svg";
+import { ReactComponent as Landing } from "@assets/images/landing.svg";
+import { ReactComponent as Lighthouse } from "@assets/images/lighthouse.svg";
+import { getStyle } from "@utils/manageStyle";
 import useThemeStyle from "@hooks/useThemeStyle";
 
 const LandingPage = () => {
@@ -31,11 +33,12 @@ const LandingPage = () => {
 
   return (
     <main className="Landing">
-      <Intro className="cover-img" fill={secondary} />
+      <Landing className="cover-img" fill={secondary} />
       <div className="title">
         <TitleContent />
       </div>
-      <div className="subtitle">머리에 들어오는 그 날까지!</div>
+      <div className="subtitle">스스로 정리하고 학습하기</div>
+      <Lighthouse className="lighthouse-img" fill={getStyle("--accentalpha")} />
     </main>
   );
 };

@@ -38,32 +38,37 @@ const SignInPage = () => {
 
   return (
     <main className="Signin">
-      <form className="form-signin" onSubmit={submitSignInForm}>
-        <div className="greeting-msg">안녕하세요!</div>
-        <label htmlFor="email">
-          <input
-            id="email"
-            name="email"
-            type="email"
-            defaultValue={location?.state?.email || userData.u_userid || ""}
-            placeholder="이메일"
-            autoComplete="on"
-            spellCheck="false"
-          />
-        </label>
-        <label htmlFor="password">
-          <input
-            id="password"
-            name="password"
-            type="password"
-            placeholder="비밀번호"
-            autoComplete="off"
-            minLength={8}
-          />
-        </label>
-        <NavLink to={URLS.RESET_PASSWORD}>비밀번호를 잊어버렸나요?</NavLink>
-        <button type="submit">로그인</button>
-      </form>
+      <section className="container">
+        <form className="form-column" onSubmit={submitSignInForm}>
+          <label htmlFor="email">
+            <input
+              id="email"
+              name="email"
+              type="email"
+              defaultValue={location?.state?.email || userData.u_userid || ""}
+              placeholder="이메일"
+              autoComplete="on"
+              spellCheck="false"
+            />
+          </label>
+          <label htmlFor="password">
+            <input
+              id="password"
+              name="password"
+              type="password"
+              placeholder="비밀번호"
+              autoComplete="off"
+              minLength={8}
+            />
+          </label>
+          <button className="submit" type="submit">
+            로그인
+          </button>
+        </form>
+        <NavLink className="reset-password" to={URLS.RESET_PASSWORD}>
+          비밀번호를 잊으셨나요?
+        </NavLink>
+      </section>
     </main>
   );
 };

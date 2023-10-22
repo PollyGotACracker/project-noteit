@@ -1,9 +1,6 @@
-import "@styles/signup/signUp.css";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
-import { ReactComponent as JoinSvg } from "@assets/images/join.svg";
-import { getStyle } from "@utils/manageStyle";
 import checkValidation from "@utils/checkValidation";
 import userMsg from "@data/userMsg";
 import useUserFetcher from "@services/useUserFetcher";
@@ -13,6 +10,7 @@ const SignUpPage = () => {
   const { sendAuthCode, verifyAuthCode, userSignUp } = useUserFetcher();
   const [sendCodeLabel, setSendCodeLabel] = useState("인증번호 전송");
   const [authStatus, setAuthStatus] = useState("");
+
   const emailRef = useRef(null);
   const isVerified = useRef(false);
   const navigate = useNavigate();
@@ -20,7 +18,8 @@ const SignUpPage = () => {
     sendAuthCode({
       queries: {
         onMutate: () => setSendCodeLabel("전송 중..."),
-        onSettled: () => setSendCodeLabel("인증번호 재전송"),
+        onSuccess: () => setSendCodeLabel("인증번호 재전송"),
+        onError: () => setSendCodeLabel("인증번호 전송"),
       },
     })
   );
@@ -60,23 +59,26 @@ const SignUpPage = () => {
   const verifyCode = (e) => {
     e.preventDefault();
     if (isVerified.current) return;
+    const isValid = checkValidation(e.target);
+    if (!isValid) return;
     mutateVerifyAuthCode({ code: e.target.code.value });
   };
 
   const submitSignUpForm = (e) => {
     e.preventDefault();
-    if (!isVerified.current) {
-      alert("이메일 인증이 필요합니다.");
-      return;
-    }
     const { nickname, password, repassword } = e.target;
     if (password.value !== repassword.value) {
       alert(userMsg.WRONG_REPASSWORD);
       repassword.focus();
       return;
     }
-    const isValid = checkValidation(e.target);
+    const inputs = [emailRef.current, nickname, password, repassword];
+    const isValid = checkValidation(inputs);
     if (!isValid) return;
+    if (!isVerified.current) {
+      alert("이메일 인증이 필요합니다.");
+      return;
+    }
 
     mutateSubmitSignUp({
       email: emailRef.current.value,
@@ -87,9 +89,8 @@ const SignUpPage = () => {
 
   return (
     <main className="Signup">
-      <div className="greeting-msg">반갑습니다!</div>
-      <section className="form-signup">
-        <form onSubmit={sendEmail}>
+      <section className="container">
+        <form className="form-column" onSubmit={sendEmail}>
           <label htmlFor="email">
             <input
               ref={emailRef}
@@ -102,11 +103,15 @@ const SignUpPage = () => {
               readOnly={isVerified.current}
             />
           </label>
-          <button type="submit" disabled={isVerified.current}>
+          <button
+            className="action-btn"
+            type="submit"
+            disabled={isVerified.current}
+          >
             {sendCodeLabel}
           </button>
         </form>
-        <form onSubmit={verifyCode}>
+        <form className="form-row" onSubmit={verifyCode}>
           <label htmlFor="code">
             <input
               id="code"
@@ -119,12 +124,16 @@ const SignUpPage = () => {
               readOnly={isVerified.current}
             />
           </label>
-          <button type="submit" disabled={isVerified.current}>
-            인증하기
+          <button
+            className="action-btn"
+            type="submit"
+            disabled={isVerified.current}
+          >
+            확인
           </button>
-          <div>{authStatus}</div>
+          <div className="status">{authStatus}</div>
         </form>
-        <form onSubmit={submitSignUpForm}>
+        <form className="form-column" onSubmit={submitSignUpForm}>
           <label htmlFor="nickname">
             <input
               id="nickname"
@@ -156,10 +165,11 @@ const SignUpPage = () => {
               minLength={8}
             />
           </label>
-          <button type="submit">회원가입</button>
+          <button className="submit" type="submit">
+            회원가입
+          </button>
         </form>
       </section>
-      <JoinSvg className="img-signup" fill={getStyle("--accentalpha")} />
     </main>
   );
 };

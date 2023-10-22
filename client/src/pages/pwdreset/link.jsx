@@ -41,33 +41,39 @@ const PwdResetLinkPage = () => {
     });
   };
 
+  if (!searchParams.get("verify")) return <></>;
   return (
     <main className="PwdReset">
-      <form className="form-pwd-reset" onSubmit={submitForm}>
-        <label htmlFor="password">
-          <input
-            id="password"
-            name="password"
-            type="password"
-            defaultValue=""
-            placeholder="새 비밀번호"
-            autoComplete="off"
-            spellCheck="false"
-          />
-        </label>
-        <label htmlFor="repassword">
-          <input
-            id="repassword"
-            name="repassword"
-            type="password"
-            defaultValue=""
-            placeholder="새 비밀번호 확인"
-            autoComplete="off"
-            spellCheck="false"
-          />
-        </label>
-        <button type="submit">비밀번호 변경</button>
-      </form>
+      <section className="container">
+        <p>새로운 비밀번호를 입력해주세요.</p>
+        <form className="form-column" onSubmit={submitForm}>
+          <label htmlFor="password">
+            <input
+              id="password"
+              name="password"
+              type="password"
+              defaultValue=""
+              placeholder="새 비밀번호"
+              autoComplete="off"
+              spellCheck="false"
+            />
+          </label>
+          <label htmlFor="repassword">
+            <input
+              id="repassword"
+              name="repassword"
+              type="password"
+              defaultValue=""
+              placeholder="새 비밀번호 확인"
+              autoComplete="off"
+              spellCheck="false"
+            />
+          </label>
+          <button className="submit" type="submit">
+            비밀번호 변경
+          </button>
+        </form>
+      </section>
     </main>
   );
 };

@@ -173,6 +173,7 @@ button {
   font-size: 1.6rem;
   white-space: nowrap;
   transition: all ease 0.2s;
+  cursor: pointer;
 }
 
 input {

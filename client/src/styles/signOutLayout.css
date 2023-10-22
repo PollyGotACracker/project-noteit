@@ -1,11 +1,13 @@
 .Landing,
 .Signup,
-.Signin {
-  background: transparent;
+.Signin,
+.PwdReset,
+.PwdResetLink {
+  background-color: transparent;
   align-items: center;
   justify-content: center;
-  margin-top: 0;
-  padding-top: 150px;
+  padding-top: calc(60px + 10px);
+  padding-bottom: 10px;
 }
 
 .stars-container {
@@ -35,7 +37,6 @@
   height: 60px;
   z-index: 100;
   padding: 8px 32px;
-  background-color: var(--darkalpha);
 }
 
 .header-signout .dropdown-wrapper {
@@ -50,115 +51,176 @@
   display: none;
 }
 
-.Signup .form-signup,
-.Signin .form-signin {
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  row-gap: 20px;
-  width: 60vh;
-  height: 60vh;
-  padding: 40px 5%;
+  justify-content: center;
+  width: min(90vw, 60vh);
+  min-height: 40vh;
+  padding: 5%;
   border-radius: 10px;
-  background-color: var(--lightalpha);
-  z-index: 50;
+  background-color: #242424;
+  box-shadow: 0px 5px 10px 1px var(--darkalpha);
+  gap: 20px;
+  color: white;
+  transform: translateY(-15px);
+  animation: 0.3s ease-out slidein;
+  animation-fill-mode: forwards;
+  transition: transform 0.3s ease-in-out;
 }
 
-.form-signup .greeting-msg,
-.form-signin .greeting-msg {
-  font-size: 4rem;
-  font-weight: 700;
-  margin-bottom: auto;
-  color: var(--light);
+@keyframes slidein {
+  100% {
+    transform: translateY(0);
+  }
 }
 
-.form-signup label,
-.form-signin label {
+.container > form {
+  flex: 1;
   width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
 }
 
-.form-signup input,
-.form-signin input {
+.container > .form-column {
+  flex-direction: column;
+}
+
+.container > .form-row {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.container > .form-column > label {
+  position: relative;
   width: 100%;
-  border: 0;
-  border-bottom: 1px solid var(--light);
-  border-radius: 0;
-  color: var(--light);
-  caret-color: var(--accent);
+}
+
+.container > .form-row > label {
+  flex-shrink: 0;
+  flex: 1;
+}
+
+.container input[name="code"] {
   padding: 10px;
 }
 
-.form-signup input:-webkit-autofill,
-.form-signup input:-webkit-autofill:hover,
-.form-signup input:-webkit-autofill:focus,
-.form-signin input:-webkit-autofill,
-.form-signin input:-webkit-autofill:hover,
-.form-signin input:-webkit-autofill:focus {
-  -webkit-text-fill-color: var(--light);
+.container .status {
+  width: 100%;
+  font-size: 1.4rem;
+  height: 1.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
 }
 
-.form-signup input:focus,
-.form-signin input:focus {
+.container input {
+  width: 100%;
+  border: 0;
+  border-radius: 5px;
+  background-color: var(--dark);
+  color: var(--light);
+  caret-color: var(--accent);
+  padding: 10px 10px 10px 40px;
+}
+
+.container input::-ms-reveal {
+  filter: invert(100%);
+}
+
+.container input:-webkit-autofill,
+.container input:-webkit-autofill:hover,
+.container input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--light);
+  -webkit-box-shadow: 0 0 0px 1000px var(--dark) inset;
+}
+
+.container input:not(:read-only):focus {
   border-color: var(--accent);
 }
 
-.form-signup label:before,
-.form-signin label:before {
+.container label:before {
+  position: absolute;
+  left: 0;
   content: "";
   display: inline-block;
   background-repeat: no-repeat;
   background-position: center;
   background-size: 18px;
   width: 40px;
-  height: 100%;
+  height: 40px;
 }
 
-.form-signup label[for="email"]:before,
-.form-signin label[for="email"]:before {
+.container label[for="email"]:before {
   background-image: url("@assets/images/email.png");
 }
 
-.form-signup label[for="nickname"]:before,
-.form-signin label[for="nickname"]:before {
+.container label[for="nickname"]:before {
   background-image: url("@assets/images/user.png");
 }
 
-.form-signup label[for="password"]:before,
-.form-signin label[for="password"]:before {
+.container label[for="password"]:before {
   background-image: url("@assets/images/pwd.png");
 }
 
-.form-signup label[for="repassword"]:before {
+.container label[for="repassword"]:before {
   background-image: url("@assets/images/pwd_check.png");
 }
 
-.form-signup input::placeholder,
-.form-signin input::placeholder {
+.container input::placeholder {
   color: var(--lightgray);
 }
 
-.form-signup button,
-.form-signin button {
+.container button {
+  color: white;
+
+  padding: 10px;
+  border-radius: 10px;
   width: 100%;
+}
+
+.container button.action-btn {
+  border: 1px solid var(--secondary);
+  transition: border-color 0.3s ease;
+}
+
+.container > .form-row > button.action-btn {
+  flex-basis: 80px;
+  flex: 0.4;
+  flex-shrink: 1;
+}
+
+.container button.submit {
   height: 60px;
+  background-color: var(--secondary);
+  transition: background-color 0.3s ease;
   font-size: 1.8rem;
   letter-spacing: 1px;
-  background-color: var(--secondary);
   border-radius: 50px;
   margin-top: auto;
-  transition: background-color 0.3s ease;
-  color: var(--light);
 }
 
-.form-signin a {
-  color: var(--light);
+.container button.action-btn:not(:disabled):hover {
+  border-color: var(--accent);
 }
 
-.form-signup .form-signup button:hover,
-.form-signin .form-signin button:hover,
-.form-signin .form-signin a:hover {
+.container button.submit:not(:disabled):hover {
   background-color: var(--accent);
+}
+
+.SignIn a.reset-password {
+  background-color: transparent;
+  transition: color 0.3s ease-in-out;
+  color: var(--light);
+}
+
+.SignIn a.reset-password:hover {
+  color: var(--accent);
 }
 
 @media only screen and (max-width: 1023px) {
@@ -167,6 +229,24 @@
     display: flex;
     align-items: center;
     font-size: 2rem;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .container {
+    padding: 40px 5%;
+  }
+
+  .container > form {
+    width: 100%;
+  }
+
+  .container label {
+    width: 100%;
+  }
+
+  .container button.submit {
+    height: auto;
   }
 }
 
