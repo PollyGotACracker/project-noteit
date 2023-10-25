@@ -71,7 +71,7 @@ a.link svg {
   -webkit-animation: 1s steps(5) infinite spin;
 }
 
-.link.signout {
+#root > .nav-signin .link.signout {
   margin-top: auto;
   margin-bottom: 20px;
   color: var(--light);

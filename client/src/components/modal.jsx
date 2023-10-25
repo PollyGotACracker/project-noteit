@@ -1,3 +1,4 @@
+import "@styles/components/modal.css";
 import { useRecoilState } from "recoil";
 import { AnimatePresence, motion } from "framer-motion";
 import { RxCross2 } from "react-icons/rx";

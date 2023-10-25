@@ -32,7 +32,7 @@
 }
 
 .Todo .list {
-  margin: 32px 16px 0;
+  margin-top: 32px;
   overflow-y: auto;
   height: 100%;
 }

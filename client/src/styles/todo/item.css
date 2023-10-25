@@ -3,8 +3,8 @@
   grid-template-columns: 0.5fr 1.5fr 5fr 1.5fr 1fr 1fr 0.5fr;
   align-items: center;
   justify-content: center;
-  border-top: 1px dashed var(--border);
-  margin: 10px;
+  column-gap: 8px;
+  margin: 24px;
 }
 
 .Todo .item > *:not(:nth-child(3)) {
@@ -12,10 +12,6 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-}
-
-.Todo .item:first-child {
-  border-top: 0;
 }
 
 .Todo .item:hover .delete,
@@ -26,9 +22,8 @@
 .Todo .item .delete:hover,
 .Todo .item .complete:hover {
   cursor: pointer;
-  background-color: var(--primary);
+  border: 2px solid var(--secondary);
   border-radius: 50%;
-  transition: all ease 0.2s;
 }
 
 .Todo .item .delete:hover {
@@ -37,10 +32,6 @@
 
 .Todo .item .complete:hover {
   color: var(--accent);
-}
-
-.Todo .item div {
-  padding: 8px;
 }
 
 .Todo .delete,
@@ -71,7 +62,6 @@
   flex: 1;
   display: flex;
   align-items: center;
-  text-align: left;
   cursor: pointer;
   transition: all ease 0.2s;
   word-break: keep-all;
@@ -99,6 +89,41 @@
 .Todo .deadline.active {
   color: var(--red);
   font-weight: bold;
+}
+
+@media only screen and (max-width: 768px) {
+  .Todo .item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, 1fr);
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--subborder);
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+  }
+
+  .Todo .item .content {
+    justify-content: center;
+  }
+
+  .Todo .item .complete,
+  .Todo .item .delete {
+    position: absolute;
+    right: 10px;
+    opacity: 1;
+    margin-left: auto;
+  }
+
+  .Todo .item .complete {
+    top: 10px;
+  }
+
+  .Todo .item .delete {
+    bottom: 10px;
+  }
 }
 
 /* 

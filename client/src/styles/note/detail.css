@@ -8,12 +8,13 @@
 }
 
 .Detail .title {
-  width: 80%;
-  padding: 5% 0;
+  width: 90%;
+  padding: 5vh 0;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 8px;
 }
 
@@ -30,7 +31,7 @@
   width: 100%;
   margin-top: 20px;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(5, minmax(100px, 1fr));
   border-bottom: 2px solid var(--primary);
   overflow-x: auto;
   overflow-y: hidden;
@@ -73,11 +74,16 @@
   text-align: center;
   font-size: 4rem;
   font-weight: 700;
+  word-break: keep-all;
 }
 
 .Detail .title .category {
-  font-size: 2rem;
-  transition: all ease 0.2s;
+  width: 100%;
+  display: block;
+  text-align: center;
+  word-break: keep-all;
+  white-space: pre-line;
+  transition: color ease 0.2s;
 }
 
 .Detail .title .category:hover {
@@ -86,7 +92,6 @@
 
 .Detail .keyword-slide {
   width: 100%;
-  min-height: 300px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -94,7 +99,6 @@
 }
 
 .Detail .keyword-slide button:not(.copy-btn) {
-  width: 50px;
   height: 30%;
   font-size: 3rem;
   display: flex;
@@ -131,7 +135,7 @@
   min-width: 100%;
   min-height: 100%;
   border-radius: 5px;
-  padding: 10px;
+  padding: 0 10px;
   word-break: keep-all;
 }
 

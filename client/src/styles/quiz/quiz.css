@@ -11,8 +11,11 @@
   padding: 10px;
   display: grid;
   grid-template-columns: 5fr 2fr 1fr 1fr;
+  align-items: center;
+  justify-content: center;
   gap: 10px;
   text-align: center;
+  word-break: keep-all;
   user-select: none;
 }
 
@@ -43,11 +46,6 @@
   transition: all ease 0.2s;
 }
 
-.Quiz .cat-list .cat-item > *:not(:first-of-type) {
-  display: flex;
-  justify-content: center;
-}
-
 .Quiz .cat-list .cat-item:last-child {
   border-bottom: none;
 }
@@ -56,9 +54,18 @@
   color: var(--accent);
 }
 
-.Quiz .cat-list .cat-item span:not(:first-child) {
-  text-align: center;
+.Quiz .cat-list .cat-item > span:not(:first-of-type) {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
+  font-size: 1.4rem;
+}
+
+.Quiz .cat-list .cat-item > span:first-of-type {
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 1.6rem;
 }

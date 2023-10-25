@@ -1,4 +1,5 @@
 .sidebar {
+  position: relative;
   width: calc(100% - 200px);
   height: 60px;
   padding: 8px 32px;
@@ -16,6 +17,10 @@
 .sidebar * {
   user-select: none;
   -webkit-user-select: none;
+}
+
+.sidebar section.close-box {
+  display: none;
 }
 
 .sidebar section {
@@ -36,7 +41,7 @@
 
 @media only screen and (max-width: 1023px) {
   .sidebar {
-    padding: 32px 20px;
+    padding: calc(32px + 28px) 20px 32px;
     width: 260px;
     height: 100%;
     bottom: 0;
@@ -47,7 +52,29 @@
   }
 
   .sidebar.active {
+    overflow-y: auto;
     right: 0;
+  }
+
+  .sidebar section.close-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 14px;
+    background-color: var(--primary);
+  }
+
+  .sidebar .close-btn {
+    top: 6px;
+    left: 20px;
+    width: 32px;
+    height: 32px;
+    font-size: 32px;
+    color: var(--light);
   }
 
   .sidebar .link {
@@ -77,5 +104,12 @@
   :root[color-theme="light"] .sidebar > .link.signout,
   :root[color-theme="light"] .sidebar > .nav-signin .link:not(.active) {
     color: var(--dark);
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    right: -100%;
   }
 }

@@ -4,8 +4,8 @@ section.player-box {
   padding: 5px 10px;
   width: 250px;
   display: grid;
-  grid-template-columns: 1fr 3fr 2fr;
-  column-gap: 5px;
+  grid-template-columns: 34px 3fr 2fr;
+  column-gap: 10px;
 }
 
 .player-box .play-img-wrap {

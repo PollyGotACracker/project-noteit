@@ -1,6 +1,7 @@
 import "@styles/components/sidebar.css";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { RiLogoutBoxLine } from "react-icons/ri";
+import { RxCross2 } from "react-icons/rx";
 import { sidebarSelector } from "@recoils/global";
 import useUserSignOut from "@hooks/useUserSignout";
 import Clock from "@components/sidebar/clock";
@@ -11,11 +12,20 @@ import ThemeToggle from "@components/sidebar/themeToggle";
 import SignInNav from "@components/signInNav";
 
 const Sidebar = () => {
-  const sidebarClass = useRecoilValue(sidebarSelector);
+  const [sidebarClass, closeSidebar] = useRecoilState(sidebarSelector);
   const { signOut } = useUserSignOut();
 
   return (
     <aside className={`sidebar${sidebarClass}`}>
+      <section className="close-box">
+        <button
+          type="button"
+          className="close-btn"
+          onClick={() => closeSidebar(false)}
+        >
+          <RxCross2 />
+        </button>
+      </section>
       <Clock />
       <AudioPlayer />
       <SearchForm />

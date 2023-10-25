@@ -1,6 +1,6 @@
 .Write form {
-  width: 80%;
-  margin: 5vh auto;
+  width: 100%;
+  margin: 5vh 0;
   display: flex;
   flex-direction: column;
 }

@@ -1,0 +1,33 @@
+.modal {
+  position: fixed;
+  width: 80vw;
+  height: 80vh;
+  top: 50%;
+  left: 50%;
+  background-color: var(--background);
+  border-radius: 20px;
+  padding: calc(32px + 30px) 5vw 30px;
+}
+
+.modal .btn-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 32px;
+  height: 32px;
+  font-size: 32px;
+}
+
+@media only screen and (max-width: 1023px) {
+  .modal {
+    width: 80vw;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .modal {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+  }
+}

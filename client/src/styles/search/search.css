@@ -1,6 +1,7 @@
 .Search .search-value,
 .Search .search-result {
   text-align: center;
+  word-break: keep-all;
 }
 
 .Search .search-value {
@@ -14,7 +15,7 @@
 }
 
 .Search .search-data {
-  margin: 60px 16px 16px;
+  margin-top: 60px;
 }
 
 .Search .search-data .subject-box {
@@ -22,17 +23,23 @@
   display: flex;
   flex-wrap: wrap;
   padding: 16px;
-  margin-bottom: 16px;
+  margin: 16px 0;
   border: 1px solid var(--subborder);
   border-radius: 5px;
 }
 
 .Search .search-data .subject-box .subject {
   flex: 1;
+  display: inline-block;
+  white-space: pre-line;
+  word-break: keep-all;
 }
 
 .Search .search-data .subject-box .category {
   margin-left: auto;
+  text-align: right;
+  word-break: keep-all;
+  font-size: 1.4rem;
 }
 
 .Search .search-data .subject-box .keyword-box {
@@ -47,5 +54,5 @@
 }
 
 .Search .search-data .subject-box .keyword-box .keyword:first-child {
-  padding-top: 16px;
+  margin-top: 16px;
 }

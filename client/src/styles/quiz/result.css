@@ -2,7 +2,7 @@
 .Quiz .Result .duration,
 .Quiz .Result .feedback {
   text-align: center;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .Quiz .Result .score {
@@ -24,10 +24,11 @@
 }
 
 .Quiz .Result .btn-box {
-  display: flex;
   width: 60%;
-  margin: 20px auto;
+  display: flex;
   flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px auto;
 }
 
 .Quiz .Result .save,
@@ -78,7 +79,7 @@
 }
 
 .Quiz .Result .wrong-list .subject > div {
-  padding: 4px 0 4px 32px;
+  padding: 4px 0 4px 2%;
 }
 
 .Quiz .Result .wrong-list .wrong-keyword {
@@ -87,7 +88,7 @@
   gap: 4px;
   justify-content: space-between;
   padding: 16px;
-  margin: 32px;
+  margin: 16px 2%;
   border: 1px solid var(--subborder);
   border-radius: 5px;
 }

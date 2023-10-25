@@ -248,6 +248,10 @@
   .container button.submit {
     height: auto;
   }
+
+  .header-signout {
+    padding: 8px 16px;
+  }
 }
 
 @keyframes twinkle {
