@@ -6,7 +6,7 @@ const KEY = DB.models.tbl_keywords;
 const router = express.Router();
 
 // search
-router.get("/:userid", async (req, res) => {
+router.get("/:userid", async (req, res, next) => {
   const userid = req.params.userid;
   const value = req.query.value;
   try {
@@ -42,11 +42,7 @@ router.get("/:userid", async (req, res) => {
     });
     return res.json({ result, regexp });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      code: 500,
-      message: "서버 오류가 발생했습니다.\n다시 시도해주세요.",
-    });
+    return next(err);
   }
 });
 

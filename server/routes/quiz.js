@@ -214,12 +214,4 @@ router.delete("/score/delete", verifyToken, async (req, res, next) => {
   }
 });
 
-router.use((err, req, res, next) => {
-  console.error(err);
-  res.status(500).json({
-    code: 500,
-    message: "서버 오류가 발생했습니다.\n다시 시도해주세요.",
-  });
-});
-
 export default router;

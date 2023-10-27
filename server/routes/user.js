@@ -217,12 +217,4 @@ router.post("/signout", (req, res) => {
   res.status(200).json({ message: "로그아웃되었습니다." });
 });
 
-router.use((err, req, res, next) => {
-  console.error(err);
-  res.status(500).json({
-    code: 500,
-    message: "서버 오류가 발생했습니다.\n다시 시도해주세요.",
-  });
-});
-
 export default router;

@@ -1,17 +1,22 @@
 import { EMAIL_AUTH } from "../config/email_config.js";
-import nodemailer from "nodemailer";
+import { TOKEN_SECRET } from "../config/token_config.js";
 import dotenv from "dotenv";
+import nodemailer from "nodemailer";
 import jwt from "jsonwebtoken";
 
 dotenv.config();
 
-const transporter = nodemailer.createTransport({
+const transporterOption = {
   host: "smtp.gmail.com",
-  //   port: 465,
-  //   secure: true,
+  secure: false,
   port: 587,
   auth: EMAIL_AUTH,
-});
+};
+if (process.env.NODE_ENV === "production") {
+  transporterOption.secure = true;
+  transporterOption.port = 465;
+}
+const transporter = nodemailer.createTransport(transporterOption);
 
 export const sendAuthCode = async (req, res, next) => {
   const authCode = Math.floor(Math.random() * (999999 - 111111 + 1)) + 111111;
@@ -69,8 +74,7 @@ export const sendResetPwdLink = async (req, res, next) => {
     email: email,
     timestamp: Math.floor(Date.now() / 1000) + 60 * 60, // 1h
   };
-  const privateKey = process.env.JWT_RESET_PWD_SECRET;
-  const resetToken = jwt.sign(payload, privateKey, {
+  const resetToken = jwt.sign(payload, TOKEN_SECRET.reset_pwd, {
     expiresIn: "1h",
     issuer: "noteit",
   });
@@ -81,7 +85,11 @@ export const sendResetPwdLink = async (req, res, next) => {
     html: `
     <h1 style="text-align: center; border-bottom: 1px solid black; color: black;">NoteIT</h1>
     <p style="text-align: center; color: black;">1시간 내에 아래 링크로 접속하여 비밀번호를 변경하세요.</p>
-    <a href="${process.env.CLIENT_URL}/password-reset/link?verify=${resetToken}" style="text-align: center; display: block; margin: 0 auto; background-color: #60798c; border-radius: 10px; padding: 10px; text-decoration: none; font-size: large; color: white;">비밀번호 변경하기</a>
+    <a href="${
+      process.env.NODE_ENV === "production"
+        ? `https://${process.env.PRODUCTION_DOMAIN}`
+        : "http://localhost:5173"
+    }/password-reset/link?verify=${resetToken}" style="text-align: center; display: block; margin: 0 auto; background-color: #60798c; border-radius: 10px; padding: 10px; text-decoration: none; font-size: large; color: white;">비밀번호 변경하기</a>
     `,
   };
 
@@ -100,8 +108,7 @@ export const sendResetPwdLink = async (req, res, next) => {
 export const verifyResetPwdLink = async (req, res, next) => {
   try {
     const token = req.query.verify;
-    const privateKey = process.env.JWT_RESET_PWD_SECRET;
-    req.payload = jwt.verify(token, privateKey);
+    req.payload = jwt.verify(token, TOKEN_SECRET.reset_pwd);
     return next();
   } catch (err) {
     if (err.name === "TokenExpiredError") {

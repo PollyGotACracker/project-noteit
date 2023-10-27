@@ -1,3 +1,4 @@
+import { TOKEN_SECRET } from "../config/token_config.js";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 
@@ -7,8 +8,7 @@ export const getToken = async (req, res, next) => {
   try {
     const email = req?.payload?.email || req?.body?.u_userid;
     const payload = { email: email };
-    const privateKey = process.env.JWT_ACCESS_SECRET;
-    const accessToken = jwt.sign(payload, privateKey, {
+    const accessToken = jwt.sign(payload, TOKEN_SECRET.access, {
       expiresIn: "1h",
       issuer: "noteit",
     });
@@ -25,19 +25,21 @@ export const getRefresh = async (req, res, next) => {
   try {
     const email = req?.payload?.email || req?.body?.u_userid;
     const payload = { email: email };
-    const privateKey = process.env.JWT_REFRESH_SECRET;
-    const refreshToken = jwt.sign(payload, privateKey, {
+    const refreshToken = jwt.sign(payload, TOKEN_SECRET.refresh, {
       expiresIn: "24h",
       issuer: "noteit",
     });
     const maxAge = 24 * 60 * 60 * 1000;
-    res.cookie("refreshToken", refreshToken, {
+    const cookieOption = {
       maxAge,
       httpOnly: true,
-      sameSite: "Strict",
-      // secure: true,
-      // domain: "",
-    });
+      sameSite: "lax",
+      secure: false,
+    };
+    if (process.env.NODE_ENV === "production") {
+      cookieOption.secure = true;
+    }
+    res.cookie("refreshToken", refreshToken, cookieOption);
     return next();
   } catch {
     return res
@@ -49,8 +51,7 @@ export const getRefresh = async (req, res, next) => {
 export const verifyToken = async (req, res, next) => {
   try {
     const token = req.headers.authorization.substring(7);
-    const privateKey = process.env.JWT_ACCESS_SECRET;
-    req.payload = jwt.verify(token, privateKey);
+    req.payload = jwt.verify(token, TOKEN_SECRET.access);
     return next();
   } catch (err) {
     if (err.name === "TokenExpiredError") {
@@ -70,8 +71,7 @@ export const verifyToken = async (req, res, next) => {
 export const verifyRefresh = async (req, res, next) => {
   try {
     const token = req.cookies.refreshToken;
-    const privateKey = process.env.JWT_REFRESH_SECRET;
-    req.payload = jwt.verify(token, privateKey);
+    req.payload = jwt.verify(token, TOKEN_SECRET.refresh);
     return next();
   } catch (err) {
     if (req.headers["x-initial-entry"] === "true") {

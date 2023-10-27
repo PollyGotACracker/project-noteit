@@ -14,14 +14,14 @@ const normalizePort = (val) => {
     return val;
   }
 
-  // well Known Port greate then
+  // well known port greater then
   if (port >= 1024) {
     return port;
   }
   return false;
 };
 
-const debug = createDebug("project-note:server");
+const debug = createDebug("project-noteit:server");
 const port = normalizePort(process.env.PORT || "3000");
 
 /**
