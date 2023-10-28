@@ -4,13 +4,16 @@ import svgr from "vite-plugin-svgr";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), "");
+  process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
+  // server proxy for development
+  // const isProduction = mode === "production";
+
   return {
     plugins: [react(), svgr()],
     server: {
       proxy: {
         "/server": {
-          target: env.VITE_SERVER_URL,
+          target: "http://localhost:3000",
           changeOrigin: true,
           secure: false,
           ws: true,
@@ -23,7 +26,6 @@ export default defineConfig(({ mode }) => {
         { find: "@", replacement: "/src" },
         { find: "@assets", replacement: "/src/assets" },
         { find: "@components", replacement: "/src/components" },
-        { find: "@contexts", replacement: "/src/contexts" },
         { find: "@data", replacement: "/src/data" },
         { find: "@hooks", replacement: "/src/hooks" },
         { find: "@layouts", replacement: "/src/layouts" },

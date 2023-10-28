@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { useRecoilValue } from "recoil";
 import { GiStarsStack } from "react-icons/gi";
 import profile from "@assets/images/profile.png";
-import { URLS } from "@/router";
+import { UPLOAD_URL, URLS } from "@/router";
 import { userState } from "@recoils/user";
 import UserAvatar from "@components/userAvatar";
 
@@ -17,7 +17,7 @@ const UserProfile = () => {
         <UserAvatar
           src={
             userData?.u_profileimg
-              ? `${URLS.UPLOADS}/${userData?.u_profileimg}`
+              ? `${UPLOAD_URL}/${userData?.u_profileimg}`
               : profile
           }
         />

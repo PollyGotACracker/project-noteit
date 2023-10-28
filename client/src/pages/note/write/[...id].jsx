@@ -60,22 +60,20 @@ const NoteWritePage = () => {
   };
 
   const validateSubject = () => {
-    const checkValidArray = (arr) => {
-      const _arr = Array.isArray(arr) ? arr : [arr];
-      return _arr.some((ele) => {
-        if (typeof ele === "object") {
-          return Object.values(ele).every((val) =>
-            typeof val === "string" ? val.replaceAll(" ", "") : true
-          );
-        } else return ele.replaceAll(" ", "");
+    const checkValidText = (str) => {
+      return !!str.replaceAll(" ", "");
+    };
+    const checkValidKeywords = (arr) => {
+      return arr.every((ele) => {
+        return checkValidText(ele.k_keyword) && checkValidText(ele.k_desc);
       });
     };
 
-    if (!checkValidArray(noteSub.s_subject)) {
+    if (!checkValidText(noteSub.s_subject)) {
       alert("공부 주제를 입력하세요.");
       return false;
     }
-    if (!checkValidArray(keywordList)) {
+    if (!checkValidKeywords(keywordList)) {
       alert("비어있는 키워드가 있는지 확인해주세요.");
       return false;
     }

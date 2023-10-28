@@ -1,46 +1,41 @@
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { userTokenFlagState, tokenSelector } from "@recoils/user";
 import { accessTokenError } from "@services/core";
+import { SERVER_URL } from "@/router";
 
 const useFetcher = () => {
   const setUserTokenFlag = useSetRecoilState(userTokenFlagState);
   const [token, setToken] = useRecoilState(tokenSelector);
-  const BASE_URL = `/server`; //import.meta.env.VITE_SERVER_URL
 
   const fetcher = async ({ endPoint, options }) => {
-    const result = await fetch(`${BASE_URL}${endPoint}`, {
+    const res = await fetch(`${SERVER_URL}${endPoint}`, {
+      credentials: "include",
       ...options,
       headers: {
         ...(!(options?.body instanceof FormData) && {
           "Content-Type": "application/json",
         }),
-        ...(token && {
-          authorization: `${token}`,
-        }),
-        "Access-Control-Allow-Origin": BASE_URL,
+        authorization: `${token}`,
         ...options?.headers,
       },
-    }).then(async (data) => {
-      if (!data.ok) {
-        return data.json().then(async (error) => {
-          if (accessTokenError.includes(error?.code)) {
-            setUserTokenFlag(true);
-          }
-          if (error?.message) alert(error.message);
-          if (error?.error) console.error(error.error);
-          if (data?.status > 400 && error?.message) {
-            throw new Error(error?.message);
-          }
-        });
-      }
-      if (data.ok) {
-        const accessToken = data.headers.get("Authorization");
-        if (accessToken) setToken(accessToken);
-      }
-      return data.json();
     });
 
-    return result;
+    const data = await res.json();
+
+    if (!res.ok) {
+      if (accessTokenError.includes(data?.code)) {
+        setUserTokenFlag(true);
+      }
+      if (data?.message) alert(data.message);
+      if (res?.status > 400 && data?.message) {
+        throw new Error(data?.message);
+      }
+    }
+
+    const accessToken = res.headers.get("Authorization");
+    if (accessToken) setToken(accessToken);
+
+    return data;
   };
 
   return fetcher;

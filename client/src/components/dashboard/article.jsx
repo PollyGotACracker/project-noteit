@@ -2,7 +2,7 @@ import "@styles/dashboard/article.css";
 import { Link } from "react-router-dom";
 import { RiMarkPenLine } from "react-icons/ri";
 import { FaTags } from "react-icons/fa";
-import { URLS } from "@/router";
+import { UPLOAD_URL, URLS } from "@/router";
 import { ReactComponent as NoThumbSvg } from "@assets/images/no_thumb.svg";
 import useThemeStyle from "@hooks/useThemeStyle";
 import NoContent from "@components/noContent";
@@ -15,7 +15,7 @@ const DashBoardArticle = ({ article, error }) => {
       {article?.s_thumb ? (
         <img
           alt="article-thumb"
-          src={article?.s_thumb ? `${URLS.UPLOADS}/${article?.s_thumb}` : ""}
+          src={article?.s_thumb ? `${UPLOAD_URL}/${article?.s_thumb}` : ""}
         />
       ) : (
         <NoThumbSvg className="no-thumb-img" stroke={primary} />

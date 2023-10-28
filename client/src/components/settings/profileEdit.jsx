@@ -5,7 +5,7 @@ import { useMutation } from "react-query";
 import { FaUserEdit } from "react-icons/fa";
 import { GiStarsStack } from "react-icons/gi";
 import profile from "@assets/images/profile.png";
-import { URLS } from "@/router";
+import { UPLOAD_URL } from "@/router";
 import useUserFetcher from "@services/useUserFetcher";
 import { userInfoFlagState, userState } from "@recoils/user";
 import SettingBox from "@components/settings/wrapper";
@@ -65,7 +65,7 @@ const ProfileEdit = () => {
             profileData.src
               ? profileData.src
               : userData.u_profileimg
-              ? `${URLS.UPLOADS}/${userData.u_profileimg}`
+              ? `${UPLOAD_URL}/${userData.u_profileimg}`
               : profile
           }
         />

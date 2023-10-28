@@ -7,7 +7,6 @@
       "@/*": ["*"],
       "@assets/*": ["assets/*"],
       "@components/*": ["components/*"],
-      "@contexts/*": ["contexts/*"],
       "@data/*": ["data/*"],
       "@hooks/*": ["hooks/*"],
       "@layouts/*": ["layouts/*"],

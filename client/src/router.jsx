@@ -26,9 +26,9 @@ import { BsFillJournalBookmarkFill } from "react-icons/bs";
 import { AiFillQuestionCircle } from "react-icons/ai";
 import { RiSettings5Fill } from "react-icons/ri";
 
+export const SERVER_URL = "/server";
+export const UPLOAD_URL = "/server/uploads";
 export const URLS = {
-  UPLOAD_ROUTE: "/server/note/upload",
-  UPLOADS: "/server/uploads",
   DASHBOARD: "/dashboard",
   TODO: "/todo",
   NOTE: "/note",
