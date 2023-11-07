@@ -19,6 +19,8 @@ import hpp from "hpp";
 import morgan from "morgan";
 import cors from "cors";
 import dotenv from "dotenv";
+import { createClient } from "redis";
+import RedisStore from "connect-redis";
 import logger from "../modules/logger.js";
 import { fileURLToPath } from "url";
 
@@ -82,6 +84,19 @@ app.use(
   })
 );
 
+// initialize redis client, store
+const redisClient = createClient({
+  url: `redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
+  password: process.env.REDIS_PASSWORD,
+});
+redisClient.connect();
+redisClient.on("connect", () => {
+  console.log("Redis client connected");
+});
+const redisStore = new RedisStore({
+  client: redisClient,
+});
+
 // session enable
 const sessionOption = {
   secret: process.env.SESSION_SECRET,
@@ -93,6 +108,7 @@ const sessionOption = {
     sameSite: "lax",
     httpOnly: true,
   },
+  store: redisStore,
 };
 if (process.env.NODE_ENV === "production") {
   sessionOption.proxy = true;
