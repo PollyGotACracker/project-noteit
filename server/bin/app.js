@@ -66,7 +66,7 @@ app.disable("x-powered-by");
 // middleWare enable
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser(process.env.SESSION_SECRET));
 app.use("/uploads", express.static(path.join(__dirname, "../public/uploads")));
 
 // cors

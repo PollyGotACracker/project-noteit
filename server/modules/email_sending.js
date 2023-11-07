@@ -39,8 +39,10 @@ export const sendAuthCode = async (req, res, next) => {
       .json({ code: 500, message: "인증번호 전송에 실패했습니다." });
   }
   req.session.authCode = authCode;
-  return res.json({
-    message: "인증번호 전송에 성공했습니다.",
+  req.session.save((err) => {
+    return res.json({
+      message: "인증번호 전송에 성공했습니다.",
+    });
   });
 };
 
