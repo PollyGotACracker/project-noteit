@@ -140,6 +140,12 @@ main {
   overflow-x: hidden;
 }
 
+main.fallback {
+  justify-content: center;
+  align-items: center;
+  color: var(--light);
+}
+
 svg {
   display: flex;
   justify-content: center;

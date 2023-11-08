@@ -5,7 +5,7 @@ const genStars = (node) => {
 
   const setRndStars = () => {
     container.textContent = "";
-    const COUNT = 50;
+    const COUNT = 30;
     const stars = [];
     let i = 0;
     while (i < COUNT) {

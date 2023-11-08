@@ -21,7 +21,7 @@ const PwdResetPage = () => {
   };
 
   return (
-    <main className="PwdReset">
+    <main className="out PwdReset">
       <section className="container">
         <form className="form-column" onSubmit={submitForm}>
           <p>가입된 이메일을 입력해주세요.</p>

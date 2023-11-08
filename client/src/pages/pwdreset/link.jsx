@@ -43,7 +43,7 @@ const PwdResetLinkPage = () => {
 
   if (!searchParams.get("verify")) return <></>;
   return (
-    <main className="PwdReset">
+    <main className="out PwdReset">
       <section className="container">
         <p>새로운 비밀번호를 입력해주세요.</p>
         <form className="form-column" onSubmit={submitForm}>

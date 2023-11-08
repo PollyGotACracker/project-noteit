@@ -61,7 +61,7 @@ export const routerData = [
     label: "회원가입",
     element: <SignUp />,
     withAuth: false,
-    withLanding: true,
+    withLanding: false,
   },
   {
     id: 2,
@@ -195,5 +195,8 @@ export const routers = createBrowserRouter([
       };
     }
   }),
-  { path: "*", element: <Error /> },
+  {
+    path: "*",
+    element: <Error />,
+  },
 ]);

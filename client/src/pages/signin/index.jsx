@@ -37,7 +37,7 @@ const SignInPage = () => {
   };
 
   return (
-    <main className="Signin">
+    <main className="out Signin">
       <section className="container">
         <form className="form-column" onSubmit={submitSignInForm}>
           <label htmlFor="email">
@@ -65,9 +65,14 @@ const SignInPage = () => {
             로그인
           </button>
         </form>
-        <NavLink className="reset-password" to={URLS.RESET_PASSWORD}>
-          비밀번호를 잊으셨나요?
-        </NavLink>
+        <div className="link-wrapper">
+          <NavLink className="sign-up" to={URLS.SIGN_UP}>
+            회원가입
+          </NavLink>
+          <NavLink className="reset-password" to={URLS.RESET_PASSWORD}>
+            비밀번호를 잊으셨나요?
+          </NavLink>
+        </div>
       </section>
     </main>
   );

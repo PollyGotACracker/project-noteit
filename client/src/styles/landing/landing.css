@@ -1,6 +1,33 @@
+.Landing .stars-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -2;
+}
+
+.Landing .stars-container .star {
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 40px #fff, 0 0 80px #fff;
+  animation: twinkle linear infinite;
+  opacity: 0.8;
+}
+
 .Landing .cover-img {
-  width: 160vw;
-  flex: 2;
+  margin-top: 10vh;
+  width: 650px;
+  height: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.Landing .cover-img svg {
+  width: 100%;
 }
 
 .Landing .cover-img g:first-of-type {
@@ -16,7 +43,6 @@
   white-space: nowrap;
   user-select: none;
   padding: 20px 0;
-  transform: translateY(-5vh);
 }
 
 .Landing .title .char {
@@ -26,8 +52,6 @@
 
 .Landing .subtitle {
   color: var(--light);
-  flex: 1;
-  transform: translateY(-4vh);
 }
 
 .Landing .lighthouse-img {
@@ -49,9 +73,14 @@
   animation: 5s 2s linear alternate infinite onoff;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 768px), only screen and (max-height: 768px) {
+  .Landing .cover-img {
+    width: 350px;
+    height: 200px;
+  }
+
   .Landing .title {
-    font-size: 4.5rem;
+    font-size: 4rem;
   }
 
   .Landing .lighthouse-img {
@@ -85,5 +114,20 @@
 @keyframes onoff {
   100% {
     opacity: 0.5;
+  }
+}
+
+@keyframes twinkle {
+  0% {
+    opacity: 0.8;
+  }
+  10% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.8;
   }
 }

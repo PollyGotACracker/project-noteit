@@ -88,7 +88,7 @@ const SignUpPage = () => {
   };
 
   return (
-    <main className="Signup">
+    <main className="out Signup">
       <section className="container">
         <form className="form-column" onSubmit={sendEmail}>
           <label htmlFor="email">
