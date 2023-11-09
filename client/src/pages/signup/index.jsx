@@ -4,36 +4,45 @@ import { useMutation } from "react-query";
 import checkValidation from "@utils/checkValidation";
 import userMsg from "@data/userMsg";
 import useUserFetcher from "@services/useUserFetcher";
+import useTimer from "@hooks/useTimer";
 import { URLS } from "@/router";
 
 const SignUpPage = () => {
   const { sendAuthCode, verifyAuthCode, userSignUp } = useUserFetcher();
+  const { timer, startTimer, clearTimer } = useTimer(5 * 60);
   const [sendCodeLabel, setSendCodeLabel] = useState("인증번호 전송");
   const [authStatus, setAuthStatus] = useState("");
-
   const emailRef = useRef(null);
   const isVerified = useRef(false);
   const navigate = useNavigate();
-  const { mutate: mutateSendAuthCode } = useMutation(
+  const { isSuccess: isCodeSent, mutate: mutateSendAuthCode } = useMutation(
     sendAuthCode({
       queries: {
-        onMutate: () => setSendCodeLabel("전송 중..."),
-        onSuccess: () => setSendCodeLabel("인증번호 재전송"),
+        onMutate: () => {
+          clearTimer();
+          setSendCodeLabel("전송 중...");
+        },
+        onSuccess: () => {
+          startTimer();
+          setSendCodeLabel("인증번호 재전송");
+        },
         onError: () => setSendCodeLabel("인증번호 전송"),
       },
     })
   );
-  const { mutate: mutateVerifyAuthCode } = useMutation(
-    verifyAuthCode({
-      queries: {
-        onSuccess: (data) => {
-          isVerified.current = true;
-          alert(data.message);
-          setAuthStatus(data.message);
+  const { isSuccess: isVerifiedUser, mutate: mutateVerifyAuthCode } =
+    useMutation(
+      verifyAuthCode({
+        queries: {
+          onSuccess: (data) => {
+            clearTimer();
+            isVerified.current = true;
+            alert(data.message);
+            setAuthStatus(data.message);
+          },
         },
-      },
-    })
-  );
+      })
+    );
   const { mutate: mutateSubmitSignUp } = useMutation(
     userSignUp({
       queries: {
@@ -131,7 +140,13 @@ const SignUpPage = () => {
           >
             확인
           </button>
-          <div className="status">{authStatus}</div>
+          <div className="status">
+            {timer === "00:00"
+              ? "인증 시간이 만료되었습니다."
+              : !isVerifiedUser && isCodeSent
+              ? timer
+              : authStatus}
+          </div>
         </form>
         <form className="form-column" onSubmit={submitSignUpForm}>
           <label htmlFor="nickname">
