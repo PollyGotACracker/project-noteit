@@ -1,20 +1,34 @@
 import "@styles/components/audioPlayer.css";
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { IoPlaySkipBack, IoPlaySkipForward } from "react-icons/io5";
 import { FaPlay, FaPause } from "react-icons/fa";
 import useAudioPlayer from "@hooks/useAudioPlayer";
 import playList from "@data/playList";
 
-const AudioPlayer = () => {
-  const { setPlayState, setPrevAudio, setNextAudio, togglePlay, playIndex } =
-    useAudioPlayer({ playList });
-  const playImgRef = useRef(null);
-  const playerRef = useRef(null);
+const PlayTitle = ({ index }) => {
+  const playTitleRef = useRef(null);
 
-  useLayoutEffect(() => {
-    if (togglePlay) playerRef.current.play();
-    else playerRef.current.pause();
-  }, [togglePlay, playIndex]);
+  useEffect(() => {
+    const title = playTitleRef.current;
+    const titleWidth = title.textContent.length;
+    const duration = titleWidth * 0.2;
+    title.style.animationDuration = `${duration}s, ${duration * 2}s`;
+    title.style.animationDelay = `0.5s, ${duration}s`;
+  }, [playTitleRef.current, index]);
+
+  return (
+    <span
+      ref={playTitleRef}
+      key={index}
+    >{`${playList[index].title} - ${playList[index].artist}`}</span>
+  );
+};
+
+const AudioPlayer = () => {
+  const { setPlayState, setPrevAudio, setNextAudio, isPlaying, playIndex } =
+    useAudioPlayer({ playList });
+  const playerRef = useRef(null);
+  const playImgRef = useRef(null);
 
   const setPlayAnimation = (bool) => {
     if (bool) {
@@ -25,12 +39,19 @@ const AudioPlayer = () => {
     }
   };
 
+  useEffect(() => {
+    if (isPlaying) playerRef.current.play();
+    else playerRef.current.pause();
+  }, [isPlaying, playIndex]);
+
   return (
     <section className="player-box">
       <div className="play-img-wrap">
         <div className="play-img" ref={playImgRef}></div>
       </div>
-      <div className="play-name">{playList[playIndex].name}</div>
+      <div className={`play-title${isPlaying ? " active" : " inactive"}`}>
+        <PlayTitle index={playIndex} />
+      </div>
       <div className="play-btn-box">
         <button className="player-prev-btn" onClick={setPrevAudio}>
           <IoPlaySkipBack />
@@ -41,7 +62,7 @@ const AudioPlayer = () => {
           onClick={setPlayState}
           type="button"
         >
-          {togglePlay ? <FaPause /> : <FaPlay />}
+          {isPlaying ? <FaPause /> : <FaPlay />}
         </button>
         <button className="player-next-btn" onClick={setNextAudio}>
           <IoPlaySkipForward />
@@ -63,3 +84,11 @@ const AudioPlayer = () => {
 };
 
 export default AudioPlayer;
+
+/**
+ * cf) css animation restart 를 위해 컴포넌트화하여 element 렌더링
+ * ** 컴포넌트를 부모 컴포넌트 밖으로 빼낼 경우 **
+ * 리렌더링되는 element 에 key 를 따로 붙이지 않으면,
+ * 텍스트는 변경되더라도 css animation 은 재시작되지 않음
+ * 이때 key 는 현재 요소를 이전 요소와는 다른 요소로 인식하여 강제 렌더링하는 역할을 함(초기화)
+ */

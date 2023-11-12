@@ -16,19 +16,19 @@ const useAudioPlayer = ({ playList }) => {
     }
   };
 
-  const [togglePlay, setTogglePlay] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [playIndex, setPlayIndex] = useReducer(
     changePlay,
     Math.floor(Math.random() * listLength)
   );
 
-  const setPlayState = () => setTogglePlay(!togglePlay);
+  const setPlayState = () => setIsPlaying(!isPlaying);
   const setPrevAudio = () =>
     setPlayIndex({ type: "PREV", payload: listLength });
   const setNextAudio = () =>
     setPlayIndex({ type: "NEXT", payload: listLength });
 
-  return { setPlayState, setPrevAudio, setNextAudio, togglePlay, playIndex };
+  return { setPlayState, setPrevAudio, setNextAudio, isPlaying, playIndex };
 };
 
 export default useAudioPlayer;

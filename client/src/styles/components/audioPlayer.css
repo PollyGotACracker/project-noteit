@@ -49,9 +49,20 @@ section.player-box {
   margin: 0 auto;
 }
 
-.player-box .play-name {
-  flex: 2;
+.player-box .play-title {
   font-size: 1.2rem;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.play-title span {
+  display: inline-block;
+}
+
+.play-title.active span {
+  animation-name: firstMarquee, infiniteMarquee;
+  animation-timing-function: linear, linear;
+  animation-iteration-count: 1, infinite;
 }
 
 .player-box .play-btn-box {
@@ -73,6 +84,24 @@ section.player-box {
 @keyframes play {
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes firstMarquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes infiniteMarquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
   }
 }
 
