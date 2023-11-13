@@ -12,6 +12,7 @@
   gap: 20px;
   transition: right ease 0.3s;
   color: var(--light);
+  overflow-x: hidden;
 }
 
 .sidebar * {
@@ -109,7 +110,7 @@
 
 @media only screen and (max-width: 768px) {
   .sidebar {
-    width: 100%;
-    right: -100%;
+    width: 80%;
+    right: -80%;
   }
 }

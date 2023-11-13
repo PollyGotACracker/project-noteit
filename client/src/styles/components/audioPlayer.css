@@ -4,7 +4,7 @@ section.player-box {
   padding: 5px 10px;
   width: 250px;
   display: grid;
-  grid-template-columns: 34px 3fr 2fr;
+  grid-template-columns: 34px 1fr auto;
   column-gap: 10px;
 }
 
@@ -66,11 +66,10 @@ section.player-box {
 }
 
 .player-box .play-btn-box {
-  flex: 1.5;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20%;
+  gap: 10px;
 }
 
 .player-box .play-btn-box > button {

@@ -1,5 +1,5 @@
 import "@styles/signInLayout.css";
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -14,10 +14,19 @@ import HomeLink from "@components/homeLink";
 const SignInLayout = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const prevWindowWidth = useRef(window.innerWidth);
   const { initial, setUserTokenFlag } = useUserStatus();
   const isSignedIn = useRecoilValue(isSignedInState);
   const openSidebar = useSetRecoilState(sidebarSelector);
   const [overlayClass, resetUI] = useRecoilState(layoutSelector);
+
+  const resetSidebar = () => {
+    if (prevWindowWidth.current === window.innerWidth) return;
+    else {
+      resetUI();
+      prevWindowWidth.current = window.innerWidth;
+    }
+  };
 
   useEffect(() => {
     setUserTokenFlag(true);
@@ -29,9 +38,12 @@ const SignInLayout = ({ children }) => {
 
   useEffect(() => {
     resetUI();
-    window.addEventListener("resize", resetUI);
-    return () => window.removeEventListener("resize", resetUI);
   }, [location.key]);
+
+  useEffect(() => {
+    window.addEventListener("resize", resetSidebar);
+    return () => window.removeEventListener("resize", resetSidebar);
+  }, [prevWindowWidth.current]);
 
   if (!isSignedIn) return <></>;
   return (
