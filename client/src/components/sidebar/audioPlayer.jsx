@@ -25,10 +25,10 @@ const PlayTitle = ({ index }) => {
 };
 
 const AudioPlayer = () => {
-  const { setPlayState, setPrevAudio, setNextAudio, isPlaying, playIndex } =
-    useAudioPlayer({ playList });
   const playerRef = useRef(null);
   const playImgRef = useRef(null);
+  const { setPlayState, setPrevAudio, setNextAudio, isPlaying, playIndex } =
+    useAudioPlayer({ ref: playerRef, playList });
 
   const setPlayAnimation = (bool) => {
     if (bool) {
@@ -38,11 +38,6 @@ const AudioPlayer = () => {
       playImgRef.current.style.animationPlayState = "paused";
     }
   };
-
-  useEffect(() => {
-    if (isPlaying) playerRef.current.play();
-    else playerRef.current.pause();
-  }, [isPlaying, playIndex]);
 
   return (
     <section className="player-box">
@@ -74,10 +69,7 @@ const AudioPlayer = () => {
         src={playList[playIndex].path}
         onPlay={() => setPlayAnimation(true)}
         onPause={() => setPlayAnimation(false)}
-        onEnded={() => {
-          setPlayAnimation(false);
-          setNextAudio();
-        }}
+        onEnded={() => setPlayAnimation(false)}
       ></audio>
     </section>
   );

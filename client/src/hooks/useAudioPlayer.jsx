@@ -1,6 +1,6 @@
-import { useState, useReducer } from "react";
+import { useEffect, useState, useReducer } from "react";
 
-const useAudioPlayer = ({ playList }) => {
+const useAudioPlayer = ({ ref, playList }) => {
   const listLength = playList.length;
 
   const changePlay = (state, action) => {
@@ -22,11 +22,42 @@ const useAudioPlayer = ({ playList }) => {
     Math.floor(Math.random() * listLength)
   );
 
-  const setPlayState = () => setIsPlaying(!isPlaying);
+  const setPlayState = (state) => {
+    if (typeof state === "boolean") setIsPlaying(state);
+    else setIsPlaying(!isPlaying);
+  };
   const setPrevAudio = () =>
     setPlayIndex({ type: "PREV", payload: listLength });
   const setNextAudio = () =>
     setPlayIndex({ type: "NEXT", payload: listLength });
+
+  const setContinuePlaying = () => setPlayState(true);
+  const setStopPlaying = () => setPlayState(false);
+  const setNextPlaying = () => {
+    setNextAudio();
+    setPlayState(true);
+  };
+
+  useEffect(() => {
+    if (!ref.current) return;
+    if (isPlaying) ref.current.play();
+    else ref.current.pause();
+  }, [ref.current, isPlaying, playIndex]);
+
+  // 모바일 상태표시줄 조작 대응
+  useEffect(() => {
+    if (!ref.current) return;
+    ref.current.addEventListener("play", setContinuePlaying);
+    ref.current.addEventListener("pause", setStopPlaying);
+    ref.current.addEventListener("ended", setNextPlaying);
+    return () => {
+      if (ref.current) {
+        ref.current.removeEventListener("play", setContinuePlaying);
+        ref.current.removeEventListener("pause", setStopPlaying);
+        ref.current.removeEventListener("ended", setNextPlaying);
+      }
+    };
+  }, [ref.current]);
 
   return { setPlayState, setPrevAudio, setNextAudio, isPlaying, playIndex };
 };
