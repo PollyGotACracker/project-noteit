@@ -18,7 +18,7 @@ const DashboardTodos = ({ todos }) => {
 
     return (
       <div className="todos-item" key={item.t_todoid}>
-        <div>{item.t_content}</div>
+        <div className="content">{item.t_content}</div>
         <div className={deadlineClass}>{item.t_deadline}</div>
         <div className={deadlineClass}>
           {!item?.t_deadline

@@ -5,7 +5,7 @@ main.out {
 }
 
 .Landing {
-  background-color: transparent;
+  background: linear-gradient(var(--primary) 20%, var(--gradient));
 }
 
 .Signup,

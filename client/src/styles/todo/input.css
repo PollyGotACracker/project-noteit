@@ -76,6 +76,7 @@
 
 .Todo .prior-option {
   position: absolute;
+  z-index: 1;
   top: 50px;
   flex-direction: column;
   background-color: var(--background);

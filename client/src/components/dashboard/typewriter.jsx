@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import typewriteList from "@data/typewriteList";
 
-const DashboardTypewriter = () => {
+const DashboardTypewriter = ({ profileStr }) => {
   const [textValue, setTextValue] = useState("");
   const textNode = useRef(null);
   const timeoutRef = useRef(null);
@@ -50,8 +50,8 @@ const DashboardTypewriter = () => {
   useEffect(() => {
     if (textNode.current) {
       const index = Math.floor(Math.random() * typewriteList.length);
-      const msg = typewriteList[index];
-      typeWriter(msg);
+      const message = profileStr || typewriteList[index];
+      typeWriter(message);
     }
     return () => {
       setTextValue("");

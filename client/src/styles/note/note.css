@@ -127,18 +127,15 @@
 
 .Note.Index .bookmark-btn {
   position: absolute;
+  top: -8px;
+  left: 8px;
   font-size: 4rem;
   align-self: flex-start;
-  transform: translate(8px, -5px);
-  transition: all ease 0.3s;
+  transition: color ease-in-out 0.3s;
 }
 
 .Note.Index .bookmark-btn:not(.active) {
   color: var(--borderlight);
-}
-
-.Note.Index .bookmark-btn:not(.active):hover {
-  color: var(--accent);
 }
 
 .Note.Index .bottom-wrapper {

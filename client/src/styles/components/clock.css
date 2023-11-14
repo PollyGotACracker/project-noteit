@@ -1,6 +1,6 @@
 section.clock-box {
   max-width: 210px;
-  flex-shrink: 0;
+  min-width: 180px;
   display: grid;
   grid-template-columns: 1fr 0.5fr 0.2fr;
   text-align: center;
@@ -14,5 +14,6 @@ section.clock-box {
 @media only screen and (max-width: 1023px) {
   section.clock-box {
     margin: 0 auto;
+    min-width: auto;
   }
 }

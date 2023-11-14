@@ -22,13 +22,13 @@
 }
 
 .Quiz .Game .subject-box > .category {
+  font-weight: 700;
   font-size: 2rem;
-  margin-bottom: 10px;
 }
 
 .Quiz .Game .subject-box .subject {
   width: 100%;
-  padding: 5vh 0;
+  padding: 4vh 0;
   text-align: center;
   font-size: 3rem;
   font-weight: 700;
@@ -177,13 +177,25 @@
 }
 
 @media only screen and (max-width: 768px) {
+  .Quiz .Game .subject-box .subject {
+    padding: 2vh 0;
+    font-size: 2rem;
+  }
+
   .Quiz .Game .keyword-box,
   .Quiz .Game .answer-box {
-    width: 90%;
+    width: 100%;
   }
 
   .Quiz .Game .answer-box .msg-box {
     padding: 10px;
+  }
+
+  .Quiz .Game .answer-box .msg-box:after {
+    left: calc(50% - 5px);
+    top: -6px;
+    width: 10px;
+    height: 10px;
   }
 }
 

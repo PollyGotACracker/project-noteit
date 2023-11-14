@@ -77,8 +77,10 @@
 html {
   height: 100%;
   overflow-x: hidden;
-  background: linear-gradient(var(--primary) 20%, var(--gradient));
+  background-color: var(--background);
   font-size: 62.5%;
+  opacity: 0;
+  animation: fadeIn ease-in-out 0.3s forwards;
 }
 
 body {
@@ -140,12 +142,6 @@ main {
   overflow-x: hidden;
 }
 
-main.fallback {
-  justify-content: center;
-  align-items: center;
-  color: var(--light);
-}
-
 svg {
   display: flex;
   justify-content: center;
@@ -182,5 +178,11 @@ svg {
     width: 100%;
     padding-left: 16px;
     padding-right: 16px;
+  }
+}
+
+@keyframes fadeIn {
+  100% {
+    opacity: 1;
   }
 }

@@ -4,7 +4,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: -2;
+  z-index: 1;
 }
 
 .Landing .stars-container .star {
@@ -24,6 +24,7 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  z-index: 3;
 }
 
 .Landing .cover-img svg {
@@ -43,6 +44,7 @@
   white-space: nowrap;
   user-select: none;
   padding: 20px 0;
+  z-index: 3;
 }
 
 .Landing .title .char {
@@ -52,6 +54,7 @@
 
 .Landing .subtitle {
   color: var(--light);
+  z-index: 3;
 }
 
 .Landing .lighthouse-img {
@@ -60,7 +63,7 @@
   left: -150px;
   bottom: -140px;
   opacity: 0.8;
-  z-index: -1;
+  z-index: 2;
 }
 
 .Landing .lighthouse-img circle:first-of-type {

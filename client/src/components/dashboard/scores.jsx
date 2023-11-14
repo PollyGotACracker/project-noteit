@@ -44,20 +44,23 @@ const DashboardScores = ({
   ]);
   setChartDefaultStyle();
   const options = {
+    layout: {
+      padding: {
+        top: 25,
+        right: 20,
+      },
+    },
     responsive: true,
     maintainAspectRatio: false,
     scales: {
       x: {
         reverse: true,
+        ticks: { display: false },
         grid: {
           color: borderalpha,
         },
       },
       y: {
-        title: {
-          display: true,
-          text: "백분율(%)",
-        },
         type: "linear",
         display: true,
         position: "left",
@@ -75,7 +78,7 @@ const DashboardScores = ({
           context.datasetIndex == 0 ? value + "%" : "",
       },
       legend: {
-        position: "top",
+        display: false,
       },
       tooltip: {
         callbacks: {

@@ -2,14 +2,15 @@
 @import "./print";
 
 .Detail {
-  padding-top: 0;
+  position: relative;
   display: flex;
+  padding-top: 0;
   flex-direction: column;
 }
 
 .Detail .title {
   width: 90%;
-  padding: 5vh 0;
+  padding: calc(50px + 4vh) 0 4vh;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -23,13 +24,12 @@
   color: var(--primary);
 }
 
-.Detail .title a.search:hover {
-  color: var(--accent);
-}
-
 .Detail .menu {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  margin-top: 20px;
+  height: 50px;
   display: grid;
   grid-template-columns: repeat(5, minmax(100px, 1fr));
   border-bottom: 2px solid var(--primary);
@@ -44,6 +44,7 @@
   padding: 15px;
   transition: all ease 0.3s;
   width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -55,17 +56,8 @@
   font-size: 1.8rem;
 }
 
-.Detail .menu button:hover,
-.Detail .menu a:hover {
-  color: var(--accent);
-}
-
 .Detail .bookmark-btn.active {
   color: var(--accent) !important;
-}
-
-.Detail .bookmark-btn.active:hover {
-  color: inherit !important;
 }
 
 .Detail .title .subject {
@@ -181,7 +173,7 @@
 }
 
 .Detail .keyword .desc {
-  padding: 20px;
+  padding: 16px;
   word-wrap: break-word;
   word-break: keep-all;
   white-space: pre-wrap;
@@ -215,12 +207,26 @@
 }
 
 .Detail .content {
+  border-top: 1px solid var(--subborder);
   flex: 1;
   display: flex;
-  margin: 5vh 5vw 0;
+  margin: 20px 5vw 0;
   padding: 10px;
 }
 
 .Detail .content div {
   flex: 1;
+}
+
+@media only screen and (max-width: 768px) {
+  .Detail .content {
+    margin: 20px 0 0;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .Detail .menu button:hover,
+  .Detail .menu a:hover {
+    color: var(--accent);
+  }
 }

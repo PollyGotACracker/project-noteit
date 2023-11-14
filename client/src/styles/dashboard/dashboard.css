@@ -47,6 +47,7 @@
 
 .Dashboard .headline .user-info .score {
   margin-bottom: 10px;
+  height: 3.2rem;
 }
 
 .Dashboard .headline .user-info .score svg {
@@ -54,11 +55,15 @@
 }
 
 .Dashboard .headline .user-info .today {
-  word-break: keep-all;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.8rem;
+  justify-content: center;
   text-align: center;
 }
 
 .Dashboard .headline .user-info .today span {
+  display: inline-block;
   color: var(--accent);
 }
 
@@ -135,5 +140,16 @@
   .Dashboard .details .article {
     grid-column: 1 / 3;
     min-height: 0;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .Dashboard .headline .text-box {
+    font-size: 2rem;
+  }
+
+  .Dashboard .headline .user-info,
+  .Dashboard .headline .user-info .score {
+    font-size: 1.4rem;
   }
 }

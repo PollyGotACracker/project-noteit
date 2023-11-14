@@ -62,6 +62,15 @@ const QuizGamePage = () => {
     userAnswerRef,
   });
 
+  const resetAnswerInput = () => {
+    setUserAnswer("");
+    userAnswerRef.current.focus();
+  };
+
+  useEffect(() => {
+    if (userAnswerRef.current) resetAnswerInput();
+  }, [userAnswerRef.current]);
+
   useEffect(() => {
     if (data) {
       setSubjectList([...data]);
@@ -84,11 +93,6 @@ const QuizGamePage = () => {
       });
     }
   }, [countDown]);
-
-  const resetAnswerInput = () => {
-    setUserAnswer("");
-    userAnswerRef.current.focus();
-  };
 
   const navigateResult = ({ finalScore = score, jumped = false }) => {
     const duration = getDuration({

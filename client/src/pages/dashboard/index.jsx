@@ -38,16 +38,19 @@ const DashboardPage = () => {
         <div className="dashboard">DASHBOARD</div>
         <section className="content">
           <section className="headline">
-            <TypeWriter />
+            <TypeWriter profileStr={userData?.u_profilestr} />
             <div className="user-info">
               <div title="점수" className="score">
                 <GiStarsStack />
                 {userData?.u_score}
               </div>
               <div className="today">
-                오늘 하루 <span>{` ${today?.gamecount || 0} `}</span>회의 문제를
-                풀고,
-                <span>{` ${today?.todayscore || 0} `}</span>점을 얻었어요.
+                <div>
+                  오늘 하루 <span>{today?.gamecount || 0}</span>회의 문제를 풀고
+                </div>
+                <div>
+                  <span>{today?.todayscore || 0}</span>점을 얻었어요.
+                </div>
               </div>
               <div className="subject">
                 최근 공부한 노트: {wrongs?.category || scores?.category}

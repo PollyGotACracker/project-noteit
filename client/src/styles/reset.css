@@ -1,3 +1,7 @@
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -67,15 +71,8 @@ input:read-only:focus {
   border-color: var(--border);
 }
 
-button.active,
-a:hover,
-button:hover {
+button.active {
   color: var(--accent);
-  border-color: var(--accent);
-}
-
-input:hover,
-input:focus {
   border-color: var(--accent);
 }
 
@@ -86,4 +83,17 @@ label {
   gap: 4px;
   user-select: none;
   word-break: keep-all;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  a:hover,
+  button:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  input:hover,
+  input:focus {
+    border-color: var(--accent);
+  }
 }

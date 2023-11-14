@@ -17,6 +17,10 @@
   align-items: center;
 }
 
+.Dashboard .todos .todos-item .content {
+  word-break: keep-all;
+}
+
 .Dashboard .todos .todos-item .deadline.active {
   color: var(--red);
 }

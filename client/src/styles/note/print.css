@@ -1,11 +1,19 @@
 @media print {
-  .Sidebar,
-  nav {
+  *:not(.top-box):not(.key) {
+    background-color: #fff !important;
+    background: #fff !important;
+  }
+
+  nav,
+  .sidebar {
     display: none !important;
   }
 
   main {
+    display: block !important;
+    margin: 0 !important;
     padding: 0 !important;
+    overflow: visible !important;
   }
 
   .Detail .menu,
@@ -17,31 +25,54 @@
   }
 
   .Detail .title {
-    padding-top: 0;
-  }
-
-  .Detail .keyword-slide .keyword-list-wrap {
-    width: 100%;
+    color: #000;
+    padding-top: 0 !important;
   }
 
   .Detail .keyword-slide,
   .Detail .keyword-slide .keyword-list-wrap,
   .Detail .keyword-slide .keyword {
-    overflow: visible;
-    min-height: unset;
+    overflow: visible !important;
+    min-height: inherit !important;
+    width: 100% !important;
+  }
+
+  .Detail .keyword:first-child,
+  .Detail .keyword:last-child {
+    display: none !important;
+  }
+
+  .Detail .keyword .top-box {
+    text-align: inherit !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .Detail .keyword .top-box .key {
+    font-size: inherit !important;
+  }
+
+  .Detail .keyword .desc {
+    color: #000;
   }
 
   .Detail .keyword-slide .keyword-list {
-    position: relative;
-    left: auto !important;
     transform: translateX(0) !important;
     flex-direction: column;
     gap: 16px;
   }
 
   .Detail .content {
-    margin-left: 0;
-    margin-right: 0;
-    page-break-inside: avoid;
+    color: #000;
+    border: none !important;
+    display: block !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    page-break-before: always !important;
+  }
+
+  .Detail .content img {
+    display: block !important;
+    page-break-inside: avoid !important;
   }
 }

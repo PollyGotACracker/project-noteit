@@ -59,7 +59,6 @@
   .Dashboard .article {
     flex: 1;
     flex-basis: 100%;
-    padding-bottom: 6vh;
   }
 
   .Dashboard .article .thumb {
