@@ -5,7 +5,6 @@ const useCarousel = ({ ref, list }) => {
   const keyLength = list?.length;
   const newList = list ? [list.at(-1), ...list, list.at(0)] : [];
   const [position, setPosition] = useState(initPos);
-  const isFirstLoaded = useRef(true);
   const animationFrameId = useRef(null);
 
   const setTransition = (node, bool) =>
@@ -14,19 +13,12 @@ const useCarousel = ({ ref, list }) => {
     (node.style.transform = `translateX(${pos}%)`);
 
   useEffect(() => {
-    if (isFirstLoaded.current) {
-      if (position === initPos) {
-        setTransform(ref.current, initPos);
-        return;
-      } else isFirstLoaded.current = false;
-    }
-    if (!isFirstLoaded.current) {
-      const setAnimation = () => {
-        setTransition(ref.current, true);
-        setTransform(ref.current, position);
-      };
-      animationFrameId.current = requestAnimationFrame(setAnimation);
-    }
+    const setAnimation = () => {
+      setTransition(ref.current, true);
+      setTransform(ref.current, position);
+    };
+    animationFrameId.current = requestAnimationFrame(setAnimation);
+
     return () => {
       if (animationFrameId.current) {
         cancelAnimationFrame(animationFrameId.current);
@@ -94,5 +86,6 @@ export default useCarousel;
  * ==> useEffect 를 사용해 position 이 변한 직후 transition 및 transform 적용 후,
  * requestAnimationFrame 으로 스타일 변경 비동기 처리
  * 단, [마지막 이미지 ...실제 이미지 리스트, 첫 이미지] 일 경우
- * 페이지 첫 로드 시에 불필요한 transition 이 발생하므로 이를 막는 조건문 필요
+ * JS 가 아닌 CSS 에서 초기 transform 값을 지정하여
+ * 페이지 첫 로드 시에 불필요한 transition 발생 방지 필요
  */
