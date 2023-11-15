@@ -15,13 +15,15 @@ const AccountDelete = () => {
   const inputRef = useRef(null);
   const { mutate } = useMutation(
     deleteAccount({
-      onSuccess: (data) => {
-        alert(data.message);
-        setToken();
-        navigate("/", { replace: true });
-      },
-      onError: () => {
-        inputRef.current.value = "";
+      queries: {
+        onSuccess: (data) => {
+          alert(data.message);
+          setToken();
+          navigate("/", { replace: true });
+        },
+        onError: () => {
+          inputRef.current.value = "";
+        },
       },
     })
   );

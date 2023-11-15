@@ -1,7 +1,6 @@
-import { QueryKeys, getClient } from "@services/core";
+import { QueryKeys, queryClient } from "@services/core";
 import useFetcher from "@services/core/useFetcher";
 
-const queryClient = getClient();
 const QueryCat = [QueryKeys.NOTE, "category"];
 const QuerySub = [QueryKeys.NOTE, "subject"];
 const refetchOptions = {
@@ -12,7 +11,7 @@ const refetchOptions = {
 const useNoteFetcher = () => {
   const fetcher = useFetcher();
 
-  const getCategories = ({ userId, filter = false, queries }) => ({
+  const getCategories = ({ userId, filter = false, queries = {} }) => ({
     queryKey: [...QueryCat, userId, filter],
     queryFn: async ({ pageParam = 0, queryKey }) => {
       const filter = queryKey.at(-1);
@@ -24,16 +23,17 @@ const useNoteFetcher = () => {
     ...queries,
   });
 
-  const getCategoryData = ({ catId }) => ({
+  const getCategoryData = ({ catId, queries = {} }) => ({
     queryKey: [...QueryCat, catId],
     queryFn: async () => {
       const endPoint = `/note/cat/info/${catId}`;
       const res = await fetcher({ endPoint });
       return res;
     },
+    ...queries,
   });
 
-  const insertCategory = () => ({
+  const insertCategory = ({ queries = {} } = {}) => ({
     mutationKey: [...QueryCat, "insert"],
     mutationFn: async ({ category }) => {
       const endPoint = `/note/cat/insert`;
@@ -45,12 +45,13 @@ const useNoteFetcher = () => {
       return res;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries(QueryCat);
+      queryClient.invalidateQueries(QueryKeys.NOTE, refetchOptions);
       alert(data.message);
     },
+    ...queries,
   });
 
-  const updateCategoryBookmark = ({ catId }) => ({
+  const updateCategoryBookmark = ({ catId, queries = {} }) => ({
     mutationKey: [...QueryCat, "bookmark"],
     mutationFn: async ({ bookmark }) => {
       const endPoint = `/note/cat/bookmark`;
@@ -65,11 +66,12 @@ const useNoteFetcher = () => {
       return res;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(QueryCat);
+      queryClient.invalidateQueries(QueryKeys.NOTE, refetchOptions);
     },
+    ...queries,
   });
 
-  const updateCategory = ({ catId, queries }) => ({
+  const updateCategory = ({ catId, queries = {} }) => ({
     mutationKey: [...QueryCat, "update"],
     mutationFn: async ({ catTitle }) => {
       const endPoint = `/note/cat/update`;
@@ -81,12 +83,12 @@ const useNoteFetcher = () => {
       return res;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(QueryCat);
+      queryClient.invalidateQueries(QueryKeys.NOTE, refetchOptions);
     },
     ...queries,
   });
 
-  const deleteCategory = ({ catId }) => ({
+  const deleteCategory = ({ catId, queries = {} }) => ({
     mutationKey: [...QueryCat, "delete"],
     mutationFn: async () => {
       const endPoint = `/note/cat/${catId}/delete`;
@@ -95,12 +97,13 @@ const useNoteFetcher = () => {
       return res;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries(QueryCat);
+      queryClient.invalidateQueries(QueryKeys.NOTE, refetchOptions);
       alert(data.message);
     },
+    ...queries,
   });
 
-  const getSubjects = ({ catId, queries }) => ({
+  const getSubjects = ({ catId, queries = {} }) => ({
     queryKey: [...QuerySub, catId],
     queryFn: async ({ pageParam = 0 }) => {
       const limit = 20;
@@ -111,16 +114,17 @@ const useNoteFetcher = () => {
     ...queries,
   });
 
-  const getSubjectData = ({ subId }) => ({
+  const getSubjectData = ({ subId, queries = {} }) => ({
     queryKey: [...QuerySub, subId],
     queryFn: async () => {
       const endPoint = `/note/sub/detail/${subId}`;
       const { subject, keywords } = await fetcher({ endPoint });
       return { subject, keywords };
     },
+    ...queries,
   });
 
-  const updateSubjectBookmark = ({ subId }) => ({
+  const updateSubjectBookmark = ({ subId, queries = {} }) => ({
     mutationKey: [...QuerySub, "bookmark"],
     mutationFn: async ({ bookmark }) => {
       const endPoint = `/note/sub/bookmark`;
@@ -132,12 +136,12 @@ const useNoteFetcher = () => {
       return res;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(QueryCat, refetchOptions);
-      queryClient.invalidateQueries(QuerySub, refetchOptions);
+      queryClient.invalidateQueries(QueryKeys.NOTE, refetchOptions);
     },
+    ...queries,
   });
 
-  const upsertSubject = ({ subId }) => ({
+  const upsertSubject = ({ subId, queries = {} }) => ({
     mutationKey: [...QuerySub, "upsert"],
     mutationFn: async ({ subjects, keywords }) => {
       const endPoint = !subId ? `/note/sub/insert` : `/note/sub/update`;
@@ -149,13 +153,13 @@ const useNoteFetcher = () => {
       return res;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries(QueryCat, refetchOptions);
-      queryClient.invalidateQueries(QuerySub, refetchOptions);
+      queryClient.invalidateQueries(QueryKeys.NOTE, refetchOptions);
       alert(data.message);
     },
+    ...queries,
   });
 
-  const deleteSubject = ({ catId, subId }) => ({
+  const deleteSubject = ({ catId, subId, queries = {} }) => ({
     mutationKey: [...QuerySub, "delete"],
     mutationFn: async () => {
       const endPoint = `/note/sub/${catId}/${subId}/delete`;
@@ -166,10 +170,10 @@ const useNoteFetcher = () => {
       return res;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries(QueryCat, refetchOptions);
-      queryClient.invalidateQueries(QuerySub, refetchOptions);
+      queryClient.invalidateQueries(QueryKeys.NOTE, refetchOptions);
       alert(data.message);
     },
+    ...queries,
   });
 
   return {

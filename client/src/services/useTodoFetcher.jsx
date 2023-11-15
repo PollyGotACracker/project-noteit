@@ -1,7 +1,6 @@
-import { QueryKeys, getClient } from "@services/core";
+import { QueryKeys, queryClient } from "@services/core";
 import useFetcher from "@services/core/useFetcher";
 
-const queryClient = getClient();
 const refetchOptions = {
   exact: false,
   refetchInactive: true,
@@ -10,16 +9,17 @@ const refetchOptions = {
 const useTodoFetcher = () => {
   const fetcher = useFetcher();
 
-  const getTodos = ({ userId }) => ({
+  const getTodos = ({ userId, queries = {} }) => ({
     queryKey: [QueryKeys.TODO, userId],
     queryFn: async () => {
       const endPoint = `/todo`;
       const res = await fetcher({ endPoint });
       return res;
     },
+    ...queries,
   });
 
-  const upsertTodo = () => ({
+  const upsertTodo = ({ queries = {} } = {}) => ({
     mutationKey: [QueryKeys.TODO, "upsert"],
     mutationFn: async ({ todo }) => {
       const isNew = Number(todo.t_todoid) === 0;
@@ -34,9 +34,10 @@ const useTodoFetcher = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(QueryKeys.TODO, refetchOptions);
     },
+    ...queries,
   });
 
-  const deleteTodo = () => ({
+  const deleteTodo = ({ queries = {} } = {}) => ({
     mutationKey: [QueryKeys.TODO, "delete"],
     mutationFn: async ({ todoId }) => {
       const endPoint = `/todo/delete/${todoId}`;
@@ -49,9 +50,10 @@ const useTodoFetcher = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(QueryKeys.TODO, refetchOptions);
     },
+    ...queries,
   });
 
-  const updateTodoComplete = () => ({
+  const updateTodoComplete = ({ queries = {} } = {}) => ({
     mutationKey: [QueryKeys.TODO, "complete"],
     mutationFn: async ({ todoId }) => {
       const endPoint = `/todo/complete/${todoId}`;
@@ -64,6 +66,7 @@ const useTodoFetcher = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(QueryKeys.TODO, refetchOptions);
     },
+    ...queries,
   });
 
   return {

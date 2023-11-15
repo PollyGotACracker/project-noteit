@@ -1,7 +1,6 @@
-import { QueryKeys, getClient } from "@services/core";
+import { QueryKeys, queryClient } from "@services/core";
 import useFetcher from "@services/core/useFetcher";
 
-const queryClient = getClient();
 const refetchOptions = {
   exact: false,
   refetchInactive: true,
@@ -10,7 +9,7 @@ const refetchOptions = {
 const useQuizFetcher = () => {
   const fetcher = useFetcher();
 
-  const getQuizCategories = ({ userId, queries }) => ({
+  const getQuizCategories = ({ userId, queries = {} }) => ({
     queryKey: [QueryKeys.NOTE, "quiz", userId],
     queryFn: async () => {
       const endPoint = `/quiz/cats/get`;
@@ -20,7 +19,7 @@ const useQuizFetcher = () => {
     ...queries,
   });
 
-  const getQuizRandom = ({ catId, queries }) => ({
+  const getQuizRandom = ({ catId, queries = {} }) => ({
     queryKey: [QueryKeys.QUIZ, "random", catId],
     queryFn: async () => {
       const endPoint = `/quiz/random/${catId}/get`;
@@ -30,7 +29,7 @@ const useQuizFetcher = () => {
     ...queries,
   });
 
-  const insertScore = ({ score, queries }) => ({
+  const insertScore = ({ score, queries = {} }) => ({
     mutationKey: [QueryKeys.QUIZ, "insert"],
     mutationFn: async () => {
       const insertEndPoint = `/quiz/score/insert`;
@@ -44,10 +43,18 @@ const useQuizFetcher = () => {
       });
       return res.message;
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries([QueryKeys.QUIZ], refetchOptions);
+      queryClient.invalidateQueries(
+        [QueryKeys.NOTE, QueryKeys.QUIZ],
+        refetchOptions
+      );
+    },
+
     ...queries,
   });
 
-  const updateUserNote = ({ score, queries }) => ({
+  const updateUserNote = ({ score, queries = {} }) => ({
     mutationKey: [QueryKeys.QUIZ, "update"],
     mutationFn: async ({ keyids }) => {
       const {
@@ -68,12 +75,12 @@ const useQuizFetcher = () => {
       return res;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(QueryKeys.USER, refetchOptions);
+      queryClient.invalidateQueries(QueryKeys.NOTE, refetchOptions);
     },
     ...queries,
   });
 
-  const getScores = ({ sort = "date", filter = "", queries }) => ({
+  const getScores = ({ sort = "date", filter = "", queries = {} }) => ({
     queryKey: [QueryKeys.QUIZ, "get", sort, filter],
     queryFn: async ({ queryKey }) => {
       const sort = queryKey[2];
@@ -87,7 +94,7 @@ const useQuizFetcher = () => {
     ...queries,
   });
 
-  const deleteScores = ({ queries }) => ({
+  const deleteScores = ({ queries = {} } = {}) => ({
     mutationKey: [QueryKeys.QUIZ, "delete"],
     mutationFn: async ({ ids }) => {
       const endPoint = `/quiz/score/delete`;

@@ -14,9 +14,11 @@ const SignInPage = () => {
   const setTokenFlag = useSetRecoilState(userTokenFlagState);
   const { mutate } = useMutation(
     userSignIn({
-      onSuccess: (data, variables) => {
-        setUserData({ ...userData, u_userid: variables.email });
-        setTokenFlag(true);
+      queries: {
+        onSuccess: (data, variables) => {
+          setUserData({ ...userData, u_userid: variables.email });
+          setTokenFlag(true);
+        },
       },
     })
   );

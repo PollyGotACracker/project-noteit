@@ -15,7 +15,7 @@ import Fallback from "@components/fallback";
 const DashboardPage = () => {
   const getDashboardQueries = useDashboardFetcher();
   const userData = useRecoilValue(userState);
-  const result = useQueries(getDashboardQueries());
+  const result = useQueries(getDashboardQueries({ userId: userData.u_userid }));
   const isLoading = result.some((query) => query.isLoading);
   const [today, todos, wrongs, scores] = result.map((query) => query.data);
 

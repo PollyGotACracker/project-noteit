@@ -13,11 +13,13 @@ const PasswordChange = () => {
   const reNewPwdRef = useRef(null);
   const { mutate } = useMutation(
     changePassword({
-      onSuccess: (data) => {
-        alert(data.message);
-        pwdRef.current.value = "";
-        newPwdRef.current.value = "";
-        reNewPwdRef.current.value = "";
+      queries: {
+        onSuccess: (data) => {
+          alert(data.message);
+          pwdRef.current.value = "";
+          newPwdRef.current.value = "";
+          reNewPwdRef.current.value = "";
+        },
       },
     })
   );
