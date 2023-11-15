@@ -7,7 +7,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;
+  flex: 1;
   gap: 1%;
 }
 
@@ -18,7 +18,6 @@
   align-items: center;
   text-align: center;
   word-break: keep-all;
-  margin-bottom: auto;
 }
 
 .Quiz .Game .subject-box > .category {
@@ -28,7 +27,7 @@
 
 .Quiz .Game .subject-box .subject {
   width: 100%;
-  padding: 4vh 0;
+  padding: 4% 0;
   text-align: center;
   font-size: 3rem;
   font-weight: 700;
@@ -49,10 +48,10 @@
   border-top: 5px solid var(--primary);
   margin: 0 auto;
   width: 100%;
-  min-height: 25vh;
-  word-break: keep-all;
   line-height: 22px;
+  min-height: 100px;
   overflow-y: auto;
+  word-break: break-word;
 }
 
 .Quiz .Game button {
@@ -77,6 +76,8 @@
 }
 
 .Quiz .Game .answer-box .msg-box {
+  display: flex;
+  column-gap: 10px;
   width: 100%;
   padding: 30px 20px;
   background-color: var(--background);
@@ -133,8 +134,7 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
-  font-size: 2rem;
-  margin-bottom: auto;
+  font-size: 1.6rem;
 }
 
 .Quiz .Game .total-score div:first-child {
@@ -152,6 +152,28 @@
   animation-play-state: paused;
 }
 
+.Quiz .Game .timer-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background: var(--subborder);
+}
+
+.Quiz .Game .timer-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--accent);
+  animation-name: countdown, changeColor;
+  animation-timing-function: linear, steps(1, end);
+  animation-fill-mode: forwards, forwards;
+  transition: background-color 0.3s ease-in-out;
+}
+
 .Quiz .loading {
   width: 100%;
   height: 100%;
@@ -163,7 +185,6 @@
 }
 
 .Quiz .loading svg {
-  /* cf) 여러 애니메이션을 지정할 경우 순차적으로 실행되며 동시에 실행되지 않는다. */
   animation: infinite ease-out 1.6s hourglassRotateZ,
     infinite steps(1) 0.4s hourglassRotateX;
   font-size: 20rem;
@@ -176,9 +197,18 @@
   -webkit-user-select: none;
 }
 
+@media only screen and (max-width: 1023px) {
+  .Quiz .Game .timer-container {
+    position: fixed;
+  }
+  .Quiz .Game .answer-box {
+    margin-bottom: 12px;
+  }
+}
+
 @media only screen and (max-width: 768px) {
   .Quiz .Game .subject-box .subject {
-    padding: 2vh 0;
+    padding: 2% 0;
     font-size: 2rem;
   }
 
@@ -227,6 +257,18 @@
   100% {
     transform: rotate(360deg);
     color: inherit;
+  }
+}
+
+@keyframes countdown {
+  100% {
+    width: 0;
+  }
+}
+
+@keyframes changeColor {
+  80% {
+    background-color: var(--red);
   }
 }
 

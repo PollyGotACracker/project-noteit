@@ -26,8 +26,8 @@ const useTimer = (seconds) => {
   const [count, setCount] = useState(seconds);
   const [timer, setTimer] = useState(formatTimer(seconds));
 
-  const startTimer = () => {
-    intervalId.current = setInterval(() => {
+  const startTimer = (delay = 1) => {
+    intervalId.current = setTimeout(function descCount() {
       setCount((count) => {
         if (count === 0) {
           clearTimer();
@@ -35,11 +35,16 @@ const useTimer = (seconds) => {
         }
         return count - 1;
       });
-    }, 1000);
+      intervalId.current = setTimeout(descCount, 1000);
+    }, delay * 1000);
+  };
+
+  const pauseTimer = () => {
+    if (intervalId.current) clearTimeout(intervalId.current);
   };
 
   const clearTimer = () => {
-    if (intervalId.current) clearInterval(intervalId.current);
+    pauseTimer();
     setCount(seconds);
   };
 
@@ -48,7 +53,7 @@ const useTimer = (seconds) => {
     setTimer(value);
   }, [count]);
 
-  return { timer, startTimer, clearTimer };
+  return { count, timer, startTimer, pauseTimer, clearTimer };
 };
 
 export default useTimer;

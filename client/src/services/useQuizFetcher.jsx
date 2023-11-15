@@ -26,6 +26,8 @@ const useQuizFetcher = () => {
       const res = await fetcher({ endPoint });
       return res;
     },
+    cacheTime: 0,
+    staleTime: 0,
     ...queries,
   });
 

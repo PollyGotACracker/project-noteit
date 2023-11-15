@@ -25,6 +25,7 @@ import {
 import { URLS } from "@/router";
 import { feedbackMsgList } from "@data/quiz";
 import useQuizFetcher from "@services/useQuizFetcher";
+import { getQuizTimer } from "@utils/manageQuizTimerStorage";
 import useQuizScore from "@hooks/useQuizScore";
 import useQuizTimeout from "@hooks/useQuizTimeout";
 import useQuizState from "@hooks/useQuizState";
@@ -32,15 +33,39 @@ import useQuizWrongList from "@hooks/useQuizWrongList";
 import getDuration from "@utils/getDuration";
 import Feedback from "@components/quiz/gameFeedback";
 import Score from "@components/quiz/gameScore";
+import GameTimer from "@components/quiz/gameTimer";
 import Fallback from "@components/fallback";
 
 const QuizGamePage = () => {
-  const { getQuizRandom } = useQuizFetcher();
   const { catid: catId } = useParams();
   const navigate = useNavigate();
+
+  // element refs
+  const gameRef = useRef(null);
+  const userAnswerRef = useRef(null);
+  const msgInputRef = useRef(null);
+
+  // custom hooks
+  const { getQuizRandom } = useQuizFetcher();
+  const { perfectScore, checkQuizAnswer } = useQuizScore();
+  const { wrongAnswer, addWrongItem } = useQuizWrongList();
+  const { isLastSubject, isLastKeyword } = useQuizState();
+  const { countDown, setCounter, isCountStart } = useQuizTimeout({
+    gameRef,
+    userAnswerRef,
+  });
+
+  // fetch data
+  const { data, isLoading } = useQuery(getQuizRandom({ catId }));
+
+  // states
   const userData = useRecoilValue(userState);
   const [userScore, setUserScore] = useState(initScore);
-  const { data, isLoading } = useQuery(getQuizRandom({ catId }));
+  const [score, setScore] = useState(0);
+  const [userAnswer, setUserAnswer] = useState("");
+  const [quizPaused, setQuizPaused] = useState(false);
+  const [quizEnded, setQuizEnded] = useState(false);
+  const [feedbackMsg, setFeedbackMsg] = useState(feedbackMsgList.start);
   const [subjectList, setSubjectList] = useRecoilState(subListState);
   const setKeywordList = useSetRecoilState(keyListState);
   const [keywordList, setNextList] = useRecoilState(keyListSelector);
@@ -48,53 +73,10 @@ const QuizGamePage = () => {
   const [keyIdx, setNextKeyIdx] = useRecoilState(keyIdxSelector);
   const setFirstSubIdx = useResetRecoilState(subIdxState);
   const setFirstKeyIdx = useResetRecoilState(keyIdxState);
-  const [feedbackMsg, setFeedbackMsg] = useState(feedbackMsgList.start);
-  const [score, setScore] = useState(0);
-  const { isLastSubject, isLastKeyword } = useQuizState();
-  const [userAnswer, setUserAnswer] = useState("");
-  const gameRef = useRef(null);
-  const userAnswerRef = useRef(null);
-  const msgInputRef = useRef(null);
-  const { perfectScore, checkQuizAnswer } = useQuizScore();
-  const { wrongAnswer, addWrongItem } = useQuizWrongList();
-  const { countDown, setCounter, isCountStart } = useQuizTimeout({
-    gameRef,
-    userAnswerRef,
-  });
 
-  const resetAnswerInput = () => {
-    setUserAnswer("");
-    userAnswerRef.current.focus();
-  };
-
-  useEffect(() => {
-    if (userAnswerRef.current) resetAnswerInput();
-  }, [userAnswerRef.current]);
-
-  useEffect(() => {
-    if (data) {
-      setSubjectList([...data]);
-      setKeywordList([...data[0].tbl_keywords]);
-    }
-    return () => {
-      setFirstSubIdx();
-      setFirstKeyIdx();
-    };
-  }, [data]);
-
-  useEffect(() => {
-    if (countDown < 0) {
-      navigate(URLS.QUIZ_RESULT, {
-        state: {
-          wrongs: wrongAnswer,
-          score: userScore,
-        },
-        replace: true,
-      });
-    }
-  }, [countDown]);
-
+  // functions
   const navigateResult = ({ finalScore = score, jumped = false }) => {
+    setQuizEnded(true);
     const duration = getDuration({
       date: userScore.sc_date,
       time: userScore.sc_time,
@@ -176,6 +158,41 @@ const QuizGamePage = () => {
     resetAnswerInput();
   };
 
+  const togglePausedState = () => setQuizPaused(!quizPaused);
+
+  const resetAnswerInput = () => {
+    setUserAnswer("");
+    userAnswerRef.current.focus();
+  };
+
+  // re-renders
+  useEffect(() => {
+    if (userAnswerRef.current) resetAnswerInput();
+  }, [userAnswerRef.current]);
+
+  useEffect(() => {
+    if (data) {
+      setSubjectList([...data]);
+      setKeywordList([...data[0].tbl_keywords]);
+    }
+    return () => {
+      setFirstSubIdx();
+      setFirstKeyIdx();
+    };
+  }, [data]);
+
+  useEffect(() => {
+    if (countDown < 0) {
+      navigate(URLS.QUIZ_RESULT, {
+        state: {
+          wrongs: wrongAnswer,
+          score: userScore,
+        },
+        replace: true,
+      });
+    }
+  }, [countDown]);
+
   return (
     <Fallback isLoading={isLoading}>
       <main className="Quiz">
@@ -214,8 +231,19 @@ const QuizGamePage = () => {
                   onChange={({ target: { value } }) => setUserAnswer(value)}
                   onKeyDown={onKeyDownHandler}
                 />
+                {!!getQuizTimer() && (
+                  <button onClick={togglePausedState}>
+                    {quizPaused ? "이어하기" : "일시중지"}
+                  </button>
+                )}
               </div>
             </section>
+            <GameTimer
+              skipKeyFunc={skipKeywordHandler}
+              quizPaused={quizPaused}
+              setQuizPaused={setQuizPaused}
+              quizEnded={quizEnded}
+            />
           </div>
         ) : (
           <section className="loading">
