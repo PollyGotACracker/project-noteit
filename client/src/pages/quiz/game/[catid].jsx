@@ -210,7 +210,7 @@ const QuizGamePage = () => {
                 주제 건너뛰기
               </button>
             </div>
-            <Feedback feedbackMsg={feedbackMsg} />
+            <Feedback feedbackMsg={feedbackMsg} quizEnded={quizEnded} />
             <div className="keyword-box">
               <button onClick={skipKeywordHandler}>
                 <IoArrowRedoCircleOutline />

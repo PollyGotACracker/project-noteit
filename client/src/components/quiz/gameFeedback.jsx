@@ -4,7 +4,7 @@ import { BsCheck2Circle, BsDroplet, BsStars } from "react-icons/bs";
 import { feedbackMsgList } from "@data/quiz";
 import { subIdxState, keyIdxState } from "@recoils/quiz";
 
-const QuizGameFeedback = ({ feedbackMsg }) => {
+const QuizGameFeedback = ({ feedbackMsg, quizEnded }) => {
   const subIndex = useRecoilValue(subIdxState);
   const keyIndex = useRecoilValue(keyIdxState);
   const msgMoveStop = useRef(null);
@@ -48,10 +48,10 @@ const QuizGameFeedback = ({ feedbackMsg }) => {
         clearTimeout(msgMoveStop.current);
       }
     };
-  }, [subIndex, keyIndex, feedbackMsg]);
+  }, [subIndex, keyIndex, quizEnded, feedbackMsg]);
 
   return (
-    <div className="feedback-msg" ref={feedbackRef}>
+    <div ref={feedbackRef} className="feedback-msg">
       {feedbackMsg === feedbackMsgList.start ? (
         <BsStars />
       ) : feedbackMsg === feedbackMsgList.correct ? (
