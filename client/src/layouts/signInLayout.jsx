@@ -17,7 +17,7 @@ const SignInLayout = ({ children }) => {
   const prevWindowWidth = useRef(window.innerWidth);
   const { initial, setUserTokenFlag } = useUserStatus();
   const isSignedIn = useRecoilValue(isSignedInState);
-  const openSidebar = useSetRecoilState(sidebarSelector);
+  const toggleSidebar = useSetRecoilState(sidebarSelector);
   const [overlayClass, resetUI] = useRecoilState(layoutSelector);
 
   const resetSidebar = () => {
@@ -38,6 +38,7 @@ const SignInLayout = ({ children }) => {
 
   useEffect(() => {
     resetUI();
+    return () => resetUI();
   }, [location.key]);
 
   useEffect(() => {
@@ -50,7 +51,7 @@ const SignInLayout = ({ children }) => {
     <>
       <header className="header-signin">
         <HomeLink />
-        <button className="sidebar-btn" onClick={openSidebar} type="button">
+        <button className="sidebar-btn" onClick={toggleSidebar} type="button">
           <BsThreeDotsVertical />
         </button>
       </header>

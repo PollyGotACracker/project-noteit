@@ -12,17 +12,13 @@ import ThemeToggle from "@components/sidebar/themeToggle";
 import SignInNav from "@components/signInNav";
 
 const Sidebar = () => {
-  const [sidebarClass, closeSidebar] = useRecoilState(sidebarSelector);
+  const [sidebarClass, toggleSidebar] = useRecoilState(sidebarSelector);
   const { signOut } = useUserSignOut();
 
   return (
     <aside className={`sidebar${sidebarClass}`}>
       <section className="close-box">
-        <button
-          type="button"
-          className="close-btn"
-          onClick={() => closeSidebar(false)}
-        >
+        <button type="button" className="close-btn" onClick={toggleSidebar}>
           <RxCross2 />
         </button>
       </section>

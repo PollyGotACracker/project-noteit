@@ -1,5 +1,4 @@
 .sidebar {
-  position: relative;
   width: calc(100% - 200px);
   height: 60px;
   padding: 8px 32px;
@@ -10,7 +9,6 @@
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  transition: right ease 0.3s;
   color: var(--light);
   overflow-x: hidden;
 }
@@ -49,12 +47,13 @@
     right: -260px;
     background: var(--background);
     flex-direction: column;
-    z-index: 102;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
   }
 
   .sidebar.active {
-    overflow-y: auto;
-    right: 0;
+    transform: translateX(-100%);
+    z-index: 102;
   }
 
   .sidebar section.close-box {
@@ -105,12 +104,5 @@
   :root[color-theme="light"] .sidebar > .link.signout,
   :root[color-theme="light"] .sidebar > .nav-signin .link:not(.active) {
     color: var(--dark);
-  }
-}
-
-@media only screen and (max-width: 768px) {
-  .sidebar {
-    width: 80%;
-    right: -80%;
   }
 }
