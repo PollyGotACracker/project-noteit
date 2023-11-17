@@ -6,26 +6,28 @@ import {
   tokenSelector,
   userState,
 } from "@recoils/user";
-import useUserFetcher from "@/services/useUserFetcher";
+import useUserFetcher from "@services/useUserFetcher";
 
-const useUserSignOut = () => {
+const useUserSignOut = ({ accountDeleted = false } = {}) => {
   const { userSignOut } = useUserFetcher();
   const [userData, setUserData] = useRecoilState(userState);
-  const setToken = useSetRecoilState(tokenSelector);
+  const removeToken = useSetRecoilState(tokenSelector);
   const setIsSignedIn = useSetRecoilState(isSignedInState);
 
-  const { mutate } = useMutation(
+  const { mutate: initAuth } = useMutation(
     userSignOut({
       id: userData.u_userid,
+      queries: {
+        onSuccess: () => {
+          const data = { ...initUser() };
+          if (!accountDeleted) data.u_userid = userData.u_userid;
+          setUserData(data);
+          setIsSignedIn(false);
+          removeToken();
+        },
+      },
     })
   );
-
-  const initAuth = () => {
-    mutate();
-    setUserData({ ...initUser(), u_userid: userData.u_userid });
-    setToken();
-    setIsSignedIn(false);
-  };
 
   const signOut = () => {
     if (window.confirm("로그아웃 할까요?")) {

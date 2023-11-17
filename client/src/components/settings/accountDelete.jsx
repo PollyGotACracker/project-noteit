@@ -1,25 +1,21 @@
 import { useRef } from "react";
-import { useNavigate } from "react-router";
-import { useSetRecoilState } from "recoil";
 import { useMutation } from "react-query";
 import { FaUserTimes } from "react-icons/fa";
-import { tokenSelector } from "@recoils/user";
 import useUserFetcher from "@services/useUserFetcher";
 import checkValidation from "@utils/checkValidation";
+import useUserSignOut from "@hooks/useUserSignout";
 import SettingBox from "@components/settings/wrapper";
 
 const AccountDelete = () => {
   const { deleteAccount } = useUserFetcher();
-  const setToken = useSetRecoilState(tokenSelector);
-  const navigate = useNavigate();
+  const { initAuth } = useUserSignOut({ accountDeleted: true });
   const inputRef = useRef(null);
   const { mutate } = useMutation(
     deleteAccount({
       queries: {
         onSuccess: (data) => {
           alert(data.message);
-          setToken();
-          navigate("/", { replace: true });
+          initAuth();
         },
         onError: () => {
           inputRef.current.value = "";
