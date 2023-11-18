@@ -1,11 +1,21 @@
 html {
-  background: linear-gradient(var(--primary) 20%, var(--gradient));
+  background: var(--background);
 }
 
 main:not(.out) {
   margin: 60px 10px 10px 0px;
   background-color: var(--background);
   border-radius: 15px;
+}
+
+.background {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(var(--primary) 20%, var(--gradient));
+  z-index: -999;
 }
 
 .header-signin {

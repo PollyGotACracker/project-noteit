@@ -57,6 +57,7 @@ const SignInLayout = ({ children }) => {
       </header>
       <SignInNav />
       <Sidebar />
+      <div className="background"></div>
       <Suspense fallback={<Fallback />}>{children}</Suspense>
       <div className={`overlay${overlayClass}`} onClick={resetUI}></div>
     </>
