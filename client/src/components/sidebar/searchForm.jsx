@@ -1,5 +1,5 @@
 import "@styles/components/searchForm.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { useQuery } from "react-query";
@@ -13,6 +13,7 @@ const SearchForm = () => {
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
   const [searchEnabled, setSearchEnabled] = useState(false);
+  const inputRef = useRef(null);
   useQuery(
     getSearchResult({
       userId: userData.u_userid,
@@ -20,6 +21,8 @@ const SearchForm = () => {
       queries: {
         enabled: searchEnabled,
         onSuccess: (data) => {
+          inputRef.current.value = "";
+          inputRef.current.blur();
           const { result, regexp } = data;
           navigate(`${URLS.SEARCH}?value=${searchValue}`, {
             state: { data: result, regexp, value: searchValue },
@@ -40,16 +43,18 @@ const SearchForm = () => {
     e.preventDefault();
     const value = e.target.search.value;
     const isValid = value.replaceAll(" ", "") !== "";
-    if (isValid) {
-      setSearchValue(value);
-      e.target.search.value = "";
-    }
+    if (isValid) setSearchValue(value);
   };
 
   return (
     <section className="search-box">
       <form onSubmit={searchKeyword}>
-        <input className="search" autoComplete="off" name="search" />
+        <input
+          ref={inputRef}
+          className="search"
+          autoComplete="off"
+          name="search"
+        />
       </form>
     </section>
   );
