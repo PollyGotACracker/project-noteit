@@ -34,6 +34,13 @@ export default (sequelize) => {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: true,
         defaultValue: 5,
+        validate: {
+          checkPrior(num) {
+            if (num < 1 || num > 5) {
+              throw new Error("값은 1 이상 5 이하여야 합니다.");
+            }
+          },
+        },
       },
       t_compdate: {
         type: Sequelize.DataTypes.STRING(10),

@@ -1,5 +1,5 @@
-CREATE DATABASE noteitdb;
-USE noteitdb;
+CREATE DATABASE noteit;
+USE noteit;
 
 -- 사용자정보
 CREATE TABLE IF NOT EXISTS tbl_users(
@@ -110,10 +110,17 @@ CREATE TABLE IF NOT EXISTS tbl_todo(
 -- 	CONSTRAINT valid_prior CHECK (t_prior >= 0 AND t_prior <= 5)	
 );
 
--- 국경일
-CREATE TABLE IF NOT EXISTS tbl_holidays(
-	h_datename	VARCHAR(50)	NOT NULL,
-	h_isholiday	VARCHAR(50)	NOT NULL,	
-	h_locdate	INT	NOT NULL,
-	PRIMARY KEY(h_locdate)
+-- 알림
+CREATE TABLE IF NOT EXISTS tbl_notification(
+	n_notid	BIGINT	AUTO_INCREMENT	PRIMARY KEY,
+	n_userid	VARCHAR(225)	NOT NULL,
+	n_hour	INT	NOT NULL,
+	n_endpoint	TEXT	NOT NULL,	
+	n_authkey	VARCHAR(225)	NOT NULL,	
+	n_p256dhkey	VARCHAR(225)	NOT NULL,	
+	PRIMARY KEY(n_notid)
+-- CONSTRAINT fk_usenot
+-- FOREIGN KEY(n_userid) REFERENCES tbl_users(u_userid)
+-- ON DELETE CASCADE,
+-- CONSTRAINT valid_hour CHECK (n_hour >= 0 AND n_hour <= 23)
 );
