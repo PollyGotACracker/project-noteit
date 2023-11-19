@@ -8,7 +8,6 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  row-gap: 32px;
   justify-content: space-between;
   align-items: center;
   border: 1px solid var(--subborder);
@@ -22,8 +21,8 @@
 }
 
 .Settings .setting-box .title {
+  width: 100%;
   display: flex;
-  justify-content: center;
   align-items: center;
   margin-right: auto;
   gap: 8px;
@@ -31,15 +30,38 @@
   font-weight: 700;
   white-space: nowrap;
   user-select: none;
-}
-
-.Settings .setting-box.password-change .title,
-.Settings .setting-box.account-delete .title {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .Settings .setting-box.account-delete .title {
   color: var(--red);
+}
+
+.Settings .push-notification > .push-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  gap: 15px;
+}
+
+.Settings .push-notification > .push-container > * {
+  display: flex;
+  align-items: center;
+}
+
+.Settings .push-notification .state {
+  gap: 4px;
+}
+
+.Settings .push-notification label > span {
+  display: inline-block;
+  text-align: right;
+  word-break: keep-all;
+}
+
+.Settings .push-notification .button-wrapper {
+  gap: 16px;
 }
 
 .Settings .password-change > form,
@@ -72,6 +94,12 @@
 
 .Settings form input {
   width: 100%;
+}
+
+.Settings .setting-box button {
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 8px;
 }
 
 .Settings .setting-box > button {

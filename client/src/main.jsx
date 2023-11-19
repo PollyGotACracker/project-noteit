@@ -11,3 +11,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     </RecoilRoot>
   </React.StrictMode>
 );
+
+navigator.serviceWorker.register("/service_worker.js");
