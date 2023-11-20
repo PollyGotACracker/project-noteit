@@ -30,6 +30,7 @@ import DB from "../models/index.js";
 // router modules
 import dashboardRouter from "../routes/dashboard.js";
 import noteRouter from "../routes/note.js";
+import notificationRouter from "../routes/notification.js";
 import quizRouter from "../routes/quiz.js";
 import searchRouter from "../routes/search.js";
 import todoRouter from "../routes/todo.js";
@@ -38,6 +39,7 @@ import userRouter from "../routes/user.js";
 // scheduler
 import { scheduleJob } from "node-schedule";
 import { removeAttach } from "../modules/remove_attach.js";
+import { sendWebPush } from "../modules/web_push.js";
 
 // create express framework
 const app = express();
@@ -120,6 +122,7 @@ app.use(session(sessionOption));
 // router link enable
 app.use("/dashboard", dashboardRouter);
 app.use("/note", noteRouter);
+app.use("/notification", notificationRouter);
 app.use("/quiz", quizRouter);
 app.use("/search", searchRouter);
 app.use("/todo", todoRouter);
@@ -141,13 +144,12 @@ app.use((err, req, res, next) => {
 
 // execute scheduler
 app.listen(process.env.PORT, () => {
-  /**
-   * 게시되지 않은 첨부파일 완전 삭제(modules/attach_remove.js)
-   * 서버가 켜져 있을 때 매일 자정에 실행 : 0 0 0 * * *
-   */
   // 테스트용 5초마다 실행 : */5 * * * * *
   scheduleJob("0 0 0 * * *", async () => {
     await removeAttach();
+  });
+  scheduleJob("0 0 */1 * * *", async () => {
+    await sendWebPush();
   });
 });
 

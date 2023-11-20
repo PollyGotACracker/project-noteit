@@ -25,6 +25,7 @@ const KEY = DB.models.tbl_keywords;
 const ATT = DB.models.tbl_attachs;
 const SCO = DB.models.tbl_scores;
 const TODO = DB.models.tbl_todo;
+const NOTI = DB.models.tbl_notifications;
 const router = express.Router();
 
 router.post("/signup/send-code", checkNewUser, sendAuthCode);
@@ -195,6 +196,7 @@ router.delete("/account", verifyToken, async (req, res, next) => {
       return res.status(422).json({ message: "비밀번호가 일치하지 않습니다." });
     } else {
       await DB.sequelize.transaction(async () => {
+        await NOTI.destroy({ where: { n_userid: userid } });
         await TODO.destroy({ where: { t_userid: userid } });
         await SCO.destroy({ where: { sc_userid: userid } });
         await ATT.destroy({ where: { a_userid: userid } });

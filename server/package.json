@@ -33,6 +33,7 @@
     "sanitize-html": "^2.10.0",
     "sequelize": "^6.28.0",
     "uuid": "^9.0.0",
+    "web-push": "^3.6.6",
     "winston": "^3.11.0"
   }
 }
