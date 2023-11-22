@@ -7,6 +7,7 @@ import { userState } from "@recoils/user";
 import useNotificationFetcher from "@services/useNotificationFetcher";
 import { checkSubscription } from "@utils/checkNotification";
 import urlBase64ToUint8Array from "@utils/urlBase64ToUint8Array";
+import { getBrowser, getOS } from "@utils/getUserAgent";
 import SettingBox from "@components/settings/wrapper";
 
 const PushNotification = () => {
@@ -116,6 +117,10 @@ const PushNotification = () => {
       className={"push-notification"}
     >
       <div className="push-container">
+        <div className="user-agent">
+          <span>{getOS()}, </span>
+          <span>{getBrowser()}</span>
+        </div>
         <div className="state">
           {pushState ? <HiMiniBellAlert /> : <HiMiniBellSlash />}
           {stateMsg}

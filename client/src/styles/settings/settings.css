@@ -50,6 +50,13 @@
   align-items: center;
 }
 
+.Settings .push-notification .user-agent {
+  flex-wrap: wrap;
+  column-gap: 0.8rem;
+  justify-content: end;
+  text-align: right;
+}
+
 .Settings .push-notification .state {
   gap: 4px;
 }
