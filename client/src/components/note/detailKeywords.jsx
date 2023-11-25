@@ -8,8 +8,10 @@ import {
   FaCaretRight,
 } from "react-icons/fa";
 import useCarousel from "@hooks/useCarousel";
+import { checkMobile } from "@utils/getUserAgent";
 
 const DetailKeywords = ({ keywords }) => {
+  const isMobile = useRef(checkMobile());
   const containerRef = useRef(null);
   const copyTimeoutRef = useRef(null);
   const [copyMsg, setCopyMsg] = useState("키워드 복사");
@@ -75,17 +77,21 @@ const DetailKeywords = ({ keywords }) => {
         </button>
       </section>
       <section className="keyword-slide">
-        <button className="prev" onClick={setPrevSlide}>
-          <FaCaretLeft />
-        </button>
+        {!isMobile.current && (
+          <button className="prev" onClick={setPrevSlide}>
+            <FaCaretLeft />
+          </button>
+        )}
         <div className="keyword-list-wrap">
           <div className="keyword-list" ref={containerRef}>
             {keywordList}
           </div>
         </div>
-        <button className="next" onClick={setNextSlide}>
-          <FaCaretRight />
-        </button>
+        {!isMobile.current && (
+          <button className="next" onClick={setNextSlide}>
+            <FaCaretRight />
+          </button>
+        )}
       </section>
       <div className="keyword-list-bottom">{keywordDot}</div>
     </>

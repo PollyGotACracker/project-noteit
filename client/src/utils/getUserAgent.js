@@ -23,9 +23,26 @@ const browserList = [
   { key: ["IEMobile"], value: "IEMobile" },
 ];
 
-const checkUserAgent = (arr) => {
+const mobileList = [
+  "Android",
+  "iPhone",
+  "iPod",
+  "BlackBerry",
+  "Windows CE",
+  "SAMSUNG",
+  "LG",
+  "MOT",
+  "SonyEricsson",
+];
+
+const checkUserAgent = (target) => {
   const agent = window.navigator.userAgent;
-  return arr.every((str) => agent.includes(str));
+  if (Array.isArray(target)) {
+    return target.every((text) => agent.includes(text));
+  }
+  if (typeof target === "string") {
+    return agent.includes(target);
+  }
 };
 
 export const getOS = () => {
@@ -40,4 +57,11 @@ export const getBrowser = () => {
     if (checkUserAgent(browser.key)) return browser.value;
   }
   return "Unknown Browser";
+};
+
+export const checkMobile = () => {
+  for (let mobile of mobileList) {
+    if (checkUserAgent(mobile)) return true;
+  }
+  return false;
 };
