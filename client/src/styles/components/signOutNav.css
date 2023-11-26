@@ -17,6 +17,8 @@
   transition: background-color 0.2s ease;
 }
 
-.nav-signout a:hover {
-  background-color: var(--accent);
+@media (hover: hover) and (pointer: fine) {
+  .nav-signout a:hover {
+    background-color: var(--accent);
+  }
 }

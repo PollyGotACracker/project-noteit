@@ -26,6 +26,7 @@ section.scores-delete-container {
   align-items: center;
   gap: 10px;
   margin: 20px 0;
+  -webkit-user-select: none;
   user-select: none;
   word-break: keep-all;
 }
@@ -70,11 +71,13 @@ section.scores-delete-container {
   padding: 5px;
   border-bottom: 1px solid var(--subborder);
   opacity: 0;
+  -webkit-user-select: none;
   user-select: none;
 }
 
 .scores-delete-container .filter-wrapper.active .filter-option-wrapper > * {
   opacity: 1;
+  -webkit-user-select: auto;
   user-select: auto;
 }
 
@@ -130,12 +133,6 @@ section.scores-delete-container {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.scores-delete-container .delete-btn {
-  border-radius: 5px;
-  border: 1px solid var(--border);
-  padding: 8px;
 }
 
 @media only screen and (max-width: 1023px) {

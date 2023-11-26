@@ -48,7 +48,7 @@ const SignInLayout = ({ children }) => {
 
   if (!isSignedIn) return <></>;
   return (
-    <>
+    <div id="page">
       <header className="header-signin">
         <HomeLink />
         <button className="sidebar-btn" onClick={toggleSidebar} type="button">
@@ -60,7 +60,7 @@ const SignInLayout = ({ children }) => {
       <div className="background"></div>
       <Suspense fallback={<Fallback />}>{children}</Suspense>
       <div className={`overlay${overlayClass}`} onClick={resetUI}></div>
-    </>
+    </div>
   );
 };
 

@@ -10,6 +10,7 @@
 }
 
 .NotFound > * {
+  -webkit-user-select: none;
   user-select: none;
   color: var(--light);
 }

@@ -58,8 +58,8 @@
   .theme-box .darkmode-toggle:after {
     font-size: 1.2rem;
     cursor: auto;
-    user-select: none;
     -webkit-user-select: none;
+    user-select: none;
   }
 
   :root[color-theme="light"] .theme-box .darkmode-toggle {

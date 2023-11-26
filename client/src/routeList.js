@@ -1,6 +1,6 @@
 import { lazy } from "react";
-import SignOutLayout from "@layouts/signOutLayout";
-import SignInLayout from "@layouts/signInLayout";
+const SignOutLayout = lazy(() => import("@layouts/signOutLayout"));
+const SignInLayout = lazy(() => import("@layouts/signInLayout"));
 import Landing from "@pages";
 import SignIn from "@pages/signin";
 import SignUp from "@pages/signup";

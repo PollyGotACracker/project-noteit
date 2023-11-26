@@ -38,7 +38,7 @@ const ScoresDeleteList = ({ data, checkedScores, setCheckedScores }) => {
         />
         <div className="select-counter">{`${checkedScores.length} 개 선택`}</div>
         <button
-          className="delete-btn"
+          className="delete-btn submit"
           type="button"
           onClick={deleteScoresHandler}
         >

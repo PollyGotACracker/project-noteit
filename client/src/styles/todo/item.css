@@ -14,26 +14,6 @@
   text-align: center;
 }
 
-.Todo .item:hover .delete,
-.Todo .item:hover .complete {
-  opacity: 1;
-}
-
-.Todo .item .delete:hover,
-.Todo .item .complete:hover {
-  cursor: pointer;
-  border: 2px solid var(--secondary);
-  border-radius: 50%;
-}
-
-.Todo .item .delete:hover {
-  color: var(--red);
-}
-
-.Todo .item .complete:hover {
-  color: var(--accent);
-}
-
 .Todo .delete,
 .Todo .complete {
   width: 30px;
@@ -45,6 +25,7 @@
   color: var(--subtext);
   opacity: 0;
   transition: opacity ease 0.5s;
+  -webkit-user-select: none;
   user-select: none;
 }
 
@@ -70,10 +51,6 @@
 .Todo .item .content.line {
   text-decoration: line-through;
   color: var(--subtext);
-}
-
-.Todo .item .content:hover {
-  color: var(--accent);
 }
 
 .Todo .item .date div {
@@ -123,6 +100,32 @@
 
   .Todo .item .delete {
     bottom: 10px;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .Todo .item:hover .delete,
+  .Todo .item:hover .complete {
+    opacity: 1;
+  }
+
+  .Todo .item .delete:hover,
+  .Todo .item .complete:hover {
+    cursor: pointer;
+    border: 2px solid var(--secondary);
+    border-radius: 50%;
+  }
+
+  .Todo .item .delete:hover {
+    color: var(--red);
+  }
+
+  .Todo .item .complete:hover {
+    color: var(--accent);
+  }
+
+  .Todo .item .content:hover {
+    color: var(--accent);
   }
 }
 

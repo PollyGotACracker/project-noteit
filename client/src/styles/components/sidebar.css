@@ -14,8 +14,8 @@
 }
 
 .sidebar * {
-  user-select: none;
   -webkit-user-select: none;
+  user-select: none;
 }
 
 .sidebar section.close-box {

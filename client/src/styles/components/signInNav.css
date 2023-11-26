@@ -1,4 +1,4 @@
-#root > .nav-signin {
+#page > .nav-signin {
   width: 180px;
   height: 100%;
   display: flex;
@@ -36,99 +36,51 @@ a.link svg {
 }
 
 /* seperate anchor style */
-.link.dashboard:hover svg {
-  animation: 1s infinite shake;
-  -webkit-animation: 1s infinite shake;
-}
-
 .link.todo div {
   height: 33px;
   margin-bottom: 10px;
   overflow-y: hidden;
 }
 
-.link.todo:hover div {
-  animation: 1.5s steps(2) infinite listing;
-  -webkit-animation: 1.5s steps(2) infinite listing;
-}
-
-.link.note:hover svg path:first-child {
-  animation: 1s steps(2) infinite bookmark;
-  -webkit-animation: 1s steps(2) infinite bookmark;
-}
-
 .link.quiz {
   position: relative;
 }
 
-.link.quiz:hover svg {
-  animation: 1s ease-out infinite jump;
-  -webkit-animation: 1s ease-out infinite jump;
-}
-
-.link.settings:hover svg {
-  animation: 1s steps(5) infinite spin;
-  -webkit-animation: 1s steps(5) infinite spin;
-}
-
-#root > .nav-signin .link.signout {
+#page > .nav-signin .link.signout {
   margin-top: auto;
   margin-bottom: 20px;
   color: var(--light);
 }
 
 @media only screen and (max-width: 1023px) {
-  #root > .nav-signin {
+  #page > .nav-signin {
     display: none;
   }
 }
 
-@keyframes shake {
-  0% {
-    transform: rotateZ(0deg);
+@media (hover: hover) and (pointer: fine) {
+  .link.dashboard:hover svg {
+    -webkit-animation: 1s infinite shake;
+    animation: 1s infinite shake;
   }
-  25% {
-    transform: rotateZ(10deg);
-  }
-  75% {
-    transform: rotateZ(-10deg);
-  }
-  100% {
-    transform: rotateZ(0deg);
-  }
-}
 
-@keyframes listing {
-  50% {
-    height: 11px;
-    margin-bottom: 32px;
+  .link.todo:hover div {
+    -webkit-animation: 1.5s steps(2) infinite listing;
+    animation: 1.5s steps(2) infinite listing;
   }
-  100% {
-    height: 28px;
-    margin-bottom: 15px;
-  }
-}
 
-@keyframes bookmark {
-  100% {
-    fill: transparent;
+  .link.note:hover svg path:first-child {
+    -webkit-animation: 1s steps(2) infinite bookmark;
+    animation: 1s steps(2) infinite bookmark;
   }
-}
 
-@keyframes jump {
-  0% {
-    transform: translateY(0);
+  .link.quiz:hover svg {
+    -webkit-animation: 1s ease-out infinite jump;
+    animation: 1s ease-out infinite jump;
   }
-  60% {
-    transform: translateY(-3px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
 
-@keyframes spin {
-  100% {
-    transform: rotateZ(180deg);
+  .link.settings:hover svg {
+    -webkit-animation: 1s steps(5) infinite spin;
+    animation: 1s steps(5) infinite spin;
   }
 }

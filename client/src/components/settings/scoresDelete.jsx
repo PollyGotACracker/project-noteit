@@ -15,7 +15,9 @@ const ScoresDelete = () => {
       title={"퀴즈 데이터 관리"}
       className={"scores-delete"}
     >
-      <button onClick={() => openModal(true)}>목록 보기</button>
+      <button className="submit" onClick={() => openModal(true)}>
+        목록 보기
+      </button>
       <Modal content={<ScoresDeleteContainer />} />
     </SettingBox>
   );

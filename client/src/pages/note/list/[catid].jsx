@@ -59,11 +59,10 @@ const NoteSubPage = () => {
             <BsFillFileEarmarkPlusFill />
           </Link>
         </section>
-
         {isNoData ? (
           <SubNoData />
         ) : (
-          <ul className="content" ref={listRef}>
+          <ul className="content overflow-list full-list" ref={listRef}>
             {data?.pages.map((page) =>
               page.data.map((item) => (
                 <SubItem

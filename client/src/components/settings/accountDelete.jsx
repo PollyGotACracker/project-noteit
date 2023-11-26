@@ -58,7 +58,9 @@ const AccountDelete = () => {
             onPaste={(e) => e.preventDefault()}
           />
         </label>
-        <button type="submit">계정 삭제</button>
+        <button className="submit" type="submit">
+          계정 삭제
+        </button>
       </form>
     </SettingBox>
   );

@@ -69,11 +69,6 @@
   transition: all ease 0.2s;
 }
 
-.Todo .prior-wrap:hover {
-  color: var(--accent);
-  border-color: var(--accent);
-}
-
 .Todo .prior-option {
   position: absolute;
   z-index: 1;
@@ -121,6 +116,13 @@
 
   .Todo .input .submit {
     flex-grow: 1;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .Todo .prior-wrap:hover {
+    color: var(--accent);
+    border-color: var(--accent);
   }
 }
 

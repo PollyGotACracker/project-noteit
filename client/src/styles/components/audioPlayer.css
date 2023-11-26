@@ -76,34 +76,6 @@ section.player-box {
   color: var(--light);
 }
 
-.player-box .play-btn-box > button:hover {
-  color: var(--accent);
-}
-
-@keyframes play {
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes firstMarquee {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
-}
-
-@keyframes infiniteMarquee {
-  0% {
-    transform: translateX(100%);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
-}
-
 @media only screen and (max-width: 1023px) {
   section.player-box {
     order: 5;
@@ -116,5 +88,11 @@ section.player-box {
 
   :root[color-theme="light"] .player-box .play-btn-box > button {
     color: var(--dark);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .player-box .play-btn-box > button:hover {
+    color: var(--accent);
   }
 }

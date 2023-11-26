@@ -58,7 +58,7 @@ const NoteIndexPage = () => {
 
   return (
     <main className="Note Index">
-      <ul className="cat-list" ref={listRef}>
+      <ul className="content overflow-list full-list" ref={listRef}>
         <div className="info">
           <AiOutlineInfoCircle />
           북마크된 아이템의 키워드는 퀴즈에 표시됩니다.
@@ -67,7 +67,7 @@ const NoteIndexPage = () => {
           page.data.map((item) => (
             <CatItem
               key={item.c_catid}
-              className="Item"
+              className="item"
               item={item}
               savePos={saveScrollPos}
             />

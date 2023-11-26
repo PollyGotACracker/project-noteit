@@ -62,36 +62,34 @@ const QuizResultPage = () => {
   };
 
   return (
-    <main className="Quiz">
-      <section className="Result">
-        <div className="score">
-          {score.sc_score} / {score.sc_totalscore}
-        </div>
-        <div className="duration">{score.sc_duration}</div>
-        <div className="feedback">
-          {ratio === 1
-            ? "정말 최고예요!"
-            : ratio >= 0.6
-            ? "잘했어요!"
-            : ratio >= 0.4
-            ? "괜찮아요!"
-            : "다시 공부해보세요!"}
-        </div>
-        <div className="date">{dateStr}</div>
-        <div className="time">{timeStr}</div>
-        <div className="btn-box">
-          <div className="save-msg">{saveMsg}</div>
-          <button className="save" type="button" onClick={saveQuizResult}>
-            <FaRegSave />
-            기록 저장
-          </button>
-          <Link className="restart" to={`${URLS.QUIZ_GAME}/${score.sc_catid}`}>
-            <BsArrowRepeat />
-            다시 풀기
-          </Link>
-        </div>
-        <ResultWrongs wrongs={wrongs} />
-      </section>
+    <main className="Quiz Result">
+      <div className="score">
+        {score.sc_score} / {score.sc_totalscore}
+      </div>
+      <div className="duration">{score.sc_duration}</div>
+      <div className="feedback">
+        {ratio === 1
+          ? "정말 최고예요!"
+          : ratio >= 0.6
+          ? "잘했어요!"
+          : ratio >= 0.4
+          ? "괜찮아요!"
+          : "다시 공부해보세요!"}
+      </div>
+      <div className="date">{dateStr}</div>
+      <div className="time">{timeStr}</div>
+      <div className="btn-box">
+        <div className="save-msg">{saveMsg}</div>
+        <button className="save" type="button" onClick={saveQuizResult}>
+          <FaRegSave />
+          기록 저장
+        </button>
+        <Link className="restart" to={`${URLS.QUIZ_GAME}/${score.sc_catid}`}>
+          <BsArrowRepeat />
+          다시 풀기
+        </Link>
+      </div>
+      <ResultWrongs wrongs={wrongs} />
     </main>
   );
 };

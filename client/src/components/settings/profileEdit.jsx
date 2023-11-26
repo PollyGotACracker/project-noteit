@@ -96,7 +96,7 @@ const ProfileEdit = () => {
         />
       </div>
       <button
-        className="profile-update-btn"
+        className="profile-update-btn submit"
         type="button"
         onClick={onClickSubmitProfile}
       >

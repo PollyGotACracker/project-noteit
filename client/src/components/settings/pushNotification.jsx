@@ -141,10 +141,10 @@ const PushNotification = () => {
           <span>시</span>
         </label>
         <div className="button-wrapper">
-          <button className="push-set" onClick={subscribeHandler}>
+          <button className="push-set submit" onClick={subscribeHandler}>
             알림 설정
           </button>
-          <button className="push-delete" onClick={unsubscribeHandler}>
+          <button className="push-delete submit" onClick={unsubscribeHandler}>
             알림 해제
           </button>
         </div>

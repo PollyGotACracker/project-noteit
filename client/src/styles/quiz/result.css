@@ -1,29 +1,29 @@
-.Quiz .Result .score,
-.Quiz .Result .duration,
-.Quiz .Result .feedback {
+.Quiz.Result .score,
+.Quiz.Result .duration,
+.Quiz.Result .feedback {
   text-align: center;
   margin-bottom: 10px;
 }
 
-.Quiz .Result .score {
+.Quiz.Result .score {
   font-size: 5rem;
   font-weight: 900;
   margin-top: 5vh;
 }
 
-.Quiz .Result .date,
-.Quiz .Result .time {
+.Quiz.Result .date,
+.Quiz.Result .time {
   text-align: right;
   font-size: 1.4rem;
 }
 
-.Quiz .Result a {
+.Quiz.Result a {
   display: flex;
   align-items: center;
   padding: 10px;
 }
 
-.Quiz .Result .btn-box {
+.Quiz.Result .btn-box {
   width: 60%;
   display: flex;
   flex-wrap: wrap;
@@ -31,8 +31,8 @@
   margin: 20px auto;
 }
 
-.Quiz .Result .save,
-.Quiz .Result .restart {
+.Quiz.Result .save,
+.Quiz.Result .restart {
   margin: 0 auto;
   justify-content: center;
   width: 120px;
@@ -41,7 +41,7 @@
   border-radius: 10px;
 }
 
-.Quiz .Result .save-msg {
+.Quiz.Result .save-msg {
   width: 100%;
   padding-bottom: 50px;
   height: 30px;
@@ -50,20 +50,21 @@
   align-items: center;
 }
 
-.Quiz .Result .wrong-list {
+.Quiz.Result .wrong-list {
   margin-top: 5vh;
 }
 
-.Quiz .Result .wrong-list .title {
+.Quiz.Result .wrong-list .title {
   font-weight: 700;
   padding-bottom: 20px;
 }
-.Quiz .Result .wrong-list .title:before {
+
+.Quiz.Result .wrong-list .title:before {
   content: "・ ";
   color: var(--accent);
 }
 
-.Quiz .Result .wrong-list .subject > a {
+.Quiz.Result .wrong-list .subject > a {
   font-size: 2rem;
   padding: 12px 0;
   font-weight: 700;
@@ -71,18 +72,18 @@
   margin-bottom: 16px;
 }
 
-.Quiz .Result .wrong-list .subject > a:after {
+.Quiz.Result .wrong-list .subject > a:after {
   content: "";
   width: 100%;
   border-bottom: 2px solid var(--border);
   pointer-events: none;
 }
 
-.Quiz .Result .wrong-list .subject > div {
+.Quiz.Result .wrong-list .subject > div {
   padding: 4px 0 4px 2%;
 }
 
-.Quiz .Result .wrong-list .wrong-keyword {
+.Quiz.Result .wrong-list .wrong-keyword {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
@@ -93,18 +94,18 @@
   border-radius: 5px;
 }
 
-.Quiz .Result .wrong-list .wrong-keyword .keyword {
+.Quiz.Result .wrong-list .wrong-keyword .keyword {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-bottom: 16px;
 }
 
-.Quiz .Result .wrong-list .wrong-keyword .keyword svg {
+.Quiz.Result .wrong-list .wrong-keyword .keyword svg {
   color: var(--subtext);
 }
 
-.Quiz .Result .wrong-list .wrong-keyword .desc {
+.Quiz.Result .wrong-list .wrong-keyword .desc {
   width: 100%;
   white-space: pre-wrap;
   word-break: keep-all;

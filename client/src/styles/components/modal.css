@@ -9,7 +9,7 @@
   padding: calc(32px + 30px) 5vw 30px;
 }
 
-.modal .btn-close {
+.modal .close-btn {
   position: absolute;
   top: 15px;
   right: 15px;

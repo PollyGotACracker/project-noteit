@@ -83,7 +83,9 @@ const PasswordChange = () => {
             ref={reNewPwdRef}
           />
         </label>
-        <button type="submit">변경</button>
+        <button className="submit" type="submit">
+          변경
+        </button>
       </form>
     </SettingBox>
   );

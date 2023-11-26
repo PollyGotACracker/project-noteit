@@ -39,7 +39,7 @@ const TodoItemWrapper = ({ data }) => {
 
   return (
     <motion.ul
-      className="list"
+      className="list overflow-list"
       variants={container}
       initial="hidden"
       animate="visible"

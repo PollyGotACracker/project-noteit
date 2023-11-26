@@ -30,7 +30,7 @@ const Modal = ({ content }) => {
           variants={variants}
         >
           {content}
-          <button className="btn-close" onClick={toggleModal}>
+          <button className="close-btn" onClick={toggleModal}>
             <RxCross2 />
           </button>
         </motion.div>

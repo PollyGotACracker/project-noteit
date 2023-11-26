@@ -1,17 +1,9 @@
-.Quiz {
-  /* .loading 의 position 맞춤 */
-  position: relative;
-}
-
-.Quiz .Game {
-  display: flex;
-  flex-direction: column;
+.Quiz.Game {
   align-items: center;
-  flex: 1;
   gap: 1%;
 }
 
-.Quiz .Game .subject-box {
+.Quiz.Game .subject-box {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -20,12 +12,12 @@
   word-break: keep-all;
 }
 
-.Quiz .Game .subject-box > .category {
+.Quiz.Game .subject-box > .category {
   font-weight: 700;
   font-size: 2rem;
 }
 
-.Quiz .Game .subject-box .subject {
+.Quiz.Game .subject-box .subject {
   width: 100%;
   padding: 4% 0;
   text-align: center;
@@ -34,7 +26,7 @@
   word-break: keep-all;
 }
 
-.Quiz .Game .keyword-box {
+.Quiz.Game .keyword-box {
   width: 70%;
   display: flex;
   flex-wrap: wrap;
@@ -42,7 +34,7 @@
   gap: 16px;
 }
 
-.Quiz .Game .keyword-desc {
+.Quiz.Game .keyword-desc {
   white-space: pre-wrap;
   padding: 16px;
   border-top: 5px solid var(--primary);
@@ -54,28 +46,28 @@
   word-break: break-word;
 }
 
-.Quiz .Game button {
+.Quiz.Game button {
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 8px;
   font-size: 1.4rem;
 }
 
-.Quiz .Game .keycount {
+.Quiz.Game .keycount {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   gap: 10px;
 }
 
-.Quiz .Game .answer-box {
+.Quiz.Game .answer-box {
   width: 70%;
   display: flex;
   justify-content: center;
   margin-top: auto;
 }
 
-.Quiz .Game .answer-box .msg-box {
+.Quiz.Game .answer-box .msg-box {
   display: flex;
   column-gap: 10px;
   width: 100%;
@@ -83,12 +75,13 @@
   background-color: var(--background);
   border: 1px solid var(--border);
   border-radius: 10px;
+  -webkit-user-select: none;
   user-select: none;
   position: relative;
   caret-color: var(--accent);
 }
 
-.Quiz .Game .answer-box .msg-box:after {
+.Quiz.Game .answer-box .msg-box:after {
   position: absolute;
   left: calc(50% - 15px);
   top: -16px;
@@ -101,12 +94,12 @@
   transform: rotateZ(135deg);
 }
 
-.Quiz .Game .answer-box .msg {
+.Quiz.Game .answer-box .msg {
   border: none;
   width: 100%;
 }
 
-.Quiz .Game .feedback-msg {
+.Quiz.Game .feedback-msg {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -121,13 +114,13 @@
   transition: opacity ease 0.3s;
 }
 
-.Quiz .Game .feedback-msg svg {
+.Quiz.Game .feedback-msg svg {
   color: var(--secondary);
   font-size: 4rem;
   font-weight: 900;
 }
 
-.Quiz .Game .total-score {
+.Quiz.Game .total-score {
   margin-left: auto;
   display: flex;
   flex-direction: column;
@@ -137,7 +130,7 @@
   font-size: 1.6rem;
 }
 
-.Quiz .Game .total-score div:first-child {
+.Quiz.Game .total-score div:first-child {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -152,7 +145,7 @@
   animation-play-state: paused;
 }
 
-.Quiz .Game .timer-container {
+.Quiz.Game .timer-container {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -161,7 +154,7 @@
   background: var(--subborder);
 }
 
-.Quiz .Game .timer-bar {
+.Quiz.Game .timer-bar {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -174,111 +167,55 @@
   transition: background-color 0.3s ease-in-out;
 }
 
-.Quiz .loading {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+.Quiz.Loading {
   justify-content: center;
   align-items: center;
   transition: opacity ease 0.3s;
 }
 
-.Quiz .loading svg {
+.Quiz.Loading svg {
+  -webkit-animation: infinite ease-out 1.6s hourglassRotateZ,
+    infinite steps(1) 0.4s hourglassRotateX;
   animation: infinite ease-out 1.6s hourglassRotateZ,
     infinite steps(1) 0.4s hourglassRotateX;
   font-size: 20rem;
   color: var(--secondary);
 }
 
-.Quiz .loading span {
+.Quiz.Loading span {
   margin-top: 30px;
-  user-select: none;
   -webkit-user-select: none;
+  user-select: none;
 }
 
 @media only screen and (max-width: 1023px) {
-  .Quiz .Game .timer-container {
+  .Quiz.Game .timer-container {
     position: fixed;
   }
-  .Quiz .Game .answer-box {
+  .Quiz.Game .answer-box {
     margin-bottom: 12px;
   }
 }
 
 @media only screen and (max-width: 768px) {
-  .Quiz .Game .subject-box .subject {
+  .Quiz.Game .subject-box .subject {
     padding: 2% 0;
     font-size: 2rem;
   }
 
-  .Quiz .Game .keyword-box,
-  .Quiz .Game .answer-box {
+  .Quiz.Game .keyword-box,
+  .Quiz.Game .answer-box {
     width: 100%;
   }
 
-  .Quiz .Game .answer-box .msg-box {
+  .Quiz.Game .answer-box .msg-box {
     padding: 10px;
   }
 
-  .Quiz .Game .answer-box .msg-box:after {
+  .Quiz.Game .answer-box .msg-box:after {
     left: calc(50% - 5px);
     top: -6px;
     width: 10px;
     height: 10px;
-  }
-}
-
-@keyframes jumpMsg {
-  50% {
-    transform: translateY(-5px);
-  }
-}
-
-@keyframes shakeMsg {
-  20% {
-    transform: translateX(-5px);
-  }
-  60% {
-    transform: translateX(5px);
-  }
-  80% {
-    transform: translateX(-2px);
-  }
-  100% {
-    transform: translateX(2px);
-  }
-}
-
-@keyframes spinScore {
-  50% {
-    color: var(--accent);
-  }
-  100% {
-    transform: rotate(360deg);
-    color: inherit;
-  }
-}
-
-@keyframes countdown {
-  100% {
-    width: 0;
-  }
-}
-
-@keyframes changeColor {
-  80% {
-    background-color: var(--red);
-  }
-}
-
-@keyframes hourglassRotateZ {
-  100% {
-    transform: rotateZ(180deg);
-  }
-}
-@keyframes hourglassRotateX {
-  100% {
-    transform: scaleY(-1);
   }
 }

@@ -82,7 +82,10 @@ const DetailKeywords = ({ keywords }) => {
             <FaCaretLeft />
           </button>
         )}
-        <div className="keyword-list-wrap">
+        <div
+          className="keyword-list-wrap"
+          style={isMobile && { width: "100%" }}
+        >
           <div className="keyword-list" ref={containerRef}>
             {keywordList}
           </div>

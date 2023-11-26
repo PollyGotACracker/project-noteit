@@ -12,6 +12,7 @@
   background-color: white;
   border-radius: 50%;
   box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 40px #fff, 0 0 80px #fff;
+  -webkit-animation: twinkle linear infinite;
   animation: twinkle linear infinite;
   opacity: 0.8;
 }
@@ -33,6 +34,7 @@
 
 .Landing .cover-img g:first-of-type {
   transform-origin: center;
+  -webkit-animation: 1s cubic-bezier(0.195, 0.325, 0.6, 1.55) upscale;
   animation: 1s cubic-bezier(0.195, 0.325, 0.6, 1.55) upscale;
 }
 
@@ -42,6 +44,7 @@
   font-weight: 900;
   letter-spacing: 5px;
   white-space: nowrap;
+  -webkit-user-select: none;
   user-select: none;
   padding: 20px 0;
   z-index: 3;
@@ -49,6 +52,7 @@
 
 .Landing .title .char {
   display: inline-block;
+  -webkit-animation: cubic-bezier(0.195, 0.325, 0.6, 1.55) bounce;
   animation: cubic-bezier(0.195, 0.325, 0.6, 1.55) bounce;
 }
 
@@ -68,11 +72,13 @@
 
 .Landing .lighthouse-img circle:first-of-type {
   transition: all linear 0.2s;
+  -webkit-animation: 1s linear alternate infinite onoff;
   animation: 1s linear alternate infinite onoff;
 }
 
 .Landing .lighthouse-img circle:last-of-type {
   transition: all linear 0.2s;
+  -webkit-animation: 5s 2s linear alternate infinite onoff;
   animation: 5s 2s linear alternate infinite onoff;
 }
 
@@ -90,47 +96,5 @@
     width: 400px;
     left: calc(50vw - 30vw - 200px);
     bottom: -265px;
-  }
-}
-
-@keyframes upscale {
-  0% {
-    transform: scale(0.2);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-@keyframes bounce {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
-
-@keyframes onoff {
-  100% {
-    opacity: 0.5;
-  }
-}
-
-@keyframes twinkle {
-  0% {
-    opacity: 0.8;
-  }
-  10% {
-    opacity: 0;
-  }
-  30% {
-    opacity: 0.8;
-  }
-  100% {
-    opacity: 0.8;
   }
 }

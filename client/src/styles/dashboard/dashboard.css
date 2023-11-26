@@ -4,8 +4,8 @@
 }
 
 .Dashboard > .dashboard {
-  user-select: none;
   -webkit-user-select: none;
+  user-select: none;
   margin-bottom: 16px;
 }
 
@@ -30,10 +30,12 @@
   width: 100%;
   margin-bottom: 20px;
   text-align: center;
+  -webkit-user-select: none;
   user-select: none;
 }
 
 .Dashboard .headline .text-box .text {
+  -webkit-animation: 0.5s step-end infinite alternate blink;
   animation: 0.5s step-end infinite alternate blink;
   border-right: 1px solid var(--accent);
 }
@@ -107,6 +109,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  -webkit-user-select: none;
   user-select: none;
   padding: 10px;
   white-space: nowrap;
@@ -121,12 +124,6 @@
 .Dashboard .title svg {
   font-size: 2.5rem;
   color: var(--secondary);
-}
-
-@keyframes blink {
-  50% {
-    border-color: transparent;
-  }
 }
 
 @media only screen and (max-width: 1023px) {

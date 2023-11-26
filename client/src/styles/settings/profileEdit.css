@@ -26,8 +26,8 @@
 }
 
 .Settings .upload-img-wrapper {
-  width: 200px;
-  height: 200px;
+  width: min(200px, 60%);
+  aspect-ratio: 1 / 1;
   border-radius: 50%;
   overflow: hidden;
   display: flex;
@@ -53,6 +53,7 @@
 
 .Settings label[for="img-input"] {
   display: inline-block;
+  -webkit-user-select: none;
   user-select: none;
   border-radius: 5px;
   border: 1px solid var(--border);
@@ -63,11 +64,6 @@
   text-align: center;
 }
 
-.Settings label[for="img-input"]:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
 .Settings #str-input {
   margin: 16px 0;
   width: 100%;
@@ -75,4 +71,11 @@
 
 .Settings .profile-update-btn {
   align-self: flex-end;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .Settings label[for="img-input"]:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
 }

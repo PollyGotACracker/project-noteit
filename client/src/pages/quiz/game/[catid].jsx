@@ -198,78 +198,76 @@ const QuizGamePage = () => {
 
   return (
     <Fallback isLoading={isLoading}>
-      <main className="Quiz">
-        {!isCountStart ? (
-          <div className="Game" ref={gameRef}>
-            <Score score={score} perfectScore={perfectScore} />
-            <div className="subject-box">
-              <div className="category">{subjectList[subIdx]?.s_category}</div>
-              <div>
-                {subjectList?.length} 개의 주제 중 {subIdx + 1} 번째
-              </div>
-              <div className="subject">{subjectList[subIdx]?.s_subject}</div>
-              <button
-                onClick={skipSubjectHandler}
-                disabled={quizPaused || quizEnded}
-              >
-                <IoArrowRedoCircleOutline />
-                주제 건너뛰기
-              </button>
+      {!isCountStart ? (
+        <main className="Quiz Game" ref={gameRef}>
+          <Score score={score} perfectScore={perfectScore} />
+          <div className="subject-box">
+            <div className="category">{subjectList[subIdx]?.s_category}</div>
+            <div>
+              {subjectList?.length} 개의 주제 중 {subIdx + 1} 번째
             </div>
-            <Feedback feedbackMsg={feedbackMsg} quizEnded={quizEnded} />
-            <div className="keyword-box">
-              <button
-                onClick={skipKeywordHandler}
-                disabled={quizPaused || quizEnded}
-              >
-                <IoArrowRedoCircleOutline />
-                키워드 건너뛰기
-              </button>
-              <div className="keycount">
-                <FaTags /> {keyIdx + 1} / {subjectList[subIdx]?.s_keycount}
-              </div>
-              <div className="keyword-desc">
-                {!quizPaused
-                  ? keywordList[keyIdx]?.k_desc
-                  : "일시 중지 상태입니다."}
-              </div>
-            </div>
-            <section className="answer-box">
-              <div className="msg-box">
-                <input
-                  className="msg"
-                  ref={userAnswerRef}
-                  placeholder={
-                    !quizPaused
-                      ? "정답을 입력하세요!"
-                      : "이어하기 버튼을 누르세요!"
-                  }
-                  value={userAnswer}
-                  onChange={({ target: { value } }) => setUserAnswer(value)}
-                  onKeyDown={onKeyDownHandler}
-                  disabled={quizPaused || quizEnded}
-                />
-                {!!getQuizTimer() && (
-                  <button onClick={togglePausedState} disabled={quizEnded}>
-                    {quizPaused ? "이어하기" : "일시중지"}
-                  </button>
-                )}
-              </div>
-            </section>
-            <GameTimer
-              skipKeyFunc={skipKeywordHandler}
-              quizPaused={quizPaused}
-              setQuizPaused={setQuizPaused}
-              quizEnded={quizEnded}
-            />
+            <div className="subject">{subjectList[subIdx]?.s_subject}</div>
+            <button
+              onClick={skipSubjectHandler}
+              disabled={quizPaused || quizEnded}
+            >
+              <IoArrowRedoCircleOutline />
+              주제 건너뛰기
+            </button>
           </div>
-        ) : (
-          <section className="loading">
-            <IoIosHourglass />
-            <span>점수 계산 중...</span>
+          <Feedback feedbackMsg={feedbackMsg} quizEnded={quizEnded} />
+          <div className="keyword-box">
+            <button
+              onClick={skipKeywordHandler}
+              disabled={quizPaused || quizEnded}
+            >
+              <IoArrowRedoCircleOutline />
+              키워드 건너뛰기
+            </button>
+            <div className="keycount">
+              <FaTags /> {keyIdx + 1} / {subjectList[subIdx]?.s_keycount}
+            </div>
+            <div className="keyword-desc">
+              {!quizPaused
+                ? keywordList[keyIdx]?.k_desc
+                : "일시 중지 상태입니다."}
+            </div>
+          </div>
+          <section className="answer-box">
+            <div className="msg-box">
+              <input
+                className="msg"
+                ref={userAnswerRef}
+                placeholder={
+                  !quizPaused
+                    ? "정답을 입력하세요!"
+                    : "이어하기 버튼을 누르세요!"
+                }
+                value={userAnswer}
+                onChange={({ target: { value } }) => setUserAnswer(value)}
+                onKeyDown={onKeyDownHandler}
+                disabled={quizPaused || quizEnded}
+              />
+              {!!getQuizTimer() && (
+                <button onClick={togglePausedState} disabled={quizEnded}>
+                  {quizPaused ? "이어하기" : "일시중지"}
+                </button>
+              )}
+            </div>
           </section>
-        )}
-      </main>
+          <GameTimer
+            skipKeyFunc={skipKeywordHandler}
+            quizPaused={quizPaused}
+            setQuizPaused={setQuizPaused}
+            quizEnded={quizEnded}
+          />
+        </main>
+      ) : (
+        <main className="Quiz Loading">
+          <IoIosHourglass />
+          <span>점수 계산 중...</span>
+        </main>
+      )}
     </Fallback>
   );
 };

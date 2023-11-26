@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { RouterProvider } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { QueryClientProvider } from "react-query";
@@ -11,9 +12,11 @@ const App = () => {
   setThemeStorage(userTheme);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={routers} />
-    </QueryClientProvider>
+    <Suspense fallback={<div></div>}>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={routers} />
+      </QueryClientProvider>
+    </Suspense>
   );
 };
 

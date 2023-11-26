@@ -39,7 +39,7 @@ main.out {
   display: none;
 }
 
-.container {
+main.out .container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -54,7 +54,7 @@ main.out {
   transform: translateY(-15px);
 }
 
-.container::before {
+main.out .container::before {
   content: "";
   display: block;
   background-repeat: no-repeat;
@@ -65,7 +65,7 @@ main.out {
   background-image: url("@assets/images/noteit_icon.svg");
 }
 
-.container > form {
+main.out .container > form {
   flex: 1;
   width: 100%;
   display: flex;
@@ -75,26 +75,26 @@ main.out {
   gap: 20px;
 }
 
-.container > .form-column {
+main.out .container > .form-column {
   flex-direction: column;
 }
 
-.container > .form-row {
+main.out .container > .form-row {
   flex-direction: row;
   flex-wrap: wrap;
 }
 
-.container > .form-column > label {
+main.out .container > .form-column > label {
   position: relative;
   width: 100%;
 }
 
-.container > .form-row > label {
+main.out .container > .form-row > label {
   flex-shrink: 0;
   flex: 1;
 }
 
-.container .status {
+main.out .container .status {
   width: 100%;
   font-size: 1.4rem;
   height: 1.6rem;
@@ -104,26 +104,26 @@ main.out {
   color: white;
 }
 
-.container > .form-column {
+main.out .container > .form-column {
   flex-direction: column;
 }
 
-.container > .form-row {
+main.out .container > .form-row {
   flex-direction: row;
   flex-wrap: wrap;
 }
 
-.container > .form-column > label {
+main.out .container > .form-column > label {
   position: relative;
   width: 100%;
 }
 
-.container > .form-row > label {
+main.out .container > .form-row > label {
   flex-shrink: 0;
   flex: 1;
 }
 
-.container .status {
+main.out .container .status {
   width: 100%;
   font-size: 1.4rem;
   height: 1.6rem;
@@ -133,7 +133,7 @@ main.out {
   color: white;
 }
 
-.container input {
+main.out .container input {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -148,26 +148,25 @@ main.out {
   padding: 10px 10px 10px 40px;
 }
 
-.container input[name="code"] {
+main.out .container input[name="code"] {
   padding: 10px;
 }
 
-:root[color-theme="light"] .container input::-ms-reveal {
+:root[color-theme="light"] main.out .container input::-ms-reveal {
   filter: invert(100%);
 }
 
-.container input:-webkit-autofill,
-.container input:-webkit-autofill:hover,
-.container input:-webkit-autofill:focus {
+main.out .container input:-webkit-autofill,
+main.out .container input:-webkit-autofill:focus {
   -webkit-text-fill-color: var(--light);
   -webkit-box-shadow: 0 0 0px 1000px var(--dark) inset;
 }
 
-.container input:not(:read-only):focus {
+main.out .container input:not(:read-only):focus {
   border-color: var(--accent);
 }
 
-.container label:before {
+main.out .container label:before {
   position: absolute;
   left: 0;
   content: "";
@@ -179,45 +178,45 @@ main.out {
   height: 40px;
 }
 
-.container label[for="email"]:before {
+main.out .container label[for="email"]:before {
   background-image: url("@assets/images/email.png");
 }
 
-.container label[for="nickname"]:before {
+main.out .container label[for="nickname"]:before {
   background-image: url("@assets/images/user.png");
 }
 
-.container label[for="password"]:before {
+main.out .container label[for="password"]:before {
   background-image: url("@assets/images/pwd.png");
 }
 
-.container label[for="repassword"]:before {
+main.out .container label[for="repassword"]:before {
   background-image: url("@assets/images/pwd_check.png");
 }
 
-.container input::placeholder {
+main.out .container input::placeholder {
   color: var(--lightgray);
 }
 
-.container button {
+main.out .container button {
   color: white;
   padding: 10px;
   border-radius: 10px;
   width: 100%;
 }
 
-.container button.action-btn {
+main.out .container button.action-btn {
   border: 1px solid var(--secondary);
   transition: border-color 0.3s ease;
 }
 
-.container > .form-row > button.action-btn {
+main.out .container > .form-row > button.action-btn {
   flex-basis: 80px;
   flex: 0.4;
   flex-shrink: 1;
 }
 
-.container button.submit {
+main.out .container button.submit {
   height: 60px;
   background-color: var(--secondary);
   transition: background-color 0.3s ease;
@@ -227,25 +226,13 @@ main.out {
   margin-top: auto;
 }
 
-.container button.action-btn:not(:disabled):hover {
-  border-color: var(--accent);
-}
-
-.container button.submit:not(:disabled):hover {
-  background-color: var(--accent);
-}
-
 .SignIn a.reset-password {
   background-color: transparent;
   transition: color 0.3s ease-in-out;
   color: var(--light);
 }
 
-.SignIn a.reset-password:hover {
-  color: var(--accent);
-}
-
-.link-wrapper {
+main.out .link-wrapper {
   width: 100%;
   padding-top: 10px;
   display: flex;
@@ -254,14 +241,10 @@ main.out {
   justify-content: space-between;
 }
 
-.link-wrapper > a {
+main.out .link-wrapper > a {
   margin: 0 auto;
   font-size: 1.4rem;
   border-bottom: 1px solid var(--light);
-}
-
-.link-wrapper > a:hover {
-  border-color: var(--accent);
 }
 
 @media only screen and (max-width: 1023px) {
@@ -274,25 +257,48 @@ main.out {
 }
 
 @media only screen and (max-width: 768px) {
-  .container {
+  main.out .container {
     padding: 5% 10% 10%;
   }
 
-  .container::before {
+  main.out .container::before {
     background-size: 100px;
     width: 50px;
     height: 50px;
   }
 
-  .container label {
+  main.out .container label {
     width: 100%;
   }
 
-  .container button.submit {
+  main.out .container button.submit {
     height: auto;
   }
 
   .header-signout {
     padding: 8px 16px;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  main.out .container input:-webkit-autofill:hover {
+    -webkit-text-fill-color: var(--light);
+    -webkit-box-shadow: 0 0 0px 1000px var(--dark) inset;
+  }
+
+  main.out .container button.action-btn:not(:disabled):hover {
+    border-color: var(--accent);
+  }
+
+  main.out .container button.submit:not(:disabled):hover {
+    background-color: var(--accent);
+  }
+
+  .SignIn a.reset-password:hover {
+    color: var(--accent);
+  }
+
+  main.out .link-wrapper > a:hover {
+    border-color: var(--accent);
   }
 }

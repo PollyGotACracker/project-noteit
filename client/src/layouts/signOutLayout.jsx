@@ -23,13 +23,13 @@ const SignOutLayout = ({ children }) => {
 
   if (isSignedIn || userTokenFlag) return <></>;
   return (
-    <>
+    <div id="page">
       <header className="header-signout">
         <HomeLink />
         <SignOutNav />
       </header>
       {children}
-    </>
+    </div>
   );
 };
 

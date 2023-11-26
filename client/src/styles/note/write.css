@@ -10,6 +10,7 @@
   width: 120px;
   font-size: 2rem;
   font-weight: 700;
+  -webkit-user-select: none;
   user-select: none;
   margin: 50px 10px 20px 0px;
 }
@@ -67,6 +68,7 @@
 .Write .keyword-btn-box .keyword-index {
   font-size: 2.5rem;
   color: var(--accent);
+  -webkit-user-select: none;
   user-select: none;
 }
 
@@ -75,18 +77,9 @@
   color: var(--subtext);
 }
 
-.Write .keyword-btn-box .keyword-delete:hover {
-  color: var(--red);
-}
-
 .Write .keyword-btn-box .keyword-up,
 .Write .keyword-btn-box .keyword-down {
   font-size: 2.5rem;
-}
-
-.Write .keyword-btn-box .keyword-up:hover,
-.Write .keyword-btn-box .keyword-down:hover {
-  color: var(--accent);
 }
 
 .Write .keyword-wrap {
@@ -168,11 +161,6 @@
   width: 120px;
 }
 
-.Write .keyword-controller #add-keyword:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
 .Write #content {
   width: 100%;
   height: 20vh;
@@ -193,12 +181,6 @@
   white-space: nowrap;
   cursor: pointer;
   text-align: center;
-}
-
-.Write #back:hover,
-.Write #submit:hover {
-  color: inherit !important;
-  background-color: var(--accent);
 }
 
 .Write .btn-box {
@@ -222,7 +204,6 @@
 
 .ck-editor .ck-toolbar,
 .ck-editor .ck-toolbar *,
-.ck-editor .ck-toolbar *:hover,
 .ck-editor .ck-content {
   background-color: var(--background) !important;
 }
@@ -234,4 +215,31 @@
 
 .ck-editor__editable.ck-rounded-corners {
   border-radius: 0 0 10px 10px !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .Write .keyword-btn-box .keyword-delete:hover {
+    color: var(--red);
+  }
+
+  .Write .keyword-btn-box .keyword-up:hover,
+  .Write .keyword-btn-box .keyword-down:hover {
+    color: var(--accent);
+  }
+
+  .Write .keyword-controller #add-keyword:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .Write #back:hover,
+  .Write #submit:hover {
+    color: inherit !important;
+    background-color: var(--accent);
+  }
+
+  /* editor style */
+  .ck-editor .ck-toolbar *:hover {
+    background-color: var(--background) !important;
+  }
 }
