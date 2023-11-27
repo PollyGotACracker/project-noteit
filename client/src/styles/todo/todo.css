@@ -2,8 +2,6 @@
 @import "./item.css";
 
 .Todo {
-  display: flex;
-  flex-direction: column;
   overflow-y: hidden;
 }
 

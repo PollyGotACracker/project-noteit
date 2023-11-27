@@ -1,5 +1,5 @@
 import "@styles/signOutLayout.css";
-import { useEffect } from "react";
+import { useLayoutEffect, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useRecoilValue } from "recoil";
 import useUserStatus from "@hooks/useUserStatus";
@@ -17,7 +17,7 @@ const SignOutLayout = ({ children }) => {
     setUserTokenFlag(true);
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!initial && isSignedIn) navigate(URLS.DASHBOARD, { replace: true });
   }, [initial, isSignedIn]);
 

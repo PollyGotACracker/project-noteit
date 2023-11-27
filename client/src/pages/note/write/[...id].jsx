@@ -47,19 +47,7 @@ const NoteWritePage = () => {
     }
   }, [upsertSubId]);
 
-  const addKeywordItemHandler = () =>
-    setKeywordList([...keywordList, initKey()]);
-
-  const onChangeSubHandler = ({ target: { name, value } }) => {
-    setNoteSub({ ...noteSub, [name]: value });
-  };
-
-  const onChangeContentHandler = (e, editor) => {
-    const data = editor.getData();
-    setNoteSub({ ...noteSub, s_content: data });
-  };
-
-  const validateSubject = () => {
+  const checkNoteValidation = () => {
     const checkValidText = (str) => {
       return !!str.replaceAll(" ", "");
     };
@@ -80,8 +68,20 @@ const NoteWritePage = () => {
     return true;
   };
 
+  const addKeywordItemHandler = () =>
+    setKeywordList([...keywordList, initKey()]);
+
+  const onChangeSubHandler = ({ target: { name, value } }) => {
+    setNoteSub({ ...noteSub, [name]: value });
+  };
+
+  const onChangeContentHandler = (e, editor) => {
+    const data = editor.getData();
+    setNoteSub({ ...noteSub, s_content: data });
+  };
+
   const submitHandler = async () => {
-    if (!validateSubject()) return;
+    if (!checkNoteValidation()) return;
     let subjects = { ...noteSub, s_catid: catId, s_subid: subId ? subId : "" };
     const images = document?.querySelectorAll(".ck-content img");
     if (images) {

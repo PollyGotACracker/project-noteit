@@ -7,9 +7,6 @@
 
 /* landing */
 @keyframes upscale {
-  0% {
-    transform: scale(0.2);
-  }
   100% {
     transform: scale(1);
   }
@@ -89,7 +86,7 @@
 
 @keyframes countdown {
   100% {
-    width: 0;
+    transform: scaleX(0);
   }
 }
 

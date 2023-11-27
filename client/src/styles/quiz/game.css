@@ -161,6 +161,8 @@
   width: 100%;
   height: 100%;
   background-color: var(--accent);
+  transform-origin: left;
+  will-change: transform, background-color;
   animation-name: countdown, changeColor;
   animation-timing-function: linear, steps(1, end);
   animation-fill-mode: forwards, forwards;

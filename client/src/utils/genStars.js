@@ -1,11 +1,10 @@
 const genStars = (node) => {
-  const container = node;
   let width = window.innerWidth;
   let height = window.innerHeight;
 
   const setRndStars = () => {
-    container.textContent = "";
-    const COUNT = 30;
+    node.textContent = "";
+    const COUNT = Math.floor(width * 0.04);
     const stars = [];
     let i = 0;
     while (i < COUNT) {
@@ -26,10 +25,10 @@ const genStars = (node) => {
       stars.push(star);
       i++;
     }
-    container.append(...stars);
+    node.append(...stars);
   };
 
-  setRndStars(node);
+  setRndStars();
 
   window.addEventListener("resize", () => {
     width = window.innerWidth;

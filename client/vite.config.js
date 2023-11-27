@@ -37,5 +37,16 @@ export default defineConfig(({ mode }) => {
         { find: "@utils", replacement: "/src/utils" },
       ],
     },
+    build: {
+      sourcemap: true,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            ckeditor_custom: ["ckeditor5-custom-build/build/ckeditor"],
+            ckeditor: ["@ckeditor/ckeditor5-react"],
+          },
+        },
+      },
+    },
   };
 });

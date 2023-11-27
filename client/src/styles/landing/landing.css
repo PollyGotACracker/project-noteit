@@ -12,9 +12,10 @@
   background-color: white;
   border-radius: 50%;
   box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 40px #fff, 0 0 80px #fff;
-  -webkit-animation: twinkle linear infinite;
-  animation: twinkle linear infinite;
+  will-change: opacity;
   opacity: 0.8;
+  -webkit-animation: linear infinite twinkle;
+  animation: linear infinite twinkle;
 }
 
 .Landing .cover-img {
@@ -34,8 +35,10 @@
 
 .Landing .cover-img g:first-of-type {
   transform-origin: center;
-  -webkit-animation: 1s cubic-bezier(0.195, 0.325, 0.6, 1.55) upscale;
-  animation: 1s cubic-bezier(0.195, 0.325, 0.6, 1.55) upscale;
+  will-change: transform;
+  transform: scale(0.5);
+  -webkit-animation: 0.5s cubic-bezier(0.195, 0.325, 0.6, 1.55) forwards upscale;
+  animation: 0.5s cubic-bezier(0.195, 0.325, 0.6, 1.55) forwards upscale;
 }
 
 .Landing .title {
@@ -52,6 +55,7 @@
 
 .Landing .title .char {
   display: inline-block;
+  will-change: transform;
   -webkit-animation: cubic-bezier(0.195, 0.325, 0.6, 1.55) bounce;
   animation: cubic-bezier(0.195, 0.325, 0.6, 1.55) bounce;
 }
@@ -71,13 +75,15 @@
 }
 
 .Landing .lighthouse-img circle:first-of-type {
-  transition: all linear 0.2s;
+  will-change: opacity;
+  transition: opacity linear 0.2s;
   -webkit-animation: 1s linear alternate infinite onoff;
   animation: 1s linear alternate infinite onoff;
 }
 
 .Landing .lighthouse-img circle:last-of-type {
-  transition: all linear 0.2s;
+  will-change: opacity;
+  transition: opacity linear 0.2s;
   -webkit-animation: 5s 2s linear alternate infinite onoff;
   animation: 5s 2s linear alternate infinite onoff;
 }

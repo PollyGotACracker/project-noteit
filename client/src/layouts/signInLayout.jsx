@@ -1,5 +1,5 @@
 import "@styles/signInLayout.css";
-import { Suspense, useEffect, useRef } from "react";
+import { Suspense, useLayoutEffect, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -32,7 +32,7 @@ const SignInLayout = ({ children }) => {
     setUserTokenFlag(true);
   }, [children]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!initial && !isSignedIn) navigate("/", { replace: true });
   }, [initial, isSignedIn]);
 
