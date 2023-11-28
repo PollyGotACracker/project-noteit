@@ -140,10 +140,17 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# SSH client
+*.pem
+
 # Upload
 upload/
 uploads/
 
 # Environment Variable
-.env*
+.env
+.env.production
+.env.development
+.env.local
+.env.test
 
