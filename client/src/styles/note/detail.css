@@ -136,6 +136,7 @@
 
 .Detail .keyword .top-box .key {
   font-size: 2rem;
+  overflow-wrap: break-word;
 }
 
 .Detail .keyword .top-box .wrong {
@@ -171,21 +172,23 @@
 }
 
 .Detail .keyword-list-bottom {
+  width: 100%;
   margin: 10px auto;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 100px);
   justify-content: center;
-  flex-wrap: wrap;
   gap: 20px;
 }
 
 .Detail .keyword-dot {
   color: var(--subtext);
   cursor: pointer;
-  transition: color 0.2s ease;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: inline-flex;
+  justify-content: flex-start;
   font-size: 1.4rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
 }
 
 .Detail .keyword-dot.active {

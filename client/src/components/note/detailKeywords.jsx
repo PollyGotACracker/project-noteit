@@ -52,6 +52,8 @@ const DetailKeywords = ({ keywords }) => {
 
   const keywordDot = keywords?.map((ele) => {
     const isCurrent = state === ele.k_index;
+    const keywords = ele.k_keyword.split(/\(|,/);
+    const firstKeyword = keywords[0].trim();
     return (
       <button
         key={ele.k_keyid}
@@ -59,7 +61,7 @@ const DetailKeywords = ({ keywords }) => {
         onClick={() => setSelectSlide(ele.k_index)}
       >
         {isCurrent ? <RxDotFilled /> : <RxDot />}
-        {ele.k_keyword}
+        {firstKeyword}
       </button>
     );
   });
