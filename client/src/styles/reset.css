@@ -27,10 +27,6 @@ html {
   overflow-x: hidden;
   background-color: var(--background);
   font-size: 62.5%;
-  will-change: opacity;
-  opacity: 0;
-  -webkit-animation: ease-in-out 0.3s forwards fadeIn;
-  animation: ease-in-out 0.3s forwards fadeIn;
 }
 
 body {

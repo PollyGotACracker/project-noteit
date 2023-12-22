@@ -1,29 +1,4 @@
-/* html */
-@keyframes fadeIn {
-  100% {
-    opacity: 1;
-  }
-}
-
 /* landing */
-@keyframes upscale {
-  100% {
-    transform: scale(1);
-  }
-}
-
-@keyframes bounce {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
-
 @keyframes onoff {
   100% {
     opacity: 0.5;
