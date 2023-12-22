@@ -1,10 +1,12 @@
 const genStars = (node) => {
-  let width = window.innerWidth;
-  let height = window.innerHeight;
+  let resizeFlag = false;
 
   const setRndStars = () => {
     node.textContent = "";
+    const width = window.innerWidth;
+    const height = window.innerHeight;
     const COUNT = Math.floor(width * 0.04);
+
     const stars = [];
     let i = 0;
     while (i < COUNT) {
@@ -14,13 +16,14 @@ const genStars = (node) => {
       const y = Math.floor(Math.random() * height);
       const size = Math.random() * 4 + 1;
       const duration = Math.random() * 5;
+
       Object.assign(star.style, {
-        width: size + "px",
-        height: size + "px",
-        top: y + "px",
-        left: x + "px",
-        animationDuration: duration + 5 + "s",
-        animationDelay: duration + "s",
+        width: `${size}px`,
+        height: `${size}px`,
+        top: `${y}px`,
+        left: `${x}px`,
+        animationDuration: `${duration + 5}s`,
+        animationDelay: `${duration}s`,
       });
       stars.push(star);
       i++;
@@ -31,13 +34,18 @@ const genStars = (node) => {
   setRndStars();
 
   window.addEventListener("resize", () => {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    setRndStars();
+    if (resizeFlag) return;
+    resizeFlag = true;
+
+    setTimeout(() => {
+      setRndStars();
+      resizeFlag = false;
+    }, 100);
   });
 };
 
 export default genStars;
+
 /**
  * cf)
  * DOM style Object
