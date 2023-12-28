@@ -39,9 +39,19 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       sourcemap: true,
+      cssCodeSplit: true,
+      cssMinify: true,
       rollupOptions: {
         output: {
           manualChunks: {
+            react: ["react", "react-dom"],
+            reactRouter: ["react-router-dom"],
+            reactQuery: ["react-query"],
+            recoil: ["recoil"],
+            reactChartjs2: ["react-chartjs-2"],
+            framerMotion: ["framer-motion"],
+            reactIcons: ["react-icons"],
+            reactSpinners: ["react-spinners"],
             ckeditor_custom: ["ckeditor5-custom-build/build/ckeditor"],
             ckeditor: ["@ckeditor/ckeditor5-react"],
           },
