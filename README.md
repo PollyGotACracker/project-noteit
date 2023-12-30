@@ -34,7 +34,8 @@
 ![dashboard](https://github.com/PollyGotACracker/project-noteit/assets/92136750/2bc4d462-3785-44e6-a403-abb7cdbf16d6)
 ![quiz](https://github.com/PollyGotACracker/project-noteit/assets/92136750/3ecb2f2c-6c8d-419d-81e0-d329af05e667)
 ![responsive](https://github.com/PollyGotACracker/project-noteit/assets/92136750/a80d1c60-fbbe-4c3e-b5a8-3af3e62b8c80)
-![noteit](https://github.com/PollyGotACracker/project-noteit/assets/92136750/af1cb4b2-196c-4c07-bbc5-9f6a15250000)
+![noteit](https://github.com/PollyGotACracker/project-noteit/assets/92136750/40b4158d-2c21-476f-a4d9-088c35ed726e)
+![noteit-pwa](https://github.com/PollyGotACracker/project-noteit/assets/92136750/01a57cc8-0478-421e-a4d1-5e26090d6f71)
 
 ## 실행 방법
 
