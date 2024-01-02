@@ -1,5 +1,10 @@
 import { atom, selector } from "recoil";
 
+export const starsState = atom({
+  key: "starsState",
+  default: [],
+});
+
 export const modalState = atom({
   key: "modalState",
   default: "",

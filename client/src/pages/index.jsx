@@ -2,19 +2,14 @@ import "@styles/landing/landing.css";
 import { ReactComponent as Noteit } from "@assets/images/noteit_cover.svg";
 import { ReactComponent as Lighthouse } from "@assets/images/lighthouse.svg";
 import { useEffect, useRef } from "react";
-import genStars from "@utils/genStars";
 import useThemeStyle from "@hooks/useThemeStyle";
+import StarContainer from "@/components/starContainer";
 
 const LandingPage = () => {
   const [secondary, accentalpha] = useThemeStyle([
     "--secondary",
     "--accentalpha",
   ]);
-  const starsRef = useRef(null);
-
-  useEffect(() => {
-    if (starsRef.current) genStars(starsRef.current);
-  }, [starsRef.current]);
 
   useEffect(() => {
     const coverRects = document.querySelectorAll(".cover rect");
@@ -47,7 +42,7 @@ const LandingPage = () => {
         <div className="subtitle">스스로 정리하고 학습하기</div>
       </div>
       <Lighthouse className="lighthouse-img" fill={accentalpha} />
-      <div className="stars-container" ref={starsRef}></div>
+      <StarContainer />
     </main>
   );
 };
