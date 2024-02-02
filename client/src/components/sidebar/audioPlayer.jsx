@@ -1,76 +1,73 @@
-import "@styles/components/audioPlayer.css";
-import { useEffect, useRef } from "react";
+import style from "@styles/components/audioPlayer.module.css";
+import { useRef } from "react";
+import cx from "classnames";
 import { IoPlaySkipBack, IoPlaySkipForward } from "react-icons/io5";
 import { FaPlay, FaPause } from "react-icons/fa";
 import useAudioPlayer from "@hooks/useAudioPlayer";
 import playList from "@data/playList";
 
-const PlayTitle = ({ index }) => {
-  const playTitleRef = useRef(null);
-
-  useEffect(() => {
-    const title = playTitleRef.current;
-    const titleWidth = title.textContent.length;
-    const duration = titleWidth * 0.2;
-    title.style.animationDuration = `${duration}s, ${duration * 2}s`;
-    title.style.animationDelay = `0.5s, ${duration}s`;
-  }, [playTitleRef.current, index]);
+const PlayTitle = ({ index, isPlaying }) => {
+  const setAnimation = (e) => {
+    const duration = e.target.clientWidth * 0.03;
+    e.target.style.animationDuration = `${duration}s, ${duration + 2}s`;
+    e.target.style.animationDelay = `0.5s, ${duration + 0.5}s`;
+  };
 
   return (
     <span
-      ref={playTitleRef}
       key={index}
+      className={cx(style.title, {
+        [style.active]: isPlaying,
+      })}
+      onAnimationStart={setAnimation}
     >{`${playList[index].title} - ${playList[index].artist}`}</span>
   );
 };
 
 const AudioPlayer = () => {
   const playerRef = useRef(null);
-  const playImgRef = useRef(null);
   const { setPlayState, setPrevAudio, setNextAudio, isPlaying, playIndex } =
     useAudioPlayer({ ref: playerRef, playList });
 
-  const setPlayAnimation = (bool) => {
-    if (bool) {
-      playImgRef.current.style.animationName = "play";
-      playImgRef.current.style.animationPlayState = "running";
-    } else {
-      playImgRef.current.style.animationPlayState = "paused";
-    }
-  };
-
   return (
-    <section className="player-box">
-      <div className="play-img-wrap">
-        <div className="play-img" ref={playImgRef}></div>
+    <section className={style.bg_audio_player}>
+      <div className={style.disk_box}>
+        <div
+          className={cx(style.disk, {
+            [style.active]: isPlaying,
+          })}
+        />
       </div>
-      <div className={`play-title${isPlaying ? " active" : " inactive"}`}>
-        <PlayTitle index={playIndex} />
+      <div className={style.title_wrapper}>
+        <PlayTitle index={playIndex} isPlaying={isPlaying} />
       </div>
-      <div className="play-btn-box">
-        <button className="player-prev-btn" onClick={setPrevAudio}>
+      <div className={style.controller_box}>
+        <button
+          className="prev"
+          title="이전 배경음악"
+          type="button"
+          onClick={setPrevAudio}
+        >
           <IoPlaySkipBack />
         </button>
         <button
-          className="player-btn"
-          title="배경음악"
-          onClick={setPlayState}
+          className="toggle"
+          title="토글 배경음악"
           type="button"
+          onClick={setPlayState}
         >
           {isPlaying ? <FaPause /> : <FaPlay />}
         </button>
-        <button className="player-next-btn" onClick={setNextAudio}>
+        <button
+          className="next"
+          title="다음 배경음악"
+          type="button"
+          onClick={setNextAudio}
+        >
           <IoPlaySkipForward />
         </button>
       </div>
-      <audio
-        preload="true"
-        ref={playerRef}
-        src={playList[playIndex].path}
-        onPlay={() => setPlayAnimation(true)}
-        onPause={() => setPlayAnimation(false)}
-        onEnded={() => setPlayAnimation(false)}
-      ></audio>
+      <audio preload="true" ref={playerRef} src={playList[playIndex].path} />
     </section>
   );
 };
