@@ -1,6 +1,6 @@
 @import "../keyframes.css";
 
-section.bg_audio_player {
+section.audio_player {
   background-color: var(--lightalpha);
   border-radius: 10px;
   padding: 5px 10px;
@@ -83,12 +83,12 @@ section.bg_audio_player {
 }
 
 @media only screen and (max-width: 1023px) {
-  section.bg_audio_player {
+  section.audio_player {
     order: 5;
     width: 100%;
   }
 
-  :root[color-theme="light"] section.bg_audio_player {
+  :root[color-theme="light"] section.audio_player {
     background-color: var(--semialpha);
   }
 

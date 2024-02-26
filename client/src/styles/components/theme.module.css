@@ -1,4 +1,9 @@
-.theme-box .darkmode-toggle {
+.switch,
+.slider {
+  transition: left ease-in 0.2s;
+}
+
+.switch {
   width: 75px;
   height: 30px;
   display: flex;
@@ -11,12 +16,15 @@
   cursor: pointer;
 }
 
-.theme-box .darkmode-toggle,
-.theme-box .darkmode-btn {
-  transition: left ease-in 0.2s;
+.slider,
+.dark,
+.light {
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
 }
 
-.theme-box .darkmode-btn {
+.slider {
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -27,42 +35,36 @@
   transform: translateY(-50%);
 }
 
-.theme-box #darkmode:checked ~ .darkmode-btn {
+#darkmode:checked ~ .slider {
   left: calc(100% - 20px - 5px);
 }
 
-.theme-box .theme-box span {
-  font-size: 1.4rem;
-  display: flex;
-  align-items: center;
-}
-
 @media only screen and (max-width: 1023px) {
-  section.theme-box {
+  section.theme {
     order: 6;
   }
 
-  .theme-box .darkmode-toggle:before {
-    content: "light";
-    position: absolute;
-    left: -50px;
-  }
-
-  .theme-box .darkmode-toggle:after {
-    content: "dark";
-    position: absolute;
-    right: -50px;
-  }
-
-  .theme-box .darkmode-toggle:before,
-  .theme-box .darkmode-toggle:after {
+  .switch:before,
+  .switch:after {
     font-size: 1.2rem;
     cursor: auto;
     -webkit-user-select: none;
     user-select: none;
   }
 
-  :root[color-theme="light"] .theme-box .darkmode-toggle {
+  .switch:before {
+    content: "light";
+    position: absolute;
+    left: -50px;
+  }
+
+  .switch:after {
+    content: "dark";
+    position: absolute;
+    right: -50px;
+  }
+
+  :root[color-theme="light"] .switch {
     border-color: var(--darkalpha) !important;
   }
 }

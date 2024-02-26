@@ -30,7 +30,7 @@ const AudioPlayer = () => {
     useAudioPlayer({ ref: playerRef, playList });
 
   return (
-    <section className={style.bg_audio_player}>
+    <section className={style.audio_player}>
       <div className={style.disk_box}>
         <div
           className={cx(style.disk, {

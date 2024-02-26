@@ -7,8 +7,8 @@ import useUserSignOut from "@hooks/useUserSignout";
 import Clock from "@components/sidebar/clock";
 import UserProfile from "@components/sidebar/userProfile";
 import AudioPlayer from "@components/sidebar/audioPlayer";
-import SearchForm from "@components/sidebar/searchForm";
-import ThemeToggle from "@components/sidebar/themeToggle";
+import Search from "@components/sidebar/search";
+import Theme from "@components/sidebar/theme";
 import SignInNav from "@components/signInNav";
 
 const Sidebar = () => {
@@ -24,8 +24,8 @@ const Sidebar = () => {
       </section>
       <Clock />
       <AudioPlayer />
-      <SearchForm />
-      <ThemeToggle />
+      <Search />
+      <Theme />
       <UserProfile />
       <SignInNav />
       <button type="button" className="link signout" onClick={signOut}>

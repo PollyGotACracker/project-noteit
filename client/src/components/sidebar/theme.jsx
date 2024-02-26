@@ -1,10 +1,10 @@
-import "@styles/components/themeToggle.css";
+import style from "@styles/components/theme.module.css";
 import { useRecoilState } from "recoil";
 import { RiSunLine, RiMoonLine } from "react-icons/ri";
 import { themeState } from "@recoils/theme";
 import { setThemeStorage } from "@utils/manageThemeStorage";
 
-const ThemeToggle = () => {
+const Theme = () => {
   const [userTheme, setUserTheme] = useRecoilState(themeState);
 
   const changeThemeHandler = ({ target: { checked } }) => {
@@ -13,20 +13,26 @@ const ThemeToggle = () => {
   };
 
   return (
-    <section className="theme-box">
-      <label htmlFor="darkmode" className="darkmode-toggle">
-        <span className="dark" style={{ visibility: !userTheme && "hidden" }}>
+    <section className={style.theme}>
+      <label htmlFor={style.darkmode} className={style.switch}>
+        <span
+          className={style.dark}
+          style={{ visibility: !userTheme && "hidden" }}
+        >
           <RiMoonLine />
         </span>
         <input
-          type="checkbox"
-          id="darkmode"
-          hidden
+          id={style.darkmode}
           checked={userTheme}
           onChange={changeThemeHandler}
+          type="checkbox"
+          hidden
         />
-        <span className="darkmode-btn"></span>
-        <span className="light" style={{ visibility: userTheme && "hidden" }}>
+        <span className={style.slider} />
+        <span
+          className={style.light}
+          style={{ visibility: userTheme && "hidden" }}
+        >
           <RiSunLine />
         </span>
       </label>
@@ -34,4 +40,4 @@ const ThemeToggle = () => {
   );
 };
 
-export default ThemeToggle;
+export default Theme;

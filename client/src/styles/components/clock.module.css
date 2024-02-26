@@ -1,17 +1,17 @@
-section.clock-box {
+section.clock {
   width: 180px;
   display: grid;
   grid-template-columns: 1fr 0.5fr 0.2fr;
   text-align: center;
 }
 
-.clock-box > .today {
+.today {
   font-size: 1.2rem;
   white-space: nowrap;
 }
 
 @media only screen and (max-width: 1023px) {
-  section.clock-box {
+  section.clock {
     margin: 0 auto;
     min-width: auto;
   }

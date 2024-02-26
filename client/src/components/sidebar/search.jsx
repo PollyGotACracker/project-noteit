@@ -1,4 +1,4 @@
-import "@styles/components/searchForm.css";
+import style from "@styles/components/search.module.css";
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
@@ -7,7 +7,7 @@ import { userState } from "@recoils/user";
 import useSearchFetcher from "@services/useSearchFetcher";
 import { URLS } from "@/router";
 
-const SearchForm = () => {
+const Search = () => {
   const getSearchResult = useSearchFetcher();
   const userData = useRecoilValue(userState);
   const navigate = useNavigate();
@@ -47,11 +47,11 @@ const SearchForm = () => {
   };
 
   return (
-    <section className="search-box">
-      <form onSubmit={searchKeyword}>
+    <section className={style.search}>
+      <form className={style.form} onSubmit={searchKeyword}>
         <input
+          className={style.input}
           ref={inputRef}
-          className="search"
           autoComplete="off"
           name="search"
         />
@@ -60,4 +60,4 @@ const SearchForm = () => {
   );
 };
 
-export default SearchForm;
+export default Search;

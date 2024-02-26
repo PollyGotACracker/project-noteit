@@ -1,4 +1,4 @@
-import "@styles/components/userProfile.css";
+import style from "@styles/components/userProfile.module.css";
 import { useNavigate } from "react-router";
 import { useRecoilValue } from "recoil";
 import { GiStarsStack } from "react-icons/gi";
@@ -12,8 +12,11 @@ const UserProfile = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="profile-box">
-      <button className="profile-img" onClick={() => navigate(URLS.SETTINGS)}>
+    <section className={style.user_profile}>
+      <button
+        className={style.image_button}
+        onClick={() => navigate(URLS.SETTINGS)}
+      >
         <UserAvatar
           src={
             userData?.u_profileimg
@@ -22,8 +25,8 @@ const UserProfile = () => {
           }
         />
       </button>
-      <div className="nickname">{userData?.u_nickname}</div>
-      <div title="점수" className="score">
+      <div className={style.nickname}>{userData?.u_nickname}</div>
+      <div className={style.score} title="점수">
         <GiStarsStack /> {userData?.u_score}
       </div>
     </section>

@@ -1,16 +1,18 @@
-import "@styles/components/clock.css";
+import style from "@styles/components/clock.module.css";
 import { useLayoutEffect, useState } from "react";
 import getClock from "@utils/getClock";
 
 const Clock = () => {
-  const [date, setDate] = useState(getClock().date);
-  const [time, setTime] = useState(getClock().time);
-  const [ampm, setAmpm] = useState(getClock().ampm);
+  const { date: initDate, time: initTime, ampm: initAmpm } = getClock();
+  const [date, setDate] = useState(initDate);
+  const [time, setTime] = useState(initTime);
+  const [ampm, setAmpm] = useState(initAmpm);
 
   const changeClock = () => {
-    setDate(getClock().date);
-    setTime(getClock().time);
-    setAmpm(getClock().ampm);
+    const { date, time, ampm } = getClock();
+    setTime(time);
+    setAmpm(ampm);
+    setDate(date);
   };
 
   // setInterval 은 설정한 시간을 보장하지 않기 때문에 setTimeout 재귀함수 사용
@@ -20,10 +22,10 @@ const Clock = () => {
   }, [date, time]);
 
   return (
-    <section className="clock-box">
-      <div className="today">{date}</div>
-      <div className="today">{time}</div>
-      <div className="today">{ampm}</div>
+    <section className={style.clock}>
+      <div className={style.today}>{date}</div>
+      <div className={style.today}>{time}</div>
+      <div className={style.today}>{ampm}</div>
     </section>
   );
 };
