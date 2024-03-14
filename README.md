@@ -29,6 +29,10 @@
 - 다크 모드
 - 단어장 검색
 
+## [Troubleshooting 목록](/documents/troubleshooting.md)
+
+## [기타 공부 목록](/documents/note.md)
+
 ## 실행 화면
 
 ![dashboard](https://github.com/PollyGotACracker/project-noteit/assets/92136750/2bc4d462-3785-44e6-a403-abb7cdbf16d6)

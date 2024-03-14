@@ -48,12 +48,3 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
-
-/**
- * svg tranform 은 svg 속성이기 때문에 getAttribute() 로 값을 가져와야 함
- * fill-mode 를 both 로 설정하면 keyframe tranform 스타일이 svg tranform 속성을 덮어쓰는 문제 발생
- * svg tranform 의 rotate() 는 rotate transformOriginX tranformOriginY 로 이루어져 있음
- *
- * cf) \b: 단어 경계(단어 문자와 그렇지 않은 문자 사이의 경계 탐색)
- * 여기서 단어는 알파벳, 숫자, underbar 로 구성된 문자열
- */

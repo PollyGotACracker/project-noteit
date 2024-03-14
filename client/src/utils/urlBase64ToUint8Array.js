@@ -14,9 +14,3 @@ const urlBase64ToUint8Array = (base64String) => {
 };
 
 export default urlBase64ToUint8Array;
-
-/**
- * cf)
- * Web Push 구현 시 서버에서 전달한 VAPID public key 를
- * URL-safe base64 문자열에서 Uint8Array로 변환하는 함수
- */

@@ -125,12 +125,3 @@
     border-color: var(--accent);
   }
 }
-
-/* 
-  cf) 
-  input type="date" 에 placeholder 만들기
-  html dataset 속성과, css before 가상선택자를 사용
-  1. before 의 content 는 attr(data-...)  ==> 해당 요소의 속성값 적용됨
-  2. before 의 width 는 100%
-  :focus 또는 :valid (선택 또는 유효값) 일 때 display: none
-  */

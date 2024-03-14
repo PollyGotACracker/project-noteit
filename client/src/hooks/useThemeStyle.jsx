@@ -26,11 +26,3 @@ const useThemeStyle = (props) => {
 };
 
 export default useThemeStyle;
-
-/**
- * cf)
- * 전역 state 변수의 값이 변경되더라도,
- * 그 변수를 직접 사용하지 않는 컴포넌트에는 변경사항이 적용되지 않는다.
- * 만약 변수를 사용하지 않는 컴포넌트가 변경된다면,
- * 다른 원인으로 인해 해당 컴포넌트에 re-rendering 이 발생한 것이다.
- */

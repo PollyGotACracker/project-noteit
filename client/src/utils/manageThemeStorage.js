@@ -1,9 +1,3 @@
-/**
- * cf)
- * 사용자 선호 테마
- * window.matchMedia("(prefers-color-scheme: dark)").matches => boolean
- */
-
 export const getThemeStorage = () => {
   const userColorTheme = localStorage?.getItem("color-theme");
   const osColorTheme = window.matchMedia("(prefers-color-scheme: dark)").matches

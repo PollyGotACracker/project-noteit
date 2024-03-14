@@ -73,11 +73,3 @@ const AudioPlayer = () => {
 };
 
 export default AudioPlayer;
-
-/**
- * cf) css animation restart 를 위해 컴포넌트화하여 element 렌더링
- * ** 컴포넌트를 부모 컴포넌트 밖으로 빼낼 경우 **
- * 리렌더링되는 element 에 key 를 따로 붙이지 않으면,
- * 텍스트는 변경되더라도 css animation 은 재시작되지 않음
- * 이때 key 는 현재 요소를 이전 요소와는 다른 요소로 인식하여 강제 렌더링하는 역할을 함(초기화)
- */

@@ -161,7 +161,6 @@ router.get("/stat/scores", async (req, res, next) => {
       limit: 10,
     });
 
-    // cf) chart.js 는 nested array 를 사용한 multiple-lines label 이 가능하다.
     const date = await _data.map((item) => [item.sc_date, item.sc_time]);
     const score = await _data.map((item) => item.sc_score);
     const totalscore = await _data.map((item) => item.sc_totalscore);

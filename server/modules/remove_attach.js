@@ -26,8 +26,6 @@ export const removeAttach = async () => {
   await DB.sequelize.transaction(async () => {
     for (let sub of subs) {
       // attachs: sub 의 s_attachs 에 없는 attach 목록
-      // cf) comma 를 구분자로 하여 split 하면 각 문자열 요소를 갖는 배열 반환
-      // 해당 문자열에 구분자가 없을 경우 문자열 요소 한 개를 갖는 배열 반환
       const attachs = await ATT?.findAll({
         raw: true,
         where: {

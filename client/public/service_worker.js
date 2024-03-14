@@ -19,7 +19,6 @@ self.addEventListener("push", (e) => {
 });
 
 self.addEventListener("notificationclick", (e) => {
-  //cf) e.notification.data 는 showNotification 의 data 프로퍼티의 값
   e.notification.close();
   e.waitUntil(clients.openWindow(e.notification.data.url));
 });

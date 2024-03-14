@@ -154,11 +154,3 @@ const PushNotification = () => {
 };
 
 export default PushNotification;
-
-/**
- * cf) Web Push
- * subscribe(): 새로운 구독 생성, 기존 구독이 존재하면 해당 구독 반환.
- * + 사용자 알림을 허용하지 않은 경우 권한 요청 trigger
- * + 서버에서 생성한 VAPID public key 필요
- * getSubscription() : 기존 구독이 존재하면 해당 구독 반환, 그렇지 않으면 null 반환
- */

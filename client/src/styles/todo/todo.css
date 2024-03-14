@@ -34,11 +34,3 @@
   overflow: hidden auto;
   height: 100%;
 }
-
-/*
-cf) 
-자식 요소만 스크롤
-부모요소는 display:flex, overflow-y:hidden
-자식요소는 overflow-y:auto
-(input 박스를 absolute 하지 않고 고정되었음)
-*/

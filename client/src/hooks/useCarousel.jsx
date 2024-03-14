@@ -119,18 +119,3 @@ const useCarousel = ({ ref, list }) => {
 };
 
 export default useCarousel;
-
-/**
- * cf)
- * React 에서 캐러셀 만들기
- * JSX 에서 style transform 을 직접 적용하거나,
- * transition 값을 한 블록 내에서 여러 번 적용하면
- * 처음 및 마지막 이미지에서 넘길 때 transition 에 문제가 발생
- * ==> useEffect 를 사용해 position 이 변한 직후 transition 및 transform 적용 후,
- * requestAnimationFrame 으로 스타일 변경 비동기 처리
- * https://medium.com/@owencm/one-weird-trick-to-performant-touch-response-animations-with-react-9fe4a0838116
- * : touch 이벤트 시 오류는 이중 requestAnimationFrame 사용으로 해결
- * 단, [마지막 이미지 ...실제 이미지 리스트, 첫 이미지] 일 경우
- * JS 가 아닌 CSS 에서 초기 transform 값을 지정하여
- * 페이지 첫 로드 시에 불필요한 transition 발생 방지 필요
- */

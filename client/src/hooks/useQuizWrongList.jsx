@@ -73,15 +73,3 @@ const useQuizWrongList = () => {
 };
 
 export default useQuizWrongList;
-
-/**
- * cf)
- * 컴포넌트에서는 문제가 없다가 custom hook 으로 만든 후
- * addWrongItem 가 호출될 때 addWrongItem 은 한번 실행되지만,
- * useState 의 setter 함수 setWrongAnswer 가 두 번씩 실행되는 문제 발생
- * 1. memoization 으로 해결되지 않음
- * 2. 컴포넌트로 다시 옮기면 다시 정상적으로 실행됨
- * 3. custom hook 에 작성한 상태에서, <React.StrictMode> 를 끄니 문제 발생 X
- * ==> setWrongAnswer((prev)=>{return ...}) 하지 않고 setWrongAnswer([...]) 로 변경 시 해결됨
- * !!! 하지만 왜 컴포넌트에서는 문제 없이 실행되었는지 모르겠음
- */
