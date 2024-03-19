@@ -2,49 +2,46 @@ import { motion, AnimatePresence } from "framer-motion";
 import Item from "@components/todo/item";
 
 const TodoItemWrapper = ({ data }) => {
-  const container = {
-    hidden: { opacity: 1 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
+  const containerMotionProps = {
+    initial: "hidden",
+    animate: "visible",
+    variants: {
+      hidden: { opacity: 1 },
+      visible: {
+        opacity: 1,
+        transition: {
+          staggerChildren: 0.2,
+        },
       },
     },
   };
-  const item = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
+
+  const itemMotionProps = {
+    layout: true,
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 },
+    transition: {
+      opacity: { ease: "linear" },
+      layout: { duration: 0.3 },
+    },
+    variants: {
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+      },
     },
   };
 
-  const todoContent = data?.map((todo) => {
-    return (
-      <motion.li
-        variants={item}
-        layout
-        key={todo.t_todoid}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{
-          opacity: { ease: "linear" },
-          layout: { duration: 0.3 },
-        }}
-      >
-        <Item item={todo} />
-      </motion.li>
-    );
-  });
-
   return (
-    <motion.ul
-      className="list overflow-list"
-      variants={container}
-      initial="hidden"
-      animate="visible"
-    >
-      <AnimatePresence mode="sync">{todoContent}</AnimatePresence>
+    <motion.ul className="list overflow-list" {...containerMotionProps}>
+      <AnimatePresence mode="sync">
+        {data?.map((todo) => (
+          <motion.li key={todo.t_todoid} {...itemMotionProps}>
+            <Item item={todo} />
+          </motion.li>
+        ))}
+      </AnimatePresence>
     </motion.ul>
   );
 };

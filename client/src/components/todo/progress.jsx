@@ -21,18 +21,19 @@ const TodoProgress = () => {
     }
   }, [todoList, completes]);
 
+  const motionProps = {
+    initial: { width: "0%" },
+    animate: { width: `${completeRatio}%` },
+    transition: { duration: 0.5 },
+  };
+
   return (
     <div className="progress-box">
       <div className="progress-ratio">
         <BsCheck2Circle />
         {completes} / {todoList.length || 0}
       </div>
-      <motion.div
-        className="progress-bar"
-        initial={{ width: "0%" }}
-        animate={{ width: `${completeRatio}%` }}
-        transition={{ duration: 0.5 }}
-      ></motion.div>
+      <motion.div className="progress-bar" {...motionProps} />
     </div>
   );
 };
