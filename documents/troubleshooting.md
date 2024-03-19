@@ -6,6 +6,7 @@
 - [Content Type 지정](#header-Content-Type-지정)
 - [메인 화면 최초 진입 시 토큰 확인 문제](#메인-화면-최초-진입-시-토큰-확인-문제)
 - [SVG transform](#svg-transform)
+- [date input 에 커스텀 placeholder 적용](#date-input-에-커스텀-placeholder-적용)
 
 ---
 
@@ -124,3 +125,79 @@ coverRects.forEach((rect, idx) => {
 - svg `tranform` 은 svg 자체 속성이기 때문에 `getAttribute()` 로 값을 가져와야 한다.
 - `animation-fill-mode` 를 `both` 로 설정할 경우 keyframe `tranform` 스타일이 svg `tranform` 속성을 덮어쓰는 문제가 발생하므로 별도 처리가 필요하다.
 - svg 파일에서 `tranform` 의 `rotate()` 는 순서대로 CSS 의 `rotate` `transformOriginX` `tranformOriginY` 값과 같다.
+
+### date input 에 커스텀 placeholder 적용
+
+- components/todo/input.jsx, styles/todo/input.css
+
+- 구현 사항:
+
+  1. input `required` 를 사용하지 않음
+  2. 초기 상태에서 focus 되지 않을 경우 input `placeholder` 텍스트 표시
+  3. 초기 상태에서 focus(또는 캘린더 아이콘 클릭)된 경우  
+     `placeholder` 텍스트가 사라지고 기존 텍스트인 `연도-월-일` 표시
+  4. 값이 있고 유효할 경우 해당 값 표시
+  5. 값이 있지만 유효하지 않을 경우 해당 값 표시, input `border-color` 값 변경
+  6. 입력한 값을 전부 지웠을 경우 `placeholder` 표시
+
+- 고려 사항:
+
+  - clear 상태나 초기 `value` 값 `""` 은 valid 함
+  - 사용자가 값을 완전히 입력하지 않거나, `2024-09-31` 등 잘못된 값 입력 시 invalid 하며  
+    input 필드 값은 유지되지만 _`value` 값은 `""` 으로 변경됨_
+  - 입력값이 `min`, `max` 지정값에서 벗어날 경우 invalid 하며 `value` 값은 입력값 그대로 유지됨
+  - 기존 `연도-월-일` 텍스트를 유지하면 사용자가 직접 값을 타이핑 할 수 있음
+  - 최초 로드 및 clear 상태와 invalid 한 상태를 각각 분리해야 함
+
+- 해결:
+
+  - 값이 채워졌는지 판단하는 flag 변수의 값은 `false` 로 초기화,  
+    값이 `""` 가 아닐 때 `true` 로 변경하였다.
+  - flag 변수의 값이 `true` 이면 input 의 clear 상태 class 를 제거한다.
+  - submit 할 때 flag 변수를 초기화한다.
+  - `.class명:valid` 로 clear 된 상태의 요소를 선택하도록 하였다.
+
+- 참고:
+  - 사용자가 직접 타이핑이 가능하기 때문에 `min`, `max` 속성 작성  
+    그렇지 않으면 연도가 6자리까지 작성됨  
+    단, invalid 하더라도 제출 시 별도의 유효성 검사 필요
+  - 가상 클래스의 `content` 에 `attr(...)` 를 작성하면 해당 요소의 속성 값이 적용됨: [참고](https://developer.mozilla.org/en-US/docs/Web/CSS/attr)
+  - !! Firefox 에서는 CSS 를 사용한 date input 커스터마이징이 불가능함
+
+```css
+input[type="date"] {
+  /* display: flex 로 요소들을 가로 정렬한 후,
+  position 을 사용하여 캘린더 아이콘 위치를 고정시켰음 */
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+input[type="date"]:invalid {
+  border-color: red;
+}
+
+/* 캘린더 아이콘 */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  right: 8px;
+}
+
+/* 연도-월-일 텍스트 */
+input[type="date"].clear:valid:not(:focus)::-webkit-datetime-edit-text,
+input[type="date"].clear:valid:not(:focus)::-webkit-datetime-edit-month-field,
+input[type="date"].clear:valid:not(:focus)::-webkit-datetime-edit-day-field,
+input[type="date"].clear:valid:not(:focus)::-webkit-datetime-edit-year-field {
+  -webkit-appearance: none;
+  /* display: none 을 주면 :not(:focus) 임에도 불구하고
+  focus 시 텍스트가 나타나지 않아 opacity: 0 사용 */
+  opacity: 0;
+}
+
+/* placeholder 텍스트 */
+input[type="date"].clear:valid:not(:focus):before {
+  content: attr(placeholder);
+}
+input[type="date"].clear:valid:focus:before {
+  display: none;
+}
+```

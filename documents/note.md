@@ -2,7 +2,6 @@
 
 - [React useRef export](#useref-export)
 - [React Query invalidateQueries 의 배열 queryKey](#invalidateQueries-의-배열-queryKey)
-- [CSS date input 에 커스텀 placeholder 적용](#date-input-에-커스텀-placeholder-적용)
 - [Service Worker notification data](#service-worker-notification-data)
 - [Service Worker subscription](#service-worker-subscription)
 - [CSS var JS에서 처리](#css-var-JS에서-처리)
@@ -26,30 +25,6 @@
 - `queryKey` 는 첫 번째 요소부터 비교된다.
 - 만약 refetch 하고자 하는 쿼리의 `queryKey` 가 배열이고, `invalidateQueries()` 옵션을 `exact: false` 로 주어 개별 키에 대해 업데이트 하고자 할 때
 - `queryKey` 의 첫 번째 요소가 일치하지 않을 경우 해당 옵션이 있어도 쿼리는 refetch 되지 않는다.
-
-## CSS
-
-### date input 에 커스텀 placeholder 적용
-
-```css
-.t_deadline.empty:before {
-  text-wrap: nowrap;
-  overflow: hidden;
-  content: attr(data-placeholder) !important;
-  width: 100%;
-}
-
-.t_deadline:focus:before {
-  display: none;
-}
-```
-
-- input `type="date"` 에 커스텀 placeholder 적용
-- HTML `dataset` 속성과 CSS `:before` 가상선택자 사용
-
-1. `:before` 의 `content` 에 `attr(data-...)` 를 작성하면 해당 요소의 `dataset` 값이 적용됨
-2. `:before` 의 `width` 는 `100%` 적용
-3. `:focus` 또는 `:valid` (선택 또는 유효값) 일 때 `display: none` 적용
 
 ## 기타
 
