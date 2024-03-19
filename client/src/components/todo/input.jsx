@@ -12,6 +12,7 @@ const TodoInput = () => {
   const resetTodoItem = useResetRecoilState(todoState);
   const [isEdit, setIsEdit] = useRecoilState(editState);
   const [showPrior, setShowPrior] = useState(false);
+  const [isDeadlineFilled, setIsDeadlineFilled] = useState(false);
   const { mutate: upsertMutation, data: upsertedData } = useMutation(
     upsertTodo()
   );
@@ -40,6 +41,10 @@ const TodoInput = () => {
 
   const changeValueHandler = ({ target }) => {
     const { name, value } = target;
+    if (name === "t_deadline") {
+      const isFilled = value !== "";
+      setIsDeadlineFilled(isFilled);
+    }
     setTodoItem({
       ...todoItem,
       [`${name}`]: value,
@@ -54,6 +59,7 @@ const TodoInput = () => {
     const todo = { ...todoItem };
     todo.t_userid = userData.u_userid;
     upsertMutation({ todo });
+    setIsDeadlineFilled(false);
     if (isEdit) setIsEdit(false);
   };
 
@@ -68,13 +74,13 @@ const TodoInput = () => {
       />
       <input
         type="date"
-        className={
-          todoItem?.t_deadline !== "" ? "t_deadline" : "t_deadline empty"
-        }
+        className={isDeadlineFilled ? "t_deadline" : "t_deadline clear"}
         name="t_deadline"
+        min="1900-01-01"
+        max="2100-12-31"
         onChange={changeValueHandler}
         value={todoItem?.t_deadline}
-        data-placeholder="마감일"
+        placeholder="마감일"
       />
       <div className="prior-wrap" onClick={changePriorBoxState}>
         <div className="prior-value" data-prior={todoItem.t_prior}>

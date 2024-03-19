@@ -21,17 +21,40 @@
 }
 
 .Todo .input .t_deadline {
+  position: relative;
   flex-basis: 250px;
+  display: flex;
+  align-items: center;
 }
 
-.Todo .input .t_deadline.empty:before {
-  text-wrap: nowrap;
-  overflow: hidden;
-  content: attr(data-placeholder) !important;
-  width: 100%;
+.Todo .input .t_deadline:invalid {
+  border-color: var(--red);
 }
 
-.Todo .input .t_deadline:focus:before {
+.Todo .input .t_deadline::-webkit-calendar-picker-indicator {
+  position: absolute;
+  right: 8px;
+}
+
+.Todo .input .t_deadline.clear:valid:not(:focus)::-webkit-datetime-edit-text,
+.Todo
+  .input
+  .t_deadline.clear:valid:not(:focus)::-webkit-datetime-edit-month-field,
+.Todo
+  .input
+  .t_deadline.clear:valid:not(:focus)::-webkit-datetime-edit-day-field,
+.Todo
+  .input
+  .t_deadline.clear:valid:not(:focus)::-webkit-datetime-edit-year-field {
+  -webkit-appearance: none;
+  opacity: 0;
+}
+
+.Todo .input .t_deadline.clear:valid:not(:focus):before {
+  content: attr(placeholder);
+}
+
+.Todo .input .t_deadline.clear:valid:focus:before {
   display: none;
 }
 
