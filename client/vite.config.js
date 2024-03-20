@@ -26,6 +26,7 @@ export default defineConfig(({ mode }) => {
         { find: "@", replacement: "/src" },
         { find: "@assets", replacement: "/src/assets" },
         { find: "@components", replacement: "/src/components" },
+        { find: "@contexts", replacement: "/src/contexts" },
         { find: "@data", replacement: "/src/data" },
         { find: "@hooks", replacement: "/src/hooks" },
         { find: "@layouts", replacement: "/src/layouts" },

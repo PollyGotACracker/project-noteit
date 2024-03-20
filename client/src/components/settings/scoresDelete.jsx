@@ -1,13 +1,18 @@
 import "@styles/settings/scoresDelete.css";
-import { useSetRecoilState } from "recoil";
 import { FaDatabase } from "react-icons/fa";
-import { modalSelector } from "@recoils/global";
 import SettingBox from "@components/settings/wrapper";
 import ScoresDeleteContainer from "@components/settings/scoresDeleteContainer";
 import Modal from "@components/modal";
+import useModals from "@hooks/useModals";
 
 const ScoresDelete = () => {
-  const openModal = useSetRecoilState(modalSelector);
+  const { openModal } = useModals();
+  const openScoreList = () => {
+    openModal(Modal, {
+      content: ScoresDeleteContainer,
+      isLarge: true,
+    });
+  };
 
   return (
     <SettingBox
@@ -15,10 +20,9 @@ const ScoresDelete = () => {
       title={"퀴즈 데이터 관리"}
       className={"scores-delete"}
     >
-      <button className="submit" onClick={() => openModal(true)}>
+      <button className="submit" onClick={openScoreList}>
         목록 보기
       </button>
-      <Modal content={<ScoresDeleteContainer />} />
     </SettingBox>
   );
 };
