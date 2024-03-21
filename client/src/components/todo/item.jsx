@@ -4,8 +4,10 @@ import moment from "moment";
 import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
 import { editState, todoState } from "@recoils/todo";
 import useTodoFetcher from "@services/useTodoFetcher";
+import useModals from "@hooks/useModals";
 
 const TodoItem = ({ item }) => {
+  const { openModal } = useModals();
   const { deleteTodo, updateTodoComplete } = useTodoFetcher();
   const todoId = item.t_todoid;
   const setTodoItem = useSetRecoilState(todoState);
@@ -23,9 +25,12 @@ const TodoItem = ({ item }) => {
   };
 
   const deleteHandler = () => {
-    if (window.confirm(`"${item.t_content}"\n할 일 아이템을 삭제합니다.`)) {
-      deleteMutation({ todoId });
-    }
+    openModal({
+      content: `"${item.t_content}"\n할 일 아이템을 삭제합니다.`,
+      okClick: () => {
+        deleteMutation({ todoId });
+      },
+    });
   };
 
   const today = moment().format("YYYY[-]MM[-]DD");

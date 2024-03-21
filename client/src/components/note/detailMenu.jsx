@@ -7,8 +7,10 @@ import { RxBookmark, RxBookmarkFilled } from "react-icons/rx";
 import { RiBallPenFill, RiGoogleFill } from "react-icons/ri";
 import { URLS } from "@/router";
 import useNoteFetcher from "@services/useNoteFetcher";
+import useModals from "@hooks/useModals";
 
 const DetailMenu = ({ subject, mutationParams }) => {
+  const { openModal } = useModals();
   const navigate = useNavigate();
   const { deleteSubject, updateSubjectBookmark } = useNoteFetcher();
   const { catId, subId } = mutationParams;
@@ -33,11 +35,10 @@ const DetailMenu = ({ subject, mutationParams }) => {
   };
 
   const deleteHandler = () => {
-    if (!window.confirm("이 주제를 삭제할까요?")) {
-      return false;
-    } else {
-      deleteMutation();
-    }
+    openModal({
+      content: "이 주제를 삭제할까요?",
+      okClick: deleteMutation,
+    });
   };
 
   return (

@@ -6,9 +6,11 @@ import checkValidation from "@utils/checkValidation";
 import useUserSignOut from "@hooks/useUserSignout";
 import SettingBox from "@components/settings/wrapper";
 import useToasts from "@hooks/useToasts";
+import useModals from "@hooks/useModals";
 
 const AccountDelete = () => {
   const { showToast } = useToasts();
+  const { openModal } = useModals();
   const { deleteAccount } = useUserFetcher();
   const { initAuth } = useUserSignOut({ accountDeleted: true });
   const inputRef = useRef(null);
@@ -30,16 +32,16 @@ const AccountDelete = () => {
     e.preventDefault();
     try {
       checkValidation(e.target);
-      if (
-        window.confirm(
-          "계정을 삭제하면 데이터를 복구할 수 없습니다.\n계속할까요?"
-        )
-      ) {
-        const password = e.target.password.value;
-        mutate({ password });
-      } else {
-        inputRef.current.value = "";
-      }
+      openModal({
+        content: "계정을 삭제하면 데이터를 복구할 수 없습니다.\n계속할까요?",
+        okClick: () => {
+          const password = e.target.password.value;
+          mutate({ password });
+        },
+        cancelClick: () => {
+          inputRef.current.value = "";
+        },
+      });
     } catch (err) {
       showToast(err.message);
     }

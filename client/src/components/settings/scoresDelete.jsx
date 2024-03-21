@@ -8,7 +8,7 @@ import useModals from "@hooks/useModals";
 const ScoresDelete = () => {
   const { openModal } = useModals();
   const openScoreList = () => {
-    openModal(Modal, {
+    openModal({
       content: ScoresDeleteContainer,
       isLarge: true,
     });

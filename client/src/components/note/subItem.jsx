@@ -5,8 +5,10 @@ import { FaTags } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import useNoteFetcher from "@services/useNoteFetcher";
 import { URLS } from "@/router";
+import useModals from "@hooks/useModals";
 
 const NoteSubItem = ({ item, savePos }) => {
+  const { openModal } = useModals();
   const { updateSubjectBookmark, deleteSubject } = useNoteFetcher();
   const { s_catid: catId, s_subid: subId } = item;
   const mutationParams = { catId, subId };
@@ -23,11 +25,10 @@ const NoteSubItem = ({ item, savePos }) => {
   };
 
   const deleteHandler = () => {
-    if (!window.confirm("이 주제를 삭제할까요?")) {
-      return false;
-    } else {
-      deleteMutation();
-    }
+    openModal({
+      content: "이 주제를 삭제할까요?",
+      okClick: deleteMutation,
+    });
   };
 
   return (

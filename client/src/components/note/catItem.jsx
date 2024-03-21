@@ -7,8 +7,10 @@ import { RiCheckFill, RiBallPenFill } from "react-icons/ri";
 import useNoteFetcher from "@services/useNoteFetcher";
 import { getStyle } from "@utils/manageStyle";
 import { URLS } from "@/router";
+import useModals from "@hooks/useModals";
 
 const NoteCatItem = ({ item, savePos }) => {
+  const { openModal } = useModals();
   const { updateCategoryBookmark, updateCategory, deleteCategory } =
     useNoteFetcher();
   const navigate = useNavigate();
@@ -63,9 +65,10 @@ const NoteCatItem = ({ item, savePos }) => {
   const deleteHandler = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    if (window.confirm("이 카테고리를 삭제할까요?")) {
-      deleteMutation();
-    }
+    openModal({
+      content: "이 카테고리를 삭제할까요?",
+      okClick: deleteMutation,
+    });
   };
 
   const clickItemHandler = () => {

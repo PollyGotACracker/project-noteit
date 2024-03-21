@@ -7,8 +7,10 @@ import {
   userState,
 } from "@recoils/user";
 import useUserFetcher from "@services/useUserFetcher";
+import useModals from "@hooks/useModals";
 
 const useUserSignOut = ({ accountDeleted = false } = {}) => {
+  const { openModal } = useModals();
   const { userSignOut } = useUserFetcher();
   const [userData, setUserData] = useRecoilState(userState);
   const removeToken = useSetRecoilState(tokenSelector);
@@ -30,9 +32,10 @@ const useUserSignOut = ({ accountDeleted = false } = {}) => {
   );
 
   const signOut = () => {
-    if (window.confirm("로그아웃 할까요?")) {
-      initAuth();
-    }
+    openModal({
+      content: "로그아웃 할까요?",
+      okClick: initAuth,
+    });
   };
 
   return { initAuth, signOut };

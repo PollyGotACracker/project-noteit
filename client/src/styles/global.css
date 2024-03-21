@@ -37,6 +37,10 @@
   z-index: 100;
 }
 
+.modals .overlay.active {
+  z-index: 199;
+}
+
 .overflow-list {
   margin-left: -5vw;
   margin-right: -5vw;
