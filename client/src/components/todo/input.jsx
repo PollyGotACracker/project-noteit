@@ -29,6 +29,12 @@ const TodoInput = () => {
     if (upsertedData) resetTodoItem();
   }, [upsertedData]);
 
+  useEffect(() => {
+    if (todoItem.t_deadline !== "") {
+      setIsDeadlineFilled(true);
+    }
+  }, [todoItem.t_deadline]);
+
   const changePriorBoxState = (e) => {
     e.stopPropagation();
     setShowPrior(!showPrior);
@@ -41,10 +47,6 @@ const TodoInput = () => {
 
   const changeValueHandler = ({ target }) => {
     const { name, value } = target;
-    if (name === "t_deadline") {
-      const isFilled = value !== "";
-      setIsDeadlineFilled(isFilled);
-    }
     setTodoItem({
       ...todoItem,
       [`${name}`]: value,
