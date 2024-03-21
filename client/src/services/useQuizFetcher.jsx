@@ -1,5 +1,6 @@
 import { QueryKeys, queryClient } from "@services/core";
 import useFetcher from "@services/core/useFetcher";
+import useToasts from "@hooks/useToasts";
 
 const refetchOptions = {
   exact: false,
@@ -8,6 +9,7 @@ const refetchOptions = {
 
 const useQuizFetcher = () => {
   const fetcher = useFetcher();
+  const { showToast } = useToasts();
 
   const getQuizCategories = ({ userId, queries = {} }) => ({
     queryKey: [QueryKeys.NOTE, "quiz", userId],
@@ -111,7 +113,7 @@ const useQuizFetcher = () => {
       return res;
     },
     onSuccess: (data) => {
-      alert(data.message);
+      showToast(data.message);
       queryClient.invalidateQueries(QueryKeys.QUIZ, refetchOptions);
     },
     ...queries,

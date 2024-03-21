@@ -8,8 +8,10 @@ import { initKey, initSub } from "@recoils/note";
 import Editor from "@libs/editor";
 import { URLS } from "@/router";
 import WriteKeywords from "@components/note/writeKeywords";
+import useToasts from "@hooks/useToasts";
 
 const NoteWritePage = () => {
+  const { showToast } = useToasts();
   const { getCategoryData, getSubjectData, upsertSubject } = useNoteFetcher();
   const navigate = useNavigate();
   const { catId, subId = undefined } = useParams();
@@ -58,11 +60,11 @@ const NoteWritePage = () => {
     };
 
     if (!checkValidText(noteSub.s_subject)) {
-      alert("공부 주제를 입력하세요.");
+      showToast("공부 주제를 입력하세요.");
       return false;
     }
     if (!checkValidKeywords(keywordList)) {
-      alert("비어있는 키워드가 있는지 확인해주세요.");
+      showToast("비어있는 키워드가 있는지 확인해주세요.");
       return false;
     }
     return true;

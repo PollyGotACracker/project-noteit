@@ -5,8 +5,10 @@ import userMsg from "@data/userMsg";
 import useUserFetcher from "@services/useUserFetcher";
 import checkValidation from "@utils/checkValidation";
 import SettingBox from "@components/settings/wrapper";
+import useToasts from "@hooks/useToasts";
 
 const PasswordChange = () => {
+  const { showToast } = useToasts();
   const { changePassword } = useUserFetcher();
   const pwdRef = useRef(null);
   const newPwdRef = useRef(null);
@@ -15,7 +17,7 @@ const PasswordChange = () => {
     changePassword({
       queries: {
         onSuccess: (data) => {
-          alert(data.message);
+          showToast(data.message);
           pwdRef.current.value = "";
           newPwdRef.current.value = "";
           reNewPwdRef.current.value = "";
@@ -26,16 +28,18 @@ const PasswordChange = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    const isValid = checkValidation(e.target);
-    if (isValid) {
+    try {
+      checkValidation(e.target);
       const { password, newPassword, reNewPassword } = e.target;
       if (newPassword.value !== reNewPassword.value) {
-        alert(userMsg.WRONG_RENEWPASSWORD);
+        showToast(userMsg.WRONG_RENEWPASSWORD);
         reNewPassword.focus();
-        return false;
+        return;
       } else {
         mutate({ password: password.value, value: newPassword.value });
       }
+    } catch (err) {
+      showToast(err.message);
     }
   };
 

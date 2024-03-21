@@ -7,6 +7,7 @@ import { queryClient } from "@services/core";
 import { setThemeStorage } from "@utils/manageThemeStorage";
 import { themeState } from "@recoils/theme";
 import ModalsProvider from "@contexts/modalContext";
+import ToastsProvider from "@contexts/toastContext";
 
 const App = () => {
   const userTheme = useRecoilValue(themeState);
@@ -16,7 +17,9 @@ const App = () => {
     <Suspense fallback={<div></div>}>
       <QueryClientProvider client={queryClient}>
         <ModalsProvider>
-          <RouterProvider router={routers} />
+          <ToastsProvider>
+            <RouterProvider router={routers} />
+          </ToastsProvider>
         </ModalsProvider>
       </QueryClientProvider>
     </Suspense>

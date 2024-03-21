@@ -6,8 +6,10 @@ import userMsg from "@data/userMsg";
 import useUserFetcher from "@services/useUserFetcher";
 import useTimer from "@hooks/useTimer";
 import { URLS } from "@/router";
+import useToasts from "@hooks/useToasts";
 
 const SignUpPage = () => {
+  const { showToast } = useToasts();
   const { sendAuthCode, verifyAuthCode, userSignUp } = useUserFetcher();
   const { timer, startTimer, clearTimer } = useTimer(5 * 60);
   const [sendCodeLabel, setSendCodeLabel] = useState("인증번호 전송");
@@ -37,7 +39,7 @@ const SignUpPage = () => {
           onSuccess: (data) => {
             clearTimer();
             isVerified.current = true;
-            alert(data.message);
+            showToast(data.message);
             setAuthStatus(data.message);
           },
         },
@@ -47,7 +49,7 @@ const SignUpPage = () => {
     userSignUp({
       queries: {
         onSuccess: (data, variables) => {
-          alert(data.message);
+          showToast(data.message);
           navigate(URLS.SIGN_IN, {
             state: { email: variables.email },
             replace: true,
@@ -60,32 +62,42 @@ const SignUpPage = () => {
   const sendEmail = (e) => {
     e.preventDefault();
     if (isVerified.current) return;
-    const isValid = checkValidation(e.target);
-    if (!isValid) return;
-    mutateSendAuthCode({ email: e.target.email.value });
+    try {
+      checkValidation(e.target);
+      mutateSendAuthCode({ email: e.target.email.value });
+    } catch (err) {
+      showToast(err.message);
+    }
   };
 
   const verifyCode = (e) => {
     e.preventDefault();
     if (isVerified.current) return;
-    const isValid = checkValidation(e.target);
-    if (!isValid) return;
-    mutateVerifyAuthCode({ code: e.target.code.value });
+    try {
+      checkValidation(e.target);
+      mutateVerifyAuthCode({ code: e.target.code.value });
+    } catch (err) {
+      showToast(err.message);
+    }
   };
 
   const submitSignUpForm = (e) => {
     e.preventDefault();
     const { nickname, password, repassword } = e.target;
     if (password.value !== repassword.value) {
-      alert(userMsg.WRONG_REPASSWORD);
+      showToast(userMsg.WRONG_REPASSWORD);
       repassword.focus();
       return;
     }
     const inputs = [emailRef.current, nickname, password, repassword];
-    const isValid = checkValidation(inputs);
-    if (!isValid) return;
+
+    try {
+      checkValidation(inputs);
+    } catch (err) {
+      showToast(err.message);
+    }
     if (!isVerified.current) {
-      alert("이메일 인증이 필요합니다.");
+      showToast("이메일 인증이 필요합니다.");
       return;
     }
 

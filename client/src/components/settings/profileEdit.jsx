@@ -10,8 +10,10 @@ import useUserFetcher from "@services/useUserFetcher";
 import { userInfoFlagState, userState } from "@recoils/user";
 import SettingBox from "@components/settings/wrapper";
 import UserAvatar from "@components/userAvatar";
+import useToasts from "@hooks/useToasts";
 
 const ProfileEdit = () => {
+  const { showToast } = useToasts();
   const { setUserInfo } = useUserFetcher();
   const userData = useRecoilValue(userState);
   const setUserInfoFlag = useSetRecoilState(userInfoFlagState);
@@ -26,7 +28,7 @@ const ProfileEdit = () => {
       id: userData.u_userid,
       queries: {
         onSuccess: (data) => {
-          alert(data.message);
+          showToast(data.message);
           setUserInfoFlag(true);
         },
       },

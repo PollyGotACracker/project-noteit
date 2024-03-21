@@ -9,8 +9,10 @@ import { checkSubscription } from "@utils/checkNotification";
 import urlBase64ToUint8Array from "@utils/urlBase64ToUint8Array";
 import { getBrowser, getOS } from "@utils/getUserAgent";
 import SettingBox from "@components/settings/wrapper";
+import useToasts from "@hooks/useToasts";
 
 const PushNotification = () => {
+  const { showToast } = useToasts();
   const userData = useRecoilValue(userState);
   const defaultHour = 18;
   const currentHour = useRef(defaultHour);
@@ -41,7 +43,7 @@ const PushNotification = () => {
       id: userData.u_userid,
       queries: {
         onSuccess: (data) => {
-          alert(data.message);
+          showToast(data.message);
           setPushState(true);
           setstateMsg("알림 설정됨");
           currentHour.current = hour;
@@ -54,7 +56,7 @@ const PushNotification = () => {
       id: userData.u_userid,
       queries: {
         onSuccess: (data) => {
-          alert(data.message);
+          showToast(data.message);
           setPushState(false);
           setstateMsg("알림 설정되지 않음");
           setHour(defaultHour);

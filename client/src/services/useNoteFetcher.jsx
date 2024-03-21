@@ -1,5 +1,6 @@
 import { QueryKeys, queryClient } from "@services/core";
 import useFetcher from "@services/core/useFetcher";
+import useToasts from "@hooks/useToasts";
 
 const QueryCat = [QueryKeys.NOTE, "category"];
 const QuerySub = [QueryKeys.NOTE, "subject"];
@@ -10,6 +11,7 @@ const refetchOptions = {
 
 const useNoteFetcher = () => {
   const fetcher = useFetcher();
+  const { showToast } = useToasts();
 
   const getCategories = ({ userId, filter = false, queries = {} }) => ({
     queryKey: [...QueryCat, userId, filter],
@@ -46,7 +48,7 @@ const useNoteFetcher = () => {
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries(QueryKeys.NOTE, refetchOptions);
-      alert(data.message);
+      showToast(data.message);
     },
     ...queries,
   });
@@ -98,7 +100,7 @@ const useNoteFetcher = () => {
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries(QueryKeys.NOTE, refetchOptions);
-      alert(data.message);
+      showToast(data.message);
     },
     ...queries,
   });
@@ -154,7 +156,7 @@ const useNoteFetcher = () => {
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries(QueryKeys.NOTE, refetchOptions);
-      alert(data.message);
+      showToast(data.message);
     },
     ...queries,
   });
@@ -171,7 +173,7 @@ const useNoteFetcher = () => {
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries(QueryKeys.NOTE, refetchOptions);
-      alert(data.message);
+      showToast(data.message);
     },
     ...queries,
   });

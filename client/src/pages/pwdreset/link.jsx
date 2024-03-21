@@ -4,8 +4,10 @@ import useUserFetcher from "@services/useUserFetcher";
 import checkValidation from "@utils/checkValidation";
 import userMsg from "@data/userMsg";
 import { URLS } from "@/router";
+import useToasts from "@hooks/useToasts";
 
 const PwdResetLinkPage = () => {
+  const { showToast } = useToasts();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { resetPassword } = useUserFetcher();
@@ -13,7 +15,7 @@ const PwdResetLinkPage = () => {
     resetPassword({
       queries: {
         onSuccess: (data) => {
-          alert(data.message);
+          showToast(data.message);
           navigate(URLS.SIGN_IN, {
             state: { email: data.email },
             replace: true,
@@ -28,17 +30,20 @@ const PwdResetLinkPage = () => {
 
     const { password, repassword } = e.target;
     if (password.value !== repassword.value) {
-      alert(userMsg.WRONG_REPASSWORD);
+      showToast(userMsg.WRONG_REPASSWORD);
       repassword.focus();
       return;
     }
-    const isValid = checkValidation(e.target);
-    if (!isValid) return;
 
-    mutateResetPassword({
-      token: searchParams.get("verify"),
-      value: e.target.password.value,
-    });
+    try {
+      checkValidation(e.target);
+      mutateResetPassword({
+        token: searchParams.get("verify"),
+        value: e.target.password.value,
+      });
+    } catch (err) {
+      showToast(err.message);
+    }
   };
 
   if (!searchParams.get("verify")) return <></>;

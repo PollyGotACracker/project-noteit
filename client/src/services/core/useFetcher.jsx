@@ -2,8 +2,10 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { userTokenFlagState, tokenSelector } from "@recoils/user";
 import { accessTokenError } from "@services/core";
 import { SERVER_URL } from "@/router";
+import useToasts from "@hooks/useToasts";
 
 const useFetcher = () => {
+  const { showToast } = useToasts();
   const setUserTokenFlag = useSetRecoilState(userTokenFlagState);
   const [token, setToken] = useRecoilState(tokenSelector);
 
@@ -26,7 +28,7 @@ const useFetcher = () => {
       if (accessTokenError.includes(data?.code)) {
         setUserTokenFlag(true);
       }
-      if (data?.message) alert(data.message);
+      if (data?.message) showToast(data.message);
       if (res?.status > 400 && data?.message) {
         throw new Error(data?.message);
       }

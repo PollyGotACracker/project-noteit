@@ -5,8 +5,10 @@ import useUserFetcher from "@services/useUserFetcher";
 import checkValidation from "@utils/checkValidation";
 import useUserSignOut from "@hooks/useUserSignout";
 import SettingBox from "@components/settings/wrapper";
+import useToasts from "@hooks/useToasts";
 
 const AccountDelete = () => {
+  const { showToast } = useToasts();
   const { deleteAccount } = useUserFetcher();
   const { initAuth } = useUserSignOut({ accountDeleted: true });
   const inputRef = useRef(null);
@@ -14,7 +16,7 @@ const AccountDelete = () => {
     deleteAccount({
       queries: {
         onSuccess: (data) => {
-          alert(data.message);
+          showToast(data.message);
           initAuth();
         },
         onError: () => {
@@ -26,17 +28,20 @@ const AccountDelete = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    const isValid = checkValidation(e.target);
-    if (!isValid) return;
-    if (
-      window.confirm(
-        "계정을 삭제하면 데이터를 복구할 수 없습니다.\n계속할까요?"
-      )
-    ) {
-      const password = e.target.password.value;
-      mutate({ password });
-    } else {
-      inputRef.current.value = "";
+    try {
+      checkValidation(e.target);
+      if (
+        window.confirm(
+          "계정을 삭제하면 데이터를 복구할 수 없습니다.\n계속할까요?"
+        )
+      ) {
+        const password = e.target.password.value;
+        mutate({ password });
+      } else {
+        inputRef.current.value = "";
+      }
+    } catch (err) {
+      showToast(err.message);
     }
   };
 

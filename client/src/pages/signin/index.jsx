@@ -6,8 +6,10 @@ import { userTokenFlagState, userState } from "@recoils/user";
 import useUserFetcher from "@services/useUserFetcher";
 import checkValidation from "@utils/checkValidation";
 import { URLS } from "@/router";
+import useToasts from "@hooks/useToasts";
 
 const SignInPage = () => {
+  const { showToast } = useToasts();
   const { userSignIn } = useUserFetcher();
   const location = useLocation();
   const [userData, setUserData] = useRecoilState(userState);
@@ -31,10 +33,12 @@ const SignInPage = () => {
 
   const submitSignInForm = (e) => {
     e.preventDefault();
-    const isValid = checkValidation(e.target);
-    if (isValid) {
+    try {
+      checkValidation(e.target);
       const { email, password } = e.target;
       mutate({ email: email.value, password: password.value });
+    } catch (err) {
+      showToast(err.message);
     }
   };
 
