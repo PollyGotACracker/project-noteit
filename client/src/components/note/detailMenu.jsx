@@ -17,7 +17,7 @@ const DetailMenu = ({ subject, mutationParams }) => {
   const isBookmarked = subject?.s_bookmark !== 0;
 
   const { mutate: updateBookmarkMutation } = useMutation(
-    updateSubjectBookmark({ subId })
+    updateSubjectBookmark({ catId, subId })
   );
   const { isSuccess: deleteSuccess, mutate: deleteMutation } = useMutation(
     deleteSubject(mutationParams)

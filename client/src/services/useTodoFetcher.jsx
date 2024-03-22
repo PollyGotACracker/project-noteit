@@ -31,8 +31,8 @@ const useTodoFetcher = () => {
       const res = await fetcher({ endPoint, options });
       return res;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries(QueryKeys.TODO, refetchOptions);
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(QueryKeys.TODO, refetchOptions);
     },
     ...queries,
   });
@@ -47,8 +47,8 @@ const useTodoFetcher = () => {
       const res = await fetcher({ endPoint, options });
       return res;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries(QueryKeys.TODO, refetchOptions);
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(QueryKeys.TODO, refetchOptions);
     },
     ...queries,
   });
@@ -63,8 +63,8 @@ const useTodoFetcher = () => {
       const res = await fetcher({ endPoint, options });
       return res;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries(QueryKeys.TODO, refetchOptions);
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(QueryKeys.TODO, refetchOptions);
     },
     ...queries,
   });

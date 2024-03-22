@@ -15,7 +15,7 @@ const NoteSubItem = ({ item, savePos }) => {
   const isBookmarked = item.s_bookmark !== 0;
 
   const { mutate: updateBookmarkMutation } = useMutation(
-    updateSubjectBookmark({ subId })
+    updateSubjectBookmark({ catId, subId })
   );
   const { mutate: deleteMutation } = useMutation(deleteSubject(mutationParams));
 

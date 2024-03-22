@@ -47,12 +47,14 @@ const useQuizFetcher = () => {
       });
       return res.message;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries([QueryKeys.QUIZ], refetchOptions);
-      queryClient.invalidateQueries(
-        [QueryKeys.NOTE, QueryKeys.QUIZ],
-        refetchOptions
-      );
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries([QueryKeys.QUIZ], refetchOptions),
+        queryClient.invalidateQueries(
+          [QueryKeys.NOTE, QueryKeys.QUIZ],
+          refetchOptions
+        ),
+      ]);
     },
 
     ...queries,
@@ -78,8 +80,8 @@ const useQuizFetcher = () => {
       });
       return res;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries(QueryKeys.NOTE, refetchOptions);
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(QueryKeys.NOTE, refetchOptions);
     },
     ...queries,
   });
@@ -112,9 +114,9 @@ const useQuizFetcher = () => {
       });
       return res;
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries(QueryKeys.QUIZ, refetchOptions);
       showToast(data.message);
-      queryClient.invalidateQueries(QueryKeys.QUIZ, refetchOptions);
     },
     ...queries,
   });

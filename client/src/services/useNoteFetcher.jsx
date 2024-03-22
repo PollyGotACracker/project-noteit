@@ -4,6 +4,7 @@ import useToasts from "@hooks/useToasts";
 
 const QueryCat = [QueryKeys.NOTE, "category"];
 const QuerySub = [QueryKeys.NOTE, "subject"];
+const QueryQuiz = [QueryKeys.NOTE, "quiz"];
 const refetchOptions = {
   exact: false,
   refetchInactive: true,
@@ -46,8 +47,8 @@ const useNoteFetcher = () => {
       const res = await fetcher({ endPoint, options });
       return res;
     },
-    onSuccess: (data) => {
-      queryClient.invalidateQueries(QueryKeys.NOTE, refetchOptions);
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries(QueryCat, refetchOptions);
       showToast(data.message);
     },
     ...queries,
@@ -67,8 +68,11 @@ const useNoteFetcher = () => {
       const res = await fetcher({ endPoint, options });
       return res;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries(QueryKeys.NOTE, refetchOptions);
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries(QueryCat, refetchOptions),
+        queryClient.invalidateQueries(QueryQuiz, refetchOptions),
+      ]);
     },
     ...queries,
   });
@@ -84,8 +88,11 @@ const useNoteFetcher = () => {
       const res = await fetcher({ endPoint, options });
       return res;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries(QueryKeys.NOTE, refetchOptions);
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries(QueryCat, refetchOptions),
+        queryClient.invalidateQueries(QueryQuiz, refetchOptions),
+      ]);
     },
     ...queries,
   });
@@ -98,8 +105,11 @@ const useNoteFetcher = () => {
       const res = await fetcher({ endPoint, options });
       return res;
     },
-    onSuccess: (data) => {
-      queryClient.invalidateQueries(QueryKeys.NOTE, refetchOptions);
+    onSuccess: async (data) => {
+      await Promise.all([
+        queryClient.invalidateQueries(QueryCat, refetchOptions),
+        queryClient.invalidateQueries(QueryQuiz, refetchOptions),
+      ]);
       showToast(data.message);
     },
     ...queries,
@@ -126,7 +136,7 @@ const useNoteFetcher = () => {
     ...queries,
   });
 
-  const updateSubjectBookmark = ({ subId, queries = {} }) => ({
+  const updateSubjectBookmark = ({ catId, subId, queries = {} }) => ({
     mutationKey: [...QuerySub, "bookmark"],
     mutationFn: async ({ bookmark }) => {
       const endPoint = `/note/sub/bookmark`;
@@ -137,13 +147,17 @@ const useNoteFetcher = () => {
       const res = await fetcher({ endPoint, options });
       return res;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries(QueryKeys.NOTE, refetchOptions);
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries([...QuerySub, subId], refetchOptions),
+        queryClient.invalidateQueries([...QuerySub, catId], refetchOptions),
+        queryClient.invalidateQueries(QueryQuiz, refetchOptions),
+      ]);
     },
     ...queries,
   });
 
-  const upsertSubject = ({ subId, queries = {} }) => ({
+  const upsertSubject = ({ catId, subId, queries = {} }) => ({
     mutationKey: [...QuerySub, "upsert"],
     mutationFn: async ({ subjects, keywords }) => {
       const endPoint = !subId ? `/note/sub/insert` : `/note/sub/update`;
@@ -154,8 +168,12 @@ const useNoteFetcher = () => {
       const res = await fetcher({ endPoint, options });
       return res;
     },
-    onSuccess: (data) => {
-      queryClient.invalidateQueries(QueryKeys.NOTE, refetchOptions);
+    onSuccess: async (data) => {
+      await Promise.all([
+        queryClient.invalidateQueries([...QuerySub, subId], refetchOptions),
+        queryClient.invalidateQueries([...QuerySub, catId], refetchOptions),
+        queryClient.invalidateQueries([...QueryCat, catId], refetchOptions),
+      ]);
       showToast(data.message);
     },
     ...queries,
@@ -171,8 +189,12 @@ const useNoteFetcher = () => {
       const res = await fetcher({ endPoint, options });
       return res;
     },
-    onSuccess: (data) => {
-      queryClient.invalidateQueries(QueryKeys.NOTE, refetchOptions);
+    onSuccess: async (data) => {
+      await Promise.all([
+        queryClient.invalidateQueries([...QuerySub, catId], refetchOptions),
+        queryClient.invalidateQueries([...QueryCat, catId], refetchOptions),
+        queryClient.invalidateQueries(QueryQuiz, refetchOptions),
+      ]);
       showToast(data.message);
     },
     ...queries,

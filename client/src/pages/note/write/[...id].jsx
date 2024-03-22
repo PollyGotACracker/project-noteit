@@ -20,7 +20,7 @@ const NoteWritePage = () => {
     ? useQuery(getSubjectData({ subId }))
     : {};
   const { data: { subId: upsertSubId } = {}, mutate: upsertMutation } =
-    useMutation(upsertSubject({ subId }));
+    useMutation(upsertSubject({ catId, subId }));
 
   const [noteSub, setNoteSub] = useState(initSub(subId));
   const [keywordList, setKeywordList] = useState([]);
