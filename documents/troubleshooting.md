@@ -3,6 +3,7 @@
 - [React CSS 애니메이션 재시작](#css-애니메이션-재시작)
 - [React CSS transform 처리](#css-transform-처리)
 - [React 컴포넌트에서 커스텀 훅으로 코드 이동 문제](#컴포넌트에서-커스텀-훅으로-코드-이동-문제)
+- [React Query invalidateQueries 실행 시점 문제](#invalidatequeries-실행-시점-문제)
 - [Content Type 지정](#header-Content-Type-지정)
 - [메인 화면 최초 진입 시 토큰 확인 문제](#메인-화면-최초-진입-시-토큰-확인-문제)
 - [SVG transform](#svg-transform)
@@ -59,6 +60,31 @@ useEffect(() => {
 
 - ==> `setWrongAnswer((prev)=>{return ...})` 하지 않고 `setWrongAnswer([...])` 로 변경하니 해결되었다.
 - !!! 하지만 왜 컴포넌트에서는 문제 없이 실행되었는지 모르겠다.
+
+## React Query
+
+### invalidateQueries 실행 시점 문제
+
+- 문제 상황:
+
+  1. subject Detail 페이지에서 해당 subject 삭제 후, List 페이지로 navigate 되었을 때  
+     목록에 해당 subject 가 그대로 남아있음
+  2. mutation `onSuccess` 옵션에서 `invalidateQueries` 를 사용해 첫 번째 queryKey 와 일치하는 모든 쿼리(2개)를 무효화하도록 한 상태
+  3. 그러나 category 정보 데이터는 `fresh`, subject 리스트 데이터는 `stale` 하였음
+  4. 한편, subject List 페이지에서 subject 를 삭제한 경우에는 두 데이터 모두 `fresh` 하였음
+
+- 고려 사항:
+
+  1. 두 상황 모두 같은 mutation 코드 사용
+  2. subject List 페이지에서: 데이터를 사용하는 컴포넌트는 mount 상태
+  3. subject Detail 페이지에서: 데이터를 사용하는 컴포넌트는 unmount 상태,  
+     mutation 후 반환되는 `isSuccess` 값과 `useEffect` 를 사용해 List 페이지로 navigate 되도록 하였음
+
+- 해결:
+  - 페이지 이동과 쿼리 무효화 사이의 타이밍 문제였다.
+  - `invalidateQueries` 가 완료될 때까지 기다린 후 페이지가 이동되어야 한다.
+  - 그러므로 `onSuccess` 에 `async`-`await` 키워드를 이용하였다.
+  - 추가적으로 `Promise.all()` 추가로 여러 작업 병렬 처리, queryKey 를 구체화하여 캐싱 작업을 효율화하였다.
 
 ## 기타
 
