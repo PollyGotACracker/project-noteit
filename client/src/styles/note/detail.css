@@ -201,6 +201,7 @@
   display: flex;
   margin: 20px 5vw 0;
   padding: 10px;
+  word-break: break-all;
 }
 
 .Detail .content div {

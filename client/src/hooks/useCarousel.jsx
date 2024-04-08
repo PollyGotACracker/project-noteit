@@ -8,14 +8,17 @@ const useCarousel = ({ ref, list }) => {
   const [position, setPosition] = useState(initPos);
   const animationFrameId = useRef(null);
 
-  const isMobile = useRef(checkMobile());
+  const isMobile = checkMobile();
   const touchStartX = useRef(0);
+  const touchMovedX = useRef(0);
   const touchEndX = useRef(0);
 
   const setTransition = (node, bool) =>
     (node.style.transitionProperty = bool ? "transform" : "none");
-  const setTransform = (node, pos) =>
-    (node.style.transform = `translateX(${pos}%)`);
+  const setTransform = (node, pos, moved) =>
+    (node.style.transform = moved
+      ? `translateX(calc(${pos}% - ${moved}px))`
+      : `translateX(${pos}%)`);
 
   const changeKeyword = (state, action) => {
     switch (action.type) {
@@ -26,7 +29,16 @@ const useCarousel = ({ ref, list }) => {
         }
         if (state === 1) {
           setTransition(ref.current, false);
-          setTransform(ref.current, (keyLength + 1) * -100);
+          if (isMobile) {
+            setTransform(
+              ref.current,
+              (keyLength + 1) * -100,
+              touchMovedX.current
+            );
+          }
+          if (!isMobile) {
+            setTransform(ref.current, (keyLength + 1) * -100);
+          }
           setPosition(keyLength * -100);
           return keyLength;
         }
@@ -37,7 +49,12 @@ const useCarousel = ({ ref, list }) => {
         }
         if (state === keyLength) {
           setTransition(ref.current, false);
-          setTransform(ref.current, 0);
+          if (isMobile) {
+            setTransform(ref.current, 0, touchMovedX.current);
+          }
+          if (!isMobile) {
+            setTransform(ref.current, 0);
+          }
           setPosition(initPos);
           return 1;
         }
@@ -57,57 +74,75 @@ const useCarousel = ({ ref, list }) => {
   const setNextSlide = () => dispatch({ type: "NEXT" });
   const setSelectSlide = (id) => dispatch({ type: "SELECT", select: id });
 
+  const setAnimation = () => {
+    animationFrameId.current = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setTransition(ref.current, true);
+        setTransform(ref.current, position);
+      });
+    });
+  };
+
   const touchSlider = (e) => {
-    e.preventDefault();
-    let touch = null;
+    const touch = e.changedTouches[0];
     switch (e.type) {
       case "touchstart":
-        touch = e.changedTouches[0];
         touchStartX.current = touch.clientX;
         touchEndX.current = 0;
         break;
+      case "touchmove":
+        const width = ref.current.parentNode.offsetWidth;
+        const { left, right } = ref.current.parentNode.getBoundingClientRect();
+        const moved = touchStartX.current - touch.clientX;
+        if (
+          touch.clientX > left &&
+          touch.clientX < right &&
+          Math.abs(moved) < width
+        ) {
+          touchMovedX.current = moved;
+          setTransition(ref.current, false);
+          setTransform(ref.current, position, moved);
+        }
+        break;
       case "touchend":
-        touch = e.changedTouches[0];
         touchEndX.current = touch.clientX;
         const chkNum = touchStartX.current - touchEndX.current;
         const chkNumAbs = Math.abs(chkNum);
         if (chkNumAbs > 50) {
           if (chkNum < 0) setPrevSlide();
           else setNextSlide();
+        } else {
+          setAnimation();
+          break;
         }
-        break;
     }
   };
 
   useEffect(() => {
-    const setAnimation = () => {
-      requestAnimationFrame(() => {
-        setTransition(ref.current, true);
-        setTransform(ref.current, position);
-      });
-    };
-    animationFrameId.current = requestAnimationFrame(setAnimation);
+    setAnimation();
     return () => {
       if (animationFrameId.current) {
         cancelAnimationFrame(animationFrameId.current);
       }
     };
-  }, [position]);
+  }, [position, animationFrameId.current]);
 
   useEffect(() => {
-    if (!ref.current || !isMobile.current) return;
+    if (!ref.current || !isMobile) return;
     const option = {
       passive: false,
     };
     ref.current.addEventListener("touchstart", touchSlider, option);
+    ref.current.addEventListener("touchmove", touchSlider, option);
     ref.current.addEventListener("touchend", touchSlider, option);
     return () => {
       if (ref.current) {
         ref.current.removeEventListener("touchstart", touchSlider, option);
+        ref.current.removeEventListener("touchmove", touchSlider, option);
         ref.current.removeEventListener("touchend", touchSlider, option);
       }
     };
-  }, [isMobile, ref.current]);
+  }, [ref.current, position, state]);
 
   return {
     newList,
