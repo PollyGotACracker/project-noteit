@@ -8,7 +8,7 @@ import { URLS } from "@/router";
 import SignOutNav from "@components/signOutNav";
 import HomeLink from "@components/homeLink";
 
-const SignOutLayout = ({ children }) => {
+const SignOutLayout = ({ isNotFound = false, children }) => {
   const navigate = useNavigate();
   const { initial, userTokenFlag, setUserTokenFlag } = useUserStatus();
   const isSignedIn = useRecoilValue(isSignedInState);
@@ -25,7 +25,7 @@ const SignOutLayout = ({ children }) => {
   return (
     <div id="page">
       <header className="header-signout">
-        <HomeLink />
+        <HomeLink isNotFound={isNotFound} />
         <SignOutNav />
       </header>
       {children}

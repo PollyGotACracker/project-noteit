@@ -11,7 +11,7 @@ import Sidebar from "@components/sidebar";
 import Fallback from "@components/fallback";
 import HomeLink from "@components/homeLink";
 
-const SignInLayout = ({ children }) => {
+const SignInLayout = ({ isNotFound = false, children }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const prevWindowWidth = useRef(window.innerWidth);
@@ -50,7 +50,7 @@ const SignInLayout = ({ children }) => {
   return (
     <div id="page">
       <header className="header-signin">
-        <HomeLink />
+        <HomeLink isNotFound={isNotFound} />
         <button className="sidebar-btn" onClick={toggleSidebar} type="button">
           <BsThreeDotsVertical />
         </button>

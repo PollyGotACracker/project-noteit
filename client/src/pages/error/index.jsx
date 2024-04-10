@@ -4,14 +4,17 @@ import { useRecoilValue } from "recoil";
 import useThemeStyle from "@hooks/useThemeStyle";
 import { isSignedInState } from "@recoils/user";
 import { SignInLayout, SignOutLayout } from "@/routeList";
+import classNames from "classnames";
 
-const NotFound = ({ isSignedIn }) => {
+const NotFound = () => {
+  const isSignedIn = useRecoilValue(isSignedInState);
   const primary = useThemeStyle("--primary");
+
   // svg 를 component 형식으로 import 하면 편집 가능
   // svg 파일에서 편집할 색상을 current 로 지정하면
   // 컴포넌트 fill 속성의 값으로 채워짐
   return (
-    <main className={`NotFound ${!isSignedIn && "out"}`}>
+    <main className={classNames(["NotFound", { out: !isSignedIn }])}>
       <div className="img-wrapper">
         <NotFoundSvg className="not-found-img" fill={primary} />
       </div>
@@ -25,12 +28,12 @@ const ErrorPage = () => {
   const isSignedIn = useRecoilValue(isSignedInState);
 
   return isSignedIn ? (
-    <SignInLayout>
-      <NotFound isSignedIn={isSignedIn} />
+    <SignInLayout isNotFound={true}>
+      <NotFound />
     </SignInLayout>
   ) : (
-    <SignOutLayout>
-      <NotFound isSignedIn={isSignedIn} />
+    <SignOutLayout isNotFound={true}>
+      <NotFound />
     </SignOutLayout>
   );
 };

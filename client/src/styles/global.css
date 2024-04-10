@@ -12,7 +12,7 @@
   display: flex;
 }
 
-.home-link {
+.home_link {
   display: inline-block;
   width: 100px;
   font-size: 2rem;
@@ -20,6 +20,10 @@
   -webkit-user-select: none;
   user-select: none;
   color: var(--light);
+}
+
+.home_link.notfound_signout {
+  color: var(--text);
 }
 
 .overlay {
