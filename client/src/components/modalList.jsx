@@ -1,3 +1,4 @@
+import style from "@styles/components/modal.module.css";
 import { useContext } from "react";
 import ReactDom from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
@@ -5,6 +6,7 @@ import {
   ModalsDispatchContext,
   ModalsStateContext,
 } from "@contexts/modalContext";
+import cx from "classnames";
 
 const ModalList = () => {
   const openedModals = useContext(ModalsStateContext);
@@ -40,7 +42,7 @@ const ModalList = () => {
           return (
             <motion.div
               key={index}
-              className={`modal${props?.isLarge ? " large" : ""}`}
+              className={cx(style.modal, { [style.large]: props?.isLarge })}
               {...motionProps}
             >
               <Component isOpen={isOpen} onClose={onClose} {...props} />

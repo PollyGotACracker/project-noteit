@@ -22,7 +22,7 @@
   line-height: 2.5rem;
 }
 
-.modal .close-btn {
+button.close {
   position: absolute;
   top: 15px;
   right: 15px;
@@ -31,7 +31,7 @@
   font-size: 32px;
 }
 
-.modal .confirm-wrapper {
+.confirm_wrapper {
   display: flex;
   justify-content: flex-end;
   column-gap: 20px;
@@ -40,18 +40,19 @@
   padding-bottom: calc((32px + 30px) / 2);
 }
 
-.modal .confirm-wrapper button {
+button.ok,
+button.cancel {
   border: 1px solid var(--primary);
   border-radius: 5px;
   padding: 10px 20px;
 }
 
-.modal .confirm-wrapper .ok-btn {
+button.ok {
   background-color: var(--primary);
   color: white;
 }
 
-.modal .confirm-wrapper .cancel-btn {
+button.cancel {
   color: var(--text);
 }
 

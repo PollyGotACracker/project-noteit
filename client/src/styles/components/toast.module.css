@@ -21,7 +21,7 @@
   user-select: none;
 }
 
-.toast .close-btn {
+button.close {
   margin-left: auto;
   width: 16px;
   height: 16px;

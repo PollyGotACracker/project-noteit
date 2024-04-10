@@ -1,3 +1,4 @@
+import style from "@styles/components/toast.module.css";
 import { useContext } from "react";
 import ReactDom from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
@@ -17,11 +18,15 @@ const ToastList = () => {
     transition: { duration: 0.3 },
     variants: {
       hidden: {
-        transform: `translate(-50%, calc(-30% - ${50 * index + 10}px))`,
+        transform: `translate(-50%, calc(-30% - ${50 * index}px - ${
+          index * 5
+        }px))`,
         opacity: 0,
       },
       visible: {
-        transform: `translate(-50%, calc(-30% - ${50 * index + 10}px))`,
+        transform: `translate(-50%, calc(-30% - ${50 * index}px - ${
+          index * 5
+        }px))`,
         zIndex: 500,
         opacity: 1,
       },
@@ -29,7 +34,7 @@ const ToastList = () => {
   });
 
   return ReactDom.createPortal(
-    <div className="toasts">
+    <>
       <AnimatePresence>
         {showedToasts.map((toastInfo, index) => {
           const { Component, id, text, isShowed } = toastInfo;
@@ -38,13 +43,17 @@ const ToastList = () => {
           };
 
           return (
-            <motion.div key={index} className="toast" {...motionProps(index)}>
+            <motion.div
+              key={index}
+              className={style.toast}
+              {...motionProps(index)}
+            >
               <Component isShowed={isShowed} onClose={onClose} text={text} />
             </motion.div>
           );
         })}
       </AnimatePresence>
-    </div>,
+    </>,
     document.body
   );
 };

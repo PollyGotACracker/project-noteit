@@ -1,4 +1,4 @@
-import "@styles/components/toast.css";
+import style from "@styles/components/toast.module.css";
 import { useEffect, useRef } from "react";
 import { RxCross2 } from "react-icons/rx";
 
@@ -25,7 +25,7 @@ const Toast = ({ isShowed, onClose, text }) => {
     return (
       <>
         <p>{text}</p>
-        <button ref={targetRef} className="close-btn" onClick={onClose}>
+        <button ref={targetRef} className={style.close} onClick={onClose}>
           <RxCross2 />
         </button>
       </>

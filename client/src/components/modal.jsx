@@ -1,4 +1,4 @@
-import "@styles/components/modal.css";
+import style from "@styles/components/modal.module.css";
 import { RxCross2 } from "react-icons/rx";
 
 const Modal = ({ isOpen, onClose, ...props }) => {
@@ -24,15 +24,15 @@ const Modal = ({ isOpen, onClose, ...props }) => {
     return (
       <>
         <Children />
-        <button className="close-btn" onClick={onClose}>
+        <button className={style.close} onClick={onClose}>
           <RxCross2 />
         </button>
         {props?.okClick ? (
-          <div className="confirm-wrapper">
-            <button className="cancel-btn" onClick={cancelClickHandler}>
+          <div className={style.confirm_wrapper}>
+            <button className={style.cancel} onClick={cancelClickHandler}>
               취소
             </button>
-            <button className="ok-btn" onClick={okClickHandler}>
+            <button className={style.ok} onClick={okClickHandler}>
               확인
             </button>
           </div>
