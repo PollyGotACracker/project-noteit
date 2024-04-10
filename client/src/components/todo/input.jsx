@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { useMutation } from "react-query";
 import { userState } from "@recoils/user";
@@ -29,7 +29,7 @@ const TodoInput = () => {
     if (upsertedData) resetTodoItem();
   }, [upsertedData]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (todoItem.t_deadline !== "") {
       setIsDeadlineFilled(true);
     }
