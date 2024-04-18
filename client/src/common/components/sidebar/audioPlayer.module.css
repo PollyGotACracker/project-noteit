@@ -1,0 +1,104 @@
+@import "@styles/keyframes.css";
+
+section.audio_player {
+  background-color: var(--lightalpha);
+  border-radius: 10px;
+  padding: 5px 10px;
+  max-width: 250px;
+  display: grid;
+  grid-template-columns: 34px 1fr auto;
+  column-gap: 10px;
+}
+
+.disk_box {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.disk_box:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  border-radius: 100%;
+}
+
+.disk {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  animation-duration: 5s;
+  animation-name: rotate;
+  animation-play-state: paused;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  transform-origin: center;
+  background: radial-gradient(
+      rgb(20, 20, 20) 7%,
+      black 8% 9%,
+      rgba(0, 0, 0, 0.7) 10% 17%,
+      rgba(0, 0, 0, 0.5) 18% 20%,
+      rgba(255, 255, 255, 0.3) 21% 23%,
+      rgba(0, 0, 0, 0) 24% 67%,
+      rgba(255, 255, 255, 0.3) 68%
+    ),
+    conic-gradient(rgb(250, 180, 250), rgb(180, 180, 250), rgb(250, 180, 250));
+  margin: 0 auto;
+}
+
+.title_wrapper {
+  font-size: 1.2rem;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.title {
+  display: inline-block;
+  animation-name: firstMarquee, infiniteMarquee;
+  animation-play-state: paused;
+  animation-timing-function: linear, linear;
+  animation-iteration-count: 1, infinite;
+}
+
+.active {
+  animation-play-state: running;
+}
+
+.controller_box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.controller_box > button {
+  color: var(--light);
+}
+
+@media only screen and (max-width: 1023px) {
+  section.audio_player {
+    order: 5;
+    width: 100%;
+  }
+
+  :root[color-theme="light"] section.audio_player {
+    background-color: var(--semialpha);
+  }
+
+  :root[color-theme="light"] .controller_box > button {
+    color: var(--dark);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .controller_box > button:hover {
+    color: var(--accent);
+  }
+}

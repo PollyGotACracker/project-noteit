@@ -1,0 +1,81 @@
+@import "./content.module.css";
+
+.main {
+  padding-top: 0;
+}
+
+.title {
+  width: 90%;
+  padding: 4vh 0;
+  margin: 50px auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.subject {
+  padding: 10px 0;
+  width: 100%;
+  text-align: center;
+  font-size: 4rem;
+  font-weight: 700;
+  word-break: keep-all;
+}
+
+.category {
+  display: inline-block;
+  text-align: center;
+  word-break: keep-all;
+  white-space: pre-line;
+  transition: color ease 0.2s;
+}
+
+.content {
+  border-top: 1px solid var(--subborder);
+  margin: 20px 5vw 0;
+  padding: 10px;
+  word-break: break-all;
+}
+
+.content div {
+  flex: 1;
+}
+
+@media only screen and (max-width: 768px) {
+  .subject {
+    font-size: 2.4rem;
+  }
+
+  .content {
+    margin: 20px 0 0;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .category:hover {
+    color: var(--accent);
+  }
+}
+
+@media print {
+  .title {
+    color: #000;
+    padding-top: 0 !important;
+  }
+
+  .content {
+    color: #000;
+    border: none !important;
+    display: block !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    page-break-before: always !important;
+  }
+
+  .content img {
+    display: block !important;
+    page-break-inside: avoid !important;
+  }
+}

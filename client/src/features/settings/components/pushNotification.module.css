@@ -1,0 +1,33 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  gap: 15px;
+}
+
+.container > * {
+  display: flex;
+  align-items: center;
+}
+
+.user_agent {
+  flex-wrap: wrap;
+  column-gap: 0.8rem;
+  justify-content: end;
+  text-align: right;
+}
+
+.state {
+  gap: 4px;
+}
+
+.time {
+  display: inline-block;
+  text-align: right;
+  word-break: keep-all;
+}
+
+.button_box {
+  gap: 16px;
+}

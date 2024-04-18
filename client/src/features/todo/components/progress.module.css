@@ -1,0 +1,23 @@
+.progress {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 15px;
+  padding-bottom: 30px;
+}
+
+.ratio {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.ratio svg {
+  font-size: 1.8rem;
+}
+
+.bar {
+  height: 10px;
+  border-radius: 50px;
+  background: linear-gradient(90deg, var(--primary), 90%, var(--accent));
+}

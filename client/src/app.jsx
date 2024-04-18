@@ -6,10 +6,10 @@ import { routers } from "@/router";
 import { queryClient } from "@services/core";
 import { setThemeStorage } from "@utils/manageThemeStorage";
 import { themeState } from "@recoils/theme";
-import ModalsProvider from "@contexts/modalContext";
-import ToastsProvider from "@contexts/toastContext";
+import ModalsProvider from "@contexts/ModalContext";
+import ToastsProvider from "@contexts/ToastContext";
 
-const App = () => {
+export default function App() {
   const userTheme = useRecoilValue(themeState);
   setThemeStorage(userTheme);
 
@@ -24,6 +24,4 @@ const App = () => {
       </QueryClientProvider>
     </Suspense>
   );
-};
-
-export default App;
+}

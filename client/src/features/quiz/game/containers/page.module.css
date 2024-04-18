@@ -1,0 +1,129 @@
+.main {
+  align-items: center;
+  gap: 1%;
+}
+
+.subject_box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  word-break: keep-all;
+}
+
+.category {
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+.subject {
+  width: 100%;
+  padding: 4% 0;
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 700;
+  word-break: keep-all;
+}
+
+.keyword_box {
+  width: 70%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.keyword_description {
+  white-space: pre-wrap;
+  padding: 16px;
+  border-top: 5px solid var(--primary);
+  margin: 0 auto;
+  width: 100%;
+  line-height: 22px;
+  min-height: 100px;
+  overflow-y: auto;
+  word-break: break-word;
+}
+
+.main button {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px;
+  font-size: 1.4rem;
+}
+
+.keycount {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+
+.answer_box {
+  width: 70%;
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+}
+
+.message_box {
+  display: flex;
+  column-gap: 10px;
+  width: 100%;
+  padding: 30px 20px;
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  -webkit-user-select: none;
+  user-select: none;
+  position: relative;
+  caret-color: var(--accent);
+}
+
+.message_box:after {
+  position: absolute;
+  left: calc(50% - 15px);
+  top: -16px;
+  content: "";
+  width: 30px;
+  height: 30px;
+  background-color: var(--background);
+  border-bottom: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+  transform: rotateZ(135deg);
+}
+
+.message {
+  border: none;
+  width: 100%;
+}
+
+@media only screen and (max-width: 1023px) {
+  .answer_box {
+    margin-bottom: 12px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .subject {
+    padding: 2% 0;
+    font-size: 2rem;
+  }
+
+  .keyword_box,
+  .answer_box {
+    width: 100%;
+  }
+
+  .message-box {
+    padding: 10px;
+  }
+
+  .message-box:after {
+    left: calc(50% - 5px);
+    top: -6px;
+    width: 10px;
+    height: 10px;
+  }
+}

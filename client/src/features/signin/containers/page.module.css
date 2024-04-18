@@ -1,0 +1,22 @@
+@import "@styles/account.module.css";
+
+.link_wrapper {
+  width: 100%;
+  padding-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.link_wrapper > a {
+  margin: 0 auto;
+  font-size: 1.4rem;
+  border-bottom: 1px solid var(--light);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link_wrapper > a:hover {
+    border-color: var(--accent);
+  }
+}

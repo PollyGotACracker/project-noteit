@@ -1,0 +1,105 @@
+@import "@styles/editorContent.css";
+
+/* font size */
+.content .text-tiny {
+  font-size: 0.7em;
+}
+
+.content .text-small {
+  font-size: 0.85em;
+}
+
+.content .text-big {
+  font-size: 1.4em;
+}
+
+.content .text-huge {
+  font-size: 1.8em;
+}
+
+/* list style */
+.content ul li,
+.content ol li {
+  list-style-position: inside;
+}
+
+/* table style */
+.content table {
+  border-collapse: collapse;
+}
+
+.content table td,
+.content table th {
+  border: 1px solid var(--border);
+  min-width: 2em;
+  padding: 0.4em;
+}
+
+.content table th {
+  background: rgba(0, 0, 0, 0.05);
+  font-weight: 700;
+}
+
+/* figure style */
+.content figure {
+  margin: 0 auto;
+}
+
+/* blockquote style : 인용구 */
+.content blockquote {
+  border-left: 5px solid var(--border);
+  font-style: italic;
+  margin-left: 0;
+  margin-right: 0;
+  overflow: hidden;
+  padding-left: 1.5em;
+  padding-right: 1.5em;
+}
+
+/* figcaption style : 이미지 하단 캡션(설명) */
+.content .image > figcaption {
+  background-color: var(--ck-color-image-caption-background);
+  caption-side: bottom;
+  color: var(--ck-color-image-caption-text);
+  display: table-caption;
+  font-size: 0.75em;
+  outline-offset: -1px;
+  padding: 0.6em;
+  word-break: break-word;
+}
+
+/* image position */
+.content .image,
+.content .image-inline {
+  position: relative;
+}
+
+.content .image {
+  clear: both;
+  display: table;
+  margin: 0.9em auto;
+  min-width: 50px;
+  max-width: 100%;
+  text-align: center;
+}
+
+.content img {
+  max-width: 100%;
+}
+
+.content .image.image_resized img {
+  width: 100%;
+}
+
+.content .image-style-side {
+  float: right;
+  margin-left: var(--ck-image-style-spacing);
+  max-width: 50%;
+}
+
+.content .image-style-side img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  min-width: 100%;
+}

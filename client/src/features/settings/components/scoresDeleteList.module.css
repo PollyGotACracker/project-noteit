@@ -1,0 +1,25 @@
+.delete_box {
+  display: flex;
+  gap: 20px;
+  border-bottom: 1px solid var(--subborder);
+  padding: 10px;
+}
+
+.select_all {
+  margin-right: auto;
+  flex-shrink: 0;
+  width: 15px;
+}
+
+.selected_text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.score_list {
+  flex: 1;
+  list-style: none;
+  overflow-y: auto;
+  margin: 10px 0;
+}

@@ -1,0 +1,36 @@
+.item {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 5fr 2fr 1fr 1fr;
+  gap: 8px;
+  padding: 20px;
+  border-bottom: 1px solid var(--subborder);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all ease 0.2s;
+}
+.item:last-child {
+  border-bottom: none;
+}
+
+.item > span:not(:first-of-type) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 1.4rem;
+}
+
+.item > span:first-of-type {
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 1.6rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .item:hover {
+    color: var(--accent);
+  }
+}

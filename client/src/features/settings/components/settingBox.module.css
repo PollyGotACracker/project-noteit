@@ -1,0 +1,54 @@
+.setting_box {
+  width: 100%;
+  padding: 32px min(6vw, 32px);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid var(--subborder);
+  border-radius: 10px;
+}
+.setting_box:not(:first-child):not(:last-child) {
+  margin: 20px 0;
+}
+
+.setting_box.column {
+  flex-direction: column;
+  gap: 8px;
+}
+
+.title {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+  gap: 8px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  user-select: none;
+  margin-bottom: 16px;
+}
+
+.title.danger {
+  color: var(--red);
+}
+
+.setting_box button {
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 8px;
+  width: min(100px, 100%);
+}
+
+.setting_box > button {
+  margin-left: auto;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .setting_box button:hover {
+    border-color: var(--accent);
+  }
+}

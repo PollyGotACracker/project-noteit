@@ -1,0 +1,7 @@
+@import "@styles/list.module.css";
+
+.list {
+  margin-top: 32px;
+  overflow: hidden auto;
+  height: 100%;
+}

@@ -1,0 +1,21 @@
+@import "@styles/keyframes.css";
+
+.container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+.star {
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 40px #fff, 0 0 80px #fff;
+  will-change: opacity;
+  opacity: 0.8;
+  -webkit-animation: linear infinite twinkle;
+  animation: linear infinite twinkle;
+}

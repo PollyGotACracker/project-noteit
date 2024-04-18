@@ -1,0 +1,36 @@
+.prior {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.prior:after {
+  display: inline-block;
+  content: "";
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+}
+
+.prior[data-prior="1"]:after {
+  background-color: var(--red);
+}
+
+.prior[data-prior="2"]:after {
+  background-color: var(--yellow);
+}
+
+.prior[data-prior="3"]:after {
+  background-color: var(--green);
+}
+
+.prior[data-prior="4"]:after {
+  background-color: var(--blue);
+}
+
+.prior[data-prior="5"]:after {
+  background-color: var(--violet);
+}

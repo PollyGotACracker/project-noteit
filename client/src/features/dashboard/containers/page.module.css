@@ -1,0 +1,11 @@
+.page_text {
+  -webkit-user-select: none;
+  user-select: none;
+  margin-bottom: 16px;
+}
+
+.container {
+  padding: 40px 4%;
+  border: 1px solid var(--subborder);
+  border-radius: 10px;
+}

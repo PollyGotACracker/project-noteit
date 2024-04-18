@@ -1,0 +1,50 @@
+.summary {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 50px;
+}
+
+.user_info,
+.score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.score {
+  margin-bottom: 10px;
+  height: 3.2rem;
+}
+
+.score svg {
+  color: var(--accent);
+}
+
+.today {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.8rem;
+  justify-content: center;
+  text-align: center;
+}
+
+.today span {
+  display: inline-block;
+  color: var(--accent);
+}
+
+.subject:before {
+  content: "-";
+  display: block;
+  text-align: center;
+}
+
+@media only screen and (max-width: 768px) {
+  .user_info,
+  .score {
+    font-size: 1.4rem;
+  }
+}

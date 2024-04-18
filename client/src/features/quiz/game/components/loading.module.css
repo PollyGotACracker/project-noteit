@@ -1,0 +1,22 @@
+@import "@styles/keyframes.css";
+
+.main {
+  justify-content: center;
+  align-items: center;
+  transition: opacity ease 0.3s;
+}
+
+.main svg {
+  -webkit-animation: infinite ease-out 1.6s hourglassRotateZ,
+    infinite steps(1) 0.4s hourglassRotateX;
+  animation: infinite ease-out 1.6s hourglassRotateZ,
+    infinite steps(1) 0.4s hourglassRotateX;
+  font-size: 20rem;
+  color: var(--secondary);
+}
+
+.message {
+  margin-top: 30px;
+  -webkit-user-select: none;
+  user-select: none;
+}

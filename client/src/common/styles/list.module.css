@@ -1,0 +1,19 @@
+.overflow {
+  margin-left: -5vw;
+  margin-right: -5vw;
+}
+
+.full {
+  padding: 30px 5vw;
+}
+
+@media only screen and (max-width: 768px) {
+  .overflow {
+    margin-left: -16px;
+    margin-right: -16px;
+  }
+
+  .full {
+    padding: 16px;
+  }
+}

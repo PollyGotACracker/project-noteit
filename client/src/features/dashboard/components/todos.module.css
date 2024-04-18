@@ -1,0 +1,26 @@
+@import "./details.module.css";
+
+.item {
+  padding: 0 20px;
+  height: 50px;
+  display: grid;
+  grid-template-columns: 6fr 2fr 1.5fr 1fr;
+  gap: 8px;
+  align-items: center;
+}
+
+.item > * {
+  word-break: keep-all;
+  display: flex;
+  align-items: center;
+}
+
+.item > *:not(:first-child) {
+  font-size: 1.2rem;
+  color: var(--subtext);
+  margin: 0 auto;
+}
+
+.content {
+  word-break: keep-all;
+}

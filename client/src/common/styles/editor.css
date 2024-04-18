@@ -1,0 +1,19 @@
+/* editor style */
+.ck-content {
+  height: 68vh;
+}
+
+.ck-editor .ck-content {
+  background-color: var(--background) !important;
+  padding: 0 2em !important;
+}
+
+.ck-toolbar {
+  border-radius: 10px 10px 0 0 !important;
+}
+
+.ck-editor__editable.ck-rounded-corners {
+  border-radius: 0 0 10px 10px !important;
+  border-color: var(--ck-color-toolbar-border) !important;
+  box-shadow: none !important;
+}

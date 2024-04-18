@@ -1,0 +1,24 @@
+nav.signout {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 30px 80px;
+}
+
+a.link {
+  position: relative;
+  color: var(--light);
+  display: inline-block;
+  background-color: var(--secondary);
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  a.link:hover {
+    background-color: var(--accent);
+  }
+}

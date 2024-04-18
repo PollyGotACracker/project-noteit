@@ -1,0 +1,68 @@
+.upload_image_wrapper {
+  width: min(200px, 60%);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.upload_image_wrapper img {
+  height: 100%;
+  display: inline-block;
+}
+
+.nickname {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.score {
+  display: flex;
+  column-gap: 8px;
+}
+
+.input_wrapper {
+  max-width: 500px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#input_image {
+  pointer-events: none;
+  border: none;
+  width: 100%;
+  text-overflow: ellipsis;
+}
+
+#input_image::file-selector-button {
+  display: none;
+}
+
+label.upload_image {
+  display: inline-block;
+  -webkit-user-select: none;
+  user-select: none;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  padding: 8px;
+  transition: all ease 0.2s;
+  white-space: nowrap;
+  cursor: pointer;
+  text-align: center;
+}
+
+#input_text {
+  margin: 16px 0;
+  width: 100%;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  label.upload_image:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+}

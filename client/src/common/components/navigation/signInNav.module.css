@@ -1,0 +1,109 @@
+@import "@styles/keyframes.css";
+
+nav.signin {
+  width: 180px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background: transparent;
+  padding: 80px 0 15px;
+}
+
+nav.signin_sidebar {
+  width: 100%;
+  padding-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  order: 3;
+}
+
+/* anchor style */
+a.link {
+  width: 100%;
+  height: 60px;
+  padding-left: 20px;
+  border: none;
+  color: var(--light);
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+  justify-content: flex-start;
+}
+
+a.link.active {
+  color: var(--accent);
+  background-color: var(--background);
+}
+
+a.link svg {
+  display: block;
+  height: 42px;
+  font-size: 2rem;
+  transform-origin: center;
+  overflow: hidden;
+}
+
+/* seperate anchor style */
+a.link.todo div {
+  height: 33px;
+  margin-bottom: 10px;
+  overflow-y: hidden;
+}
+
+a.link.quiz {
+  position: relative;
+}
+
+button.link.signout {
+  margin-top: auto;
+  margin-bottom: 20px;
+  color: var(--light);
+}
+
+@media only screen and (max-width: 1023px) {
+  nav.signin:not(.sidebar) {
+    display: none;
+  }
+
+  nav.signin_sidebar a.link {
+    padding-left: 0;
+  }
+
+  button.link.signout_sidebar {
+    margin-top: auto;
+    order: 7;
+  }
+
+  :root[color-theme="light"] nav.signin_sidebar a.link:not(.active) {
+    color: var(--dark);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  a.link.dashboard:hover svg {
+    -webkit-animation: 1s infinite shake;
+    animation: 1s infinite shake;
+  }
+
+  a.link.todo:hover div {
+    -webkit-animation: 1.5s steps(2) infinite listing;
+    animation: 1.5s steps(2) infinite listing;
+  }
+
+  a.link.note:hover svg path:first-child {
+    -webkit-animation: 1s steps(2) infinite bookmark;
+    animation: 1s steps(2) infinite bookmark;
+  }
+
+  a.link.quiz:hover svg {
+    -webkit-animation: 1s ease-out infinite jump;
+    animation: 1s ease-out infinite jump;
+  }
+
+  a.link.settings:hover svg {
+    -webkit-animation: 1s steps(5) infinite spin;
+    animation: 1s steps(5) infinite spin;
+  }
+}

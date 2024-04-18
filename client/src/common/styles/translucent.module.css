@@ -1,0 +1,18 @@
+input.translucent:-webkit-autofill,
+input.translucent:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px var(--semialpha) inset;
+}
+
+:root[color-theme="dark"] input.translucent:-webkit-autofill,
+:root[color-theme="dark"] input.translucent:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px var(--darkalpha) inset;
+}
+
+input.translucent {
+  color: var(--text);
+  border: 0;
+  background-color: var(--semialpha);
+}
+:root[color-theme="dark"] input.translucent {
+  background-color: var(--darkalpha);
+}

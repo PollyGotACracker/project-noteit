@@ -1,0 +1,59 @@
+.score,
+.duration,
+.feedback {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.score {
+  font-size: 5rem;
+  font-weight: 900;
+  margin-top: 5vh;
+}
+
+.date,
+.time {
+  text-align: right;
+  font-size: 1.4rem;
+}
+
+.button_box {
+  width: 60%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px auto;
+}
+
+button.save,
+a.restart {
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  justify-content: center;
+  width: 120px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+p.save_message {
+  width: 100%;
+  padding-bottom: 50px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.list {
+  margin-top: 5vh;
+}
+
+h3.list_title {
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: var(--primary);
+  color: var(--light);
+  border-radius: 5px;
+}

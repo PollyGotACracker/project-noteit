@@ -1,0 +1,51 @@
+@import "@styles/list.module.css";
+
+.main {
+  overflow-y: hidden;
+  padding-top: 0;
+}
+
+button.filter {
+  width: 150px;
+  border: 1px solid var(--text);
+  border-radius: 50px;
+  padding: 5px;
+  margin: 10px auto;
+}
+
+.list {
+  padding-top: 0;
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-rows: repeat(auto-fit, 280px);
+  justify-content: center;
+  gap: 30px;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.info {
+  width: 100%;
+  padding: 30px 0;
+  background-color: var(--background);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  word-break: keep-all;
+  text-align: center;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+@media only screen and (max-width: 768px) {
+  .info {
+    padding: 16px 0;
+  }
+
+  .list {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}

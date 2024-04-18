@@ -1,0 +1,23 @@
+@import "@styles/keyframes.css";
+
+.text_wrapper {
+  font-size: 3rem;
+  font-weight: 700;
+  width: 100%;
+  margin-bottom: 20px;
+  text-align: center;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.text {
+  -webkit-animation: 0.5s step-end infinite alternate blink;
+  animation: 0.5s step-end infinite alternate blink;
+  border-right: 1px solid var(--accent);
+}
+
+@media only screen and (max-width: 768px) {
+  .text_wrapper {
+    font-size: 2rem;
+  }
+}

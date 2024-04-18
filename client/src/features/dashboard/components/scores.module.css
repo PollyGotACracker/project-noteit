@@ -1,0 +1,11 @@
+@import "./details.module.css";
+
+.chart_wrapper {
+  width: 100%;
+  height: 30vw;
+  min-height: 300px;
+}
+
+.chart_wrapper canvas {
+  width: 100%;
+}

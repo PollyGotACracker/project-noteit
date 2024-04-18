@@ -1,0 +1,95 @@
+@import "@styles/underline.module.css";
+@import "@styles/editor.css";
+
+.form {
+  width: 100%;
+  margin: 5vh 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  display: inline-block;
+  width: 120px;
+  font-size: 2rem;
+  font-weight: 700;
+  -webkit-user-select: none;
+  user-select: none;
+  margin: 50px 10px 20px 0px;
+}
+.label:before {
+  content: "-";
+  display: inline-block;
+  color: var(--primary);
+  width: 30px;
+}
+.label:first-child {
+  margin-top: 0;
+}
+
+.keyword_info {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.4rem;
+  word-break: keep-all;
+  margin-left: 10px;
+}
+
+.keyword_wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.keywords {
+  width: 100%;
+  margin: 10px 0;
+}
+
+button.add_keyword {
+  width: 120px;
+  padding: 8px 16px;
+  margin-left: auto;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  transition: all ease 0.3s;
+  white-space: nowrap;
+  cursor: pointer;
+  text-align: center;
+}
+
+a.back,
+button.submit {
+  background-color: var(--primary);
+  border-radius: 5px;
+  color: white;
+  width: 80px;
+  padding: 8px 16px;
+  transition: all ease 0.3s;
+  white-space: nowrap;
+  cursor: pointer;
+  text-align: center;
+}
+
+.button_box {
+  width: 100%;
+  margin-top: 8vh;
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  button.add_keyword:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  a.back:hover,
+  button.submit:hover {
+    color: inherit !important;
+    background-color: var(--accent);
+  }
+}

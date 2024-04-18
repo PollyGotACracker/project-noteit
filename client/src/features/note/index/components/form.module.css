@@ -1,0 +1,26 @@
+@import "@styles/translucent.module.css";
+
+.category_add {
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.category_add input {
+  width: 100%;
+  padding: 15px;
+}
+
+button.insert {
+  margin-left: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.5rem;
+}
+
+button.insert:not(:disabled) {
+  color: var(--accent);
+}

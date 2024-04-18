@@ -1,0 +1,46 @@
+/* font size */
+.ck-content .text-tiny {
+  font-size: 0.7em;
+}
+
+.ck-content .text-small {
+  font-size: 0.85em;
+}
+
+.ck-content .text-big {
+  font-size: 1.4em;
+}
+
+.ck-content .text-huge {
+  font-size: 1.8em;
+}
+
+/* list style */
+.ck-content ul li,
+.ck-content ol li {
+  list-style-position: inside;
+}
+
+/* table style */
+.ck-content .table table td,
+.ck-content .table table th {
+  border: 1px solid var(--border);
+  min-width: 2em;
+  padding: 0.4em;
+}
+
+.ck-content .table table th {
+  background: rgba(0, 0, 0, 0.05);
+  font-weight: 700;
+}
+
+/* blockquote style : 인용구 */
+.ck-content blockquote {
+  border-left: 5px solid var(--border);
+  font-style: italic;
+  margin-left: 0;
+  margin-right: 0;
+  overflow: hidden;
+  padding-left: 1.5em;
+  padding-right: 1.5em;
+}

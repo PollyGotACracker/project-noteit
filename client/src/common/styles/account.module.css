@@ -1,0 +1,188 @@
+main.account {
+  justify-content: center;
+  background-color: var(--dark);
+  color: var(--light);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: min(90vw, 60vh);
+  padding: 10px 6vw 50px;
+  border-radius: 10px;
+  background-color: #242424;
+  box-shadow: 0px 5px 10px 1px var(--darkalpha);
+  gap: 20px;
+  color: white;
+  transform: translateY(-15px);
+}
+
+.container::before {
+  content: "";
+  display: block;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 150px;
+  width: 100px;
+  height: 100px;
+  background-image: url("@assets/images/noteit_icon.svg");
+}
+
+.container > form {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.container > form.column {
+  flex-direction: column;
+}
+
+.container > form.row {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.container > form.column > label {
+  position: relative;
+  width: 100%;
+}
+
+.container > form.row > label {
+  flex-shrink: 0;
+  flex: 1;
+}
+
+.container input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  border: 0;
+  border-radius: 5px;
+  background-color: var(--dark);
+  color: var(--light);
+  caret-color: var(--accent);
+  padding: 10px 10px 10px 40px;
+}
+
+.container input[name="code"] {
+  padding: 10px;
+}
+
+:root[color-theme="light"] .container input::-ms-reveal {
+  filter: invert(100%);
+}
+
+.container input:-webkit-autofill,
+.container input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--light);
+  -webkit-box-shadow: 0 0 0px 1000px var(--dark) inset;
+}
+
+.container input:not(:read-only):focus {
+  border-color: var(--accent);
+}
+
+.container label:before {
+  position: absolute;
+  left: 0;
+  content: "";
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 18px;
+  width: 40px;
+  height: 40px;
+}
+
+.container label[for="email"]:before {
+  background-image: url("@assets/images/email.png");
+}
+
+.container label[for="nickname"]:before {
+  background-image: url("@assets/images/user.png");
+}
+
+.container label[for="password"]:before {
+  background-image: url("@assets/images/pwd.png");
+}
+
+.container label[for="repassword"]:before {
+  background-image: url("@assets/images/pwd_check.png");
+}
+
+.container input::placeholder {
+  color: var(--lightgray);
+}
+
+.container button {
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.container button.action {
+  border: 1px solid var(--secondary);
+  transition: border-color 0.3s ease;
+}
+
+.container > form.row > button.action {
+  flex-basis: 80px;
+  flex: 0.4;
+  flex-shrink: 1;
+}
+
+.container button.submit {
+  height: 60px;
+  background-color: var(--secondary);
+  transition: background-color 0.3s ease;
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+  border-radius: 50px;
+  margin-top: auto;
+}
+
+@media only screen and (max-width: 768px) {
+  .container {
+    padding: 5% 10% 10%;
+  }
+
+  .container::before {
+    background-size: 100px;
+    width: 50px;
+    height: 50px;
+  }
+
+  .container label {
+    width: 100%;
+  }
+
+  .container button.submit {
+    height: auto;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .container input:-webkit-autofill:hover {
+    -webkit-text-fill-color: var(--light);
+    -webkit-box-shadow: 0 0 0px 1000px var(--dark) inset;
+  }
+
+  .container button.action:not(:disabled):hover {
+    border-color: var(--accent);
+  }
+
+  .container button.submit:not(:disabled):hover {
+    background-color: var(--accent);
+  }
+}

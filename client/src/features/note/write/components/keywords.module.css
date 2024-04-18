@@ -1,0 +1,91 @@
+@import "@styles/underline.module.css";
+
+.keyword_item {
+  display: flex;
+  align-items: center;
+  height: 20vh;
+}
+
+.button_box {
+  display: flex;
+  padding: 10px;
+  height: 80%;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+}
+
+.index {
+  font-size: 2.5rem;
+  color: var(--accent);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+button.delete {
+  font-size: 2.5rem;
+  color: var(--subtext);
+}
+
+button.up,
+button.down {
+  font-size: 2.5rem;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  overflow: auto;
+}
+.item:focus-within {
+  border-color: var(--accent);
+}
+
+.label {
+  position: relative;
+  width: 100%;
+  border-bottom: 1px solid var(--border);
+}
+.label:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 18px;
+  width: 40px;
+  height: 100%;
+  background-image: url("@assets/images/keyword.png");
+}
+
+.keyword {
+  border: none;
+  padding: 10px;
+  margin-left: 40px;
+  width: 100%;
+}
+
+.description {
+  height: 10vh;
+  border: none;
+  width: 100%;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  button.delete:hover {
+    color: var(--red);
+  }
+
+  button.up:hover,
+  button.down:hover {
+    color: var(--accent);
+  }
+}

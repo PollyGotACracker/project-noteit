@@ -5,18 +5,19 @@
     "baseUrl": "src",
     "paths": {
       "@/*": ["*"],
-      "@assets/*": ["assets/*"],
-      "@components/*": ["components/*"],
-      "@contexts/*": ["contexts/*"],
-      "@data/*": ["data/*"],
-      "@hooks/*": ["hooks/*"],
-      "@layouts/*": ["layouts/*"],
-      "@libs/*": ["libs/*"],
-      "@pages/*": ["pages/*"],
-      "@recoils/*": ["recoils/*"],
-      "@services/*": ["services/*"],
-      "@styles/*": ["styles/*"],
-      "@utils/*": ["utils/*"]
+      "@services/*": ["common/services/*"],
+      "@assets/*": ["common/assets/*"],
+      "@components/*": ["common/components/*"],
+      "@constants/*": ["common/constants/*"],
+      "@contexts/*": ["common/contexts/*"],
+      "@data/*": ["common/data/*"],
+      "@features/*": ["features/*"],
+      "@hooks/*": ["common/hooks/*"],
+      "@layouts/*": ["common/layouts/*"],
+      "@libs/*": ["common/libs/*"],
+      "@recoils/*": ["common/recoils/*"],
+      "@styles/*": ["common/styles/*"],
+      "@utils/*": ["common/utils/*"]
     }
   },
   "include": ["src"]

@@ -8,8 +8,8 @@ import {
   PwdResetLink,
   Dashboard,
   Note,
-  NoteList,
-  NoteDetail,
+  NoteCategory,
+  NoteSubject,
   NoteWrite,
   Search,
   Quiz,
@@ -17,8 +17,8 @@ import {
   QuizResult,
   Todo,
   Settings,
-  Error,
-} from "@/routeList.js";
+  NotFound,
+} from "@/pages";
 import { createBrowserRouter } from "react-router-dom";
 import { MdSpaceDashboard } from "react-icons/md";
 import { TbListCheck } from "react-icons/tb";
@@ -32,8 +32,8 @@ export const URLS = {
   DASHBOARD: "/dashboard",
   TODO: "/todo",
   NOTE: "/note",
-  NOTE_LIST: "/note/list",
-  NOTE_DETAIL: "/note/detail",
+  NOTE_CATEGORY: "/note/category",
+  NOTE_SUBJECT: "/note/subject",
   NOTE_WRITE: "/note/write",
   QUIZ: "/quiz",
   QUIZ_GAME: "/quiz/game",
@@ -120,22 +120,22 @@ export const routerData = [
   },
   {
     id: 8,
-    path: `${URLS.NOTE_LIST}/:catId`,
-    label: "노트 주제",
-    element: <NoteList />,
+    path: `${URLS.NOTE_CATEGORY}/:catId`,
+    label: "노트 카테고리",
+    element: <NoteCategory />,
     withAuth: true,
   },
   {
     id: 9,
-    path: `${URLS.NOTE_DETAIL}/:catId/:subId`,
-    label: "노트 상세",
-    element: <NoteDetail />,
+    path: `${URLS.NOTE_SUBJECT}/:catId/:subId`,
+    label: "노트 주제",
+    element: <NoteSubject />,
     withAuth: true,
   },
   {
     id: 10,
     path: `${URLS.NOTE_WRITE}/:catId/:subId?`,
-    label: "노트 쓰기",
+    label: "노트 작성",
     element: <NoteWrite />,
     withAuth: true,
   },
@@ -197,6 +197,6 @@ export const routers = createBrowserRouter([
   }),
   {
     path: "*",
-    element: <Error />,
+    element: <NotFound />,
   },
 ]);

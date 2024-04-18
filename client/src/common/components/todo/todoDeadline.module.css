@@ -1,0 +1,9 @@
+.deadline {
+  color: var(--subtext);
+  font-size: 1.2rem;
+}
+
+.deadline.active {
+  color: var(--red);
+  font-weight: bold;
+}

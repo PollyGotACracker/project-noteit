@@ -1,0 +1,30 @@
+.no_content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.no_content.full {
+  height: 100%;
+}
+
+.image_wrapper {
+  width: min(400px, 100%);
+  aspect-ratio: 1 / 0.8;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image {
+  width: 100%;
+  opacity: 0.6;
+  margin: 0 auto;
+}
+
+p.description {
+  text-align: center;
+}

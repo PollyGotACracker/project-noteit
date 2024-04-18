@@ -1,0 +1,9 @@
+@import "@styles/translucent.module.css";
+
+.container {
+  width: 100%;
+}
+
+#timer {
+  width: 100px;
+}

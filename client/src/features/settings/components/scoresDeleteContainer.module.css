@@ -1,0 +1,92 @@
+@import "./settingBox.module.css";
+
+.container {
+  width: 80vw;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid var(--subborder);
+  border-radius: 5px;
+}
+
+.menu > * {
+  display: inline-block;
+}
+
+.info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+  -webkit-user-select: none;
+  user-select: none;
+  word-break: keep-all;
+}
+
+.filter_box {
+  margin-left: auto;
+}
+
+button.select_filter {
+  display: inline-block;
+  margin-left: auto;
+  text-align: right;
+  word-break: keep-all;
+  white-space: normal;
+}
+
+.filter_box .filter_option_wrapper {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 100%;
+  background-color: var(--background);
+  padding: 10px;
+  border-radius: 10px;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.3s ease-in-out;
+}
+
+.filter_box.opened .filter_option_wrapper {
+  transform: scaleY(1);
+  box-shadow: 0px 0px 5px 2px var(--darkalpha);
+}
+
+.filter_option_wrapper > * {
+  display: inline-block;
+  word-break: keep-all;
+  white-space: normal;
+  text-align: right;
+  width: 100%;
+  padding: 5px;
+  border-bottom: 1px solid var(--subborder);
+  opacity: 0;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.filter_box.opened .filter_option_wrapper > * {
+  opacity: 1;
+  -webkit-user-select: auto;
+  user-select: auto;
+}
+
+.filter_option_wrapper > *:last-child {
+  border-bottom: none;
+}
+
+button.clear_filter {
+  margin-top: 20px;
+  padding: 5px;
+}
