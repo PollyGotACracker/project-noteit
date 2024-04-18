@@ -149,23 +149,24 @@ router.delete("/cat/:catid/delete", verifyToken, async (req, res, next) => {
   try {
     const userid = req.payload.email;
     const catid = req.params.catid;
-    const _sub = await SUB.findAll({
+    const subjects = await SUB.findAll({
       raw: true,
       where: { s_catid: catid },
-    })[0];
-    const subid = _sub?.s_subid || "";
+    });
 
     await DB.sequelize.transaction(async () => {
-      await KEY.destroy({
-        where: {
-          [Op.and]: [{ k_subid: subid }, { k_userid: userid }],
-        },
-      });
-      await SUB.destroy({
-        where: {
-          [Op.and]: [{ s_subid: subid }, { s_userid: userid }],
-        },
-      });
+      for (let sub of subjects) {
+        await KEY.destroy({
+          where: {
+            [Op.and]: [{ k_subid: sub.s_subid }, { k_userid: userid }],
+          },
+        });
+        await SUB.destroy({
+          where: {
+            [Op.and]: [{ s_subid: sub.s_subid }, { s_userid: userid }],
+          },
+        });
+      }
       await CAT.destroy({
         where: { [Op.and]: [{ c_catid: catid }, { c_userid: userid }] },
       });
