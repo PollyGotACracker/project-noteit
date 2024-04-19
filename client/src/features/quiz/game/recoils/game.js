@@ -1,25 +1,5 @@
 import { atom, selector } from "recoil";
 
-export const subListState = atom({
-  key: "subListState",
-  default: [],
-});
-
-export const keyListState = atom({
-  key: "keyListState",
-  default: [],
-});
-
-export const keyListSelector = selector({
-  key: "keyListSelector",
-  get: ({ get }) => get(keyListState),
-  set: ({ get, set }) => {
-    const subList = get(subListState);
-    const subIndex = get(subIdxState);
-    set(keyListState, [...subList[subIndex].tbl_keywords]);
-  },
-});
-
 export const subIdxState = atom({
   key: "subIdxState",
   default: 0,

@@ -17,9 +17,9 @@ export default function Item({ item }) {
           {item?.s_subject}
         </Link>
         <p className={style.text}>· 키워드 수: {item?.s_keycount}</p>
-        <p className={style.text}>· 오답 수: {item?.wrong.length}</p>
+        <p className={style.text}>· 오답 수: {item?.wrongs.length}</p>
       </div>
-      {item?.wrong.map((keyword) => (
+      {item?.wrongs.map((keyword) => (
         <div className={style.keyword} key={keyword?.k_keyid}>
           <span className={style.keyword_name}>
             <FaTag /> {keyword?.k_keyword}
@@ -35,7 +35,7 @@ export default function Item({ item }) {
           </a>
           <p className={style.keyword_description}>{keyword?.k_desc}</p>
           <p className={style.keyword_answered}>
-            제출: <span>{keyword?.answer}</span>
+            제출: <span>{keyword.userAnswer}</span>
           </p>
         </div>
       ))}

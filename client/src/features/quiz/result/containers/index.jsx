@@ -17,7 +17,7 @@ export default function QuizResult() {
   const location = useLocation();
   if (!location?.state) return <WrongApproach />;
 
-  const { wrongs, score } = location.state;
+  const { data, score } = location.state;
   const { dateStr, timeStr } = getTodayFormat(score.sc_date, score.sc_time);
   const ratio = score.sc_score / score.sc_totalscore;
   const [saveMsg, setSaveMsg] = useState("");
@@ -50,8 +50,8 @@ export default function QuizResult() {
 
   useEffect(() => {
     if (isSuccess) {
-      const keyids = wrongs
-        .map((sub) => sub.wrong.map((key) => key.k_keyid))
+      const keyids = data
+        .map((sub) => sub.wrongs.map((key) => key.k_keyid))
         .flat(2);
       saveUserMutation({ keyids });
     }
@@ -95,7 +95,7 @@ export default function QuizResult() {
       </div>
       <div className={style.list}>
         <h3 className={style.list_title}>틀린 문제 목록</h3>
-        {wrongs.map((item) => (
+        {data.map((item) => (
           <Item key={item?.s_subid} item={item} />
         ))}
       </div>
