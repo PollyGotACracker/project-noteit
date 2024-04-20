@@ -40,7 +40,7 @@ export default defineConfig(({ mode }) => {
       ],
     },
     build: {
-      sourcemap: true,
+      sourcemap: false,
       cssCodeSplit: true,
       cssMinify: true,
       rollupOptions: {
