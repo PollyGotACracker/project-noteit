@@ -3,11 +3,11 @@ import { useRef, useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { BsCheck2Circle, BsDroplet, BsStars } from "react-icons/bs";
 import feedback from "../constants/feedback";
-import { subIdxState, keyIdxState } from "../recoils/game";
+import { subIndexState, keyIndexState } from "../recoils/game";
 
 export default function Feedback({ feedbackMsg, quizEnded }) {
-  const subIndex = useRecoilValue(subIdxState);
-  const keyIndex = useRecoilValue(keyIdxState);
+  const subIndex = useRecoilValue(subIndexState);
+  const keyIndex = useRecoilValue(keyIndexState);
   const msgMoveStop = useRef(null);
   const feedbackRef = useRef(null);
 

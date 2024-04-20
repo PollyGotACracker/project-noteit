@@ -1,7 +1,7 @@
 import style from "./timer.module.css";
 import { useEffect, useState, useRef } from "react";
 import { useRecoilValue } from "recoil";
-import { keyIdxState, subIdxState } from "../recoils/game";
+import { subIndexState, keyIndexState } from "../recoils/game";
 import useTimer from "@hooks/useTimer";
 import { getQuizTimer } from "../../common/utils/manageQuizTimerStorage";
 
@@ -16,8 +16,8 @@ export default function Timer({
   const [quizStarted, setQuizStarted] = useState(false);
   const barRef = useRef(null);
   const pausedFlag = useRef(false);
-  const subIndex = useRecoilValue(subIdxState);
-  const keyIndex = useRecoilValue(keyIdxState);
+  const subIndex = useRecoilValue(subIndexState);
+  const keyIndex = useRecoilValue(keyIndexState);
 
   useEffect(() => {
     if (!!!seconds) return;

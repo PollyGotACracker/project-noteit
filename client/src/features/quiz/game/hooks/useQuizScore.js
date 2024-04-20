@@ -1,10 +1,10 @@
 import { useRef, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { keyIdxState, subIdxState } from "../recoils/game";
+import { subIndexState, keyIndexState } from "../recoils/game";
 
 const useQuizScore = ({ data = [] }) => {
-  const subIndex = useRecoilValue(subIdxState);
-  const keyIndex = useRecoilValue(keyIdxState);
+  const subIndex = useRecoilValue(subIndexState);
+  const keyIndex = useRecoilValue(keyIndexState);
   const [perfectScore, setPerfectScore] = useState(0);
   const correctList = useRef([]);
 

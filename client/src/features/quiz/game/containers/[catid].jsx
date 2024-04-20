@@ -1,17 +1,12 @@
 import style from "./page.module.css";
 import { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { useQuery } from "react-query";
 import { FaTags } from "react-icons/fa";
 import { IoArrowRedoCircleOutline } from "react-icons/io5";
 import { userState } from "@recoils/user";
-import {
-  subIdxSelector,
-  keyIdxSelector,
-  keyIdxState,
-  subIdxState,
-} from "../recoils/game";
+import { subIndexState, keyIndexState } from "../recoils/game";
 import { initScore } from "../utils/initData";
 import { URLS } from "@/router";
 import feedback from "../constants/feedback";
@@ -20,6 +15,7 @@ import { getQuizTimer } from "../../common/utils/manageQuizTimerStorage";
 import useQuizScore from "../hooks/useQuizScore";
 import useQuizTimeout from "../hooks/useQuizTimeout";
 import useQuizData from "../hooks/useQuizData";
+import useQuizIndex from "../hooks/useQuizIndex";
 import getDuration from "@utils/getDuration";
 import Feedback from "../components/Feedback";
 import Score from "../components/Score";
@@ -39,27 +35,26 @@ export default function QuizGame() {
   const { getQuizRandom } = useGameFetcher();
   const { data = [], isLoading } = useQuery(getQuizRandom({ catId }));
 
-  // quiz states
+  // quiz states / helpers
   const [quizPaused, setQuizPaused] = useState(false);
   const [quizEnded, setQuizEnded] = useState(false);
-  const [feedbackMsg, setFeedbackMsg] = useState(feedback.start);
-  const [subIdx, setNextSubIdx] = useRecoilState(subIdxSelector);
-  const [keyIdx, setNextKeyIdx] = useRecoilState(keyIdxSelector);
-  const setFirstSubIdx = useResetRecoilState(subIdxState);
-  const setFirstKeyIdx = useResetRecoilState(keyIdxState);
-  const isLastSubject = () => data.length - 1 === subIdx;
-  const isLastKeyword = () => data[subIdx]?.tbl_keywords.length - 1 === keyIdx;
+  const subIndex = useRecoilValue(subIndexState);
+  const keyIndex = useRecoilValue(keyIndexState);
+  const { setNextSubject, setNextKeyword } = useQuizIndex({
+    data,
+  });
+  const { actionType, updateQuizData, getWrongData } = useQuizData({ data });
+  const { countDown, setCounter, isCountStart } = useQuizTimeout({
+    gameRef,
+    userAnswerRef,
+  });
 
   // quiz result / helpers
   const userData = useRecoilValue(userState);
   const [userScore, setUserScore] = useState(initScore);
   const [score, setScore] = useState(0);
   const { perfectScore, checkQuizAnswer } = useQuizScore({ data });
-  const { actionType, updateQuizData, getWrongData } = useQuizData({ data });
-  const { countDown, setCounter, isCountStart } = useQuizTimeout({
-    gameRef,
-    userAnswerRef,
-  });
+  const [feedbackMsg, setFeedbackMsg] = useState(feedback.start);
 
   // functions
   const navigateResult = ({ finalScore = score, jumped = false }) => {
@@ -99,26 +94,18 @@ export default function QuizGame() {
     }
     setScore(newScore);
 
-    if (!isLastKeyword()) {
-      setNextKeyIdx();
-    }
-    if (isLastKeyword() && !isLastSubject()) {
-      setNextSubIdx();
-      setFirstKeyIdx();
-    }
-    if (isLastKeyword() && isLastSubject()) {
+    const hasNext = setNextKeyword();
+    if (!hasNext) {
       navigateResult({ finalScore: newScore });
     }
   };
 
   const handleSkipSubject = () => {
     if (quizPaused || quizEnded) return;
-    if (!isLastSubject()) {
-      setFeedbackMsg(feedback.nextSub);
-      setNextSubIdx();
-      setFirstKeyIdx();
-    }
-    if (isLastSubject()) {
+    const feedback = setNextSubject();
+    if (feedback) {
+      setFeedbackMsg(feedback);
+    } else {
       navigateResult({ jumped: true });
     }
     updateQuizData({ type: actionType.SKIP_SUB });
@@ -126,16 +113,10 @@ export default function QuizGame() {
 
   const handleSkipKeyword = () => {
     if (quizPaused || quizEnded) return;
-    if (!isLastKeyword()) {
-      setFeedbackMsg(feedback.nextKey);
-      setNextKeyIdx();
-    }
-    if (!isLastSubject() && isLastKeyword()) {
-      setFeedbackMsg(feedback.nextSub);
-      setNextSubIdx();
-      setFirstKeyIdx();
-    }
-    if (isLastSubject() && isLastKeyword()) {
+    const feedback = setNextKeyword();
+    if (feedback) {
+      setFeedbackMsg(feedback);
+    } else {
       navigateResult({ jumped: true });
     }
     updateQuizData({ type: actionType.SKIP_KEY });
@@ -145,17 +126,10 @@ export default function QuizGame() {
 
   // side effects
   useEffect(() => {
-    return () => {
-      setFirstSubIdx();
-      setFirstKeyIdx();
-    };
-  }, [data]);
-
-  useEffect(() => {
     if (!userAnswerRef.current) return;
     userAnswerRef.current.value = "";
     userAnswerRef.current.focus();
-  }, [userAnswerRef.current, subIdx, keyIdx]);
+  }, [userAnswerRef.current, subIndex, keyIndex]);
 
   useEffect(() => {
     if (!userAnswerRef.current) return;
@@ -180,11 +154,11 @@ export default function QuizGame() {
         <main className={style.main} ref={gameRef}>
           <Score score={score} perfectScore={perfectScore} />
           <div className={style.subject_box}>
-            <div className={style.category}>{data[subIdx]?.s_category}</div>
+            <div className={style.category}>{data[subIndex]?.s_category}</div>
             <div>
-              {data?.length} 개의 주제 중 {subIdx + 1} 번째
+              {data?.length} 개의 주제 중 {subIndex + 1} 번째
             </div>
-            <div className={style.subject}>{data[subIdx]?.s_subject}</div>
+            <div className={style.subject}>{data[subIndex]?.s_subject}</div>
             <button
               onClick={handleSkipSubject}
               disabled={quizPaused || quizEnded}
@@ -203,11 +177,11 @@ export default function QuizGame() {
               키워드 건너뛰기
             </button>
             <div className={style.keycount}>
-              <FaTags /> {keyIdx + 1} / {data[subIdx]?.s_keycount}
+              <FaTags /> {keyIndex + 1} / {data[subIndex]?.s_keycount}
             </div>
             <div className={style.keyword_description}>
               {!quizPaused
-                ? data[subIdx]?.tbl_keywords[keyIdx]?.k_desc
+                ? data[subIndex]?.tbl_keywords[keyIndex]?.k_desc
                 : "일시 중지 상태입니다."}
             </div>
           </div>
