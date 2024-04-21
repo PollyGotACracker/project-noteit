@@ -27,8 +27,8 @@ router.get("/cats", verifyToken, async (req, res, next) => {
     const data = await CAT.findAll({
       raw: true,
       order: [
-        ["c_date", "DESC"],
         ["c_category", "ASC"],
+        ["c_date", "DESC"],
       ],
       where: { [Op.and]: filterQueries },
       limit: limit,
@@ -194,9 +194,8 @@ router.get("/subs/:catid", verifyToken, async (req, res, next) => {
     const data = await SUB.findAll({
       raw: true,
       order: [
-        ["s_date", "DESC"],
         ["s_subject", "ASC"],
-        ["s_bookmark", "DESC"],
+        ["s_date", "DESC"],
       ],
       where: {
         [Op.and]: [{ s_catid: catid }, { s_userid: userid }],
