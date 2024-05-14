@@ -5,7 +5,7 @@
 
 ## 배포 주소
 
-- [https://noteit.kro.kr](https://noteit.kro.kr)
+- <s>`https://noteit.kro.kr`</s>
 - AWS EC2, RDS
 
 ## 주요 기능
